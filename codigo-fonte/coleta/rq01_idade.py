@@ -45,7 +45,7 @@ def requisicao(url, params=None):
 
         return response.json()
 
-def buscar_top_1000_repositorios():
+def buscar_top_100_repositorios():
     repositorios = []
 
     for page in range(1, 11):
@@ -58,7 +58,7 @@ def buscar_top_1000_repositorios():
                 "q": "stars:>0",
                 "sort": "stars",
                 "order": "desc",
-                "per_page": 100,
+                "per_page": 10,
                 "page": page,
             }
         )
@@ -66,7 +66,7 @@ def buscar_top_1000_repositorios():
         repositorios.extend(dados["items"])
         time.sleep(0.2)
 
-    return repositorios[:1000]
+    return repositorios[:100]
 
 def calcular_idade(created_at):
     data_criacao = datetime.fromisoformat(
