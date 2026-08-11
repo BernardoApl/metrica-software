@@ -67,3 +67,15 @@ def buscar_top_1000_repositorios():
         time.sleep(0.2)
 
     return repositorios[:1000]
+
+def calcular_idade(created_at):
+    data_criacao = datetime.fromisoformat(
+        created_at.replace("Z", "+00:00")
+    )
+
+    data_coleta = datetime.now(timezone.utc)
+
+    idade_dias = (data_coleta - data_criacao).days
+    idade_anos = idade_dias / 365.25
+
+    return data_coleta, idade_dias, idade_anos
