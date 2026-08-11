@@ -107,7 +107,7 @@ def executar():
         data.append(resultado)
 
         print(
-            f"[{indice}/1000] "
+            f"[{indice}/100] "
             f"{repo['full_name']} -> "
             f"{idade_anos:.2f} anos"
         )
