@@ -79,3 +79,59 @@ def calcular_idade(created_at):
     idade_anos = idade_dias / 365.25
 
     return data_coleta, idade_dias, idade_anos
+
+def executar():
+
+    repositorios = buscar_top_100_repositorios()
+
+    print(f"\nTotal encontrado: {len(repositorios)}")
+
+    data = []
+
+    for indice, repo in enumerate(repositorios, start=1):
+
+        data_coleta, idade_dias, idade_anos = calcular_idade(
+            repo["created_at"]
+        )
+
+        resultado = {
+            "rank": indice,
+            "repository": repo["full_name"],
+            "stars": repo["stargazers_count"],
+            "created_at": repo["created_at"],
+            "collected_at": data_coleta.isoformat(),
+            "idade_dias": idade_dias,
+            "idade_anos": round(idade_anos, 2),
+        }
+
+        data.append(resultado)
+
+        print(
+            f"[{indice}/1000] "
+            f"{repo['full_name']} -> "
+            f"{idade_anos:.2f} anos"
+        )
+
+    os.makedirs("data", exist_ok=True)
+
+    with open(
+        "data/rq01_idade.csv",
+        "w",
+        newline="",
+        encoding="utf-8"
+    ) as arquivo:
+
+        writer = csv.DictWriter(
+            arquivo,
+            fieldnames=data[0].keys()
+        )
+
+        writer.writeheader()
+        writer.writerows(data)
+
+    print("\nRQ01 concluída.")
+    print("Arquivo: data/rq01_idade.csv")
+
+
+if __name__ == "__main__":
+    executar()
