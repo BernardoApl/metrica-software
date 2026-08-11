@@ -44,3 +44,26 @@ def requisicao(url, params=None):
         response.raise_for_status()
 
         return response.json()
+
+def buscar_top_1000_repositorios():
+    repositorios = []
+
+    for page in range(1, 11):
+
+        print(f"Buscando repositórios - página {page}/10")
+
+        dados = requisicao(
+            f"{GITHUB_API}/search/repositories",
+            params={
+                "q": "stars:>0",
+                "sort": "stars",
+                "order": "desc",
+                "per_page": 100,
+                "page": page,
+            }
+        )
+
+        repositorios.extend(dados["items"])
+        time.sleep(0.2)
+
+    return repositorios[:1000]
