@@ -1,0 +1,23 @@
+{
+  "fonte": "GitHub Octoverse",
+  "edicao": "2025",
+  "titulo": "Octoverse: A new developer joins GitHub every second as AI leads TypeScript to #1",
+  "url": "https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/",
+  "publicado_em": "2025-10-28",
+  "acessado_em": "2026-08-11",
+  "metrica": "Numero de contribuidores distintos por mes, referente a agosto de 2025",
+  "justificativa": "O Octoverse e o relatorio anual do proprio GitHub. Como a populacao analisada neste laboratorio e composta por repositorios do GitHub, usar o ranking do proprio GitHub mantem a mesma populacao e o mesmo construto (uso real por desenvolvedores), ao contrario de indices como o TIOBE, que medem presenca em buscadores, vagas e cursos.",
+  "observacao": "Lista fixada no Lab01S01 e mantida sem alteracao ate o fim do laboratorio, conforme exigido pelo enunciado. O rank de cada linguagem e a sua posicao (base 1) na lista abaixo.",
+  "linguagens": [
+    "TypeScript",
+    "Python",
+    "JavaScript",
+    "Java",
+    "C#",
+    "PHP",
+    "Shell",
+    "C++",
+    "HCL",
+    "Go"
+  ]
+}

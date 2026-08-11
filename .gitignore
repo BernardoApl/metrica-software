@@ -1,0 +1,12 @@
+# Credenciais - NUNCA versionar o token do GitHub
+.env
+*.token
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Saidas locais de coleta (o dataset oficial da sprint e commitado explicitamente)
+dados/*.local.json
