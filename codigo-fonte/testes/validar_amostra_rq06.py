@@ -1,4 +1,4 @@
-"""Valida a RQ06 em uma amostra real de 5 a 10 repositorios."""
+"""Compara a RQ06 com uma amostra real de 5 a 10 repositorios."""
 
 from __future__ import annotations
 

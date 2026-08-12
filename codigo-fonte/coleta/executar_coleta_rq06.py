@@ -1,4 +1,4 @@
-"""Coleta automatica dos dados da RQ06."""
+"""Coleta e salva os dados necessarios para a RQ06."""
 
 from __future__ import annotations
 

@@ -16,11 +16,14 @@ from typing import Iterable, Optional
 
 import rq04_atualizacao
 import rq05_linguagem
+import rq06_issues
+import rq07_por_linguagem
 from cliente_github import ClienteGitHub
 from consulta import (
     BUSCA_PADRAO,
     CAMPOS_IDENTIFICACAO,
     CAMPOS_RQ04_RQ05,
+    CAMPOS_RQ06_RQ07,
     LIMITE_POR_PAGINA,
     montar_consulta,
     montar_variaveis,
@@ -29,7 +32,7 @@ from linguagens_populares import ReferenciaLinguagens
 
 #: Fragmentos usados quando a coleta roda isolada, no escopo deste integrante.
 #: Na integracao com o grupo, basta acrescentar os fragmentos dos demais.
-FRAGMENTOS_PADRAO = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ04_RQ05)
+FRAGMENTOS_PADRAO = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ04_RQ05, CAMPOS_RQ06_RQ07)
 
 
 def normalizar(no: dict, referencia_data: datetime, referencia_linguagens: ReferenciaLinguagens) -> dict:
@@ -48,6 +51,8 @@ def normalizar(no: dict, referencia_data: datetime, referencia_linguagens: Refer
     }
     registro.update(rq04_atualizacao.calcular(no, referencia_data))
     registro.update(rq05_linguagem.calcular(no, referencia_linguagens))
+    registro.update(rq06_issues.calcular(no))
+    registro.update(rq07_por_linguagem.extrair_metricas_base(no))
     registro["bruto"] = no
     return registro
 
@@ -101,10 +106,14 @@ def coletar(
             "consulta_graphql": consulta,
             "definicao_rq04": rq04_atualizacao.definicao(),
             "definicao_rq05": rq05_linguagem.definicao(referencia_linguagens),
+            "definicao_rq06": rq06_issues.definicao(),
+            "definicao_rq07": rq07_por_linguagem.definicao(),
         },
         "repositorios": repositorios,
         "resumo": {
             "rq04": rq04_atualizacao.resumir(repositorios),
             "rq05": rq05_linguagem.resumir(repositorios),
+            "rq06": rq06_issues.resumir(repositorios),
+            "rq07": rq07_por_linguagem.resumir(repositorios),
         },
     }

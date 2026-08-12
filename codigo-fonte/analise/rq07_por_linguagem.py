@@ -1,12 +1,4 @@
-"""RQ07 - Divisao de RQ02, RQ03 e RQ04 por linguagem primaria.
-
-Modulo inicial, preparado para usar os campos ja produzidos pelos colegas:
-
-- ``rq02_pull_requests_aceitos``
-- ``rq03_total_releases``
-- ``rq04_dias_desde_ultima_atualizacao``
-- ``rq05_categoria_linguagem`` ou ``rq05_linguagem_primaria``
-"""
+"""Agrupa os resultados de RQ02, RQ03 e RQ04 por linguagem na RQ07."""
 
 from __future__ import annotations
 
@@ -15,6 +7,20 @@ from typing import Iterable
 
 
 SEM_LINGUAGEM = "Sem linguagem definida"
+
+
+def _total(no: dict, campo: str) -> int:
+    conexao = (no or {}).get(campo) or {}
+    valor = conexao.get("totalCount", 0)
+    return valor if isinstance(valor, int) else 0
+
+
+def extrair_metricas_base(no: dict) -> dict:
+    """Extrai os valores de RQ02 e RQ03 usados na agregacao da RQ07."""
+    return {
+        "rq02_pull_requests_aceitos": _total(no, "pullRequestsAceitos"),
+        "rq03_total_releases": _total(no, "releases"),
+    }
 
 
 def _linguagem(registro: dict) -> str:
@@ -53,7 +59,7 @@ def resumir(registros: Iterable[dict]) -> dict:
         grupos.setdefault(_linguagem(registro), []).append(registro)
 
     resultado = {}
-    for linguagem, itens in sorted(grupos.items(), key=lambda item: item[0].casefold()):
+    for linguagem, itens in sorted(grupos.items(), key=lambda item: (-len(item[1]), item[0].casefold())):
         resultado[linguagem] = {
             "quantidade_repositorios": len(itens),
             "rq02_pull_requests_aceitos": _estatisticas(itens, "rq02_pull_requests_aceitos"),
@@ -76,8 +82,5 @@ def definicao() -> dict:
             "rq03_total_releases",
             "rq04_dias_desde_ultima_atualizacao",
         ],
-        "observacao": (
-            "Este modulo depende dos campos calculados pelas RQs 02, 03, 04 e 05. "
-            "A integracao final deve ocorrer depois que esses commits estiverem no projeto."
-        ),
+        "observacao": "A RQ07 usa a linguagem primaria como chave de agrupamento.",
     }

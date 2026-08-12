@@ -1,4 +1,4 @@
-"""RQ06 - Razao entre issues fechadas e total de issues."""
+"""Calcula a razao entre issues fechadas e total de issues da RQ06."""
 
 from __future__ import annotations
 

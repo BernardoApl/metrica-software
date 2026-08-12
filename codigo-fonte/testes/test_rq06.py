@@ -1,4 +1,4 @@
-"""Testes offline da RQ06."""
+"""Testa o calculo e o resumo da RQ06 sem acessar a API."""
 
 from __future__ import annotations
 
