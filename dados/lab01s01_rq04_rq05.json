@@ -1,0 +1,4591 @@
+{
+  "metadados": {
+    "coletado_em": "2026-08-12T20:43:16.602165+00:00",
+    "criterio_busca": "is:public stars:>1 sort:stars-desc",
+    "limite_por_pagina_da_api": 100,
+    "quantidade_solicitada": 100,
+    "quantidade_retornada": 100,
+    "total_disponivel_na_busca": 12121210,
+    "possui_proxima_pagina": true,
+    "cursor_final": "Y3Vyc29yOjEwMA==",
+    "rate_limit": {
+      "limit": 5000,
+      "cost": 1,
+      "remaining": 4840,
+      "resetAt": "2026-08-12T21:20:46Z"
+    },
+    "consulta_graphql": "query RepositoriosPopulares($primeiros: Int!, $cursor: String, $busca: String!) {\n  rateLimit {\n    limit\n    cost\n    remaining\n    resetAt\n  }\n  search(query: $busca, type: REPOSITORY, first: $primeiros, after: $cursor) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    nodes {\n      ... on Repository {\n        nameWithOwner\n        url\n        stargazerCount\n        pushedAt\n        updatedAt\n        defaultBranchRef {\n          name\n          target {\n            ... on Commit {\n              committedDate\n            }\n          }\n        }\n        primaryLanguage {\n          name\n        }\n      }\n    }\n  }\n}\n",
+    "definicao_rq04": {
+      "questao": "RQ04 - Sistemas populares sao atualizados com frequencia?",
+      "metrica": "Tempo ate a ultima atualizacao",
+      "campo_utilizado": "pushedAt",
+      "campos_comparativos": [
+        "updatedAt",
+        "defaultBranchRef.target.committedDate"
+      ],
+      "justificativa_do_campo": "pushedAt marca o ultimo push de codigo em qualquer branch. updatedAt tambem muda por alteracoes de metadados (descricao, topics, settings), o que faria repositorios inativos parecerem ativos; committedDate do branch padrao ignora atividade em outros branches e e nulo quando nao ha branch padrao.",
+      "data_referencia": "Instante da coleta em UTC, unico para todos os repositorios.",
+      "formula": "(data_referencia - pushedAt) / 86400",
+      "unidade": "dias (numero real, 2 casas decimais)",
+      "tratamento_de_ausentes": "pushedAt nulo -> metrica None, status 'sem_push', repositorio mantido no conjunto de dados mas excluido das agregacoes. Data nao interpretavel -> status 'data_invalida'. Data no futuro -> limitada a 0.0, status 'data_futura'."
+    },
+    "definicao_rq05": {
+      "questao": "RQ05 - Sistemas populares sao escritos nas linguagens mais populares?",
+      "metrica": "Linguagem primaria de cada repositorio",
+      "campo_utilizado": "primaryLanguage.name",
+      "preservacao_do_nome": "O nome e guardado exatamente como a API devolve, sem normalizacao, porque e a chave de agrupamento da RQ07.",
+      "tratamento_de_ausentes": "primaryLanguage nulo -> rq05_linguagem_primaria None e categoria 'Sem linguagem definida'. O repositorio permanece no conjunto de dados e e contado como categoria propria, nunca descartado.",
+      "criterio_de_comparacao": "A comparacao com a lista de referencia ignora maiusculas e minusculas, mas o valor guardado e sempre o nome devolvido pela API.",
+      "referencia_linguagens_populares": {
+        "fonte": "GitHub Octoverse",
+        "edicao": "2025",
+        "titulo": "Octoverse: A new developer joins GitHub every second as AI leads TypeScript to #1",
+        "url": "https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/",
+        "publicado_em": "2025-10-28",
+        "acessado_em": "2026-08-11",
+        "metrica": "Numero de contribuidores distintos por mes, referente a agosto de 2025",
+        "justificativa": "O Octoverse e o relatorio anual do proprio GitHub. Como a populacao analisada neste laboratorio e composta por repositorios do GitHub, usar o ranking do proprio GitHub mantem a mesma populacao e o mesmo construto (uso real por desenvolvedores), ao contrario de indices como o TIOBE, que medem presenca em buscadores, vagas e cursos.",
+        "quantidade_linguagens": 10,
+        "linguagens": [
+          "TypeScript",
+          "Python",
+          "JavaScript",
+          "Java",
+          "C#",
+          "PHP",
+          "Shell",
+          "C++",
+          "HCL",
+          "Go"
+        ]
+      }
+    },
+    "definicao_rq06": {
+      "questao": "RQ06 - Qual a razao entre issues fechadas e total de issues?",
+      "metrica": "Razao entre issues fechadas e total de issues",
+      "campos_utilizados": [
+        "issues.totalCount",
+        "issuesFechadas.totalCount"
+      ],
+      "formula": "issuesFechadas.totalCount / issues.totalCount",
+      "tratamento_de_ausentes": "Quando issues.totalCount = 0, a razao fica None."
+    },
+    "definicao_rq07": {
+      "questao": "RQ07 - Dividir os resultados de RQ02, RQ03 e RQ04 por linguagem.",
+      "chave_de_agrupamento": "rq05_categoria_linguagem",
+      "metricas_agrupadas": [
+        "rq02_pull_requests_aceitos",
+        "rq03_total_releases",
+        "rq04_dias_desde_ultima_atualizacao"
+      ],
+      "observacao": "A RQ07 usa a linguagem primaria como chave de agrupamento."
+    }
+  },
+  "repositorios": [
+    {
+      "nome_completo": "codecrafters-io/build-your-own-x",
+      "url": "https://github.com/codecrafters-io/build-your-own-x",
+      "estrelas": 539100,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-14T19:25:58Z",
+      "rq04_dias_desde_ultima_atualizacao": 29.05,
+      "rq04_horas_desde_ultima_atualizacao": 697.29,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:42:30Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-14T19:25:58Z",
+      "rq05_linguagem_primaria": "Markdown",
+      "rq05_categoria_linguagem": "Markdown",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "codecrafters-io/build-your-own-x",
+        "url": "https://github.com/codecrafters-io/build-your-own-x",
+        "stargazerCount": 539100,
+        "pushedAt": "2026-07-14T19:25:58Z",
+        "updatedAt": "2026-08-12T20:42:30Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-14T19:25:58Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Markdown"
+        }
+      }
+    },
+    {
+      "nome_completo": "sindresorhus/awesome",
+      "url": "https://github.com/sindresorhus/awesome",
+      "estrelas": 494947,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-06-30T18:21:16Z",
+      "rq04_dias_desde_ultima_atualizacao": 43.1,
+      "rq04_horas_desde_ultima_atualizacao": 1034.37,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:33:04Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-06-30T18:21:16Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "sindresorhus/awesome",
+        "url": "https://github.com/sindresorhus/awesome",
+        "stargazerCount": 494947,
+        "pushedAt": "2026-06-30T18:21:16Z",
+        "updatedAt": "2026-08-12T20:33:04Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-06-30T18:21:16Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "public-apis/public-apis",
+      "url": "https://github.com/public-apis/public-apis",
+      "estrelas": 455692,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T09:25:54Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.47,
+      "rq04_horas_desde_ultima_atualizacao": 11.29,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:34:40Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T09:25:53Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "public-apis/public-apis",
+        "url": "https://github.com/public-apis/public-apis",
+        "stargazerCount": 455692,
+        "pushedAt": "2026-08-12T09:25:54Z",
+        "updatedAt": "2026-08-12T20:34:40Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T09:25:53Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "freeCodeCamp/freeCodeCamp",
+      "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+      "estrelas": 453896,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T16:38:22Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.17,
+      "rq04_horas_desde_ultima_atualizacao": 4.08,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:39:30Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T16:38:22Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "freeCodeCamp/freeCodeCamp",
+        "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+        "stargazerCount": 453896,
+        "pushedAt": "2026-08-12T16:38:22Z",
+        "updatedAt": "2026-08-12T20:39:30Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T16:38:22Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "EbookFoundation/free-programming-books",
+      "url": "https://github.com/EbookFoundation/free-programming-books",
+      "estrelas": 394252,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T12:11:06Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.36,
+      "rq04_horas_desde_ultima_atualizacao": 32.54,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:30:30Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T12:11:06Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "EbookFoundation/free-programming-books",
+        "url": "https://github.com/EbookFoundation/free-programming-books",
+        "stargazerCount": 394252,
+        "pushedAt": "2026-08-11T12:11:06Z",
+        "updatedAt": "2026-08-12T20:30:30Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-11T12:11:06Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "openclaw/openclaw",
+      "url": "https://github.com/openclaw/openclaw",
+      "estrelas": 386074,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:41:38Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.03,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:37:42Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:32:15Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "openclaw/openclaw",
+        "url": "https://github.com/openclaw/openclaw",
+        "stargazerCount": 386074,
+        "pushedAt": "2026-08-12T20:41:38Z",
+        "updatedAt": "2026-08-12T20:37:42Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T20:32:15Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "nilbuild/developer-roadmap",
+      "url": "https://github.com/nilbuild/developer-roadmap",
+      "estrelas": 364261,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-07T12:43:15Z",
+      "rq04_dias_desde_ultima_atualizacao": 5.33,
+      "rq04_horas_desde_ultima_atualizacao": 128.0,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:56Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-07T12:43:15Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "nilbuild/developer-roadmap",
+        "url": "https://github.com/nilbuild/developer-roadmap",
+        "stargazerCount": 364261,
+        "pushedAt": "2026-08-07T12:43:15Z",
+        "updatedAt": "2026-08-12T20:41:56Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-07T12:43:15Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "donnemartin/system-design-primer",
+      "url": "https://github.com/donnemartin/system-design-primer",
+      "estrelas": 363448,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-03-20T01:52:19Z",
+      "rq04_dias_desde_ultima_atualizacao": 145.79,
+      "rq04_horas_desde_ultima_atualizacao": 3498.85,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:43:15Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-03-20T01:52:18Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "donnemartin/system-design-primer",
+        "url": "https://github.com/donnemartin/system-design-primer",
+        "stargazerCount": 363448,
+        "pushedAt": "2026-03-20T01:52:19Z",
+        "updatedAt": "2026-08-12T20:43:15Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-03-20T01:52:18Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "jwasham/coding-interview-university",
+      "url": "https://github.com/jwasham/coding-interview-university",
+      "estrelas": 358524,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2025-08-28T14:42:47Z",
+      "rq04_dias_desde_ultima_atualizacao": 349.25,
+      "rq04_horas_desde_ultima_atualizacao": 8382.01,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:23:11Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2024-12-05T23:46:51Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "jwasham/coding-interview-university",
+        "url": "https://github.com/jwasham/coding-interview-university",
+        "stargazerCount": 358524,
+        "pushedAt": "2025-08-28T14:42:47Z",
+        "updatedAt": "2026-08-12T20:23:11Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2024-12-05T23:46:51Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "vinta/awesome-python",
+      "url": "https://github.com/vinta/awesome-python",
+      "estrelas": 313606,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-05T06:11:04Z",
+      "rq04_dias_desde_ultima_atualizacao": 7.61,
+      "rq04_horas_desde_ultima_atualizacao": 182.54,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:33:02Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-05T06:11:03Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "vinta/awesome-python",
+        "url": "https://github.com/vinta/awesome-python",
+        "stargazerCount": 313606,
+        "pushedAt": "2026-08-05T06:11:04Z",
+        "updatedAt": "2026-08-12T20:33:02Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-05T06:11:03Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "awesome-selfhosted/awesome-selfhosted",
+      "url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "estrelas": 312243,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T18:50:03Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.08,
+      "rq04_horas_desde_ultima_atualizacao": 1.89,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:42:30Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T18:50:02Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "awesome-selfhosted/awesome-selfhosted",
+        "url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+        "stargazerCount": 312243,
+        "pushedAt": "2026-08-12T18:50:03Z",
+        "updatedAt": "2026-08-12T20:42:30Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T18:50:02Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "practical-tutorials/project-based-learning",
+      "url": "https://github.com/practical-tutorials/project-based-learning",
+      "estrelas": 278835,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-10T07:04:22Z",
+      "rq04_dias_desde_ultima_atualizacao": 2.57,
+      "rq04_horas_desde_ultima_atualizacao": 61.65,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:35:08Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-10T07:04:20Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "practical-tutorials/project-based-learning",
+        "url": "https://github.com/practical-tutorials/project-based-learning",
+        "stargazerCount": 278835,
+        "pushedAt": "2026-08-10T07:04:22Z",
+        "updatedAt": "2026-08-12T20:35:08Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-10T07:04:20Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "996icu/996.ICU",
+      "url": "https://github.com/996icu/996.ICU",
+      "estrelas": 276622,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2025-08-22T06:01:29Z",
+      "rq04_dias_desde_ultima_atualizacao": 355.61,
+      "rq04_horas_desde_ultima_atualizacao": 8534.7,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T18:16:59Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2025-08-22T06:01:29Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "996icu/996.ICU",
+        "url": "https://github.com/996icu/996.ICU",
+        "stargazerCount": 276622,
+        "pushedAt": "2025-08-22T06:01:29Z",
+        "updatedAt": "2026-08-12T18:16:59Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2025-08-22T06:01:29Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "estrelas": 271216,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T16:58:26Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.16,
+      "rq04_horas_desde_ultima_atualizacao": 3.75,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:26Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T16:53:21Z",
+      "rq05_linguagem_primaria": "Shell",
+      "rq05_categoria_linguagem": "Shell",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 7,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers",
+        "stargazerCount": 271216,
+        "pushedAt": "2026-08-12T16:58:26Z",
+        "updatedAt": "2026-08-12T20:41:26Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T16:53:21Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Shell"
+        }
+      }
+    },
+    {
+      "nome_completo": "react/react",
+      "url": "https://github.com/react/react",
+      "estrelas": 247202,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T11:26:33Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.39,
+      "rq04_horas_desde_ultima_atualizacao": 9.28,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:58:44Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T01:46:13Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "react/react",
+        "url": "https://github.com/react/react",
+        "stargazerCount": 247202,
+        "pushedAt": "2026-08-12T11:26:33Z",
+        "updatedAt": "2026-08-12T19:58:44Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T01:46:13Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "torvalds/linux",
+      "url": "https://github.com/torvalds/linux",
+      "estrelas": 242626,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T15:31:28Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.22,
+      "rq04_horas_desde_ultima_atualizacao": 5.2,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:59Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T15:03:31Z",
+      "rq05_linguagem_primaria": "C",
+      "rq05_categoria_linguagem": "C",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "torvalds/linux",
+        "url": "https://github.com/torvalds/linux",
+        "stargazerCount": 242626,
+        "pushedAt": "2026-08-12T15:31:28Z",
+        "updatedAt": "2026-08-12T20:41:59Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T15:03:31Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C"
+        }
+      }
+    },
+    {
+      "nome_completo": "affaan-m/ECC",
+      "url": "https://github.com/affaan-m/ECC",
+      "estrelas": 239735,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:52:26Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.04,
+      "rq04_horas_desde_ultima_atualizacao": 0.85,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:38:59Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T19:52:26Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "affaan-m/ECC",
+        "url": "https://github.com/affaan-m/ECC",
+        "stargazerCount": 239735,
+        "pushedAt": "2026-08-12T19:52:26Z",
+        "updatedAt": "2026-08-12T20:38:59Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T19:52:26Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "trimstray/the-book-of-secret-knowledge",
+      "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+      "estrelas": 238015,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2024-11-19T14:00:38Z",
+      "rq04_dias_desde_ultima_atualizacao": 631.28,
+      "rq04_horas_desde_ultima_atualizacao": 15150.71,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:38:54Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2024-11-19T14:00:34Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "trimstray/the-book-of-secret-knowledge",
+        "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+        "stargazerCount": 238015,
+        "pushedAt": "2024-11-19T14:00:38Z",
+        "updatedAt": "2026-08-12T20:38:54Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2024-11-19T14:00:34Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "NousResearch/hermes-agent",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "estrelas": 229523,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:04:01Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.03,
+      "rq04_horas_desde_ultima_atualizacao": 0.65,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:39:07Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:04:00Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "NousResearch/hermes-agent",
+        "url": "https://github.com/NousResearch/hermes-agent",
+        "stargazerCount": 229523,
+        "pushedAt": "2026-08-12T20:04:01Z",
+        "updatedAt": "2026-08-12T20:39:07Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T20:04:00Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "TheAlgorithms/Python",
+      "url": "https://github.com/TheAlgorithms/Python",
+      "estrelas": 223680,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-03T18:44:56Z",
+      "rq04_dias_desde_ultima_atualizacao": 9.08,
+      "rq04_horas_desde_ultima_atualizacao": 217.97,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:25:56Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-03T18:44:36Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "TheAlgorithms/Python",
+        "url": "https://github.com/TheAlgorithms/Python",
+        "stargazerCount": 223680,
+        "pushedAt": "2026-08-03T18:44:56Z",
+        "updatedAt": "2026-08-12T20:25:56Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-03T18:44:36Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "estrelas": 214970,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-07T15:50:46Z",
+      "rq04_dias_desde_ultima_atualizacao": 5.2,
+      "rq04_horas_desde_ultima_atualizacao": 124.88,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:40:24Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-06T19:49:51Z",
+      "rq05_linguagem_primaria": "Shell",
+      "rq05_categoria_linguagem": "Shell",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 7,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "mattpocock/skills",
+        "url": "https://github.com/mattpocock/skills",
+        "stargazerCount": 214970,
+        "pushedAt": "2026-08-07T15:50:46Z",
+        "updatedAt": "2026-08-12T20:40:24Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-06T19:49:51Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Shell"
+        }
+      }
+    },
+    {
+      "nome_completo": "vuejs/vue",
+      "url": "https://github.com/vuejs/vue",
+      "estrelas": 210234,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2024-10-10T07:24:15Z",
+      "rq04_dias_desde_ultima_atualizacao": 671.55,
+      "rq04_horas_desde_ultima_atualizacao": 16117.32,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:46:54Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2024-10-10T07:24:14Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "vuejs/vue",
+        "url": "https://github.com/vuejs/vue",
+        "stargazerCount": 210234,
+        "pushedAt": "2024-10-10T07:24:15Z",
+        "updatedAt": "2026-08-12T19:46:54Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2024-10-10T07:24:14Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "ossu/computer-science",
+      "url": "https://github.com/ossu/computer-science",
+      "estrelas": 207930,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-14T05:38:25Z",
+      "rq04_dias_desde_ultima_atualizacao": 29.63,
+      "rq04_horas_desde_ultima_atualizacao": 711.08,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:17:45Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-14T05:38:24Z",
+      "rq05_linguagem_primaria": "HTML",
+      "rq05_categoria_linguagem": "HTML",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ossu/computer-science",
+        "url": "https://github.com/ossu/computer-science",
+        "stargazerCount": 207930,
+        "pushedAt": "2026-07-14T05:38:25Z",
+        "updatedAt": "2026-08-12T20:17:45Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-14T05:38:24Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "HTML"
+        }
+      }
+    },
+    {
+      "nome_completo": "multica-ai/andrej-karpathy-skills",
+      "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+      "estrelas": 201866,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-04-20T10:05:04Z",
+      "rq04_dias_desde_ultima_atualizacao": 114.44,
+      "rq04_horas_desde_ultima_atualizacao": 2746.64,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:33:23Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-04-20T10:05:04Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "multica-ai/andrej-karpathy-skills",
+        "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+        "stargazerCount": 201866,
+        "pushedAt": "2026-04-20T10:05:04Z",
+        "updatedAt": "2026-08-12T20:33:23Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-04-20T10:05:04Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "n8n-io/n8n",
+      "url": "https://github.com/n8n-io/n8n",
+      "estrelas": 200378,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:38:27Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.08,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:34:02Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T15:42:48Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "n8n-io/n8n",
+        "url": "https://github.com/n8n-io/n8n",
+        "stargazerCount": 200378,
+        "pushedAt": "2026-08-12T20:38:27Z",
+        "updatedAt": "2026-08-12T20:34:02Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T15:42:48Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "tensorflow/tensorflow",
+      "url": "https://github.com/tensorflow/tensorflow",
+      "estrelas": 196979,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:43:14Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.0,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:09:53Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:09:32Z",
+      "rq05_linguagem_primaria": "C++",
+      "rq05_categoria_linguagem": "C++",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 8,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "tensorflow/tensorflow",
+        "url": "https://github.com/tensorflow/tensorflow",
+        "stargazerCount": 196979,
+        "pushedAt": "2026-08-12T20:43:14Z",
+        "updatedAt": "2026-08-12T20:09:53Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T20:09:32Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C++"
+        }
+      }
+    },
+    {
+      "nome_completo": "anomalyco/opencode",
+      "url": "https://github.com/anomalyco/opencode",
+      "estrelas": 196549,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:36:00Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.01,
+      "rq04_horas_desde_ultima_atualizacao": 0.12,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:42:46Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:25:04Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "anomalyco/opencode",
+        "url": "https://github.com/anomalyco/opencode",
+        "stargazerCount": 196549,
+        "pushedAt": "2026-08-12T20:36:00Z",
+        "updatedAt": "2026-08-12T20:42:46Z",
+        "defaultBranchRef": {
+          "name": "dev",
+          "target": {
+            "committedDate": "2026-08-12T20:25:04Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "trekhleb/javascript-algorithms",
+      "url": "https://github.com/trekhleb/javascript-algorithms",
+      "estrelas": 196448,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-26T02:43:08Z",
+      "rq04_dias_desde_ultima_atualizacao": 17.75,
+      "rq04_horas_desde_ultima_atualizacao": 426.0,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:23:26Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-26T02:43:01Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "trekhleb/javascript-algorithms",
+        "url": "https://github.com/trekhleb/javascript-algorithms",
+        "stargazerCount": 196448,
+        "pushedAt": "2026-07-26T02:43:08Z",
+        "updatedAt": "2026-08-12T19:23:26Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-26T02:43:01Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "ultraworkers/claw-code",
+      "url": "https://github.com/ultraworkers/claw-code",
+      "estrelas": 195066,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-06T11:18:35Z",
+      "rq04_dias_desde_ultima_atualizacao": 6.39,
+      "rq04_horas_desde_ultima_atualizacao": 153.41,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T18:50:39Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-06T11:18:35Z",
+      "rq05_linguagem_primaria": "Rust",
+      "rq05_categoria_linguagem": "Rust",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ultraworkers/claw-code",
+        "url": "https://github.com/ultraworkers/claw-code",
+        "stargazerCount": 195066,
+        "pushedAt": "2026-08-06T11:18:35Z",
+        "updatedAt": "2026-08-12T18:50:39Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-06T11:18:35Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Rust"
+        }
+      }
+    },
+    {
+      "nome_completo": "DigitalPlatDev/FreeDomain",
+      "url": "https://github.com/DigitalPlatDev/FreeDomain",
+      "estrelas": 192499,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T10:36:46Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.42,
+      "rq04_horas_desde_ultima_atualizacao": 10.11,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:14Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T10:36:42Z",
+      "rq05_linguagem_primaria": "Markdown",
+      "rq05_categoria_linguagem": "Markdown",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "DigitalPlatDev/FreeDomain",
+        "url": "https://github.com/DigitalPlatDev/FreeDomain",
+        "stargazerCount": 192499,
+        "pushedAt": "2026-08-12T10:36:46Z",
+        "updatedAt": "2026-08-12T20:41:14Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T10:36:42Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Markdown"
+        }
+      }
+    },
+    {
+      "nome_completo": "ohmyzsh/ohmyzsh",
+      "url": "https://github.com/ohmyzsh/ohmyzsh",
+      "estrelas": 189139,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T11:03:43Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.4,
+      "rq04_horas_desde_ultima_atualizacao": 33.66,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:48:50Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T11:03:42Z",
+      "rq05_linguagem_primaria": "Shell",
+      "rq05_categoria_linguagem": "Shell",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 7,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ohmyzsh/ohmyzsh",
+        "url": "https://github.com/ohmyzsh/ohmyzsh",
+        "stargazerCount": 189139,
+        "pushedAt": "2026-08-11T11:03:43Z",
+        "updatedAt": "2026-08-12T19:48:50Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-11T11:03:42Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Shell"
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/vscode",
+      "url": "https://github.com/microsoft/vscode",
+      "estrelas": 188634,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:41:39Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.03,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:37:59Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:37:42Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "microsoft/vscode",
+        "url": "https://github.com/microsoft/vscode",
+        "stargazerCount": 188634,
+        "pushedAt": "2026-08-12T20:41:39Z",
+        "updatedAt": "2026-08-12T20:37:59Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T20:37:42Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "massgravel/Microsoft-Activation-Scripts",
+      "url": "https://github.com/massgravel/Microsoft-Activation-Scripts",
+      "estrelas": 186823,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-04T16:54:38Z",
+      "rq04_dias_desde_ultima_atualizacao": 39.16,
+      "rq04_horas_desde_ultima_atualizacao": 939.81,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:14:38Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-04T16:54:24Z",
+      "rq05_linguagem_primaria": "Batchfile",
+      "rq05_categoria_linguagem": "Batchfile",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "massgravel/Microsoft-Activation-Scripts",
+        "url": "https://github.com/massgravel/Microsoft-Activation-Scripts",
+        "stargazerCount": 186823,
+        "pushedAt": "2026-07-04T16:54:38Z",
+        "updatedAt": "2026-08-12T20:14:38Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-04T16:54:24Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Batchfile"
+        }
+      }
+    },
+    {
+      "nome_completo": "Significant-Gravitas/AutoGPT",
+      "url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "estrelas": 186560,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:34:48Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.05,
+      "rq04_horas_desde_ultima_atualizacao": 1.14,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:33:16Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-10T22:15:39Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Significant-Gravitas/AutoGPT",
+        "url": "https://github.com/Significant-Gravitas/AutoGPT",
+        "stargazerCount": 186560,
+        "pushedAt": "2026-08-12T19:34:48Z",
+        "updatedAt": "2026-08-12T20:33:16Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-10T22:15:39Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "jackfrued/Python-100-Days",
+      "url": "https://github.com/jackfrued/Python-100-Days",
+      "estrelas": 185142,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-29T15:18:29Z",
+      "rq04_dias_desde_ultima_atualizacao": 14.23,
+      "rq04_horas_desde_ultima_atualizacao": 341.41,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:22:40Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-29T15:18:19Z",
+      "rq05_linguagem_primaria": "Jupyter Notebook",
+      "rq05_categoria_linguagem": "Jupyter Notebook",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "jackfrued/Python-100-Days",
+        "url": "https://github.com/jackfrued/Python-100-Days",
+        "stargazerCount": 185142,
+        "pushedAt": "2026-07-29T15:18:29Z",
+        "updatedAt": "2026-08-12T19:22:40Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-29T15:18:19Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Jupyter Notebook"
+        }
+      }
+    },
+    {
+      "nome_completo": "CyC2018/CS-Notes",
+      "url": "https://github.com/CyC2018/CS-Notes",
+      "estrelas": 185034,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2024-08-21T09:40:10Z",
+      "rq04_dias_desde_ultima_atualizacao": 721.46,
+      "rq04_horas_desde_ultima_atualizacao": 17315.05,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T17:43:41Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2023-07-20T03:02:08Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "CyC2018/CS-Notes",
+        "url": "https://github.com/CyC2018/CS-Notes",
+        "stargazerCount": 185034,
+        "pushedAt": "2024-08-21T09:40:10Z",
+        "updatedAt": "2026-08-12T17:43:41Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2023-07-20T03:02:08Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "getify/You-Dont-Know-JS",
+      "url": "https://github.com/getify/You-Dont-Know-JS",
+      "estrelas": 184648,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-02-15T04:36:44Z",
+      "rq04_dias_desde_ultima_atualizacao": 178.67,
+      "rq04_horas_desde_ultima_atualizacao": 4288.11,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:22:58Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-01-18T15:36:11Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "getify/You-Dont-Know-JS",
+        "url": "https://github.com/getify/You-Dont-Know-JS",
+        "stargazerCount": 184648,
+        "pushedAt": "2026-02-15T04:36:44Z",
+        "updatedAt": "2026-08-12T20:22:58Z",
+        "defaultBranchRef": {
+          "name": "2nd-ed",
+          "target": {
+            "committedDate": "2026-01-18T15:36:11Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "yt-dlp/yt-dlp",
+      "url": "https://github.com/yt-dlp/yt-dlp",
+      "estrelas": 184084,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-04T22:58:34Z",
+      "rq04_dias_desde_ultima_atualizacao": 7.91,
+      "rq04_horas_desde_ultima_atualizacao": 189.75,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:42:15Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-04T22:58:34Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "yt-dlp/yt-dlp",
+        "url": "https://github.com/yt-dlp/yt-dlp",
+        "stargazerCount": 184084,
+        "pushedAt": "2026-08-04T22:58:34Z",
+        "updatedAt": "2026-08-12T20:42:15Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-04T22:58:34Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "avelino/awesome-go",
+      "url": "https://github.com/avelino/awesome-go",
+      "estrelas": 180900,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T21:38:50Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.96,
+      "rq04_horas_desde_ultima_atualizacao": 23.07,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:38:00Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T21:38:50Z",
+      "rq05_linguagem_primaria": "Go",
+      "rq05_categoria_linguagem": "Go",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 10,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "avelino/awesome-go",
+        "url": "https://github.com/avelino/awesome-go",
+        "stargazerCount": 180900,
+        "pushedAt": "2026-08-11T21:38:50Z",
+        "updatedAt": "2026-08-12T20:38:00Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-11T21:38:50Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Go"
+        }
+      }
+    },
+    {
+      "nome_completo": "flutter/flutter",
+      "url": "https://github.com/flutter/flutter",
+      "estrelas": 178365,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:41:49Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.02,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:05:03Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T15:46:05Z",
+      "rq05_linguagem_primaria": "Dart",
+      "rq05_categoria_linguagem": "Dart",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "flutter/flutter",
+        "url": "https://github.com/flutter/flutter",
+        "stargazerCount": 178365,
+        "pushedAt": "2026-08-12T20:41:49Z",
+        "updatedAt": "2026-08-12T20:05:03Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T15:46:05Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Dart"
+        }
+      }
+    },
+    {
+      "nome_completo": "ollama/ollama",
+      "url": "https://github.com/ollama/ollama",
+      "estrelas": 178364,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:41:04Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.04,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:37:44Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:25:33Z",
+      "rq05_linguagem_primaria": "Go",
+      "rq05_categoria_linguagem": "Go",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 10,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ollama/ollama",
+        "url": "https://github.com/ollama/ollama",
+        "stargazerCount": 178364,
+        "pushedAt": "2026-08-12T20:41:04Z",
+        "updatedAt": "2026-08-12T20:37:44Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T20:25:33Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Go"
+        }
+      }
+    },
+    {
+      "nome_completo": "github/gitignore",
+      "url": "https://github.com/github/gitignore",
+      "estrelas": 175266,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-23T16:06:45Z",
+      "rq04_dias_desde_ultima_atualizacao": 20.19,
+      "rq04_horas_desde_ultima_atualizacao": 484.61,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:02:20Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-23T16:06:44Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "github/gitignore",
+        "url": "https://github.com/github/gitignore",
+        "stargazerCount": 175266,
+        "pushedAt": "2026-07-23T16:06:45Z",
+        "updatedAt": "2026-08-12T19:02:20Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-23T16:06:44Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "twbs/bootstrap",
+      "url": "https://github.com/twbs/bootstrap",
+      "estrelas": 174586,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:15:05Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.06,
+      "rq04_horas_desde_ultima_atualizacao": 1.47,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:30:42Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-28T20:54:52Z",
+      "rq05_linguagem_primaria": "MDX",
+      "rq05_categoria_linguagem": "MDX",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "twbs/bootstrap",
+        "url": "https://github.com/twbs/bootstrap",
+        "stargazerCount": 174586,
+        "pushedAt": "2026-08-12T19:15:05Z",
+        "updatedAt": "2026-08-12T20:30:42Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-28T20:54:52Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "MDX"
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/markitdown",
+      "url": "https://github.com/microsoft/markitdown",
+      "estrelas": 173366,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-29T18:18:09Z",
+      "rq04_dias_desde_ultima_atualizacao": 14.1,
+      "rq04_horas_desde_ultima_atualizacao": 338.42,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:39:28Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-29T18:16:03Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "microsoft/markitdown",
+        "url": "https://github.com/microsoft/markitdown",
+        "stargazerCount": 173366,
+        "pushedAt": "2026-07-29T18:18:09Z",
+        "updatedAt": "2026-08-12T20:39:28Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-29T18:16:03Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "521xueweihan/HelloGitHub",
+      "url": "https://github.com/521xueweihan/HelloGitHub",
+      "estrelas": 170545,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-02T07:58:25Z",
+      "rq04_dias_desde_ultima_atualizacao": 10.53,
+      "rq04_horas_desde_ultima_atualizacao": 252.75,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:31:48Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-28T00:08:48Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "521xueweihan/HelloGitHub",
+        "url": "https://github.com/521xueweihan/HelloGitHub",
+        "stargazerCount": 170545,
+        "pushedAt": "2026-08-02T07:58:25Z",
+        "updatedAt": "2026-08-12T20:31:48Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-28T00:08:48Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "estrelas": 168508,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-07T17:14:15Z",
+      "rq04_dias_desde_ultima_atualizacao": 5.15,
+      "rq04_horas_desde_ultima_atualizacao": 123.48,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:24:44Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-07T17:14:14Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "anthropics/skills",
+        "url": "https://github.com/anthropics/skills",
+        "stargazerCount": 168508,
+        "pushedAt": "2026-08-07T17:14:15Z",
+        "updatedAt": "2026-08-12T20:24:44Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-07T17:14:14Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "f/prompts.chat",
+      "url": "https://github.com/f/prompts.chat",
+      "estrelas": 167060,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T03:47:11Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.71,
+      "rq04_horas_desde_ultima_atualizacao": 16.93,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:27:21Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T03:47:07Z",
+      "rq05_linguagem_primaria": "HTML",
+      "rq05_categoria_linguagem": "HTML",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "f/prompts.chat",
+        "url": "https://github.com/f/prompts.chat",
+        "stargazerCount": 167060,
+        "pushedAt": "2026-08-12T03:47:11Z",
+        "updatedAt": "2026-08-12T20:27:21Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T03:47:07Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "HTML"
+        }
+      }
+    },
+    {
+      "nome_completo": "firecrawl/firecrawl",
+      "url": "https://github.com/firecrawl/firecrawl",
+      "estrelas": 166396,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:18:48Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.02,
+      "rq04_horas_desde_ultima_atualizacao": 0.41,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:09Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T15:41:39Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "firecrawl/firecrawl",
+        "url": "https://github.com/firecrawl/firecrawl",
+        "stargazerCount": 166396,
+        "pushedAt": "2026-08-12T20:18:48Z",
+        "updatedAt": "2026-08-12T20:41:09Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T15:41:39Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "AUTOMATIC1111/stable-diffusion-webui",
+      "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+      "estrelas": 164498,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-03-02T07:00:53Z",
+      "rq04_dias_desde_ultima_atualizacao": 163.57,
+      "rq04_horas_desde_ultima_atualizacao": 3925.71,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:35:19Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2024-07-27T12:49:39Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "AUTOMATIC1111/stable-diffusion-webui",
+        "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+        "stargazerCount": 164498,
+        "pushedAt": "2026-03-02T07:00:53Z",
+        "updatedAt": "2026-08-12T20:35:19Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2024-07-27T12:49:39Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "huggingface/transformers",
+      "url": "https://github.com/huggingface/transformers",
+      "estrelas": 164012,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:45:27Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.04,
+      "rq04_horas_desde_ultima_atualizacao": 0.96,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:40:35Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T18:57:41Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "huggingface/transformers",
+        "url": "https://github.com/huggingface/transformers",
+        "stargazerCount": 164012,
+        "pushedAt": "2026-08-12T19:45:27Z",
+        "updatedAt": "2026-08-12T20:40:35Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T18:57:41Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "jlevy/the-art-of-command-line",
+      "url": "https://github.com/jlevy/the-art-of-command-line",
+      "estrelas": 162091,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2024-06-25T18:13:44Z",
+      "rq04_dias_desde_ultima_atualizacao": 778.1,
+      "rq04_horas_desde_ultima_atualizacao": 18674.49,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T18:16:50Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2023-07-12T21:40:23Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "jlevy/the-art-of-command-line",
+        "url": "https://github.com/jlevy/the-art-of-command-line",
+        "stargazerCount": 162091,
+        "pushedAt": "2024-06-25T18:13:44Z",
+        "updatedAt": "2026-08-12T18:16:50Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2023-07-12T21:40:23Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "Snailclimb/JavaGuide",
+      "url": "https://github.com/Snailclimb/JavaGuide",
+      "estrelas": 157730,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-08T06:58:19Z",
+      "rq04_dias_desde_ultima_atualizacao": 4.57,
+      "rq04_horas_desde_ultima_atualizacao": 109.75,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T17:37:17Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-06T23:37:57Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Snailclimb/JavaGuide",
+        "url": "https://github.com/Snailclimb/JavaGuide",
+        "stargazerCount": 157730,
+        "pushedAt": "2026-08-08T06:58:19Z",
+        "updatedAt": "2026-08-12T17:37:17Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-06T23:37:57Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "langflow-ai/langflow",
+      "url": "https://github.com/langflow-ai/langflow",
+      "estrelas": 153104,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:38:38Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.08,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:03Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T00:56:10Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "langflow-ai/langflow",
+        "url": "https://github.com/langflow-ai/langflow",
+        "stargazerCount": 153104,
+        "pushedAt": "2026-08-12T20:38:38Z",
+        "updatedAt": "2026-08-12T20:41:03Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T00:56:10Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "langgenius/dify",
+      "url": "https://github.com/langgenius/dify",
+      "estrelas": 152237,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:29:55Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.05,
+      "rq04_horas_desde_ultima_atualizacao": 1.22,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:16:55Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T12:33:21Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "langgenius/dify",
+        "url": "https://github.com/langgenius/dify",
+        "stargazerCount": 152237,
+        "pushedAt": "2026-08-12T19:29:55Z",
+        "updatedAt": "2026-08-12T20:16:55Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T12:33:21Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "open-webui/open-webui",
+      "url": "https://github.com/open-webui/open-webui",
+      "estrelas": 148607,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T07:13:40Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.56,
+      "rq04_horas_desde_ultima_atualizacao": 13.49,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:29:30Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-27T10:47:11Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "open-webui/open-webui",
+        "url": "https://github.com/open-webui/open-webui",
+        "stargazerCount": 148607,
+        "pushedAt": "2026-08-12T07:13:40Z",
+        "updatedAt": "2026-08-12T20:29:30Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-27T10:47:11Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "airbnb/javascript",
+      "url": "https://github.com/airbnb/javascript",
+      "estrelas": 148133,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-04-16T19:24:09Z",
+      "rq04_dias_desde_ultima_atualizacao": 118.05,
+      "rq04_horas_desde_ultima_atualizacao": 2833.32,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:38:45Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-02-21T22:48:29Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "airbnb/javascript",
+        "url": "https://github.com/airbnb/javascript",
+        "stargazerCount": 148133,
+        "pushedAt": "2026-04-16T19:24:09Z",
+        "updatedAt": "2026-08-12T20:38:45Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-02-21T22:48:29Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "Genymobile/scrcpy",
+      "url": "https://github.com/Genymobile/scrcpy",
+      "estrelas": 147507,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-12T18:16:07Z",
+      "rq04_dias_desde_ultima_atualizacao": 31.1,
+      "rq04_horas_desde_ultima_atualizacao": 746.45,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:42:02Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-12T18:10:40Z",
+      "rq05_linguagem_primaria": "C",
+      "rq05_categoria_linguagem": "C",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Genymobile/scrcpy",
+        "url": "https://github.com/Genymobile/scrcpy",
+        "stargazerCount": 147507,
+        "pushedAt": "2026-07-12T18:16:07Z",
+        "updatedAt": "2026-08-12T20:42:02Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-12T18:10:40Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C"
+        }
+      }
+    },
+    {
+      "nome_completo": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "estrelas": 144483,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-06T13:29:47Z",
+      "rq04_dias_desde_ultima_atualizacao": 6.3,
+      "rq04_horas_desde_ultima_atualizacao": 151.22,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:40:10Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-06T13:29:46Z",
+      "rq05_linguagem_primaria": "Shell",
+      "rq05_categoria_linguagem": "Shell",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 7,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "msitarzewski/agency-agents",
+        "url": "https://github.com/msitarzewski/agency-agents",
+        "stargazerCount": 144483,
+        "pushedAt": "2026-08-06T13:29:47Z",
+        "updatedAt": "2026-08-12T20:40:10Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-06T13:29:46Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Shell"
+        }
+      }
+    },
+    {
+      "nome_completo": "langchain-ai/langchain",
+      "url": "https://github.com/langchain-ai/langchain",
+      "estrelas": 144092,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:07:11Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.03,
+      "rq04_horas_desde_ultima_atualizacao": 0.6,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:33:36Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T19:49:24Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "langchain-ai/langchain",
+        "url": "https://github.com/langchain-ai/langchain",
+        "stargazerCount": 144092,
+        "pushedAt": "2026-08-12T20:07:11Z",
+        "updatedAt": "2026-08-12T20:33:36Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T19:49:24Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+      "estrelas": 142754,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T13:01:09Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.32,
+      "rq04_horas_desde_ultima_atualizacao": 31.7,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:19:24Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T13:01:09Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "x1xhlol/system-prompts-and-models-of-ai-tools",
+        "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+        "stargazerCount": 142754,
+        "pushedAt": "2026-08-11T13:01:09Z",
+        "updatedAt": "2026-08-12T20:19:24Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-11T13:01:09Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "yangshun/tech-interview-handbook",
+      "url": "https://github.com/yangshun/tech-interview-handbook",
+      "estrelas": 141809,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-07T12:06:42Z",
+      "rq04_dias_desde_ultima_atualizacao": 5.36,
+      "rq04_horas_desde_ultima_atualizacao": 128.61,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:25:08Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-07T12:06:27Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "yangshun/tech-interview-handbook",
+        "url": "https://github.com/yangshun/tech-interview-handbook",
+        "stargazerCount": 141809,
+        "pushedAt": "2026-08-07T12:06:42Z",
+        "updatedAt": "2026-08-12T20:25:08Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-07T12:06:27Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "vercel/next.js",
+      "url": "https://github.com/vercel/next.js",
+      "estrelas": 141743,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:39:49Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.0,
+      "rq04_horas_desde_ultima_atualizacao": 0.06,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:29:00Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T19:53:40Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "vercel/next.js",
+        "url": "https://github.com/vercel/next.js",
+        "stargazerCount": 141743,
+        "pushedAt": "2026-08-12T20:39:49Z",
+        "updatedAt": "2026-08-12T20:29:00Z",
+        "defaultBranchRef": {
+          "name": "canary",
+          "target": {
+            "committedDate": "2026-08-12T19:53:40Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "anthropics/claude-code",
+      "url": "https://github.com/anthropics/claude-code",
+      "estrelas": 141218,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T19:50:58Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.04,
+      "rq04_horas_desde_ultima_atualizacao": 24.87,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:26:22Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T19:50:51Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "anthropics/claude-code",
+        "url": "https://github.com/anthropics/claude-code",
+        "stargazerCount": 141218,
+        "pushedAt": "2026-08-11T19:50:58Z",
+        "updatedAt": "2026-08-12T20:26:22Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-11T19:50:51Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "ytdl-org/youtube-dl",
+      "url": "https://github.com/ytdl-org/youtube-dl",
+      "estrelas": 140943,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-02-19T16:45:25Z",
+      "rq04_dias_desde_ultima_atualizacao": 174.17,
+      "rq04_horas_desde_ultima_atualizacao": 4179.96,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:31:55Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2025-11-26T03:02:36Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ytdl-org/youtube-dl",
+        "url": "https://github.com/ytdl-org/youtube-dl",
+        "stargazerCount": 140943,
+        "pushedAt": "2026-02-19T16:45:25Z",
+        "updatedAt": "2026-08-12T19:31:55Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2025-11-26T03:02:36Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/PowerToys",
+      "url": "https://github.com/microsoft/PowerToys",
+      "estrelas": 137697,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:08:57Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.02,
+      "rq04_horas_desde_ultima_atualizacao": 0.57,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:38:58Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:08:56Z",
+      "rq05_linguagem_primaria": "C",
+      "rq05_categoria_linguagem": "C",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "microsoft/PowerToys",
+        "url": "https://github.com/microsoft/PowerToys",
+        "stargazerCount": 137697,
+        "pushedAt": "2026-08-12T20:08:57Z",
+        "updatedAt": "2026-08-12T20:38:58Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T20:08:56Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C"
+        }
+      }
+    },
+    {
+      "nome_completo": "clash-verge-rev/clash-verge-rev",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev",
+      "estrelas": 137389,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T15:46:30Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.21,
+      "rq04_horas_desde_ultima_atualizacao": 4.95,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:15:03Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T12:10:12Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "clash-verge-rev/clash-verge-rev",
+        "url": "https://github.com/clash-verge-rev/clash-verge-rev",
+        "stargazerCount": 137389,
+        "pushedAt": "2026-08-12T15:46:30Z",
+        "updatedAt": "2026-08-12T19:15:03Z",
+        "defaultBranchRef": {
+          "name": "dev",
+          "target": {
+            "committedDate": "2026-08-12T12:10:12Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "golang/go",
+      "url": "https://github.com/golang/go",
+      "estrelas": 135734,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:17:49Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.02,
+      "rq04_horas_desde_ultima_atualizacao": 0.42,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:19:16Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:17:14Z",
+      "rq05_linguagem_primaria": "Go",
+      "rq05_categoria_linguagem": "Go",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 10,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "golang/go",
+        "url": "https://github.com/golang/go",
+        "stargazerCount": 135734,
+        "pushedAt": "2026-08-12T20:17:49Z",
+        "updatedAt": "2026-08-12T20:19:16Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T20:17:14Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Go"
+        }
+      }
+    },
+    {
+      "nome_completo": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "estrelas": 135720,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T16:54:28Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.16,
+      "rq04_horas_desde_ultima_atualizacao": 3.81,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:40:22Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T16:54:26Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "iptv-org/iptv",
+        "url": "https://github.com/iptv-org/iptv",
+        "stargazerCount": 135720,
+        "pushedAt": "2026-08-12T16:54:28Z",
+        "updatedAt": "2026-08-12T19:40:22Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T16:54:26Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "labuladong/fucking-algorithm",
+      "url": "https://github.com/labuladong/fucking-algorithm",
+      "estrelas": 135319,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-02-28T10:07:31Z",
+      "rq04_dias_desde_ultima_atualizacao": 165.44,
+      "rq04_horas_desde_ultima_atualizacao": 3970.6,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:04:35Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-02-28T10:07:31Z",
+      "rq05_linguagem_primaria": "Markdown",
+      "rq05_categoria_linguagem": "Markdown",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "labuladong/fucking-algorithm",
+        "url": "https://github.com/labuladong/fucking-algorithm",
+        "stargazerCount": 135319,
+        "pushedAt": "2026-02-28T10:07:31Z",
+        "updatedAt": "2026-08-12T19:04:35Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-02-28T10:07:31Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Markdown"
+        }
+      }
+    },
+    {
+      "nome_completo": "Shubhamsaboo/awesome-llm-apps",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "estrelas": 132318,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-10T07:26:18Z",
+      "rq04_dias_desde_ultima_atualizacao": 2.55,
+      "rq04_horas_desde_ultima_atualizacao": 61.28,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:42:29Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-10T07:26:17Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Shubhamsaboo/awesome-llm-apps",
+        "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+        "stargazerCount": 132318,
+        "pushedAt": "2026-08-10T07:26:18Z",
+        "updatedAt": "2026-08-12T20:42:29Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-10T07:26:17Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "estrelas": 131572,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T14:19:54Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.27,
+      "rq04_horas_desde_ultima_atualizacao": 6.39,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:26:19Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T14:19:54Z",
+      "rq05_linguagem_primaria": "HTML",
+      "rq05_categoria_linguagem": "HTML",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ripienaar/free-for-dev",
+        "url": "https://github.com/ripienaar/free-for-dev",
+        "stargazerCount": 131572,
+        "pushedAt": "2026-08-12T14:19:54Z",
+        "updatedAt": "2026-08-12T20:26:19Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T14:19:54Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "HTML"
+        }
+      }
+    },
+    {
+      "nome_completo": "excalidraw/excalidraw",
+      "url": "https://github.com/excalidraw/excalidraw",
+      "estrelas": 129443,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T17:36:15Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.13,
+      "rq04_horas_desde_ultima_atualizacao": 3.12,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:13:40Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T13:59:35Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "excalidraw/excalidraw",
+        "url": "https://github.com/excalidraw/excalidraw",
+        "stargazerCount": 129443,
+        "pushedAt": "2026-08-12T17:36:15Z",
+        "updatedAt": "2026-08-12T20:13:40Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-11T13:59:35Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "krahets/hello-algo",
+      "url": "https://github.com/krahets/hello-algo",
+      "estrelas": 129381,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-24T07:32:34Z",
+      "rq04_dias_desde_ultima_atualizacao": 19.55,
+      "rq04_horas_desde_ultima_atualizacao": 469.18,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T18:50:03Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-24T07:31:39Z",
+      "rq05_linguagem_primaria": "Java",
+      "rq05_categoria_linguagem": "Java",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 4,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "krahets/hello-algo",
+        "url": "https://github.com/krahets/hello-algo",
+        "stargazerCount": 129381,
+        "pushedAt": "2026-07-24T07:32:34Z",
+        "updatedAt": "2026-08-12T18:50:03Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-24T07:31:39Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Java"
+        }
+      }
+    },
+    {
+      "nome_completo": "Chalarangelo/30-seconds-of-code",
+      "url": "https://github.com/Chalarangelo/30-seconds-of-code",
+      "estrelas": 128697,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-08T05:23:45Z",
+      "rq04_dias_desde_ultima_atualizacao": 4.64,
+      "rq04_horas_desde_ultima_atualizacao": 111.33,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:39:25Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-29T06:38:42Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Chalarangelo/30-seconds-of-code",
+        "url": "https://github.com/Chalarangelo/30-seconds-of-code",
+        "stargazerCount": 128697,
+        "pushedAt": "2026-08-08T05:23:45Z",
+        "updatedAt": "2026-08-12T20:39:25Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-29T06:38:42Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack",
+      "estrelas": 127696,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T18:12:28Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.1,
+      "rq04_horas_desde_ultima_atualizacao": 2.51,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:56Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T18:12:28Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "garrytan/gstack",
+        "url": "https://github.com/garrytan/gstack",
+        "stargazerCount": 127696,
+        "pushedAt": "2026-08-12T18:12:28Z",
+        "updatedAt": "2026-08-12T20:41:56Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T18:12:28Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "Comfy-Org/ComfyUI",
+      "url": "https://github.com/Comfy-Org/ComfyUI",
+      "estrelas": 127067,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:22:55Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.01,
+      "rq04_horas_desde_ultima_atualizacao": 0.34,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:37:35Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T20:22:50Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Comfy-Org/ComfyUI",
+        "url": "https://github.com/Comfy-Org/ComfyUI",
+        "stargazerCount": 127067,
+        "pushedAt": "2026-08-12T20:22:55Z",
+        "updatedAt": "2026-08-12T20:37:35Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T20:22:50Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "farion1231/cc-switch",
+      "url": "https://github.com/farion1231/cc-switch",
+      "estrelas": 126715,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T15:05:47Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.23,
+      "rq04_horas_desde_ultima_atualizacao": 5.62,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:37:08Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T14:09:45Z",
+      "rq05_linguagem_primaria": "Rust",
+      "rq05_categoria_linguagem": "Rust",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "farion1231/cc-switch",
+        "url": "https://github.com/farion1231/cc-switch",
+        "stargazerCount": 126715,
+        "pushedAt": "2026-08-12T15:05:47Z",
+        "updatedAt": "2026-08-12T20:37:08Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T14:09:45Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Rust"
+        }
+      }
+    },
+    {
+      "nome_completo": "github/spec-kit",
+      "url": "https://github.com/github/spec-kit",
+      "estrelas": 126417,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T18:52:08Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.08,
+      "rq04_horas_desde_ultima_atualizacao": 1.85,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:36:08Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T16:52:34Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "github/spec-kit",
+        "url": "https://github.com/github/spec-kit",
+        "stargazerCount": 126417,
+        "pushedAt": "2026-08-12T18:52:08Z",
+        "updatedAt": "2026-08-12T20:36:08Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T16:52:34Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "react/react-native",
+      "url": "https://github.com/react/react-native",
+      "estrelas": 126333,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:51:34Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.04,
+      "rq04_horas_desde_ultima_atualizacao": 0.86,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:51:48Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T19:37:41Z",
+      "rq05_linguagem_primaria": "C++",
+      "rq05_categoria_linguagem": "C++",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 8,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "react/react-native",
+        "url": "https://github.com/react/react-native",
+        "stargazerCount": 126333,
+        "pushedAt": "2026-08-12T19:51:34Z",
+        "updatedAt": "2026-08-12T19:51:48Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T19:37:41Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C++"
+        }
+      }
+    },
+    {
+      "nome_completo": "kubernetes/kubernetes",
+      "url": "https://github.com/kubernetes/kubernetes",
+      "estrelas": 124464,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T12:38:12Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.34,
+      "rq04_horas_desde_ultima_atualizacao": 8.08,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:34:22Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T11:19:17Z",
+      "rq05_linguagem_primaria": "Go",
+      "rq05_categoria_linguagem": "Go",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 10,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "kubernetes/kubernetes",
+        "url": "https://github.com/kubernetes/kubernetes",
+        "stargazerCount": 124464,
+        "pushedAt": "2026-08-12T12:38:12Z",
+        "updatedAt": "2026-08-12T20:34:22Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T11:19:17Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Go"
+        }
+      }
+    },
+    {
+      "nome_completo": "ggml-org/llama.cpp",
+      "url": "https://github.com/ggml-org/llama.cpp",
+      "estrelas": 123682,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T18:41:53Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.08,
+      "rq04_horas_desde_ultima_atualizacao": 2.02,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:32Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T16:01:12Z",
+      "rq05_linguagem_primaria": "C++",
+      "rq05_categoria_linguagem": "C++",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 8,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "ggml-org/llama.cpp",
+        "url": "https://github.com/ggml-org/llama.cpp",
+        "stargazerCount": 123682,
+        "pushedAt": "2026-08-12T18:41:53Z",
+        "updatedAt": "2026-08-12T20:41:32Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T16:01:12Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C++"
+        }
+      }
+    },
+    {
+      "nome_completo": "electron/electron",
+      "url": "https://github.com/electron/electron",
+      "estrelas": 122475,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:40:00Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.04,
+      "rq04_horas_desde_ultima_atualizacao": 1.05,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:58:29Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T19:39:07Z",
+      "rq05_linguagem_primaria": "C++",
+      "rq05_categoria_linguagem": "C++",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 8,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "electron/electron",
+        "url": "https://github.com/electron/electron",
+        "stargazerCount": 122475,
+        "pushedAt": "2026-08-12T19:40:00Z",
+        "updatedAt": "2026-08-12T19:58:29Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T19:39:07Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C++"
+        }
+      }
+    },
+    {
+      "nome_completo": "shadcn-ui/ui",
+      "url": "https://github.com/shadcn-ui/ui",
+      "estrelas": 121190,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T15:22:04Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.22,
+      "rq04_horas_desde_ultima_atualizacao": 5.35,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:41:25Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T15:18:35Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "shadcn-ui/ui",
+        "url": "https://github.com/shadcn-ui/ui",
+        "stargazerCount": 121190,
+        "pushedAt": "2026-08-12T15:22:04Z",
+        "updatedAt": "2026-08-12T20:41:25Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T15:18:35Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "rustdesk/rustdesk",
+      "url": "https://github.com/rustdesk/rustdesk",
+      "estrelas": 120225,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T13:36:07Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.3,
+      "rq04_horas_desde_ultima_atualizacao": 7.12,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:33:07Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T13:36:06Z",
+      "rq05_linguagem_primaria": "Rust",
+      "rq05_categoria_linguagem": "Rust",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "rustdesk/rustdesk",
+        "url": "https://github.com/rustdesk/rustdesk",
+        "stargazerCount": 120225,
+        "pushedAt": "2026-08-12T13:36:07Z",
+        "updatedAt": "2026-08-12T20:33:07Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T13:36:06Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Rust"
+        }
+      }
+    },
+    {
+      "nome_completo": "nodejs/node",
+      "url": "https://github.com/nodejs/node",
+      "estrelas": 118901,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T18:23:47Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.1,
+      "rq04_horas_desde_ultima_atualizacao": 2.32,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:37:53Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T18:23:46Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "nodejs/node",
+        "url": "https://github.com/nodejs/node",
+        "stargazerCount": 118901,
+        "pushedAt": "2026-08-12T18:23:47Z",
+        "updatedAt": "2026-08-12T20:37:53Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T18:23:46Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "justjavac/free-programming-books-zh_CN",
+      "url": "https://github.com/justjavac/free-programming-books-zh_CN",
+      "estrelas": 118306,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-29T00:39:06Z",
+      "rq04_dias_desde_ultima_atualizacao": 14.84,
+      "rq04_horas_desde_ultima_atualizacao": 356.07,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T13:05:42Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-29T00:39:06Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "justjavac/free-programming-books-zh_CN",
+        "url": "https://github.com/justjavac/free-programming-books-zh_CN",
+        "stargazerCount": 118306,
+        "pushedAt": "2026-07-29T00:39:06Z",
+        "updatedAt": "2026-08-12T13:05:42Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-29T00:39:06Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "Hack-with-Github/Awesome-Hacking",
+      "url": "https://github.com/Hack-with-Github/Awesome-Hacking",
+      "estrelas": 118107,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-07-26T03:29:02Z",
+      "rq04_dias_desde_ultima_atualizacao": 17.72,
+      "rq04_horas_desde_ultima_atualizacao": 425.24,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:26:59Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-26T03:29:02Z",
+      "rq05_linguagem_primaria": null,
+      "rq05_categoria_linguagem": "Sem linguagem definida",
+      "rq05_possui_linguagem": false,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "Hack-with-Github/Awesome-Hacking",
+        "url": "https://github.com/Hack-with-Github/Awesome-Hacking",
+        "stargazerCount": 118107,
+        "pushedAt": "2026-07-26T03:29:02Z",
+        "updatedAt": "2026-08-12T20:26:59Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-07-26T03:29:02Z"
+          }
+        },
+        "primaryLanguage": null
+      }
+    },
+    {
+      "nome_completo": "microsoft/generative-ai-for-beginners",
+      "url": "https://github.com/microsoft/generative-ai-for-beginners",
+      "estrelas": 117610,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-06T03:44:01Z",
+      "rq04_dias_desde_ultima_atualizacao": 6.71,
+      "rq04_horas_desde_ultima_atualizacao": 160.99,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:00:43Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-16T09:13:38Z",
+      "rq05_linguagem_primaria": "Jupyter Notebook",
+      "rq05_categoria_linguagem": "Jupyter Notebook",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "microsoft/generative-ai-for-beginners",
+        "url": "https://github.com/microsoft/generative-ai-for-beginners",
+        "stargazerCount": 117610,
+        "pushedAt": "2026-08-06T03:44:01Z",
+        "updatedAt": "2026-08-12T20:00:43Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-16T09:13:38Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Jupyter Notebook"
+        }
+      }
+    },
+    {
+      "nome_completo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "estrelas": 116088,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T10:20:40Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.43,
+      "rq04_horas_desde_ultima_atualizacao": 10.38,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:23:11Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T10:20:38Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "nextlevelbuilder/ui-ux-pro-max-skill",
+        "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+        "stargazerCount": 116088,
+        "pushedAt": "2026-08-12T10:20:40Z",
+        "updatedAt": "2026-08-12T20:23:11Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T10:20:38Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    },
+    {
+      "nome_completo": "godotengine/godot",
+      "url": "https://github.com/godotengine/godot",
+      "estrelas": 115613,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T17:20:23Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.14,
+      "rq04_horas_desde_ultima_atualizacao": 3.38,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:54:47Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T17:19:36Z",
+      "rq05_linguagem_primaria": "C++",
+      "rq05_categoria_linguagem": "C++",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 8,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "godotengine/godot",
+        "url": "https://github.com/godotengine/godot",
+        "stargazerCount": 115613,
+        "pushedAt": "2026-08-12T17:20:23Z",
+        "updatedAt": "2026-08-12T19:54:47Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-12T17:19:36Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C++"
+        }
+      }
+    },
+    {
+      "nome_completo": "rust-lang/rust",
+      "url": "https://github.com/rust-lang/rust",
+      "estrelas": 115463,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:30:32Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.01,
+      "rq04_horas_desde_ultima_atualizacao": 0.21,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:29:16Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T14:35:22Z",
+      "rq05_linguagem_primaria": "Rust",
+      "rq05_categoria_linguagem": "Rust",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "rust-lang/rust",
+        "url": "https://github.com/rust-lang/rust",
+        "stargazerCount": 115463,
+        "pushedAt": "2026-08-12T20:30:32Z",
+        "updatedAt": "2026-08-12T20:29:16Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T14:35:22Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Rust"
+        }
+      }
+    },
+    {
+      "nome_completo": "mrdoob/three.js",
+      "url": "https://github.com/mrdoob/three.js",
+      "estrelas": 114466,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T19:51:56Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.04,
+      "rq04_horas_desde_ultima_atualizacao": 0.86,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:26:50Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T18:27:37Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "mrdoob/three.js",
+        "url": "https://github.com/mrdoob/three.js",
+        "stargazerCount": 114466,
+        "pushedAt": "2026-08-12T19:51:56Z",
+        "updatedAt": "2026-08-12T20:26:50Z",
+        "defaultBranchRef": {
+          "name": "dev",
+          "target": {
+            "committedDate": "2026-08-12T18:27:37Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "2dust/v2rayN",
+      "url": "https://github.com/2dust/v2rayN",
+      "estrelas": 113666,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-10T07:09:04Z",
+      "rq04_dias_desde_ultima_atualizacao": 2.57,
+      "rq04_horas_desde_ultima_atualizacao": 61.57,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:12:00Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-10T07:09:04Z",
+      "rq05_linguagem_primaria": "C#",
+      "rq05_categoria_linguagem": "C#",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 5,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "2dust/v2rayN",
+        "url": "https://github.com/2dust/v2rayN",
+        "stargazerCount": 113666,
+        "pushedAt": "2026-08-10T07:09:04Z",
+        "updatedAt": "2026-08-12T20:12:00Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-10T07:09:04Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "C#"
+        }
+      }
+    },
+    {
+      "nome_completo": "d3/d3",
+      "url": "https://github.com/d3/d3",
+      "estrelas": 113450,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-05-28T14:43:01Z",
+      "rq04_dias_desde_ultima_atualizacao": 76.25,
+      "rq04_horas_desde_ultima_atualizacao": 1830.0,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:07:45Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-05-28T14:43:00Z",
+      "rq05_linguagem_primaria": "Shell",
+      "rq05_categoria_linguagem": "Shell",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 7,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "d3/d3",
+        "url": "https://github.com/d3/d3",
+        "stargazerCount": 113450,
+        "pushedAt": "2026-05-28T14:43:01Z",
+        "updatedAt": "2026-08-12T20:07:45Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-05-28T14:43:00Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Shell"
+        }
+      }
+    },
+    {
+      "nome_completo": "jaywcjlove/awesome-mac",
+      "url": "https://github.com/jaywcjlove/awesome-mac",
+      "estrelas": 110801,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T17:44:47Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.12,
+      "rq04_horas_desde_ultima_atualizacao": 26.97,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:21:38Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T17:44:12Z",
+      "rq05_linguagem_primaria": "Swift",
+      "rq05_categoria_linguagem": "Swift",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "jaywcjlove/awesome-mac",
+        "url": "https://github.com/jaywcjlove/awesome-mac",
+        "stargazerCount": 110801,
+        "pushedAt": "2026-08-11T17:44:47Z",
+        "updatedAt": "2026-08-12T20:21:38Z",
+        "defaultBranchRef": {
+          "name": "master",
+          "target": {
+            "committedDate": "2026-08-11T17:44:12Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Swift"
+        }
+      }
+    },
+    {
+      "nome_completo": "immich-app/immich",
+      "url": "https://github.com/immich-app/immich",
+      "estrelas": 110307,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T20:27:00Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.01,
+      "rq04_horas_desde_ultima_atualizacao": 0.27,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:40:50Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T19:57:45Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "immich-app/immich",
+        "url": "https://github.com/immich-app/immich",
+        "stargazerCount": 110307,
+        "pushedAt": "2026-08-12T20:27:00Z",
+        "updatedAt": "2026-08-12T20:40:50Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-12T19:57:45Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/TypeScript",
+      "url": "https://github.com/microsoft/TypeScript",
+      "estrelas": 110163,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-10T23:12:50Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.9,
+      "rq04_horas_desde_ultima_atualizacao": 45.51,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T17:16:16Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-07-27T20:55:30Z",
+      "rq05_linguagem_primaria": "TypeScript",
+      "rq05_categoria_linguagem": "TypeScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 1,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "microsoft/TypeScript",
+        "url": "https://github.com/microsoft/TypeScript",
+        "stargazerCount": 110163,
+        "pushedAt": "2026-08-10T23:12:50Z",
+        "updatedAt": "2026-08-12T17:16:16Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-07-27T20:55:30Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "TypeScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "tauri-apps/tauri",
+      "url": "https://github.com/tauri-apps/tauri",
+      "estrelas": 110152,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T09:35:02Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.46,
+      "rq04_horas_desde_ultima_atualizacao": 11.14,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:57:23Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T09:31:53Z",
+      "rq05_linguagem_primaria": "Rust",
+      "rq05_categoria_linguagem": "Rust",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": false,
+      "rq05_rank_popularidade": null,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "tauri-apps/tauri",
+        "url": "https://github.com/tauri-apps/tauri",
+        "stargazerCount": 110152,
+        "pushedAt": "2026-08-12T09:35:02Z",
+        "updatedAt": "2026-08-12T19:57:23Z",
+        "defaultBranchRef": {
+          "name": "dev",
+          "target": {
+            "committedDate": "2026-08-12T09:31:53Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Rust"
+        }
+      }
+    },
+    {
+      "nome_completo": "axios/axios",
+      "url": "https://github.com/axios/axios",
+      "estrelas": 109233,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-12T16:27:49Z",
+      "rq04_dias_desde_ultima_atualizacao": 0.18,
+      "rq04_horas_desde_ultima_atualizacao": 4.26,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T19:34:45Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-12T16:27:45Z",
+      "rq05_linguagem_primaria": "JavaScript",
+      "rq05_categoria_linguagem": "JavaScript",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 3,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "axios/axios",
+        "url": "https://github.com/axios/axios",
+        "stargazerCount": 109233,
+        "pushedAt": "2026-08-12T16:27:49Z",
+        "updatedAt": "2026-08-12T19:34:45Z",
+        "defaultBranchRef": {
+          "name": "v1.x",
+          "target": {
+            "committedDate": "2026-08-12T16:27:45Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "JavaScript"
+        }
+      }
+    },
+    {
+      "nome_completo": "browser-use/browser-use",
+      "url": "https://github.com/browser-use/browser-use",
+      "estrelas": 108958,
+      "rq04_campo_utilizado": "pushedAt",
+      "rq04_data_referencia": "2026-08-12T20:43:16.602165+00:00",
+      "rq04_data_ultima_atualizacao": "2026-08-11T17:33:21Z",
+      "rq04_dias_desde_ultima_atualizacao": 1.13,
+      "rq04_horas_desde_ultima_atualizacao": 27.17,
+      "rq04_status": "ok",
+      "rq04_comparativo_updated_at": "2026-08-12T20:36:56Z",
+      "rq04_comparativo_ultimo_commit_branch_padrao": "2026-08-11T17:33:21Z",
+      "rq05_linguagem_primaria": "Python",
+      "rq05_categoria_linguagem": "Python",
+      "rq05_possui_linguagem": true,
+      "rq05_esta_entre_populares": true,
+      "rq05_rank_popularidade": 2,
+      "rq05_fonte_populares": "GitHub Octoverse 2025",
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "rq02_pull_requests_aceitos": 0,
+      "rq03_total_releases": 0,
+      "bruto": {
+        "nameWithOwner": "browser-use/browser-use",
+        "url": "https://github.com/browser-use/browser-use",
+        "stargazerCount": 108958,
+        "pushedAt": "2026-08-11T17:33:21Z",
+        "updatedAt": "2026-08-12T20:36:56Z",
+        "defaultBranchRef": {
+          "name": "main",
+          "target": {
+            "committedDate": "2026-08-11T17:33:21Z"
+          }
+        },
+        "primaryLanguage": {
+          "name": "Python"
+        }
+      }
+    }
+  ],
+  "resumo": {
+    "rq04": {
+      "total_repositorios": 100,
+      "com_metrica": 100,
+      "sem_metrica": 0,
+      "por_status": {
+        "ok": 100
+      },
+      "mediana_dias": 0.83,
+      "media_dias": 50.44,
+      "minimo_dias": 0.0,
+      "maximo_dias": 778.1
+    },
+    "rq05": {
+      "total_repositorios": 100,
+      "com_linguagem": 87,
+      "sem_linguagem": 13,
+      "linguagens_distintas": 17,
+      "entre_linguagens_populares": 67,
+      "percentual_entre_populares": 67.0,
+      "contagem_por_linguagem": {
+        "Python": 24,
+        "TypeScript": 17,
+        "Sem linguagem definida": 13,
+        "JavaScript": 10,
+        "C++": 5,
+        "Rust": 5,
+        "Shell": 5,
+        "Go": 4,
+        "C": 3,
+        "HTML": 3,
+        "Markdown": 3,
+        "Jupyter Notebook": 2,
+        "Batchfile": 1,
+        "C#": 1,
+        "Dart": 1,
+        "Java": 1,
+        "MDX": 1,
+        "Swift": 1
+      }
+    },
+    "rq06": {
+      "total_repositorios": 100,
+      "com_issues": 0,
+      "sem_issues": 100,
+      "media_razao": null,
+      "mediana_razao": null,
+      "minimo_razao": null,
+      "maximo_razao": null
+    },
+    "rq07": {
+      "Python": {
+        "quantidade_repositorios": 24,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 22.8442,
+          "mediana": 1.245,
+          "minimo": 0.0,
+          "maximo": 174.17
+        }
+      },
+      "TypeScript": {
+        "quantidade_repositorios": 17,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 40.3071,
+          "mediana": 0.13,
+          "minimo": 0.0,
+          "maximo": 671.55
+        }
+      },
+      "Sem linguagem definida": {
+        "quantidade_repositorios": 13,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 248.1585,
+          "mediana": 114.44,
+          "minimo": 0.08,
+          "maximo": 778.1
+        }
+      },
+      "JavaScript": {
+        "quantidade_repositorios": 10,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 14.576,
+          "mediana": 0.285,
+          "minimo": 0.0,
+          "maximo": 118.05
+        }
+      },
+      "C++": {
+        "quantidade_repositorios": 5,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 0.06,
+          "mediana": 0.04,
+          "minimo": 0.0,
+          "maximo": 0.14
+        }
+      },
+      "Rust": {
+        "quantidade_repositorios": 5,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 1.478,
+          "mediana": 0.3,
+          "minimo": 0.01,
+          "maximo": 6.39
+        }
+      },
+      "Shell": {
+        "quantidade_repositorios": 5,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 17.862,
+          "mediana": 5.2,
+          "minimo": 0.16,
+          "maximo": 76.25
+        }
+      },
+      "Go": {
+        "quantidade_repositorios": 4,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 0.33,
+          "mediana": 0.18,
+          "minimo": 0.0,
+          "maximo": 0.96
+        }
+      },
+      "C": {
+        "quantidade_repositorios": 3,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 10.4467,
+          "mediana": 0.22,
+          "minimo": 0.02,
+          "maximo": 31.1
+        }
+      },
+      "HTML": {
+        "quantidade_repositorios": 3,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 10.2033,
+          "mediana": 0.71,
+          "minimo": 0.27,
+          "maximo": 29.63
+        }
+      },
+      "Markdown": {
+        "quantidade_repositorios": 3,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 64.97,
+          "mediana": 29.05,
+          "minimo": 0.42,
+          "maximo": 165.44
+        }
+      },
+      "Jupyter Notebook": {
+        "quantidade_repositorios": 2,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 10.47,
+          "mediana": 10.47,
+          "minimo": 6.71,
+          "maximo": 14.23
+        }
+      },
+      "Batchfile": {
+        "quantidade_repositorios": 1,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 39.16,
+          "mediana": 39.16,
+          "minimo": 39.16,
+          "maximo": 39.16
+        }
+      },
+      "C#": {
+        "quantidade_repositorios": 1,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 2.57,
+          "mediana": 2.57,
+          "minimo": 2.57,
+          "maximo": 2.57
+        }
+      },
+      "Dart": {
+        "quantidade_repositorios": 1,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 0.0,
+          "mediana": 0.0,
+          "minimo": 0.0,
+          "maximo": 0.0
+        }
+      },
+      "Java": {
+        "quantidade_repositorios": 1,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 19.55,
+          "mediana": 19.55,
+          "minimo": 19.55,
+          "maximo": 19.55
+        }
+      },
+      "MDX": {
+        "quantidade_repositorios": 1,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 0.06,
+          "mediana": 0.06,
+          "minimo": 0.06,
+          "maximo": 0.06
+        }
+      },
+      "Swift": {
+        "quantidade_repositorios": 1,
+        "rq02_pull_requests_aceitos": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq03_total_releases": {
+          "media": 0.0,
+          "mediana": 0,
+          "minimo": 0,
+          "maximo": 0
+        },
+        "rq04_dias_desde_ultima_atualizacao": {
+          "media": 1.12,
+          "mediana": 1.12,
+          "minimo": 1.12,
+          "maximo": 1.12
+        }
+      }
+    }
+  }
+}
