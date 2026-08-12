@@ -62,6 +62,26 @@ CAMPOS_RQ04_RQ05 = """
         }
 """
 
+CAMPOS_RQ06 = """
+        issues(first: 1) {
+          totalCount
+        }
+        issuesFechadas: issues(first: 1, states: CLOSED) {
+          totalCount
+        }
+"""
+
+CAMPOS_RQ07 = """
+        pullRequestsAceitos: pullRequests(first: 1, states: MERGED) {
+          totalCount
+        }
+        releases(first: 1) {
+          totalCount
+        }
+"""
+
+CAMPOS_RQ06_RQ07 = CAMPOS_RQ06 + CAMPOS_RQ07
+
 _MODELO_CONSULTA = """query RepositoriosPopulares($primeiros: Int!, $cursor: String, $busca: String!) {
   rateLimit {
     limit
@@ -89,11 +109,11 @@ def montar_consulta(fragmentos: Iterable[str] = None) -> str:
     """Monta a consulta GraphQL a partir dos fragmentos de campos informados.
 
     :param fragmentos: fragmentos de selecao de campos aplicados dentro de
-        ``... on Repository``. Se omitido, usa identificacao + RQ04/RQ05.
+        ``... on Repository``. Se omitido, usa identificacao + RQ04 a RQ07.
     :return: a consulta GraphQL como texto.
     """
     if fragmentos is None:
-        fragmentos = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ04_RQ05)
+        fragmentos = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ04_RQ05, CAMPOS_RQ06_RQ07)
 
     blocos = [fragmento.strip("\n") for fragmento in fragmentos if fragmento and fragmento.strip()]
     if not blocos:

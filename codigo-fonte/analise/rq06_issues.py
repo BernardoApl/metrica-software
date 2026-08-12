@@ -1,14 +1,9 @@
-"""RQ06 - Razao entre issues fechadas e total de issues.
-
-Modulo inicial, isolado da coleta principal do grupo.
-
-A integracao futura deve chamar ``calcular(no)`` passando o no ``Repository``
-cru retornado pela consulta GraphQL.
-"""
+"""RQ06 - Razao entre issues fechadas e total de issues."""
 
 from __future__ import annotations
 
-from typing import Iterable, Optional
+import statistics
+from typing import Iterable
 
 
 def _total(no: dict, campo: str) -> int:
@@ -20,7 +15,7 @@ def _total(no: dict, campo: str) -> int:
 def calcular(no: dict) -> dict:
     """Calcula a RQ06 para um repositorio."""
     total_issues = _total(no, "issues")
-    issues_fechadas = _total(no, "closedIssues")
+    issues_fechadas = _total(no, "issuesFechadas")
 
     razao = None
     if total_issues > 0:
@@ -38,8 +33,8 @@ def definicao() -> dict:
     return {
         "questao": "RQ06 - Qual a razao entre issues fechadas e total de issues?",
         "metrica": "Razao entre issues fechadas e total de issues",
-        "campos_utilizados": ["issues.totalCount", "closedIssues.totalCount"],
-        "formula": "closedIssues.totalCount / issues.totalCount",
+        "campos_utilizados": ["issues.totalCount", "issuesFechadas.totalCount"],
+        "formula": "issuesFechadas.totalCount / issues.totalCount",
         "tratamento_de_ausentes": "Quando issues.totalCount = 0, a razao fica None.",
     }
 
@@ -56,7 +51,8 @@ def resumir(registros: Iterable[dict]) -> dict:
         "total_repositorios": len(registros),
         "com_issues": len(valores),
         "sem_issues": len(registros) - len(valores),
-        "media_razao": round(sum(valores) / len(valores), 4) if valores else None,
+        "media_razao": round(statistics.fmean(valores), 4) if valores else None,
+        "mediana_razao": round(statistics.median(valores), 4) if valores else None,
         "minimo_razao": min(valores) if valores else None,
         "maximo_razao": max(valores) if valores else None,
     }
