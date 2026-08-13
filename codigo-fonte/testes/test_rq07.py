@@ -26,11 +26,48 @@ class TestRQ07(unittest.TestCase):
         self.assertEqual(resultado["rq02_pull_requests_aceitos"], 42)
         self.assertEqual(resultado["rq03_total_releases"], 7)
 
-    def test_campos_ausentes_recebem_zero(self):
+    def test_campos_nao_coletados_ficam_ausentes(self):
         resultado = rq07_por_linguagem.extrair_metricas_base({})
 
-        self.assertEqual(resultado["rq02_pull_requests_aceitos"], 0)
-        self.assertEqual(resultado["rq03_total_releases"], 0)
+        self.assertIsNone(resultado["rq02_pull_requests_aceitos"])
+        self.assertIsNone(resultado["rq03_total_releases"])
+
+    def test_aceita_nome_de_campo_usado_pela_nova_rq02(self):
+        resultado = rq07_por_linguagem.extrair_metricas_base({
+            "repository": "owner/repo",
+            "total_prs_aceitos": 35,
+        })
+
+        self.assertEqual(resultado["rq02_pull_requests_aceitos"], 35)
+        self.assertIsNone(resultado["rq03_total_releases"])
+
+    def test_nao_usa_zero_gerado_quando_campo_bruto_nao_foi_coletado(self):
+        registros = [{
+            "rq05_categoria_linguagem": "Python",
+            "rq02_pull_requests_aceitos": 0,
+            "rq03_total_releases": 0,
+            "rq04_dias_desde_ultima_atualizacao": 2.0,
+            "bruto": {"primaryLanguage": {"name": "Python"}},
+        }]
+
+        resumo = rq07_por_linguagem.resumir(registros)["Python"]
+
+        self.assertIsNone(resumo["rq02_pull_requests_aceitos"]["media"])
+        self.assertIsNone(resumo["rq03_total_releases"]["media"])
+
+    def test_prioriza_resultado_integrado_da_rq02(self):
+        registros = [{
+            "rq05_categoria_linguagem": "Python",
+            "total_prs_aceitos": 21,
+            "rq02_pull_requests_aceitos": 0,
+            "rq03_total_releases": 0,
+            "rq04_dias_desde_ultima_atualizacao": 2.0,
+            "bruto": {"primaryLanguage": {"name": "Python"}},
+        }]
+
+        resumo = rq07_por_linguagem.resumir(registros)["Python"]
+
+        self.assertEqual(resumo["rq02_pull_requests_aceitos"]["media"], 21.0)
 
     def test_agrupa_metricas_por_linguagem(self):
         registros = [
