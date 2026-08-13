@@ -39,6 +39,11 @@ CAMPOS_IDENTIFICACAO = """
         stargazerCount
 """
 
+#: Campo da RQ01: data de criacao, usada para calcular a idade do repositorio.
+CAMPOS_RQ01 = """
+        createdAt
+"""
+
 #: Campos das RQ04 e RQ05 (responsabilidade deste integrante).
 #:
 #: - ``pushedAt``: campo oficial da RQ04 (ver ``analise/rq04_atualizacao.py``).
@@ -113,7 +118,7 @@ def montar_consulta(fragmentos: Iterable[str] = None) -> str:
     :return: a consulta GraphQL como texto.
     """
     if fragmentos is None:
-        fragmentos = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ04_RQ05, CAMPOS_RQ06_RQ07)
+        fragmentos = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ01, CAMPOS_RQ04_RQ05, CAMPOS_RQ06_RQ07)
 
     blocos = [fragmento.strip("\n") for fragmento in fragmentos if fragmento and fragmento.strip()]
     if not blocos:
