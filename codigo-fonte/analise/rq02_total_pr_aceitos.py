@@ -1,4 +1,4 @@
-# scripts/rq03_releases.py
+# scripts/rq02_pull_requests.py
 
 import csv
 import os
@@ -80,7 +80,7 @@ def buscar_top_100_repositorios():
                 "q": "stars:>0",
                 "sort": "stars",
                 "order": "desc",
-                "per_page": 100,
+                "per_page": 10,
                 "page": page,
             }
         )
@@ -94,29 +94,17 @@ def buscar_top_100_repositorios():
     return repositorios[:100]
 
 
-def contar_releases(full_name):
+def contar_prs_aceitos(full_name):
 
-    pagina = 1
-    total = 0
+    dados = requisicao(
+        f"{GITHUB_API}/search/issues",
+        params={
+            "q": f"repo:{full_name} is:pr is:merged",
+            "per_page": 1,
+        }
+    )
 
-    while True:
-
-        releases = requisicao(
-            f"{GITHUB_API}/repos/{full_name}/releases",
-            params={
-                "per_page": 100,
-                "page": pagina,
-            }
-        )
-
-        if not releases:
-            break
-
-        total += len(releases)
-
-        pagina += 1
-
-    return total
+    return dados["total_count"]
 
 
 def executar():
@@ -137,7 +125,7 @@ def executar():
 
         full_name = repo["full_name"]
 
-        total = contar_releases(
+        total = contar_prs_aceitos(
             full_name
         )
 
@@ -145,7 +133,7 @@ def executar():
             "rank": indice,
             "repository": full_name,
             "stars": repo["stargazers_count"],
-            "total_releases": total,
+            "total_prs_aceitos": total,
         }
 
         resultados.append(resultado)
@@ -153,13 +141,16 @@ def executar():
         print(
             f"[{indice}/100] "
             f"{full_name} -> "
-            f"{total} releases"
+            f"{total} PRs aceitos"
         )
 
-    os.makedirs("data", exist_ok=True)
+        # Evita bombardear a API
+        time.sleep(0.2)
+
+    os.makedirs("../coleta/data", exist_ok=True)
 
     with open(
-        "data/rq03_releases.csv",
+            "../coleta/data/rq02_pull_requests.csv",
         "w",
         newline="",
         encoding="utf-8"
@@ -173,9 +164,9 @@ def executar():
         writer.writeheader()
         writer.writerows(resultados)
 
-    print("\nRQ03 concluída.")
+    print("\nRQ02 concluída.")
     print(
-        "Arquivo: data/rq03_releases.csv"
+        "Arquivo: data/rq02_pull_requests.csv"
     )
 
 

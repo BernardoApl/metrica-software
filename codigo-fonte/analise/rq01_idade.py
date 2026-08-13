@@ -112,7 +112,7 @@ def executar():
             f"{idade_anos:.2f} anos"
         )
 
-    os.makedirs("data", exist_ok=True)
+    os.makedirs("../coleta/data", exist_ok=True)
 
     with open(
         "data/rq01_idade.csv",
