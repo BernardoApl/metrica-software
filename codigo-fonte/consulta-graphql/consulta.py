@@ -11,12 +11,11 @@ Campos repetidos entre fragmentos nao sao problema: o GraphQL funde selecoes
 identicas do mesmo campo, entao dois integrantes podem pedir ``stargazerCount``
 sem conflito.
 
-Escopo desta sprint (Lab01S01)
------------------------------
-Sem paginacao. ``first`` da Search API tem teto de 100 itens por pagina, o que
-cobre exatamente os 100 repositorios exigidos em S01. A consulta ja devolve
-``pageInfo``, de modo que a paginacao de 1000 repositorios (Lab01S02) se resuma
-a iterar sobre ``endCursor``.
+Paginacao
+---------
+``first`` da Search API tem teto de 100 itens por pagina. A consulta devolve
+``pageInfo`` para que o coletor percorra ``endCursor`` ate completar os 1000
+repositorios permitidos pela busca.
 """
 
 from __future__ import annotations
@@ -25,6 +24,9 @@ from typing import Iterable
 
 #: Teto de itens por pagina imposto pela API do GitHub.
 LIMITE_POR_PAGINA = 100
+
+#: Teto de resultados acessiveis pela Search API do GitHub.
+LIMITE_RESULTADOS_BUSCA = 1000
 
 #: Criterio de busca: repositorios publicos ordenados por numero de estrelas.
 #: A Search API devolve no maximo 1000 resultados, o que e exatamente o alvo do

@@ -3,12 +3,9 @@
 Fluxo: monta a consulta a partir dos fragmentos de campos -> envia pelo cliente
 proprio -> normaliza cada no cru em um registro com as metricas calculadas.
 
-Escopo desta sprint (Lab01S01): 100 repositorios no total. A consulta combinada
-(RQ04 a RQ07 juntas) e pesada demais para vir numa unica requisicao de 100 --
-a API do GitHub devolve HTTP 502 --, o mesmo problema que a RQ07 isolada ja
-enfrentava (ver ``executar_coleta_rq07.py``). Por isso a coleta percorre o
-cursor GraphQL em paginas menores, do mesmo jeito que a RQ07 ja fazia, e
-completa os mesmos 100 repositorios ao final.
+A consulta combinada e pesada demais para buscar muitos repositorios de uma
+vez. Por isso a coleta percorre o cursor GraphQL em paginas menores ate atingir
+a quantidade solicitada, limitada aos 1000 resultados da Search API.
 """
 
 from __future__ import annotations
@@ -31,6 +28,7 @@ from consulta import (
     CAMPOS_RQ04_RQ05,
     CAMPOS_RQ06_RQ07,
     LIMITE_POR_PAGINA,
+    LIMITE_RESULTADOS_BUSCA,
     montar_consulta,
     montar_variaveis,
 )
@@ -82,7 +80,7 @@ def coletar(
     """Coleta os ``quantidade`` repositorios com mais estrelas e calcula as metricas.
 
     :param cliente: cliente GraphQL ja autenticado.
-    :param quantidade: quantos repositorios coletar (maximo de 100 nesta sprint).
+    :param quantidade: quantos repositorios coletar (maximo de 1000).
     :param busca: criterio de busca do GitHub.
     :param fragmentos: fragmentos de campos que compoem a consulta.
     :param referencia_data: data de referencia da RQ04. Se omitida, usa o instante
@@ -91,9 +89,14 @@ def coletar(
     :param tamanho_pagina: repositorios por requisicao GraphQL. A consulta com
         os campos de RQ04 a RQ07 e pesada demais para vir toda de uma vez em
         100 repositorios (a API devolve HTTP 502); paginar evita isso.
-    :raises ValueError: se ``quantidade`` exceder o limite da API.
+    :raises ValueError: se os limites de quantidade ou pagina forem invalidos.
     :return: dicionario com ``metadados``, ``repositorios`` e ``resumo``.
     """
+    if not isinstance(quantidade, int) or not 1 <= quantidade <= LIMITE_RESULTADOS_BUSCA:
+        raise ValueError("A quantidade deve estar entre 1 e %d." % LIMITE_RESULTADOS_BUSCA)
+    if not isinstance(tamanho_pagina, int) or not 1 <= tamanho_pagina <= LIMITE_POR_PAGINA:
+        raise ValueError("O tamanho da pagina deve estar entre 1 e %d." % LIMITE_POR_PAGINA)
+
     if referencia_data is None:
         referencia_data = rq04_atualizacao.agora_utc()
     if referencia_linguagens is None:
@@ -119,7 +122,10 @@ def coletar(
             total_disponivel = busca_resultado.get("repositoryCount")
         if not recebidos or not pagina.get("hasNextPage"):
             break
-        cursor = pagina.get("endCursor")
+        proximo_cursor = pagina.get("endCursor")
+        if not proximo_cursor or proximo_cursor == cursor:
+            break
+        cursor = proximo_cursor
 
     repositorios = [normalizar(no, referencia_data, referencia_linguagens) for no in nos]
 
