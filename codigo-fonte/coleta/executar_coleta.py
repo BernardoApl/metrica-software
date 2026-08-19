@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -29,6 +30,7 @@ import rq04_atualizacao  # noqa: E402
 from cliente_github import ClienteGitHub, ErroGitHub, obter_token  # noqa: E402
 from coleta_repositorios import coletar  # noqa: E402
 from consulta import BUSCA_PADRAO  # noqa: E402
+from exportar_csv import escrever_csv, nome_arquivo_semanal  # noqa: E402
 
 SAIDA_PADRAO = DIRETORIO_DADOS / "lab01s01_rq04_rq05.json"
 
@@ -52,6 +54,14 @@ def montar_argumentos(argv=None) -> argparse.Namespace:
     analisador.add_argument(
         "--busca", default=BUSCA_PADRAO,
         help="Criterio de busca do GitHub. Padrao: %s" % BUSCA_PADRAO,
+    )
+    analisador.add_argument(
+        "--csv", action="store_true",
+        help="Tambem exporta o snapshot semanal dos repositorios em CSV (RQ14).",
+    )
+    analisador.add_argument(
+        "--csv-saida", type=Path, default=None,
+        help="Arquivo CSV de saida. Padrao: dados/rq14_snapshot_semanal_<ano>-W<semana>.csv",
     )
     return analisador.parse_args(argv)
 
@@ -123,6 +133,14 @@ def principal(argv=None) -> int:
     imprimir_resumo(resultado)
     print("")
     print("Saida gravada em: %s" % saida)
+
+    if argumentos.csv:
+        caminho_csv = argumentos.csv_saida
+        if caminho_csv is None:
+            referencia_data = datetime.fromisoformat(resultado["metadados"]["coletado_em"])
+            caminho_csv = nome_arquivo_semanal(referencia_data, DIRETORIO_DADOS)
+        escrever_csv(resultado["repositorios"], caminho_csv)
+        print("Snapshot semanal (CSV) gravado em: %s" % caminho_csv)
 
     if resultado["metadados"]["quantidade_retornada"] < argumentos.quantidade:
         print("[aviso] A API devolveu menos repositorios do que o solicitado.", file=sys.stderr)
