@@ -1,4 +1,4 @@
-"""Ponto de entrada da coleta automatica do Lab01S01 (RQ04 e RQ05).
+"""Ponto de entrada da coleta automatica dos repositorios.
 
 Uso::
 
@@ -7,7 +7,7 @@ Uso::
     export GITHUB_TOKEN=ghp_xxx       # Linux/macOS
 
     python codigo-fonte/coleta/executar_coleta.py
-    python codigo-fonte/coleta/executar_coleta.py --quantidade 100 --saida dados/coleta.json
+    python codigo-fonte/coleta/executar_coleta.py --quantidade 1000 --tamanho-pagina 10 --saida dados/coleta.json
 
 O token tambem pode vir de um arquivo ``.env`` na raiz do projeto
 (``GITHUB_TOKEN=...``) ou da opcao ``--token``. O ``.env`` esta no ``.gitignore``.
@@ -28,7 +28,7 @@ configurar_caminhos()
 
 import rq04_atualizacao  # noqa: E402
 from cliente_github import ClienteGitHub, ErroGitHub, obter_token  # noqa: E402
-from coleta_repositorios import coletar  # noqa: E402
+from coleta_repositorios import TAMANHO_PAGINA_PADRAO, coletar  # noqa: E402
 from consulta import BUSCA_PADRAO  # noqa: E402
 from exportar_csv import escrever_csv, nome_arquivo_semanal  # noqa: E402
 
@@ -41,7 +41,12 @@ def montar_argumentos(argv=None) -> argparse.Namespace:
     )
     analisador.add_argument(
         "--quantidade", type=int, default=100,
-        help="Quantidade de repositorios a coletar (maximo 100 nesta sprint). Padrao: 100.",
+        help="Quantidade de repositorios a coletar (1 a 1000). Padrao: 100.",
+    )
+    analisador.add_argument(
+        "--tamanho-pagina", type=int, default=TAMANHO_PAGINA_PADRAO,
+        help="Repositorios por requisicao GraphQL (1 a 100). Padrao: %d."
+             % TAMANHO_PAGINA_PADRAO,
     )
     analisador.add_argument(
         "--saida", type=Path, default=SAIDA_PADRAO,
@@ -117,7 +122,12 @@ def principal(argv=None) -> int:
 
     print("Consultando a API GraphQL do GitHub (%d repositorios)..." % argumentos.quantidade)
     try:
-        resultado = coletar(cliente, quantidade=argumentos.quantidade, busca=argumentos.busca)
+        resultado = coletar(
+            cliente,
+            quantidade=argumentos.quantidade,
+            busca=argumentos.busca,
+            tamanho_pagina=argumentos.tamanho_pagina,
+        )
     except ValueError as erro:
         print("[erro] %s" % erro, file=sys.stderr)
         return 2

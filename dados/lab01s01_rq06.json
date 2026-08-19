@@ -1,0 +1,2039 @@
+{
+  "metadados": {
+    "coletado_em": "2026-08-12T03:36:13.892762+00:00",
+    "criterio_busca": "is:public stars:>1 sort:stars-desc",
+    "quantidade_solicitada": 100,
+    "quantidade_retornada": 100,
+    "total_disponivel_na_busca": 12115810,
+    "rate_limit": {
+      "limit": 5000,
+      "cost": 2,
+      "remaining": 4889,
+      "resetAt": "2026-08-12T03:38:31Z"
+    },
+    "consulta_graphql": "query RepositoriosPopulares($primeiros: Int!, $cursor: String, $busca: String!) {\n  rateLimit {\n    limit\n    cost\n    remaining\n    resetAt\n  }\n  search(query: $busca, type: REPOSITORY, first: $primeiros, after: $cursor) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    nodes {\n      ... on Repository {\n        nameWithOwner\n        url\n        stargazerCount\n        issues(first: 1) {\n          totalCount\n        }\n        issuesFechadas: issues(first: 1, states: CLOSED) {\n          totalCount\n        }\n      }\n    }\n  }\n}\n",
+    "definicao_rq06": {
+      "questao": "RQ06 - Qual a razao entre issues fechadas e total de issues?",
+      "metrica": "Razao entre issues fechadas e total de issues",
+      "campos_utilizados": [
+        "issues.totalCount",
+        "issuesFechadas.totalCount"
+      ],
+      "formula": "issuesFechadas.totalCount / issues.totalCount",
+      "tratamento_de_ausentes": "Quando issues.totalCount = 0, a razao fica None."
+    }
+  },
+  "repositorios": [
+    {
+      "nome_completo": "codecrafters-io/build-your-own-x",
+      "url": "https://github.com/codecrafters-io/build-your-own-x",
+      "estrelas": 538861,
+      "rq06_issues_total": 942,
+      "rq06_issues_fechadas": 677,
+      "rq06_razao_fechadas_total": 0.7187,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "codecrafters-io/build-your-own-x",
+        "url": "https://github.com/codecrafters-io/build-your-own-x",
+        "stargazerCount": 538861,
+        "issues": {
+          "totalCount": 942
+        },
+        "issuesFechadas": {
+          "totalCount": 677
+        }
+      }
+    },
+    {
+      "nome_completo": "sindresorhus/awesome",
+      "url": "https://github.com/sindresorhus/awesome",
+      "estrelas": 494669,
+      "rq06_issues_total": 368,
+      "rq06_issues_fechadas": 352,
+      "rq06_razao_fechadas_total": 0.9565,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "sindresorhus/awesome",
+        "url": "https://github.com/sindresorhus/awesome",
+        "stargazerCount": 494669,
+        "issues": {
+          "totalCount": 368
+        },
+        "issuesFechadas": {
+          "totalCount": 352
+        }
+      }
+    },
+    {
+      "nome_completo": "public-apis/public-apis",
+      "url": "https://github.com/public-apis/public-apis",
+      "estrelas": 455533,
+      "rq06_issues_total": 921,
+      "rq06_issues_fechadas": 911,
+      "rq06_razao_fechadas_total": 0.9891,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "public-apis/public-apis",
+        "url": "https://github.com/public-apis/public-apis",
+        "stargazerCount": 455533,
+        "issues": {
+          "totalCount": 921
+        },
+        "issuesFechadas": {
+          "totalCount": 911
+        }
+      }
+    },
+    {
+      "nome_completo": "freeCodeCamp/freeCodeCamp",
+      "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+      "estrelas": 453837,
+      "rq06_issues_total": 22046,
+      "rq06_issues_fechadas": 21873,
+      "rq06_razao_fechadas_total": 0.9922,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "freeCodeCamp/freeCodeCamp",
+        "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+        "stargazerCount": 453837,
+        "issues": {
+          "totalCount": 22046
+        },
+        "issuesFechadas": {
+          "totalCount": 21873
+        }
+      }
+    },
+    {
+      "nome_completo": "EbookFoundation/free-programming-books",
+      "url": "https://github.com/EbookFoundation/free-programming-books",
+      "estrelas": 394181,
+      "rq06_issues_total": 1292,
+      "rq06_issues_fechadas": 1254,
+      "rq06_razao_fechadas_total": 0.9706,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "EbookFoundation/free-programming-books",
+        "url": "https://github.com/EbookFoundation/free-programming-books",
+        "stargazerCount": 394181,
+        "issues": {
+          "totalCount": 1292
+        },
+        "issuesFechadas": {
+          "totalCount": 1254
+        }
+      }
+    },
+    {
+      "nome_completo": "openclaw/openclaw",
+      "url": "https://github.com/openclaw/openclaw",
+      "estrelas": 385988,
+      "rq06_issues_total": 46733,
+      "rq06_issues_fechadas": 43255,
+      "rq06_razao_fechadas_total": 0.9256,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "openclaw/openclaw",
+        "url": "https://github.com/openclaw/openclaw",
+        "stargazerCount": 385988,
+        "issues": {
+          "totalCount": 46733
+        },
+        "issuesFechadas": {
+          "totalCount": 43255
+        }
+      }
+    },
+    {
+      "nome_completo": "nilbuild/developer-roadmap",
+      "url": "https://github.com/nilbuild/developer-roadmap",
+      "estrelas": 364182,
+      "rq06_issues_total": 3184,
+      "rq06_issues_fechadas": 3183,
+      "rq06_razao_fechadas_total": 0.9997,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "nilbuild/developer-roadmap",
+        "url": "https://github.com/nilbuild/developer-roadmap",
+        "stargazerCount": 364182,
+        "issues": {
+          "totalCount": 3184
+        },
+        "issuesFechadas": {
+          "totalCount": 3183
+        }
+      }
+    },
+    {
+      "nome_completo": "donnemartin/system-design-primer",
+      "url": "https://github.com/donnemartin/system-design-primer",
+      "estrelas": 363255,
+      "rq06_issues_total": 399,
+      "rq06_issues_fechadas": 127,
+      "rq06_razao_fechadas_total": 0.3183,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "donnemartin/system-design-primer",
+        "url": "https://github.com/donnemartin/system-design-primer",
+        "stargazerCount": 363255,
+        "issues": {
+          "totalCount": 399
+        },
+        "issuesFechadas": {
+          "totalCount": 127
+        }
+      }
+    },
+    {
+      "nome_completo": "jwasham/coding-interview-university",
+      "url": "https://github.com/jwasham/coding-interview-university",
+      "estrelas": 358413,
+      "rq06_issues_total": 536,
+      "rq06_issues_fechadas": 455,
+      "rq06_razao_fechadas_total": 0.8489,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "jwasham/coding-interview-university",
+        "url": "https://github.com/jwasham/coding-interview-university",
+        "stargazerCount": 358413,
+        "issues": {
+          "totalCount": 536
+        },
+        "issuesFechadas": {
+          "totalCount": 455
+        }
+      }
+    },
+    {
+      "nome_completo": "vinta/awesome-python",
+      "url": "https://github.com/vinta/awesome-python",
+      "estrelas": 313473,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "vinta/awesome-python",
+        "url": "https://github.com/vinta/awesome-python",
+        "stargazerCount": 313473,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "awesome-selfhosted/awesome-selfhosted",
+      "url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+      "estrelas": 312096,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "awesome-selfhosted/awesome-selfhosted",
+        "url": "https://github.com/awesome-selfhosted/awesome-selfhosted",
+        "stargazerCount": 312096,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "practical-tutorials/project-based-learning",
+      "url": "https://github.com/practical-tutorials/project-based-learning",
+      "estrelas": 278537,
+      "rq06_issues_total": 239,
+      "rq06_issues_fechadas": 88,
+      "rq06_razao_fechadas_total": 0.3682,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "practical-tutorials/project-based-learning",
+        "url": "https://github.com/practical-tutorials/project-based-learning",
+        "stargazerCount": 278537,
+        "issues": {
+          "totalCount": 239
+        },
+        "issuesFechadas": {
+          "totalCount": 88
+        }
+      }
+    },
+    {
+      "nome_completo": "996icu/996.ICU",
+      "url": "https://github.com/996icu/996.ICU",
+      "estrelas": 276619,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "996icu/996.ICU",
+        "url": "https://github.com/996icu/996.ICU",
+        "stargazerCount": 276619,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "obra/superpowers",
+      "url": "https://github.com/obra/superpowers",
+      "estrelas": 270825,
+      "rq06_issues_total": 834,
+      "rq06_issues_fechadas": 681,
+      "rq06_razao_fechadas_total": 0.8165,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "obra/superpowers",
+        "url": "https://github.com/obra/superpowers",
+        "stargazerCount": 270825,
+        "issues": {
+          "totalCount": 834
+        },
+        "issuesFechadas": {
+          "totalCount": 681
+        }
+      }
+    },
+    {
+      "nome_completo": "react/react",
+      "url": "https://github.com/react/react",
+      "estrelas": 247171,
+      "rq06_issues_total": 14613,
+      "rq06_issues_fechadas": 13799,
+      "rq06_razao_fechadas_total": 0.9443,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "react/react",
+        "url": "https://github.com/react/react",
+        "stargazerCount": 247171,
+        "issues": {
+          "totalCount": 14613
+        },
+        "issuesFechadas": {
+          "totalCount": 13799
+        }
+      }
+    },
+    {
+      "nome_completo": "torvalds/linux",
+      "url": "https://github.com/torvalds/linux",
+      "estrelas": 242536,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "torvalds/linux",
+        "url": "https://github.com/torvalds/linux",
+        "stargazerCount": 242536,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "affaan-m/ECC",
+      "url": "https://github.com/affaan-m/ECC",
+      "estrelas": 239510,
+      "rq06_issues_total": 700,
+      "rq06_issues_fechadas": 659,
+      "rq06_razao_fechadas_total": 0.9414,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "affaan-m/ECC",
+        "url": "https://github.com/affaan-m/ECC",
+        "stargazerCount": 239510,
+        "issues": {
+          "totalCount": 700
+        },
+        "issuesFechadas": {
+          "totalCount": 659
+        }
+      }
+    },
+    {
+      "nome_completo": "trimstray/the-book-of-secret-knowledge",
+      "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+      "estrelas": 237881,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "trimstray/the-book-of-secret-knowledge",
+        "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+        "stargazerCount": 237881,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "NousResearch/hermes-agent",
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "estrelas": 229102,
+      "rq06_issues_total": 20934,
+      "rq06_issues_fechadas": 10512,
+      "rq06_razao_fechadas_total": 0.5021,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "NousResearch/hermes-agent",
+        "url": "https://github.com/NousResearch/hermes-agent",
+        "stargazerCount": 229102,
+        "issues": {
+          "totalCount": 20934
+        },
+        "issuesFechadas": {
+          "totalCount": 10512
+        }
+      }
+    },
+    {
+      "nome_completo": "TheAlgorithms/Python",
+      "url": "https://github.com/TheAlgorithms/Python",
+      "estrelas": 223664,
+      "rq06_issues_total": 1749,
+      "rq06_issues_fechadas": 1606,
+      "rq06_razao_fechadas_total": 0.9182,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "TheAlgorithms/Python",
+        "url": "https://github.com/TheAlgorithms/Python",
+        "stargazerCount": 223664,
+        "issues": {
+          "totalCount": 1749
+        },
+        "issuesFechadas": {
+          "totalCount": 1606
+        }
+      }
+    },
+    {
+      "nome_completo": "mattpocock/skills",
+      "url": "https://github.com/mattpocock/skills",
+      "estrelas": 214005,
+      "rq06_issues_total": 617,
+      "rq06_issues_fechadas": 299,
+      "rq06_razao_fechadas_total": 0.4846,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "mattpocock/skills",
+        "url": "https://github.com/mattpocock/skills",
+        "stargazerCount": 214005,
+        "issues": {
+          "totalCount": 617
+        },
+        "issuesFechadas": {
+          "totalCount": 299
+        }
+      }
+    },
+    {
+      "nome_completo": "vuejs/vue",
+      "url": "https://github.com/vuejs/vue",
+      "estrelas": 210228,
+      "rq06_issues_total": 10035,
+      "rq06_issues_fechadas": 9670,
+      "rq06_razao_fechadas_total": 0.9636,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "vuejs/vue",
+        "url": "https://github.com/vuejs/vue",
+        "stargazerCount": 210228,
+        "issues": {
+          "totalCount": 10035
+        },
+        "issuesFechadas": {
+          "totalCount": 9670
+        }
+      }
+    },
+    {
+      "nome_completo": "ossu/computer-science",
+      "url": "https://github.com/ossu/computer-science",
+      "estrelas": 207900,
+      "rq06_issues_total": 674,
+      "rq06_issues_fechadas": 658,
+      "rq06_razao_fechadas_total": 0.9763,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "ossu/computer-science",
+        "url": "https://github.com/ossu/computer-science",
+        "stargazerCount": 207900,
+        "issues": {
+          "totalCount": 674
+        },
+        "issuesFechadas": {
+          "totalCount": 658
+        }
+      }
+    },
+    {
+      "nome_completo": "multica-ai/andrej-karpathy-skills",
+      "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+      "estrelas": 201642,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "multica-ai/andrej-karpathy-skills",
+        "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+        "stargazerCount": 201642,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "n8n-io/n8n",
+      "url": "https://github.com/n8n-io/n8n",
+      "estrelas": 200283,
+      "rq06_issues_total": 9960,
+      "rq06_issues_fechadas": 9622,
+      "rq06_razao_fechadas_total": 0.9661,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "n8n-io/n8n",
+        "url": "https://github.com/n8n-io/n8n",
+        "stargazerCount": 200283,
+        "issues": {
+          "totalCount": 9960
+        },
+        "issuesFechadas": {
+          "totalCount": 9622
+        }
+      }
+    },
+    {
+      "nome_completo": "tensorflow/tensorflow",
+      "url": "https://github.com/tensorflow/tensorflow",
+      "estrelas": 196960,
+      "rq06_issues_total": 41678,
+      "rq06_issues_fechadas": 40886,
+      "rq06_razao_fechadas_total": 0.981,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "tensorflow/tensorflow",
+        "url": "https://github.com/tensorflow/tensorflow",
+        "stargazerCount": 196960,
+        "issues": {
+          "totalCount": 41678
+        },
+        "issuesFechadas": {
+          "totalCount": 40886
+        }
+      }
+    },
+    {
+      "nome_completo": "trekhleb/javascript-algorithms",
+      "url": "https://github.com/trekhleb/javascript-algorithms",
+      "estrelas": 196442,
+      "rq06_issues_total": 373,
+      "rq06_issues_fechadas": 238,
+      "rq06_razao_fechadas_total": 0.6381,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "trekhleb/javascript-algorithms",
+        "url": "https://github.com/trekhleb/javascript-algorithms",
+        "stargazerCount": 196442,
+        "issues": {
+          "totalCount": 373
+        },
+        "issuesFechadas": {
+          "totalCount": 238
+        }
+      }
+    },
+    {
+      "nome_completo": "anomalyco/opencode",
+      "url": "https://github.com/anomalyco/opencode",
+      "estrelas": 196288,
+      "rq06_issues_total": 23342,
+      "rq06_issues_fechadas": 19531,
+      "rq06_razao_fechadas_total": 0.8367,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "anomalyco/opencode",
+        "url": "https://github.com/anomalyco/opencode",
+        "stargazerCount": 196288,
+        "issues": {
+          "totalCount": 23342
+        },
+        "issuesFechadas": {
+          "totalCount": 19531
+        }
+      }
+    },
+    {
+      "nome_completo": "ultraworkers/claw-code",
+      "url": "https://github.com/ultraworkers/claw-code",
+      "estrelas": 195050,
+      "rq06_issues_total": 2211,
+      "rq06_issues_fechadas": 2195,
+      "rq06_razao_fechadas_total": 0.9928,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "ultraworkers/claw-code",
+        "url": "https://github.com/ultraworkers/claw-code",
+        "stargazerCount": 195050,
+        "issues": {
+          "totalCount": 2211
+        },
+        "issuesFechadas": {
+          "totalCount": 2195
+        }
+      }
+    },
+    {
+      "nome_completo": "DigitalPlatDev/FreeDomain",
+      "url": "https://github.com/DigitalPlatDev/FreeDomain",
+      "estrelas": 192287,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "DigitalPlatDev/FreeDomain",
+        "url": "https://github.com/DigitalPlatDev/FreeDomain",
+        "stargazerCount": 192287,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "ohmyzsh/ohmyzsh",
+      "url": "https://github.com/ohmyzsh/ohmyzsh",
+      "estrelas": 189121,
+      "rq06_issues_total": 5076,
+      "rq06_issues_fechadas": 4926,
+      "rq06_razao_fechadas_total": 0.9704,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "ohmyzsh/ohmyzsh",
+        "url": "https://github.com/ohmyzsh/ohmyzsh",
+        "stargazerCount": 189121,
+        "issues": {
+          "totalCount": 5076
+        },
+        "issuesFechadas": {
+          "totalCount": 4926
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/vscode",
+      "url": "https://github.com/microsoft/vscode",
+      "estrelas": 188611,
+      "rq06_issues_total": 250556,
+      "rq06_issues_fechadas": 233189,
+      "rq06_razao_fechadas_total": 0.9307,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "microsoft/vscode",
+        "url": "https://github.com/microsoft/vscode",
+        "stargazerCount": 188611,
+        "issues": {
+          "totalCount": 250556
+        },
+        "issuesFechadas": {
+          "totalCount": 233189
+        }
+      }
+    },
+    {
+      "nome_completo": "massgravel/Microsoft-Activation-Scripts",
+      "url": "https://github.com/massgravel/Microsoft-Activation-Scripts",
+      "estrelas": 186742,
+      "rq06_issues_total": 1065,
+      "rq06_issues_fechadas": 1061,
+      "rq06_razao_fechadas_total": 0.9962,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "massgravel/Microsoft-Activation-Scripts",
+        "url": "https://github.com/massgravel/Microsoft-Activation-Scripts",
+        "stargazerCount": 186742,
+        "issues": {
+          "totalCount": 1065
+        },
+        "issuesFechadas": {
+          "totalCount": 1061
+        }
+      }
+    },
+    {
+      "nome_completo": "Significant-Gravitas/AutoGPT",
+      "url": "https://github.com/Significant-Gravitas/AutoGPT",
+      "estrelas": 186535,
+      "rq06_issues_total": 3938,
+      "rq06_issues_fechadas": 3637,
+      "rq06_razao_fechadas_total": 0.9236,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "Significant-Gravitas/AutoGPT",
+        "url": "https://github.com/Significant-Gravitas/AutoGPT",
+        "stargazerCount": 186535,
+        "issues": {
+          "totalCount": 3938
+        },
+        "issuesFechadas": {
+          "totalCount": 3637
+        }
+      }
+    },
+    {
+      "nome_completo": "jackfrued/Python-100-Days",
+      "url": "https://github.com/jackfrued/Python-100-Days",
+      "estrelas": 185113,
+      "rq06_issues_total": 729,
+      "rq06_issues_fechadas": 192,
+      "rq06_razao_fechadas_total": 0.2634,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "jackfrued/Python-100-Days",
+        "url": "https://github.com/jackfrued/Python-100-Days",
+        "stargazerCount": 185113,
+        "issues": {
+          "totalCount": 729
+        },
+        "issuesFechadas": {
+          "totalCount": 192
+        }
+      }
+    },
+    {
+      "nome_completo": "CyC2018/CS-Notes",
+      "url": "https://github.com/CyC2018/CS-Notes",
+      "estrelas": 185027,
+      "rq06_issues_total": 579,
+      "rq06_issues_fechadas": 449,
+      "rq06_razao_fechadas_total": 0.7755,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "CyC2018/CS-Notes",
+        "url": "https://github.com/CyC2018/CS-Notes",
+        "stargazerCount": 185027,
+        "issues": {
+          "totalCount": 579
+        },
+        "issuesFechadas": {
+          "totalCount": 449
+        }
+      }
+    },
+    {
+      "nome_completo": "getify/You-Dont-Know-JS",
+      "url": "https://github.com/getify/You-Dont-Know-JS",
+      "estrelas": 184644,
+      "rq06_issues_total": 947,
+      "rq06_issues_fechadas": 947,
+      "rq06_razao_fechadas_total": 1.0,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "getify/You-Dont-Know-JS",
+        "url": "https://github.com/getify/You-Dont-Know-JS",
+        "stargazerCount": 184644,
+        "issues": {
+          "totalCount": 947
+        },
+        "issuesFechadas": {
+          "totalCount": 947
+        }
+      }
+    },
+    {
+      "nome_completo": "yt-dlp/yt-dlp",
+      "url": "https://github.com/yt-dlp/yt-dlp",
+      "estrelas": 183951,
+      "rq06_issues_total": 11882,
+      "rq06_issues_fechadas": 9909,
+      "rq06_razao_fechadas_total": 0.834,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "yt-dlp/yt-dlp",
+        "url": "https://github.com/yt-dlp/yt-dlp",
+        "stargazerCount": 183951,
+        "issues": {
+          "totalCount": 11882
+        },
+        "issuesFechadas": {
+          "totalCount": 9909
+        }
+      }
+    },
+    {
+      "nome_completo": "avelino/awesome-go",
+      "url": "https://github.com/avelino/awesome-go",
+      "estrelas": 180821,
+      "rq06_issues_total": 755,
+      "rq06_issues_fechadas": 736,
+      "rq06_razao_fechadas_total": 0.9748,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "avelino/awesome-go",
+        "url": "https://github.com/avelino/awesome-go",
+        "stargazerCount": 180821,
+        "issues": {
+          "totalCount": 755
+        },
+        "issuesFechadas": {
+          "totalCount": 736
+        }
+      }
+    },
+    {
+      "nome_completo": "flutter/flutter",
+      "url": "https://github.com/flutter/flutter",
+      "estrelas": 178333,
+      "rq06_issues_total": 115104,
+      "rq06_issues_fechadas": 102547,
+      "rq06_razao_fechadas_total": 0.8909,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "flutter/flutter",
+        "url": "https://github.com/flutter/flutter",
+        "stargazerCount": 178333,
+        "issues": {
+          "totalCount": 115104
+        },
+        "issuesFechadas": {
+          "totalCount": 102547
+        }
+      }
+    },
+    {
+      "nome_completo": "ollama/ollama",
+      "url": "https://github.com/ollama/ollama",
+      "estrelas": 178306,
+      "rq06_issues_total": 10937,
+      "rq06_issues_fechadas": 8543,
+      "rq06_razao_fechadas_total": 0.7811,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "ollama/ollama",
+        "url": "https://github.com/ollama/ollama",
+        "stargazerCount": 178306,
+        "issues": {
+          "totalCount": 10937
+        },
+        "issuesFechadas": {
+          "totalCount": 8543
+        }
+      }
+    },
+    {
+      "nome_completo": "github/gitignore",
+      "url": "https://github.com/github/gitignore",
+      "estrelas": 175250,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "github/gitignore",
+        "url": "https://github.com/github/gitignore",
+        "stargazerCount": 175250,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "twbs/bootstrap",
+      "url": "https://github.com/twbs/bootstrap",
+      "estrelas": 174569,
+      "rq06_issues_total": 22939,
+      "rq06_issues_fechadas": 22804,
+      "rq06_razao_fechadas_total": 0.9941,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "twbs/bootstrap",
+        "url": "https://github.com/twbs/bootstrap",
+        "stargazerCount": 174569,
+        "issues": {
+          "totalCount": 22939
+        },
+        "issuesFechadas": {
+          "totalCount": 22804
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/markitdown",
+      "url": "https://github.com/microsoft/markitdown",
+      "estrelas": 173214,
+      "rq06_issues_total": 562,
+      "rq06_issues_fechadas": 181,
+      "rq06_razao_fechadas_total": 0.3221,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "microsoft/markitdown",
+        "url": "https://github.com/microsoft/markitdown",
+        "stargazerCount": 173214,
+        "issues": {
+          "totalCount": 562
+        },
+        "issuesFechadas": {
+          "totalCount": 181
+        }
+      }
+    },
+    {
+      "nome_completo": "521xueweihan/HelloGitHub",
+      "url": "https://github.com/521xueweihan/HelloGitHub",
+      "estrelas": 170409,
+      "rq06_issues_total": 3293,
+      "rq06_issues_fechadas": 2708,
+      "rq06_razao_fechadas_total": 0.8224,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "521xueweihan/HelloGitHub",
+        "url": "https://github.com/521xueweihan/HelloGitHub",
+        "stargazerCount": 170409,
+        "issues": {
+          "totalCount": 3293
+        },
+        "issuesFechadas": {
+          "totalCount": 2708
+        }
+      }
+    },
+    {
+      "nome_completo": "anthropics/skills",
+      "url": "https://github.com/anthropics/skills",
+      "estrelas": 168226,
+      "rq06_issues_total": 359,
+      "rq06_issues_fechadas": 48,
+      "rq06_razao_fechadas_total": 0.1337,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "anthropics/skills",
+        "url": "https://github.com/anthropics/skills",
+        "stargazerCount": 168226,
+        "issues": {
+          "totalCount": 359
+        },
+        "issuesFechadas": {
+          "totalCount": 48
+        }
+      }
+    },
+    {
+      "nome_completo": "f/prompts.chat",
+      "url": "https://github.com/f/prompts.chat",
+      "estrelas": 167016,
+      "rq06_issues_total": 172,
+      "rq06_issues_fechadas": 152,
+      "rq06_razao_fechadas_total": 0.8837,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "f/prompts.chat",
+        "url": "https://github.com/f/prompts.chat",
+        "stargazerCount": 167016,
+        "issues": {
+          "totalCount": 172
+        },
+        "issuesFechadas": {
+          "totalCount": 152
+        }
+      }
+    },
+    {
+      "nome_completo": "firecrawl/firecrawl",
+      "url": "https://github.com/firecrawl/firecrawl",
+      "estrelas": 165950,
+      "rq06_issues_total": 943,
+      "rq06_issues_fechadas": 885,
+      "rq06_razao_fechadas_total": 0.9385,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "firecrawl/firecrawl",
+        "url": "https://github.com/firecrawl/firecrawl",
+        "stargazerCount": 165950,
+        "issues": {
+          "totalCount": 943
+        },
+        "issuesFechadas": {
+          "totalCount": 885
+        }
+      }
+    },
+    {
+      "nome_completo": "AUTOMATIC1111/stable-diffusion-webui",
+      "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+      "estrelas": 164485,
+      "rq06_issues_total": 7913,
+      "rq06_issues_fechadas": 5491,
+      "rq06_razao_fechadas_total": 0.6939,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "AUTOMATIC1111/stable-diffusion-webui",
+        "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+        "stargazerCount": 164485,
+        "issues": {
+          "totalCount": 7913
+        },
+        "issuesFechadas": {
+          "totalCount": 5491
+        }
+      }
+    },
+    {
+      "nome_completo": "huggingface/transformers",
+      "url": "https://github.com/huggingface/transformers",
+      "estrelas": 163858,
+      "rq06_issues_total": 19295,
+      "rq06_issues_fechadas": 18405,
+      "rq06_razao_fechadas_total": 0.9539,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "huggingface/transformers",
+        "url": "https://github.com/huggingface/transformers",
+        "stargazerCount": 163858,
+        "issues": {
+          "totalCount": 19295
+        },
+        "issuesFechadas": {
+          "totalCount": 18405
+        }
+      }
+    },
+    {
+      "nome_completo": "jlevy/the-art-of-command-line",
+      "url": "https://github.com/jlevy/the-art-of-command-line",
+      "estrelas": 162079,
+      "rq06_issues_total": 264,
+      "rq06_issues_fechadas": 138,
+      "rq06_razao_fechadas_total": 0.5227,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "jlevy/the-art-of-command-line",
+        "url": "https://github.com/jlevy/the-art-of-command-line",
+        "stargazerCount": 162079,
+        "issues": {
+          "totalCount": 264
+        },
+        "issuesFechadas": {
+          "totalCount": 138
+        }
+      }
+    },
+    {
+      "nome_completo": "Snailclimb/JavaGuide",
+      "url": "https://github.com/Snailclimb/JavaGuide",
+      "estrelas": 157708,
+      "rq06_issues_total": 1155,
+      "rq06_issues_fechadas": 1098,
+      "rq06_razao_fechadas_total": 0.9506,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "Snailclimb/JavaGuide",
+        "url": "https://github.com/Snailclimb/JavaGuide",
+        "stargazerCount": 157708,
+        "issues": {
+          "totalCount": 1155
+        },
+        "issuesFechadas": {
+          "totalCount": 1098
+        }
+      }
+    },
+    {
+      "nome_completo": "langflow-ai/langflow",
+      "url": "https://github.com/langflow-ai/langflow",
+      "estrelas": 153072,
+      "rq06_issues_total": 3415,
+      "rq06_issues_fechadas": 3198,
+      "rq06_razao_fechadas_total": 0.9365,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "langflow-ai/langflow",
+        "url": "https://github.com/langflow-ai/langflow",
+        "stargazerCount": 153072,
+        "issues": {
+          "totalCount": 3415
+        },
+        "issuesFechadas": {
+          "totalCount": 3198
+        }
+      }
+    },
+    {
+      "nome_completo": "langgenius/dify",
+      "url": "https://github.com/langgenius/dify",
+      "estrelas": 152144,
+      "rq06_issues_total": 18586,
+      "rq06_issues_fechadas": 18310,
+      "rq06_razao_fechadas_total": 0.9852,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "langgenius/dify",
+        "url": "https://github.com/langgenius/dify",
+        "stargazerCount": 152144,
+        "issues": {
+          "totalCount": 18586
+        },
+        "issuesFechadas": {
+          "totalCount": 18310
+        }
+      }
+    },
+    {
+      "nome_completo": "open-webui/open-webui",
+      "url": "https://github.com/open-webui/open-webui",
+      "estrelas": 148520,
+      "rq06_issues_total": 9321,
+      "rq06_issues_fechadas": 9126,
+      "rq06_razao_fechadas_total": 0.9791,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "open-webui/open-webui",
+        "url": "https://github.com/open-webui/open-webui",
+        "stargazerCount": 148520,
+        "issues": {
+          "totalCount": 9321
+        },
+        "issuesFechadas": {
+          "totalCount": 9126
+        }
+      }
+    },
+    {
+      "nome_completo": "airbnb/javascript",
+      "url": "https://github.com/airbnb/javascript",
+      "estrelas": 148131,
+      "rq06_issues_total": 1415,
+      "rq06_issues_fechadas": 1315,
+      "rq06_razao_fechadas_total": 0.9293,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "airbnb/javascript",
+        "url": "https://github.com/airbnb/javascript",
+        "stargazerCount": 148131,
+        "issues": {
+          "totalCount": 1415
+        },
+        "issuesFechadas": {
+          "totalCount": 1315
+        }
+      }
+    },
+    {
+      "nome_completo": "Genymobile/scrcpy",
+      "url": "https://github.com/Genymobile/scrcpy",
+      "estrelas": 147462,
+      "rq06_issues_total": 6144,
+      "rq06_issues_fechadas": 3356,
+      "rq06_razao_fechadas_total": 0.5462,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "Genymobile/scrcpy",
+        "url": "https://github.com/Genymobile/scrcpy",
+        "stargazerCount": 147462,
+        "issues": {
+          "totalCount": 6144
+        },
+        "issuesFechadas": {
+          "totalCount": 3356
+        }
+      }
+    },
+    {
+      "nome_completo": "langchain-ai/langchain",
+      "url": "https://github.com/langchain-ai/langchain",
+      "estrelas": 144022,
+      "rq06_issues_total": 9952,
+      "rq06_issues_fechadas": 9607,
+      "rq06_razao_fechadas_total": 0.9653,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "langchain-ai/langchain",
+        "url": "https://github.com/langchain-ai/langchain",
+        "stargazerCount": 144022,
+        "issues": {
+          "totalCount": 9952
+        },
+        "issuesFechadas": {
+          "totalCount": 9607
+        }
+      }
+    },
+    {
+      "nome_completo": "msitarzewski/agency-agents",
+      "url": "https://github.com/msitarzewski/agency-agents",
+      "estrelas": 143494,
+      "rq06_issues_total": 140,
+      "rq06_issues_fechadas": 87,
+      "rq06_razao_fechadas_total": 0.6214,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "msitarzewski/agency-agents",
+        "url": "https://github.com/msitarzewski/agency-agents",
+        "stargazerCount": 143494,
+        "issues": {
+          "totalCount": 140
+        },
+        "issuesFechadas": {
+          "totalCount": 87
+        }
+      }
+    },
+    {
+      "nome_completo": "x1xhlol/system-prompts-and-models-of-ai-tools",
+      "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+      "estrelas": 142741,
+      "rq06_issues_total": 211,
+      "rq06_issues_fechadas": 120,
+      "rq06_razao_fechadas_total": 0.5687,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "x1xhlol/system-prompts-and-models-of-ai-tools",
+        "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+        "stargazerCount": 142741,
+        "issues": {
+          "totalCount": 211
+        },
+        "issuesFechadas": {
+          "totalCount": 120
+        }
+      }
+    },
+    {
+      "nome_completo": "yangshun/tech-interview-handbook",
+      "url": "https://github.com/yangshun/tech-interview-handbook",
+      "estrelas": 141784,
+      "rq06_issues_total": 126,
+      "rq06_issues_fechadas": 92,
+      "rq06_razao_fechadas_total": 0.7302,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "yangshun/tech-interview-handbook",
+        "url": "https://github.com/yangshun/tech-interview-handbook",
+        "stargazerCount": 141784,
+        "issues": {
+          "totalCount": 126
+        },
+        "issuesFechadas": {
+          "totalCount": 92
+        }
+      }
+    },
+    {
+      "nome_completo": "vercel/next.js",
+      "url": "https://github.com/vercel/next.js",
+      "estrelas": 141728,
+      "rq06_issues_total": 25140,
+      "rq06_issues_fechadas": 22905,
+      "rq06_razao_fechadas_total": 0.9111,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "vercel/next.js",
+        "url": "https://github.com/vercel/next.js",
+        "stargazerCount": 141728,
+        "issues": {
+          "totalCount": 25140
+        },
+        "issuesFechadas": {
+          "totalCount": 22905
+        }
+      }
+    },
+    {
+      "nome_completo": "anthropics/claude-code",
+      "url": "https://github.com/anthropics/claude-code",
+      "estrelas": 141110,
+      "rq06_issues_total": 83276,
+      "rq06_issues_fechadas": 68219,
+      "rq06_razao_fechadas_total": 0.8192,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "anthropics/claude-code",
+        "url": "https://github.com/anthropics/claude-code",
+        "stargazerCount": 141110,
+        "issues": {
+          "totalCount": 83276
+        },
+        "issuesFechadas": {
+          "totalCount": 68219
+        }
+      }
+    },
+    {
+      "nome_completo": "ytdl-org/youtube-dl",
+      "url": "https://github.com/ytdl-org/youtube-dl",
+      "estrelas": 140934,
+      "rq06_issues_total": 26831,
+      "rq06_issues_fechadas": 23204,
+      "rq06_razao_fechadas_total": 0.8648,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "ytdl-org/youtube-dl",
+        "url": "https://github.com/ytdl-org/youtube-dl",
+        "stargazerCount": 140934,
+        "issues": {
+          "totalCount": 26831
+        },
+        "issuesFechadas": {
+          "totalCount": 23204
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/PowerToys",
+      "url": "https://github.com/microsoft/PowerToys",
+      "estrelas": 137675,
+      "rq06_issues_total": 41031,
+      "rq06_issues_fechadas": 33712,
+      "rq06_razao_fechadas_total": 0.8216,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "microsoft/PowerToys",
+        "url": "https://github.com/microsoft/PowerToys",
+        "stargazerCount": 137675,
+        "issues": {
+          "totalCount": 41031
+        },
+        "issuesFechadas": {
+          "totalCount": 33712
+        }
+      }
+    },
+    {
+      "nome_completo": "clash-verge-rev/clash-verge-rev",
+      "url": "https://github.com/clash-verge-rev/clash-verge-rev",
+      "estrelas": 137226,
+      "rq06_issues_total": 5781,
+      "rq06_issues_fechadas": 5383,
+      "rq06_razao_fechadas_total": 0.9312,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "clash-verge-rev/clash-verge-rev",
+        "url": "https://github.com/clash-verge-rev/clash-verge-rev",
+        "stargazerCount": 137226,
+        "issues": {
+          "totalCount": 5781
+        },
+        "issuesFechadas": {
+          "totalCount": 5383
+        }
+      }
+    },
+    {
+      "nome_completo": "golang/go",
+      "url": "https://github.com/golang/go",
+      "estrelas": 135722,
+      "rq06_issues_total": 72790,
+      "rq06_issues_fechadas": 63077,
+      "rq06_razao_fechadas_total": 0.8666,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "golang/go",
+        "url": "https://github.com/golang/go",
+        "stargazerCount": 135722,
+        "issues": {
+          "totalCount": 72790
+        },
+        "issuesFechadas": {
+          "totalCount": 63077
+        }
+      }
+    },
+    {
+      "nome_completo": "iptv-org/iptv",
+      "url": "https://github.com/iptv-org/iptv",
+      "estrelas": 135678,
+      "rq06_issues_total": 34133,
+      "rq06_issues_fechadas": 34132,
+      "rq06_razao_fechadas_total": 1.0,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "iptv-org/iptv",
+        "url": "https://github.com/iptv-org/iptv",
+        "stargazerCount": 135678,
+        "issues": {
+          "totalCount": 34133
+        },
+        "issuesFechadas": {
+          "totalCount": 34132
+        }
+      }
+    },
+    {
+      "nome_completo": "labuladong/fucking-algorithm",
+      "url": "https://github.com/labuladong/fucking-algorithm",
+      "estrelas": 135309,
+      "rq06_issues_total": 979,
+      "rq06_issues_fechadas": 975,
+      "rq06_razao_fechadas_total": 0.9959,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "labuladong/fucking-algorithm",
+        "url": "https://github.com/labuladong/fucking-algorithm",
+        "stargazerCount": 135309,
+        "issues": {
+          "totalCount": 979
+        },
+        "issuesFechadas": {
+          "totalCount": 975
+        }
+      }
+    },
+    {
+      "nome_completo": "Shubhamsaboo/awesome-llm-apps",
+      "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+      "estrelas": 132194,
+      "rq06_issues_total": 171,
+      "rq06_issues_fechadas": 167,
+      "rq06_razao_fechadas_total": 0.9766,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "Shubhamsaboo/awesome-llm-apps",
+        "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+        "stargazerCount": 132194,
+        "issues": {
+          "totalCount": 171
+        },
+        "issuesFechadas": {
+          "totalCount": 167
+        }
+      }
+    },
+    {
+      "nome_completo": "ripienaar/free-for-dev",
+      "url": "https://github.com/ripienaar/free-for-dev",
+      "estrelas": 131519,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "ripienaar/free-for-dev",
+        "url": "https://github.com/ripienaar/free-for-dev",
+        "stargazerCount": 131519,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "excalidraw/excalidraw",
+      "url": "https://github.com/excalidraw/excalidraw",
+      "estrelas": 129374,
+      "rq06_issues_total": 4906,
+      "rq06_issues_fechadas": 2648,
+      "rq06_razao_fechadas_total": 0.5397,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "excalidraw/excalidraw",
+        "url": "https://github.com/excalidraw/excalidraw",
+        "stargazerCount": 129374,
+        "issues": {
+          "totalCount": 4906
+        },
+        "issuesFechadas": {
+          "totalCount": 2648
+        }
+      }
+    },
+    {
+      "nome_completo": "krahets/hello-algo",
+      "url": "https://github.com/krahets/hello-algo",
+      "estrelas": 129363,
+      "rq06_issues_total": 291,
+      "rq06_issues_fechadas": 278,
+      "rq06_razao_fechadas_total": 0.9553,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "krahets/hello-algo",
+        "url": "https://github.com/krahets/hello-algo",
+        "stargazerCount": 129363,
+        "issues": {
+          "totalCount": 291
+        },
+        "issuesFechadas": {
+          "totalCount": 278
+        }
+      }
+    },
+    {
+      "nome_completo": "Chalarangelo/30-seconds-of-code",
+      "url": "https://github.com/Chalarangelo/30-seconds-of-code",
+      "estrelas": 128682,
+      "rq06_issues_total": 300,
+      "rq06_issues_fechadas": 300,
+      "rq06_razao_fechadas_total": 1.0,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "Chalarangelo/30-seconds-of-code",
+        "url": "https://github.com/Chalarangelo/30-seconds-of-code",
+        "stargazerCount": 128682,
+        "issues": {
+          "totalCount": 300
+        },
+        "issuesFechadas": {
+          "totalCount": 300
+        }
+      }
+    },
+    {
+      "nome_completo": "garrytan/gstack",
+      "url": "https://github.com/garrytan/gstack",
+      "estrelas": 127600,
+      "rq06_issues_total": 739,
+      "rq06_issues_fechadas": 337,
+      "rq06_razao_fechadas_total": 0.456,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "garrytan/gstack",
+        "url": "https://github.com/garrytan/gstack",
+        "stargazerCount": 127600,
+        "issues": {
+          "totalCount": 739
+        },
+        "issuesFechadas": {
+          "totalCount": 337
+        }
+      }
+    },
+    {
+      "nome_completo": "Comfy-Org/ComfyUI",
+      "url": "https://github.com/Comfy-Org/ComfyUI",
+      "estrelas": 126858,
+      "rq06_issues_total": 9067,
+      "rq06_issues_fechadas": 5018,
+      "rq06_razao_fechadas_total": 0.5534,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "Comfy-Org/ComfyUI",
+        "url": "https://github.com/Comfy-Org/ComfyUI",
+        "stargazerCount": 126858,
+        "issues": {
+          "totalCount": 9067
+        },
+        "issuesFechadas": {
+          "totalCount": 5018
+        }
+      }
+    },
+    {
+      "nome_completo": "farion1231/cc-switch",
+      "url": "https://github.com/farion1231/cc-switch",
+      "estrelas": 126512,
+      "rq06_issues_total": 4561,
+      "rq06_issues_fechadas": 3149,
+      "rq06_razao_fechadas_total": 0.6904,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "farion1231/cc-switch",
+        "url": "https://github.com/farion1231/cc-switch",
+        "stargazerCount": 126512,
+        "issues": {
+          "totalCount": 4561
+        },
+        "issuesFechadas": {
+          "totalCount": 3149
+        }
+      }
+    },
+    {
+      "nome_completo": "react/react-native",
+      "url": "https://github.com/react/react-native",
+      "estrelas": 126327,
+      "rq06_issues_total": 27765,
+      "rq06_issues_fechadas": 27088,
+      "rq06_razao_fechadas_total": 0.9756,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "react/react-native",
+        "url": "https://github.com/react/react-native",
+        "stargazerCount": 126327,
+        "issues": {
+          "totalCount": 27765
+        },
+        "issuesFechadas": {
+          "totalCount": 27088
+        }
+      }
+    },
+    {
+      "nome_completo": "github/spec-kit",
+      "url": "https://github.com/github/spec-kit",
+      "estrelas": 126295,
+      "rq06_issues_total": 1475,
+      "rq06_issues_fechadas": 1326,
+      "rq06_razao_fechadas_total": 0.899,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "github/spec-kit",
+        "url": "https://github.com/github/spec-kit",
+        "stargazerCount": 126295,
+        "issues": {
+          "totalCount": 1475
+        },
+        "issuesFechadas": {
+          "totalCount": 1326
+        }
+      }
+    },
+    {
+      "nome_completo": "kubernetes/kubernetes",
+      "url": "https://github.com/kubernetes/kubernetes",
+      "estrelas": 124441,
+      "rq06_issues_total": 49508,
+      "rq06_issues_fechadas": 47698,
+      "rq06_razao_fechadas_total": 0.9634,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "kubernetes/kubernetes",
+        "url": "https://github.com/kubernetes/kubernetes",
+        "stargazerCount": 124441,
+        "issues": {
+          "totalCount": 49508
+        },
+        "issuesFechadas": {
+          "totalCount": 47698
+        }
+      }
+    },
+    {
+      "nome_completo": "ggml-org/llama.cpp",
+      "url": "https://github.com/ggml-org/llama.cpp",
+      "estrelas": 123516,
+      "rq06_issues_total": 9378,
+      "rq06_issues_fechadas": 8685,
+      "rq06_razao_fechadas_total": 0.9261,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "ggml-org/llama.cpp",
+        "url": "https://github.com/ggml-org/llama.cpp",
+        "stargazerCount": 123516,
+        "issues": {
+          "totalCount": 9378
+        },
+        "issuesFechadas": {
+          "totalCount": 8685
+        }
+      }
+    },
+    {
+      "nome_completo": "electron/electron",
+      "url": "https://github.com/electron/electron",
+      "estrelas": 122457,
+      "rq06_issues_total": 21809,
+      "rq06_issues_fechadas": 21132,
+      "rq06_razao_fechadas_total": 0.969,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "electron/electron",
+        "url": "https://github.com/electron/electron",
+        "stargazerCount": 122457,
+        "issues": {
+          "totalCount": 21809
+        },
+        "issuesFechadas": {
+          "totalCount": 21132
+        }
+      }
+    },
+    {
+      "nome_completo": "shadcn-ui/ui",
+      "url": "https://github.com/shadcn-ui/ui",
+      "estrelas": 121104,
+      "rq06_issues_total": 4228,
+      "rq06_issues_fechadas": 3168,
+      "rq06_razao_fechadas_total": 0.7493,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "shadcn-ui/ui",
+        "url": "https://github.com/shadcn-ui/ui",
+        "stargazerCount": 121104,
+        "issues": {
+          "totalCount": 4228
+        },
+        "issuesFechadas": {
+          "totalCount": 3168
+        }
+      }
+    },
+    {
+      "nome_completo": "rustdesk/rustdesk",
+      "url": "https://github.com/rustdesk/rustdesk",
+      "estrelas": 120140,
+      "rq06_issues_total": 4293,
+      "rq06_issues_fechadas": 4215,
+      "rq06_razao_fechadas_total": 0.9818,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "rustdesk/rustdesk",
+        "url": "https://github.com/rustdesk/rustdesk",
+        "stargazerCount": 120140,
+        "issues": {
+          "totalCount": 4293
+        },
+        "issuesFechadas": {
+          "totalCount": 4215
+        }
+      }
+    },
+    {
+      "nome_completo": "nodejs/node",
+      "url": "https://github.com/nodejs/node",
+      "estrelas": 118876,
+      "rq06_issues_total": 20746,
+      "rq06_issues_fechadas": 20043,
+      "rq06_razao_fechadas_total": 0.9661,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "nodejs/node",
+        "url": "https://github.com/nodejs/node",
+        "stargazerCount": 118876,
+        "issues": {
+          "totalCount": 20746
+        },
+        "issuesFechadas": {
+          "totalCount": 20043
+        }
+      }
+    },
+    {
+      "nome_completo": "justjavac/free-programming-books-zh_CN",
+      "url": "https://github.com/justjavac/free-programming-books-zh_CN",
+      "estrelas": 118294,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "justjavac/free-programming-books-zh_CN",
+        "url": "https://github.com/justjavac/free-programming-books-zh_CN",
+        "stargazerCount": 118294,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "Hack-with-Github/Awesome-Hacking",
+      "url": "https://github.com/Hack-with-Github/Awesome-Hacking",
+      "estrelas": 118032,
+      "rq06_issues_total": 0,
+      "rq06_issues_fechadas": 0,
+      "rq06_razao_fechadas_total": null,
+      "rq06_status": "sem_issues",
+      "bruto": {
+        "nameWithOwner": "Hack-with-Github/Awesome-Hacking",
+        "url": "https://github.com/Hack-with-Github/Awesome-Hacking",
+        "stargazerCount": 118032,
+        "issues": {
+          "totalCount": 0
+        },
+        "issuesFechadas": {
+          "totalCount": 0
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/generative-ai-for-beginners",
+      "url": "https://github.com/microsoft/generative-ai-for-beginners",
+      "estrelas": 117536,
+      "rq06_issues_total": 244,
+      "rq06_issues_fechadas": 244,
+      "rq06_razao_fechadas_total": 1.0,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "microsoft/generative-ai-for-beginners",
+        "url": "https://github.com/microsoft/generative-ai-for-beginners",
+        "stargazerCount": 117536,
+        "issues": {
+          "totalCount": 244
+        },
+        "issuesFechadas": {
+          "totalCount": 244
+        }
+      }
+    },
+    {
+      "nome_completo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "estrelas": 115736,
+      "rq06_issues_total": 172,
+      "rq06_issues_fechadas": 118,
+      "rq06_razao_fechadas_total": 0.686,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "nextlevelbuilder/ui-ux-pro-max-skill",
+        "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+        "stargazerCount": 115736,
+        "issues": {
+          "totalCount": 172
+        },
+        "issuesFechadas": {
+          "totalCount": 118
+        }
+      }
+    },
+    {
+      "nome_completo": "godotengine/godot",
+      "url": "https://github.com/godotengine/godot",
+      "estrelas": 115564,
+      "rq06_issues_total": 63268,
+      "rq06_issues_fechadas": 49904,
+      "rq06_razao_fechadas_total": 0.7888,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "godotengine/godot",
+        "url": "https://github.com/godotengine/godot",
+        "stargazerCount": 115564,
+        "issues": {
+          "totalCount": 63268
+        },
+        "issuesFechadas": {
+          "totalCount": 49904
+        }
+      }
+    },
+    {
+      "nome_completo": "rust-lang/rust",
+      "url": "https://github.com/rust-lang/rust",
+      "estrelas": 115447,
+      "rq06_issues_total": 63477,
+      "rq06_issues_fechadas": 52057,
+      "rq06_razao_fechadas_total": 0.8201,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "rust-lang/rust",
+        "url": "https://github.com/rust-lang/rust",
+        "stargazerCount": 115447,
+        "issues": {
+          "totalCount": 63477
+        },
+        "issuesFechadas": {
+          "totalCount": 52057
+        }
+      }
+    },
+    {
+      "nome_completo": "mrdoob/three.js",
+      "url": "https://github.com/mrdoob/three.js",
+      "estrelas": 114446,
+      "rq06_issues_total": 13723,
+      "rq06_issues_fechadas": 13477,
+      "rq06_razao_fechadas_total": 0.9821,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "mrdoob/three.js",
+        "url": "https://github.com/mrdoob/three.js",
+        "stargazerCount": 114446,
+        "issues": {
+          "totalCount": 13723
+        },
+        "issuesFechadas": {
+          "totalCount": 13477
+        }
+      }
+    },
+    {
+      "nome_completo": "2dust/v2rayN",
+      "url": "https://github.com/2dust/v2rayN",
+      "estrelas": 113607,
+      "rq06_issues_total": 7117,
+      "rq06_issues_fechadas": 7093,
+      "rq06_razao_fechadas_total": 0.9966,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "2dust/v2rayN",
+        "url": "https://github.com/2dust/v2rayN",
+        "stargazerCount": 113607,
+        "issues": {
+          "totalCount": 7117
+        },
+        "issuesFechadas": {
+          "totalCount": 7093
+        }
+      }
+    },
+    {
+      "nome_completo": "d3/d3",
+      "url": "https://github.com/d3/d3",
+      "estrelas": 113436,
+      "rq06_issues_total": 2246,
+      "rq06_issues_fechadas": 2241,
+      "rq06_razao_fechadas_total": 0.9978,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "d3/d3",
+        "url": "https://github.com/d3/d3",
+        "stargazerCount": 113436,
+        "issues": {
+          "totalCount": 2246
+        },
+        "issuesFechadas": {
+          "totalCount": 2241
+        }
+      }
+    },
+    {
+      "nome_completo": "jaywcjlove/awesome-mac",
+      "url": "https://github.com/jaywcjlove/awesome-mac",
+      "estrelas": 110549,
+      "rq06_issues_total": 559,
+      "rq06_issues_fechadas": 403,
+      "rq06_razao_fechadas_total": 0.7209,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "jaywcjlove/awesome-mac",
+        "url": "https://github.com/jaywcjlove/awesome-mac",
+        "stargazerCount": 110549,
+        "issues": {
+          "totalCount": 559
+        },
+        "issuesFechadas": {
+          "totalCount": 403
+        }
+      }
+    },
+    {
+      "nome_completo": "immich-app/immich",
+      "url": "https://github.com/immich-app/immich",
+      "estrelas": 110242,
+      "rq06_issues_total": 9104,
+      "rq06_issues_fechadas": 8628,
+      "rq06_razao_fechadas_total": 0.9477,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "immich-app/immich",
+        "url": "https://github.com/immich-app/immich",
+        "stargazerCount": 110242,
+        "issues": {
+          "totalCount": 9104
+        },
+        "issuesFechadas": {
+          "totalCount": 8628
+        }
+      }
+    },
+    {
+      "nome_completo": "microsoft/TypeScript",
+      "url": "https://github.com/microsoft/TypeScript",
+      "estrelas": 110145,
+      "rq06_issues_total": 43243,
+      "rq06_issues_fechadas": 38189,
+      "rq06_razao_fechadas_total": 0.8831,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "microsoft/TypeScript",
+        "url": "https://github.com/microsoft/TypeScript",
+        "stargazerCount": 110145,
+        "issues": {
+          "totalCount": 43243
+        },
+        "issuesFechadas": {
+          "totalCount": 38189
+        }
+      }
+    },
+    {
+      "nome_completo": "tauri-apps/tauri",
+      "url": "https://github.com/tauri-apps/tauri",
+      "estrelas": 110129,
+      "rq06_issues_total": 6409,
+      "rq06_issues_fechadas": 5127,
+      "rq06_razao_fechadas_total": 0.8,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "tauri-apps/tauri",
+        "url": "https://github.com/tauri-apps/tauri",
+        "stargazerCount": 110129,
+        "issues": {
+          "totalCount": 6409
+        },
+        "issuesFechadas": {
+          "totalCount": 5127
+        }
+      }
+    },
+    {
+      "nome_completo": "axios/axios",
+      "url": "https://github.com/axios/axios",
+      "estrelas": 109223,
+      "rq06_issues_total": 5052,
+      "rq06_issues_fechadas": 5005,
+      "rq06_razao_fechadas_total": 0.9907,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "axios/axios",
+        "url": "https://github.com/axios/axios",
+        "stargazerCount": 109223,
+        "issues": {
+          "totalCount": 5052
+        },
+        "issuesFechadas": {
+          "totalCount": 5005
+        }
+      }
+    },
+    {
+      "nome_completo": "browser-use/browser-use",
+      "url": "https://github.com/browser-use/browser-use",
+      "estrelas": 108849,
+      "rq06_issues_total": 1601,
+      "rq06_issues_fechadas": 1504,
+      "rq06_razao_fechadas_total": 0.9394,
+      "rq06_status": "ok",
+      "bruto": {
+        "nameWithOwner": "browser-use/browser-use",
+        "url": "https://github.com/browser-use/browser-use",
+        "stargazerCount": 108849,
+        "issues": {
+          "totalCount": 1601
+        },
+        "issuesFechadas": {
+          "totalCount": 1504
+        }
+      }
+    }
+  ],
+  "resumo": {
+    "rq06": {
+      "total_repositorios": 100,
+      "com_issues": 89,
+      "sem_issues": 11,
+      "media_razao": 0.8341,
+      "mediana_razao": 0.9261,
+      "minimo_razao": 0.1337,
+      "maximo_razao": 1.0
+    }
+  }
+}

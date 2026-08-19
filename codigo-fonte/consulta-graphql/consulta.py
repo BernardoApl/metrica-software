@@ -11,12 +11,11 @@ Campos repetidos entre fragmentos nao sao problema: o GraphQL funde selecoes
 identicas do mesmo campo, entao dois integrantes podem pedir ``stargazerCount``
 sem conflito.
 
-Escopo desta sprint (Lab01S01)
------------------------------
-Sem paginacao. ``first`` da Search API tem teto de 100 itens por pagina, o que
-cobre exatamente os 100 repositorios exigidos em S01. A consulta ja devolve
-``pageInfo``, de modo que a paginacao de 1000 repositorios (Lab01S02) se resuma
-a iterar sobre ``endCursor``.
+Paginacao
+---------
+``first`` da Search API tem teto de 100 itens por pagina. A consulta devolve
+``pageInfo`` para que o coletor percorra ``endCursor`` ate completar os 1000
+repositorios permitidos pela busca.
 """
 
 from __future__ import annotations
@@ -25,6 +24,9 @@ from typing import Iterable
 
 #: Teto de itens por pagina imposto pela API do GitHub.
 LIMITE_POR_PAGINA = 100
+
+#: Teto de resultados acessiveis pela Search API do GitHub.
+LIMITE_RESULTADOS_BUSCA = 1000
 
 #: Criterio de busca: repositorios publicos ordenados por numero de estrelas.
 #: A Search API devolve no maximo 1000 resultados, o que e exatamente o alvo do
@@ -37,6 +39,11 @@ CAMPOS_IDENTIFICACAO = """
         nameWithOwner
         url
         stargazerCount
+"""
+
+#: Campo da RQ01: data de criacao, usada para calcular a idade do repositorio.
+CAMPOS_RQ01 = """
+        createdAt
 """
 
 #: Campos das RQ04 e RQ05 (responsabilidade deste integrante).
@@ -61,6 +68,26 @@ CAMPOS_RQ04_RQ05 = """
           name
         }
 """
+
+CAMPOS_RQ06 = """
+        issues(first: 1) {
+          totalCount
+        }
+        issuesFechadas: issues(first: 1, states: CLOSED) {
+          totalCount
+        }
+"""
+
+CAMPOS_RQ07 = """
+        pullRequestsAceitos: pullRequests(first: 1, states: MERGED) {
+          totalCount
+        }
+        releases(first: 1) {
+          totalCount
+        }
+"""
+
+CAMPOS_RQ06_RQ07 = CAMPOS_RQ06 + CAMPOS_RQ07
 
 _MODELO_CONSULTA = """query RepositoriosPopulares($primeiros: Int!, $cursor: String, $busca: String!) {
   rateLimit {
@@ -89,11 +116,11 @@ def montar_consulta(fragmentos: Iterable[str] = None) -> str:
     """Monta a consulta GraphQL a partir dos fragmentos de campos informados.
 
     :param fragmentos: fragmentos de selecao de campos aplicados dentro de
-        ``... on Repository``. Se omitido, usa identificacao + RQ04/RQ05.
+        ``... on Repository``. Se omitido, usa identificacao + RQ04 a RQ07.
     :return: a consulta GraphQL como texto.
     """
     if fragmentos is None:
-        fragmentos = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ04_RQ05)
+        fragmentos = (CAMPOS_IDENTIFICACAO, CAMPOS_RQ01, CAMPOS_RQ04_RQ05, CAMPOS_RQ06_RQ07)
 
     blocos = [fragmento.strip("\n") for fragmento in fragmentos if fragmento and fragmento.strip()]
     if not blocos:
