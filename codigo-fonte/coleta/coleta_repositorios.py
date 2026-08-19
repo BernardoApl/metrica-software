@@ -21,6 +21,7 @@ import rq05_linguagem
 import rq06_issues
 import rq07_por_linguagem
 import rq15_idade_issues_fechadas
+import rq16_prs_releases
 from cliente_github import ClienteGitHub
 from consulta import (
     BUSCA_PADRAO,
@@ -150,6 +151,7 @@ def coletar(
             "definicao_rq06": rq06_issues.definicao(),
             "definicao_rq07": rq07_por_linguagem.definicao(),
             "definicao_rq15": rq15_idade_issues_fechadas.definicao(),
+            "definicao_rq16": rq16_prs_releases.definicao(),
         },
         "repositorios": repositorios,
         "resumo": {
@@ -161,5 +163,6 @@ def coletar(
             "rq06": rq06_issues.resumir(repositorios),
             "rq07": rq07_por_linguagem.resumir(repositorios),
             "rq15": rq15_idade_issues_fechadas.resumir(repositorios),
+            "rq16": rq16_prs_releases.resumir(repositorios),
         },
     }

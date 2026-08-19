@@ -226,6 +226,7 @@ def unificar(
             "rq06": resultado_graphql["resumo"]["rq06"],
             "rq07": resultado_graphql["resumo"]["rq07"],
             "rq15": resultado_graphql["resumo"]["rq15"],
+            "rq16": resultado_graphql["resumo"]["rq16"],
             # Resumos calculados via GraphQL, para comparar com o REST acima.
             "rq01_graphql": resultado_graphql["resumo"]["rq01"],
             "rq02_graphql": resultado_graphql["resumo"]["rq02"],
@@ -303,6 +304,11 @@ def imprimir_resumo(resultado: dict) -> None:
     print("-- RQ15: idade x percentual de issues fechadas --")
     print("  Coeficiente de Pearson: %s (%s)" % (
         resumo["rq15"]["coeficiente_correlacao_pearson"], resumo["rq15"]["interpretacao"]))
+
+    print("")
+    print("-- RQ16: pull requests aceitas x quantidade de releases --")
+    print("  Coeficiente de Pearson: %s (%s)" % (
+        resumo["rq16"]["coeficiente_correlacao_pearson"], resumo["rq16"]["interpretacao"]))
 
 
 def principal(argv=None) -> int:
