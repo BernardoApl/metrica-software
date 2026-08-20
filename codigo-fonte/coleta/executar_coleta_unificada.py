@@ -1,22 +1,16 @@
-"""Script unico do grupo: junta as sete RQs num dataset final, para 100 repositorios.
+"""Script unico do grupo: junta as sete RQs num dataset final, para 1000 repositorios.
 
 Nao modifica nenhum script individual dos integrantes. Reaproveita:
 
 - as funcoes de coleta de ``analise/rq01_idade.py``, ``analise/rq02_total_pr_aceitos.py``
-  e ``analise/rq03_total_de_releases.py`` (``buscar_top_100_repositorios``,
-  ``calcular_idade``, ``contar_prs_aceitos``, ``contar_releases``) -- RQ01, RQ02
-  e RQ03 continuam sendo coletadas via REST, exatamente como cada integrante
-  escreveu;
+  e ``analise/rq03_total_de_releases.py`` (``calcular_idade``, ``contar_prs_aceitos``,
+  ``contar_releases``) -- RQ01, RQ02 e RQ03 continuam sendo coletadas via REST,
+  exatamente como cada integrante escreveu;
 - ``coleta_repositorios.coletar()``, que ja junta RQ04, RQ05, RQ06 e RQ07
   numa unica consulta GraphQL.
 
 O merge final e feito pelo nome completo do repositorio (``owner/repo``). REST
-e GraphQL fazem buscas independentes -- criterios ligeiramente diferentes
-(``stars:>0`` vs. ``stars:>1 is:public``) e instantes diferentes, com a
-contagem de estrelas mudando entre as duas chamadas --, entao um repositorio
-pode aparecer numa lista e nao na outra. Esses casos ficam marcados nos campos
-``presente_na_busca_rest``/``presente_na_busca_graphql`` em vez de descartados
-ou de travar a coleta.
+e GraphQL fazem buscas independentes.
 """
 
 from __future__ import annotations
@@ -42,26 +36,9 @@ from consulta import BUSCA_PADRAO  # noqa: E402
 
 SAIDA_PADRAO = DIRETORIO_DADOS / "lab01s01_unificado.json"
 
-#: Pausa entre repositorios no laco REST -- reproduzida aqui porque a coleta REST
-#: chama diretamente as funcoes menores dos scripts individuais
-#: (buscar_top_100_repositorios, contar_prs_aceitos, contar_releases), sem passar
-#: pelos lacos originais. 1.5s porque a Search API do GitHub (usada por
-#: contar_prs_aceitos) tem um limite secundario de ~30 requisicoes/min --
-#: bem mais apertado que o limite principal de 5000/h.
 PAUSA_ENTRE_CHAMADAS_REST = 1.5
 
-
 def chamar_com_retentativa(func, *args, tentativas: int = 5, espera_em_limite: float = 65.0):
-    """Repete uma chamada de um script individual apos um limite secundario.
-
-    O ``requisicao()`` dos scripts REST individuais trata apenas o limite
-    principal da API (``X-RateLimit-Remaining`` chegando a zero). A Search API
-    (usada por ``contar_prs_aceitos``) tambem tem um limite secundario, mais
-    apertado, que devolve HTTP 403 mesmo com o limite principal longe do fim;
-    sem tratamento, esse 403 sobe como ``requests.exceptions.HTTPError`` e
-    derruba a coleta. Em vez de alterar o script de cada integrante, o retry
-    fica aqui, na orquestracao.
-    """
     for tentativa in range(1, tentativas + 1):
         try:
             return func(*args)
@@ -75,28 +52,45 @@ def chamar_com_retentativa(func, *args, tentativas: int = 5, espera_em_limite: f
                 continue
             raise
 
-
 def preparar_modulos_rest(token: str):
-    """Importa os modulos REST individuais sem modifica-los.
-
-    Os tres modulos leem ``GITHUB_TOKEN`` do ambiente no momento do import
-    (``os.getenv``, sem o fallback de ``.env`` que ``obter_token`` tem) e levantam
-    ``RuntimeError`` se a variavel nao estiver definida. Por isso o token ja
-    resolvido e injetado no ambiente antes do import, para que o import nao
-    falhe quando o token so existir no arquivo ``.env``.
-    """
     os.environ.setdefault("GITHUB_TOKEN", token)
     import rq01_idade
     import rq02_total_pr_aceitos
     import rq03_total_de_releases
     return rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases
 
+def buscar_repositorios_rest_paginado(quantidade: int, token: str) -> list:
+    """Faz a busca paginada na API REST para trazer a quantidade desejada de repositorios,
+    substituindo a funcao hardcoded de 100."""
+    repositorios = []
+    headers = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github.v3+json"}
+    paginas = (quantidade // 100) + (1 if quantidade % 100 != 0 else 0)
 
-def coletar_rest(rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases) -> list:
+    print(f"Buscando a lista base de {quantidade} repositorios via REST...")
+    for pagina in range(1, paginas + 1):
+        url = f"https://api.github.com/search/repositories?q=stars:>0&sort=stars&order=desc&per_page=100&page={pagina}"
+        resposta = requests.get(url, headers=headers)
+        resposta.raise_for_status()
+
+        itens = resposta.json().get("items", [])
+        repositorios.extend(itens)
+
+        if len(itens) < 100:
+            break
+
+        time.sleep(PAUSA_ENTRE_CHAMADAS_REST)
+
+    return repositorios[:quantidade]
+
+def coletar_rest(rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases, quantidade: int, token: str) -> list:
     """Coleta RQ01, RQ02 e RQ03 reaproveitando as funcoes dos scripts individuais."""
-    repositorios = rq01_idade.buscar_top_100_repositorios()
+
+    # Substituimos a chamada de 100 pela funcao paginada customizada acima
+    repositorios = buscar_repositorios_rest_paginado(quantidade, token)
 
     registros = []
+    total = len(repositorios)
+
     for indice, repo in enumerate(repositorios, start=1):
         _, idade_dias, idade_anos = rq01_idade.calcular_idade(repo["created_at"])
 
@@ -122,11 +116,9 @@ def coletar_rest(rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases) -> l
             "rq02_pull_requests_aceitos": total_prs,
             "rq03_total_releases": total_releases,
         })
-        print("[REST %d/100] %s -> %.2f anos, %s PRs aceitos, %s releases"
-              % (indice, repo["full_name"], idade_anos, total_prs, total_releases))
+        print(f"[REST {indice}/{total}] {repo['full_name']} -> {idade_anos:.2f} anos, {total_prs} PRs aceitos, {total_releases} releases")
 
     return registros
-
 
 def _estatisticas(valores: list) -> dict:
     if not valores:
@@ -138,26 +130,26 @@ def _estatisticas(valores: list) -> dict:
         "maximo": max(valores),
     }
 
-
 def unificar(
     cliente: ClienteGitHub,
     rq01_idade,
     rq02_total_pr_aceitos,
     rq03_total_de_releases,
-    quantidade: int = 100,
+    token: str,
+    quantidade: int = 1000,
     busca: str = BUSCA_PADRAO,
 ) -> dict:
-    """Roda os dois lados da coleta (REST e GraphQL) e junta por nome do repositorio."""
-    print("Consultando a API GraphQL do GitHub (RQ04, RQ05, RQ06, RQ07)...")
+    print(f"Consultando a API GraphQL do GitHub (RQ04, RQ05, RQ06, RQ07) para {quantidade} repositorios...")
     resultado_graphql = coletar_graphql(cliente, quantidade=quantidade, busca=busca)
     por_nome_graphql = {r["nome_completo"]: r for r in resultado_graphql["repositorios"]}
 
-    print("Consultando a API REST do GitHub (RQ01, RQ02, RQ03)...")
-    registros_rest = coletar_rest(rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases)
+    print(f"Consultando a API REST do GitHub (RQ01, RQ02, RQ03) para {quantidade} repositorios...")
+    registros_rest = coletar_rest(rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases, quantidade, token)
     por_nome_rest = {r["nome_completo"]: r for r in registros_rest}
 
     nomes = list(dict.fromkeys(list(por_nome_graphql) + list(por_nome_rest)))
     unificados = []
+
     for nome in nomes:
         graphql = por_nome_graphql.get(nome)
         rest = por_nome_rest.get(nome)
@@ -176,9 +168,6 @@ def unificar(
                 "rq05_categoria_linguagem": graphql.get("rq05_categoria_linguagem"),
                 "rq06_issues_total": graphql.get("rq06_issues_total"),
                 "rq06_razao_fechadas_total": graphql.get("rq06_razao_fechadas_total"),
-                # Calculadas de novo via GraphQL (rq01_idade_graphql.py,
-                # rq02_pull_requests_graphql.py, rq03_releases_graphql.py); mantidas
-                # so como comparativo -- quem responde pela RQ01/RQ02/RQ03 e o REST.
                 "rq01_idade_anos_graphql": graphql.get("rq01_idade_anos"),
                 "rq02_pull_requests_aceitos_graphql": graphql.get("rq02_pull_requests_aceitos_graphql"),
                 "rq03_total_releases_graphql": graphql.get("rq03_total_releases_graphql"),
@@ -193,23 +182,15 @@ def unificar(
             })
         unificados.append(registro)
 
-    idades_anos = [
-        r["rq01_idade_anos"] for r in unificados if isinstance(r.get("rq01_idade_anos"), (int, float))
-    ]
-    prs_aceitos = [
-        r["rq02_pull_requests_aceitos"] for r in unificados if isinstance(r.get("rq02_pull_requests_aceitos"), int)
-    ]
-    releases = [
-        r["rq03_total_releases"] for r in unificados if isinstance(r.get("rq03_total_releases"), int)
-    ]
+    idades_anos = [r["rq01_idade_anos"] for r in unificados if isinstance(r.get("rq01_idade_anos"), (int, float))]
+    prs_aceitos = [r["rq02_pull_requests_aceitos"] for r in unificados if isinstance(r.get("rq02_pull_requests_aceitos"), int)]
+    releases = [r["rq03_total_releases"] for r in unificados if isinstance(r.get("rq03_total_releases"), int)]
 
     return {
         "metadados": {
             "quantidade_graphql": len(por_nome_graphql),
             "quantidade_rest": len(por_nome_rest),
-            "quantidade_em_ambas_as_buscas": sum(
-                1 for r in unificados if r["presente_na_busca_graphql"] and r["presente_na_busca_rest"]
-            ),
+            "quantidade_em_ambas_as_buscas": sum(1 for r in unificados if r["presente_na_busca_graphql"] and r["presente_na_busca_rest"]),
             "quantidade_unificada": len(unificados),
             "criterio_busca_graphql": busca,
             "criterio_busca_rest": "stars:>0 sort:stars order:desc",
@@ -225,91 +206,38 @@ def unificar(
             "rq05": resultado_graphql["resumo"]["rq05"],
             "rq06": resultado_graphql["resumo"]["rq06"],
             "rq07": resultado_graphql["resumo"]["rq07"],
-            "rq15": resultado_graphql["resumo"]["rq15"],
-            "rq16": resultado_graphql["resumo"]["rq16"],
-            # Resumos calculados via GraphQL, para comparar com o REST acima.
-            "rq01_graphql": resultado_graphql["resumo"]["rq01"],
-            "rq02_graphql": resultado_graphql["resumo"]["rq02"],
-            "rq03_graphql": resultado_graphql["resumo"]["rq03"],
+            "rq15": resultado_graphql["resumo"].get("rq15", {}),
+            "rq16": resultado_graphql["resumo"].get("rq16", {}),
+            "rq01_graphql": resultado_graphql["resumo"].get("rq01", {}),
+            "rq02_graphql": resultado_graphql["resumo"].get("rq02", {}),
+            "rq03_graphql": resultado_graphql["resumo"].get("rq03", {}),
         },
     }
 
-
 def montar_argumentos(argv=None) -> argparse.Namespace:
     analisador = argparse.ArgumentParser(
-        description=(
-            "Coleta os repositorios mais populares do GitHub e junta RQ01 a RQ07 "
-            "num unico dataset, sem alterar os scripts individuais."
-        )
+        description="Coleta os repositorios mais populares do GitHub e junta RQ01 a RQ07 num unico dataset."
     )
     analisador.add_argument(
-        "--quantidade", type=int, default=100,
-        help="Quantidade de repositorios no lado GraphQL (RQ04-RQ07). O lado REST "
-             "(RQ01/RQ02/RQ03) sempre busca 100, conforme os scripts individuais.",
+        "--quantidade", type=int, default=1000,
+        help="Quantidade de repositorios a serem buscados em ambas as APIs (GraphQL e REST). Padrao: 1000.",
     )
     analisador.add_argument("--saida", type=Path, default=SAIDA_PADRAO)
     analisador.add_argument("--token", default=None)
     analisador.add_argument("--busca", default=BUSCA_PADRAO)
     return analisador.parse_args(argv)
 
-
 def imprimir_resumo(resultado: dict) -> None:
     metadados = resultado["metadados"]
     resumo = resultado["resumo"]
 
-    print("")
-    print("=" * 72)
+    print("\n" + "=" * 72)
     print("COLETA UNIFICADA CONCLUIDA")
     print("=" * 72)
-    print("Repositorios (GraphQL)      : %s" % metadados["quantidade_graphql"])
-    print("Repositorios (REST)         : %s" % metadados["quantidade_rest"])
-    print("Presentes nas duas buscas   : %s" % metadados["quantidade_em_ambas_as_buscas"])
-    print("Total unificado             : %s" % metadados["quantidade_unificada"])
-
-    print("")
-    print("-- RQ01: idade do repositorio (REST | GraphQL, comparativo) --")
-    print("  Mediana: %s anos | %s anos" % (
-        resumo["rq01_idade_anos"]["mediana"], resumo["rq01_graphql"]["mediana_anos"]))
-    print("  Media  : %s anos | %s anos" % (
-        resumo["rq01_idade_anos"]["media"], resumo["rq01_graphql"]["media_anos"]))
-
-    print("")
-    print("-- RQ02: pull requests aceitos (REST | GraphQL, comparativo) --")
-    print("  Mediana: %s | %s" % (resumo["rq02_pull_requests_aceitos"]["mediana"], resumo["rq02_graphql"]["mediana"]))
-    print("  Media  : %s | %s" % (resumo["rq02_pull_requests_aceitos"]["media"], resumo["rq02_graphql"]["media"]))
-
-    print("")
-    print("-- RQ03: total de releases (REST | GraphQL, comparativo) --")
-    print("  Mediana: %s | %s" % (resumo["rq03_total_releases"]["mediana"], resumo["rq03_graphql"]["mediana"]))
-    print("  Media  : %s | %s" % (resumo["rq03_total_releases"]["media"], resumo["rq03_graphql"]["media"]))
-
-    print("")
-    print("-- RQ04: tempo ate a ultima atualizacao --")
-    print("  Mediana: %s dias | Media: %s dias" % (resumo["rq04"]["mediana_dias"], resumo["rq04"]["media_dias"]))
-
-    print("")
-    print("-- RQ05: linguagem primaria --")
-    print("  Linguagens distintas: %s | Sem linguagem: %s" % (
-        resumo["rq05"]["linguagens_distintas"], resumo["rq05"]["sem_linguagem"]))
-
-    print("")
-    print("-- RQ06: razao de issues fechadas --")
-    print("  Mediana: %s | Media: %s" % (resumo["rq06"]["mediana_razao"], resumo["rq06"]["media_razao"]))
-
-    print("")
-    print("-- RQ07: grupos de linguagem --")
-    print("  Grupos: %s" % len(resumo["rq07"]))
-
-    print("")
-    print("-- RQ15: idade x percentual de issues fechadas --")
-    print("  Coeficiente de Pearson: %s (%s)" % (
-        resumo["rq15"]["coeficiente_correlacao_pearson"], resumo["rq15"]["interpretacao"]))
-
-    print("")
-    print("-- RQ16: pull requests aceitas x quantidade de releases --")
-    print("  Coeficiente de Pearson: %s (%s)" % (
-        resumo["rq16"]["coeficiente_correlacao_pearson"], resumo["rq16"]["interpretacao"]))
-
+    print(f"Repositorios (GraphQL)      : {metadados['quantidade_graphql']}")
+    print(f"Repositorios (REST)         : {metadados['quantidade_rest']}")
+    print(f"Presentes nas duas buscas   : {metadados['quantidade_em_ambas_as_buscas']}")
+    print(f"Total unificado             : {metadados['quantidade_unificada']}\n")
 
 def principal(argv=None) -> int:
     argumentos = montar_argumentos(argv)
@@ -319,7 +247,7 @@ def principal(argv=None) -> int:
         rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases = preparar_modulos_rest(token)
         cliente = ClienteGitHub(token)
         resultado = unificar(
-            cliente, rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases,
+            cliente, rq01_idade, rq02_total_pr_aceitos, rq03_total_de_releases, token,
             argumentos.quantidade, argumentos.busca,
         )
     except (ValueError, RuntimeError, ErroGitHub, requests.exceptions.RequestException) as erro:
@@ -331,10 +259,8 @@ def principal(argv=None) -> int:
         json.dump(resultado, arquivo, ensure_ascii=False, indent=2)
 
     imprimir_resumo(resultado)
-    print("")
-    print("Saida gravada em: %s" % argumentos.saida)
+    print(f"\nSaida gravada em: {argumentos.saida}")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(principal())

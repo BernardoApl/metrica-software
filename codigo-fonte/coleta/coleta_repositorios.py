@@ -72,7 +72,7 @@ def normalizar(no: dict, referencia_data: datetime, referencia_linguagens: Refer
 
 def coletar(
     cliente: ClienteGitHub,
-    quantidade: int = 100,
+    quantidade: int = 1000,
     busca: str = BUSCA_PADRAO,
     fragmentos: Iterable[str] = FRAGMENTOS_PADRAO,
     referencia_data: Optional[datetime] = None,
