@@ -96,6 +96,7 @@ def medir(comando: list[str], diretorio: Path, limite: float, fila: queue.Queue)
             if processo is not None:
                 codigo = processo.poll()
                 if codigo is not None:
+                    processo.wait()
                     ultimo_codigo = codigo
                     processo = None
                     fim = time.monotonic()

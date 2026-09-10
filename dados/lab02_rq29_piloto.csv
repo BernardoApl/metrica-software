@@ -1,0 +1,2 @@
+trial_id,participante,kata,tratamento,issue,inicio_utc,fim_utc,duracao_segundos,limite_segundos,status,sucesso,censurado,verificacoes,ultimo_codigo_testes,comando_testes,diretorio
+0c4c3d02-5b4a-4e43-aa6b-2f8f9a4eb7cd,piloto_rq29,piloto_instrumentacao,sem_ia,29,2026-09-10T18:19:50.131191+00:00,2026-09-10T18:19:50.206195+00:00,0.079,60,sucesso,True,False,1,0,"[""C:\\Users\\bblop\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"", ""-c"", ""raise SystemExit(0)""]",C:\Users\bblop\Downloads\metrica-software\metrica-software-main\metrica-software\dados

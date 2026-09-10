@@ -26,3 +26,17 @@ O limite é **35 minutos**, podendo ser reduzido com `--limite-minutos 20`. Ao e
 Cada tentativa é acrescentada a `dados/lab02_rq28_tempos.csv`, com participante, kata, tratamento, Issue, horários, duração e resultado: sucesso, limite atingido, interrupção ou erro de execução.
 
 Use `--saida caminho.csv` para mudar o arquivo. Em execuções simultâneas, use um CSV por participante. O registro ocorre ao encerrar; prefira `sair` ou Ctrl+C a fechar o terminal à força.
+
+## RQ29 - Validacao dos trials e piloto
+
+Valide o CSV real da RQ28 antes da analise:
+
+```powershell
+python codigo-fonte/sprint-02/rq29_validar_trials.py --csv dados/lab02_rq28_tempos.csv
+```
+
+Execute o piloto sintetico da coleta, sem misturar com os trials reais:
+
+```powershell
+python codigo-fonte/sprint-02/rq29_validar_trials.py --piloto --saida-piloto dados/lab02_rq29_piloto.csv
+```
