@@ -1,25 +1,25 @@
-"""Kata 02: calculo de estacionamento."""
+"""Kata 02: validacao de senha corporativa."""
+
+import re
+
+CARACTERES_ESPECIAIS = "!@#$%&*"
 
 
-def validar_senha(horas, tipo_veiculo):
-    if horas <= 0:
-        raise ValueError("A quantidade de horas deve ser maior que zero.")
+def validar_senha(senha: str, nome_usuario: str) -> bool:
+    if len(senha) < 8:
+        return False
+    if not re.search(r"[A-Z]", senha):
+        return False
+    if not re.search(r"[a-z]", senha):
+        return False
+    if not re.search(r"[0-9]", senha):
+        return False
+    if not any(caractere in CARACTERES_ESPECIAIS for caractere in senha):
+        return False
+    for i in range(len(senha) - 2):
+        if senha[i] == senha[i + 1] == senha[i + 2]:
+            return False
+    if nome_usuario.lower() in senha.lower():
+        return False
 
-    tipo_veiculo = tipo_veiculo.lower()
-    if tipo_veiculo not in ["carro", "moto"]:
-        raise ValueError("Tipo de veiculo invalido. Use 'carro' ou 'moto'.")
-
-    if horas <= 1:
-        valor_base = 6.00
-    else:
-        valor_base = 6.00 + (horas - 1) * 4.00
-
-    if horas > 8:
-        valor_base = 35.00
-
-    if tipo_veiculo == "moto":
-        valor_final = valor_base * 0.80
-    else:
-        valor_final = valor_base
-
-    return float(valor_final)
+    return True
