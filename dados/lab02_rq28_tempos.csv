@@ -1,0 +1,2 @@
+trial_id,participante,kata,tratamento,issue,inicio_utc,fim_utc,duracao_segundos,limite_segundos,status,sucesso,censurado,verificacoes,ultimo_codigo_testes,comando_testes,diretorio
+c4f8a07e-78db-4bc6-a243-bb2d70d8e483,bblop,kata01_frete_progressivo,com_ia,32,2026-09-15T19:53:09.380646+00:00,2026-09-15T19:53:51.825913+00:00,42.438,2100.0,sucesso,True,False,1,0,"[""python"", ""-m"", ""unittest"", ""discover"", ""-s"", ""testes""]",C:\Users\bblop\Downloads\metrica-software\metrica-software-main\metrica-software\codigo-fonte\sprint-02\katas\kata01_frete_progressivo
