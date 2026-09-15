@@ -79,3 +79,23 @@ python codigo-fonte/sprint-02/rq31_validar_metricas.py --piloto --saida-piloto d
 ```
 
 Adicione `--sem-duplicacao` ao piloto em um ambiente sem Node.js/`jscpd`.
+
+## RQ44 (Inovação) — Coletar e comparar complexidade, LOC e duplicação das soluções
+
+Consolida o CSV da RQ30 (`dados/lab02_rq30_metricas_estaticas.csv`) em uma comparação por kata e por
+tratamento (`com_ia` vs `sem_ia`), usando mediana e IQR — não média/desvio-padrão — para as três métricas
+do RQ3 (complexidade ciclomática média, LOC, % de duplicação), consistente com a robustez estatística
+recomendada para o N pequeno do LAB02.
+
+### Como executar
+
+Depois de rodar a RQ30 para os trials que você quer comparar (ex.: RQ40 — kata01 com IA, RQ41 — kata02 com IA):
+
+```powershell
+python codigo-fonte/sprint-02/rq30_metricas_estaticas.py --participante <nome> --kata kata01_frete_progressivo --tratamento com_ia --issue 40 --arquivo codigo-fonte/sprint-02/katas/kata01_frete_progressivo/solucao.py
+python codigo-fonte/sprint-02/rq30_metricas_estaticas.py --participante <nome> --kata kata02_senha_corporativa --tratamento com_ia --issue 41 --arquivo codigo-fonte/sprint-02/katas/kata02_senha_corporativa/solucao.py
+python codigo-fonte/sprint-02/rq44_comparar_metricas.py
+```
+
+Use `--sem-grafico` para pular a geração do PNG (dispensa `matplotlib`). A comparação é salva em
+`dados/lab02_rq44_comparacao_metricas.csv` e o gráfico em `dados/rq44_comparacao_metricas.png`.
