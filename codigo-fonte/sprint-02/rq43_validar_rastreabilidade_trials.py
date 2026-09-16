@@ -1,4 +1,4 @@
-"""RQ43 (Inovacao): valida integridade e rastreabilidade dos dados reais dos trials.
+"""RQ43.2 (Inovacao): valida integridade e rastreabilidade dos dados reais dos trials.
 
 Cruza os registros reais da RQ28 com evidencias complementares do LAB02:
 diretorio do kata, arquivo `solucao.py`, prompt/interacao dos trials com IA e,
