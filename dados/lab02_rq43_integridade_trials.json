@@ -1,0 +1,47 @@
+{
+  "valido": true,
+  "csv_rq28": "C:\\Users\\bblop\\Downloads\\metrica-software\\metrica-software-main\\metrica-software\\dados\\lab02_rq28_tempos.csv",
+  "csv_rq30": "C:\\Users\\bblop\\Downloads\\metrica-software\\metrica-software-main\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
+  "total_trials": 2,
+  "trials_rastreaveis": 2,
+  "trials_com_alerta": 0,
+  "rq28_valido": true,
+  "rq30_valido": true,
+  "erros_rq28": [],
+  "erros_rq30": [],
+  "alertas": [],
+  "linhas": [
+    {
+      "trial_id": "c4f8a07e-78db-4bc6-a243-bb2d70d8e483",
+      "participante": "bblop",
+      "kata": "kata01_frete_progressivo",
+      "tratamento": "com_ia",
+      "issue": "32",
+      "status": "sucesso",
+      "sucesso": true,
+      "censurado": false,
+      "diretorio_existe": true,
+      "solucao_existe": true,
+      "prompt_ia_existe": true,
+      "metricas_rq30_existe": true,
+      "rastreabilidade_ok": true,
+      "alertas": ""
+    },
+    {
+      "trial_id": "8f2bd412-1fb9-4228-a4ca-d5e8e03583f9",
+      "participante": "bblop",
+      "kata": "kata03_deduplicador_contatos",
+      "tratamento": "com_ia",
+      "issue": "36",
+      "status": "sucesso",
+      "sucesso": true,
+      "censurado": false,
+      "diretorio_existe": true,
+      "solucao_existe": true,
+      "prompt_ia_existe": true,
+      "metricas_rq30_existe": true,
+      "rastreabilidade_ok": true,
+      "alertas": ""
+    }
+  ]
+}

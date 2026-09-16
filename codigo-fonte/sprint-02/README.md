@@ -80,6 +80,33 @@ python codigo-fonte/sprint-02/rq31_validar_metricas.py --piloto --saida-piloto d
 
 Adicione `--sem-duplicacao` ao piloto em um ambiente sem Node.js/`jscpd`.
 
+## RQ43 (Inovação) — Validar integridade e rastreabilidade dos dados reais dos trials
+
+Cruza os dados reais da RQ28 (`dados/lab02_rq28_tempos.csv`) com as evidências complementares do
+experimento: diretório do kata, `solucao.py`, registro de prompt/interação para trials `com_ia` e medição
+estática da RQ30 quando o trial foi concluído com sucesso.
+
+Antes de rodar a RQ43, colete a RQ30 para cada trial real bem-sucedido:
+
+```powershell
+python codigo-fonte/sprint-02/rq30_metricas_estaticas.py --participante <nome> --kata <kata> --tratamento <com_ia|sem_ia> --issue <issue> --trial-id <trial_id> --arquivo <pasta-do-kata>/solucao.py --sem-duplicacao
+```
+
+Depois execute:
+
+```powershell
+python codigo-fonte/sprint-02/rq43_validar_rastreabilidade_trials.py
+```
+
+A validação gera:
+
+- `dados/lab02_rq43_integridade_trials.csv`: uma linha por trial, com flags de rastreabilidade.
+- `dados/lab02_rq43_integridade_trials.json`: relatório completo com resumo, erros e alertas.
+
+O status só fica OK quando o CSV da RQ28 é válido, o CSV da RQ30 existe e é válido, cada `trial_id`
+de métricas aponta para um trial real, e cada trial bem-sucedido tem diretório, `solucao.py`, prompt
+quando `com_ia` e medição RQ30 correspondente.
+
 ## RQ44 (Inovação) — Coletar e comparar complexidade, LOC e duplicação das soluções
 
 Consolida o CSV da RQ30 (`dados/lab02_rq30_metricas_estaticas.csv`) em uma comparação por kata e por
