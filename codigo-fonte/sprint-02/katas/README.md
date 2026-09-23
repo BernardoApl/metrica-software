@@ -38,3 +38,16 @@ python codigo-fonte/sprint-02/rq28_cronometragem.py --participante integrante1 -
 ## Validação de dificuldade comparável
 
 Todos os katas seguem o mesmo padrão: uma única função pura (sem I/O, sem estado externo), recebendo tipos simples (`str`, `float`, `list`, `dict`) e cobrindo de 6 a 7 casos de teste (caminho feliz, casos de borda e pelo menos uma condição de erro/validação). Cada implementação de referência foi escrita e executada contra os testes durante a preparação (ver commits desta pasta) para garantir que os testes são consistentes e resolvíveis dentro do time-box de 35 minutos.
+
+## Katas das Issues RQ34–RQ48 (esquema de 4 katas)
+
+As Issues RQ34–RQ48 do GitHub Projects usam um segundo esquema, com apenas 4 katas (Frete, Estacionamento, Desconto de Pedido, Tarifa de Energia), em vez dos 6 acima. "Kata 1" desse esquema coincide com `kata01_frete_progressivo`, mas "Kata 2/3/4" **não** correspondem a `kata02_senha_corporativa`/`kata03_deduplicador_contatos`/`kata04_escalonador_turnos` (temas do esquema de 6 katas, mantidos como estavam). Para evitar confundir os dois esquemas, os katas do esquema de 4 têm pasta própria:
+
+| Kata (RQ34–48) | Tema | Pasta |
+|---|---|---|
+| 1 | Cálculo de Frete | `kata01_frete_progressivo/` (reaproveitada, mesmo tema) |
+| 2 | Cálculo de Estacionamento | `kata02_calculo_estacionamento/` |
+| 3 | Desconto de Pedido | `kata03_desconto_pedido/` |
+| 4 | Cálculo de Tarifa de Energia | `kata04_calculo_tarifa_energia/` |
+
+Antes de rodar um trial desse esquema, confira no README da RQ28 (`../README.md`) qual pasta usar em `--diretorio`, conforme a tabela acima.
