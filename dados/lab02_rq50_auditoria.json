@@ -1,0 +1,125 @@
+{
+  "csv_rq28": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq28_tempos.csv",
+  "csv_rq30": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
+  "total_trials_rq28": 3,
+  "total_trials_rq30": 2,
+  "cobertura": {
+    "total_esperado": 12,
+    "total_ok": 0,
+    "total_divergente": 2,
+    "total_faltando": 10,
+    "ok": [],
+    "divergentes": [
+      {
+        "issue": "36",
+        "kata_numero": "03",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "BernardoApl",
+        "trial_id": "8f2bd412-1fb9-4228-a4ca-d5e8e03583f9",
+        "participante_csv": "bblop",
+        "kata_csv": "kata03_deduplicador_contatos",
+        "problemas": [
+          "kata 'kata03_deduplicador_contatos' nao e o nome oficial selecionado na RQ32 (kata03_desconto_pedido)"
+        ]
+      },
+      {
+        "issue": "42",
+        "kata_numero": "03",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "Joaopedrotavaress",
+        "trial_id": "74119062-092a-4dfa-afad-568b63999833",
+        "participante_csv": "Joao_Pedro",
+        "kata_csv": "kata03",
+        "problemas": [
+          "kata 'kata03' nao e o nome oficial selecionado na RQ32 (kata03_desconto_pedido)",
+          "trial com sucesso mas sem medicao correspondente na RQ30"
+        ]
+      }
+    ],
+    "faltando": [
+      {
+        "issue": "34",
+        "kata_numero": "01",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "BernardoApl"
+      },
+      {
+        "issue": "35",
+        "kata_numero": "02",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "BernardoApl"
+      },
+      {
+        "issue": "47",
+        "kata_numero": "04",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "BernardoApl"
+      },
+      {
+        "issue": "37",
+        "kata_numero": "01",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "bacelete"
+      },
+      {
+        "issue": "38",
+        "kata_numero": "02",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "bacelete"
+      },
+      {
+        "issue": "39",
+        "kata_numero": "03",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "bacelete"
+      },
+      {
+        "issue": "48",
+        "kata_numero": "04",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "bacelete"
+      },
+      {
+        "issue": "40",
+        "kata_numero": "01",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "Joaopedrotavaress"
+      },
+      {
+        "issue": "41",
+        "kata_numero": "02",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "Joaopedrotavaress"
+      },
+      {
+        "issue": "49",
+        "kata_numero": "04",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "Joaopedrotavaress"
+      }
+    ]
+  },
+  "outliers": {
+    "duracao_segundos": {
+      "n": 3,
+      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
+      "outliers": []
+    },
+    "complexidade_media": {
+      "n": 2,
+      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
+      "outliers": []
+    },
+    "indice_manutenibilidade": {
+      "n": 2,
+      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
+      "outliers": []
+    },
+    "duplicacao_percentual": {
+      "n": 0,
+      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
+      "outliers": []
+    }
+  },
+  "pronto_para_wilcoxon": false
+}
