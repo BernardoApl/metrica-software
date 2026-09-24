@@ -1,7 +1,7 @@
 {
   "rq": "RQ2 - taxa de sucesso / defeitos",
   "csv_rq28": "C:\\Users\\arthurbacelete_frwk\\Desktop\\Repositorios PUC MG\\metrica-software\\dados\\lab02_rq28_tempos.csv",
-  "total_trials_lidos": 15,
+  "total_trials_lidos": 14,
   "trials_ignorados": [],
   "agregados_por_participante": {
     "bblop": {

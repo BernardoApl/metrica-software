@@ -1,16 +1,16 @@
 categoria,tratamento,metrica,valor,observacao
 cobertura,com_ia,trials_unicos,5,Trials unicos apos deduplicacao da RQ57.
 cobertura,com_ia,issues_informadas,5,"Registros com issue preenchida, excluindo placeholder <ISSUE>."
-cobertura,com_ia,metricas_rq30_disponiveis,4,Trials com medicao estatica vinculada por trial_id.
+cobertura,com_ia,metricas_rq30_disponiveis,5,Trials com medicao estatica vinculada por trial_id.
 tempo,com_ia,duracao_mediana_segundos,27.828,Mediana de duracao efetiva calculada pela RQ57.
 sucesso,com_ia,taxa_sucesso,1.0,Media de sucesso_binario nos trials validos.
-metricas_estaticas,com_ia,complexidade_por_loc_mediana,0.2457,Mediana disponivel na RQ57.
+metricas_estaticas,com_ia,complexidade_por_loc_mediana,0.1951,Mediana disponivel na RQ57.
 cobertura,sem_ia,trials_unicos,9,Trials unicos apos deduplicacao da RQ57.
 cobertura,sem_ia,issues_informadas,5,"Registros com issue preenchida, excluindo placeholder <ISSUE>."
-cobertura,sem_ia,metricas_rq30_disponiveis,2,Trials com medicao estatica vinculada por trial_id.
+cobertura,sem_ia,metricas_rq30_disponiveis,5,Trials com medicao estatica vinculada por trial_id.
 tempo,sem_ia,duracao_mediana_segundos,93.016,Mediana de duracao efetiva calculada pela RQ57.
 sucesso,sem_ia,taxa_sucesso,1.0,Media de sucesso_binario nos trials validos.
-metricas_estaticas,sem_ia,complexidade_por_loc_mediana,0.2048,Mediana disponivel na RQ57.
+metricas_estaticas,sem_ia,complexidade_por_loc_mediana,0.1639,Mediana disponivel na RQ57.
 resumo_participante,Arthur|com_ia,n_trials,2,Linha herdada de lab02_rq57_resumo_tratamento.csv.
 resumo_participante,Arthur|sem_ia,n_trials,2,Linha herdada de lab02_rq57_resumo_tratamento.csv.
 resumo_participante,Joao_Pedro|com_ia,n_trials,1,Linha herdada de lab02_rq57_resumo_tratamento.csv.

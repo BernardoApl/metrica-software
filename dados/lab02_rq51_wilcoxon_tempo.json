@@ -1,7 +1,7 @@
 {
   "rq": "RQ1 - tempo de resolucao",
   "csv_rq28": "C:\\Users\\arthurbacelete_frwk\\Desktop\\Repositorios PUC MG\\metrica-software\\dados\\lab02_rq28_tempos.csv",
-  "total_trials_lidos": 15,
+  "total_trials_lidos": 14,
   "trials_ignorados": [],
   "agregados_por_participante": {
     "bblop": {
@@ -9,7 +9,7 @@
       "sem_ia": 0.281
     },
     "Joao_Pedro": {
-      "sem_ia": 1444.171,
+      "sem_ia": 974.0775,
       "com_ia": 72.25
     },
     "Arthur": {
@@ -26,7 +26,7 @@
     {
       "participante": "Joao_Pedro",
       "com_ia": 72.25,
-      "sem_ia": 1444.171
+      "sem_ia": 974.0775
     },
     {
       "participante": "Arthur",
