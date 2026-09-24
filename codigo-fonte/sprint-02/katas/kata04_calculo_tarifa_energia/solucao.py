@@ -1,31 +1,41 @@
-def calcular_tarifa_energia(consumo_kwh, tipo_ligacao, bandeira):
+"""Kata 04: calculo de tarifa de energia por faixa de consumo e bandeira (RQ48 - com IA)."""
+
+FAIXAS_CONSUMO = {
+    "residencial": [(100, 0.50), (300, 0.70), (float("inf"), 0.90)],
+    "comercial": [(100, 0.65), (300, 0.85), (float("inf"), 1.05)],
+}
+SOBRETAXA_BANDEIRA = {"verde": 0.0, "amarela": 0.02, "vermelha": 0.04}
+TARIFA_MINIMA = {"residencial": 20.0, "comercial": 50.0}
+
+
+def calcular_tarifa_energia(consumo_kwh: float, tipo_ligacao: str, bandeira: str) -> float:
     if consumo_kwh <= 0:
-        raise ValueError("O consumo de energia deve ser estritamente maior que zero")
+        raise ValueError("consumo_kwh deve ser maior que zero")
+    if tipo_ligacao not in FAIXAS_CONSUMO:
+        raise ValueError("tipo_ligacao invalido")
+    if bandeira not in SOBRETAXA_BANDEIRA:
+        raise ValueError("bandeira invalida")
 
-    tarifas = {
-        "residencial": (0.50, 0.70, 0.90, 20.00),
-        "comercial": (0.65, 0.85, 1.05, 50.00),
-    }
-    sobretaxas = {
-        "verde": 0.00,
-        "amarela": 0.02,
-        "vermelha": 0.04,
-    }
+    valor = _valor_por_consumo(consumo_kwh, FAIXAS_CONSUMO[tipo_ligacao])
+    valor += consumo_kwh * SOBRETAXA_BANDEIRA[bandeira]
+    valor = max(valor, TARIFA_MINIMA[tipo_ligacao])
 
-    if tipo_ligacao not in tarifas:
-        raise ValueError("Tipo de ligacao invalido")
-    if bandeira not in sobretaxas:
-        raise ValueError("Bandeira tarifaria invalida")
-
-    faixa_1, faixa_2, faixa_3, tarifa_minima = tarifas[tipo_ligacao]
-
-    if consumo_kwh <= 100:
-        valor = consumo_kwh * faixa_1
-    elif consumo_kwh <= 300:
-        valor = (100 * faixa_1) + ((consumo_kwh - 100) * faixa_2)
-    else:
-        valor = (100 * faixa_1) + (200 * faixa_2) + ((consumo_kwh - 300) * faixa_3)
-
-    valor += consumo_kwh * sobretaxas[bandeira]
-    valor = max(valor, tarifa_minima)
     return round(valor, 2)
+
+
+def _valor_por_consumo(consumo_kwh: float, faixas: list) -> float:
+    restante = consumo_kwh
+    limite_anterior = 0.0
+    valor = 0.0
+
+    for limite, preco_por_kwh in faixas:
+        consumo_na_faixa = min(restante, limite - limite_anterior)
+        if consumo_na_faixa <= 0:
+            break
+        valor += consumo_na_faixa * preco_por_kwh
+        restante -= consumo_na_faixa
+        limite_anterior = limite
+        if restante <= 0:
+            break
+
+    return valor
