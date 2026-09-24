@@ -126,3 +126,26 @@ python codigo-fonte/sprint-02/rq44_comparar_metricas.py
 
 Use `--sem-grafico` para pular a geração do PNG (dispensa `matplotlib`). A comparação é salva em
 `dados/lab02_rq44_comparacao_metricas.csv` e o gráfico em `dados/rq44_comparacao_metricas.png`.
+
+## RQ54 (RQ3) — Consolidar complexidade, LOC e duplicação por tratamento
+
+Complementa a RQ44: em vez de agrupar por kata e tratamento, consolida **todos os katas** de cada
+tratamento (`com_ia` vs `sem_ia`) em uma única linha, com mediana e IQR de complexidade ciclomática
+média, LOC e percentual de duplicação — uma visão geral da RQ3 (o uso de assistente de IA altera a
+complexidade ou a duplicação do código produzido?).
+
+### Como executar
+
+Depois de rodar a RQ30 para os trials que você quer consolidar:
+
+```powershell
+python codigo-fonte/sprint-02/rq54_consolidar_metricas_tratamento.py
+```
+
+Use `--entrada caminho.csv` para outro CSV de entrada, `--saida-csv`/`--saida-grafico` para mudar os
+destinos, e `--sem-grafico` para pular o PNG (dispensa `matplotlib`).
+
+### Dados salvos
+
+A consolidação é salva em `dados/lab02_rq54_consolidacao_tratamento.csv` e o gráfico em
+`dados/rq54_consolidacao_tratamento.png`.
