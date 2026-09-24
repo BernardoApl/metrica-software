@@ -1,0 +1,13 @@
+categoria,tratamento,metrica,valor,observacao
+tempo,com_ia,trials,2,Registros da RQ28.
+tempo,com_ia,taxa_sucesso,1.0,Sucessos / trials no CSV da RQ28.
+tempo,com_ia,duracao_mediana_segundos,35.133,Mediana usada por robustez com N pequeno.
+metricas_estaticas,com_ia,complexidade_media_mediana,6.3333,Medicoes disponiveis na RQ30.
+metricas_estaticas,com_ia,loc_mediana,36.0,Medicoes disponiveis na RQ30.
+metricas_estaticas,com_ia,duplicacao_percentual_mediana,,Sem medicoes validas na RQ30 para este tratamento.
+tempo,sem_ia,trials,8,Registros da RQ28.
+tempo,sem_ia,taxa_sucesso,1.0,Sucessos / trials no CSV da RQ28.
+tempo,sem_ia,duracao_mediana_segundos,46.6565,Mediana usada por robustez com N pequeno.
+metricas_estaticas,sem_ia,complexidade_media_mediana,,Sem medicoes validas na RQ30 para este tratamento.
+metricas_estaticas,sem_ia,loc_mediana,,Sem medicoes validas na RQ30 para este tratamento.
+metricas_estaticas,sem_ia,duplicacao_percentual_mediana,,Sem medicoes validas na RQ30 para este tratamento.

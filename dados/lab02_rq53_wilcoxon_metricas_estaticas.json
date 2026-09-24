@@ -1,0 +1,43 @@
+{
+  "rq": "RQ3 - metricas estaticas normalizadas por LOC",
+  "csv_rq30": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
+  "total_trials_lidos": 2,
+  "loc_mediano_por_tratamento_controle": {
+    "com_ia": 36.0
+  },
+  "metricas": {
+    "complexidade_por_loc": {
+      "agregados_por_participante": {
+        "bblop": {
+          "com_ia": 0.3037048148148148
+        }
+      },
+      "pares_utilizados": [],
+      "participantes_incompletos": [
+        {
+          "participante": "bblop",
+          "tratamentos_faltando": [
+            "sem_ia"
+          ]
+        }
+      ],
+      "wilcoxon": {
+        "suficiente": false,
+        "motivo": "nenhum par completo (mesmo participante nos dois tratamentos)",
+        "n_pares": 0
+      },
+      "interpretacao": "Dados insuficientes: nenhum par completo (mesmo participante nos dois tratamentos)."
+    },
+    "duplicacao_percentual": {
+      "agregados_por_participante": {},
+      "pares_utilizados": [],
+      "participantes_incompletos": [],
+      "wilcoxon": {
+        "suficiente": false,
+        "motivo": "nenhum par completo (mesmo participante nos dois tratamentos)",
+        "n_pares": 0
+      },
+      "interpretacao": "Dados insuficientes: nenhum par completo (mesmo participante nos dois tratamentos)."
+    }
+  }
+}

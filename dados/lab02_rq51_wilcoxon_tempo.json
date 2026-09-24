@@ -1,0 +1,35 @@
+{
+  "rq": "RQ1 - tempo de resolucao",
+  "csv_rq28": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq28_tempos.csv",
+  "total_trials_lidos": 3,
+  "trials_ignorados": [],
+  "agregados_por_participante": {
+    "bblop": {
+      "com_ia": 35.133
+    },
+    "Joao_Pedro": {
+      "sem_ia": 1444.171
+    }
+  },
+  "pares_utilizados": [],
+  "participantes_incompletos": [
+    {
+      "participante": "bblop",
+      "tratamentos_faltando": [
+        "sem_ia"
+      ]
+    },
+    {
+      "participante": "Joao_Pedro",
+      "tratamentos_faltando": [
+        "com_ia"
+      ]
+    }
+  ],
+  "wilcoxon": {
+    "suficiente": false,
+    "motivo": "nenhum par completo (mesmo participante nos dois tratamentos)",
+    "n_pares": 0
+  },
+  "interpretacao": "Dados insuficientes: nenhum par completo (mesmo participante nos dois tratamentos)."
+}

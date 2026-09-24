@@ -10,3 +10,4 @@ venv/
 
 # Saidas locais de coleta (o dataset oficial da sprint e commitado explicitamente)
 dados/*.local.json
+dados/.cache/
