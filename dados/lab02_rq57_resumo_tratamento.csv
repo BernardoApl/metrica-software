@@ -1,0 +1,3 @@
+participante,tratamento,n_trials,mediana_tempo_segundos,taxa_sucesso,mediana_complexidade_por_loc,mediana_duplicacao_percentual,mediana_indice_manutenibilidade
+Joao_Pedro,sem_ia,1,1444.171,1.0,,,
+bblop,com_ia,2,35.133,1.0,0.3037048148148148,,51.810249999999996
