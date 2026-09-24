@@ -1,13 +1,18 @@
 categoria,tratamento,metrica,valor,observacao
-tempo,com_ia,trials,2,Registros da RQ28.
-tempo,com_ia,taxa_sucesso,1.0,Sucessos / trials no CSV da RQ28.
-tempo,com_ia,duracao_mediana_segundos,35.133,Mediana usada por robustez com N pequeno.
-metricas_estaticas,com_ia,complexidade_media_mediana,6.3333,Medicoes disponiveis na RQ30.
-metricas_estaticas,com_ia,loc_mediana,36.0,Medicoes disponiveis na RQ30.
-metricas_estaticas,com_ia,duplicacao_percentual_mediana,,Sem medicoes validas na RQ30 para este tratamento.
-tempo,sem_ia,trials,8,Registros da RQ28.
-tempo,sem_ia,taxa_sucesso,1.0,Sucessos / trials no CSV da RQ28.
-tempo,sem_ia,duracao_mediana_segundos,46.6565,Mediana usada por robustez com N pequeno.
-metricas_estaticas,sem_ia,complexidade_media_mediana,,Sem medicoes validas na RQ30 para este tratamento.
-metricas_estaticas,sem_ia,loc_mediana,,Sem medicoes validas na RQ30 para este tratamento.
-metricas_estaticas,sem_ia,duplicacao_percentual_mediana,,Sem medicoes validas na RQ30 para este tratamento.
+cobertura,com_ia,trials_unicos,3,Trials unicos apos deduplicacao da RQ57.
+cobertura,com_ia,issues_informadas,3,"Registros com issue preenchida, excluindo placeholder <ISSUE>."
+cobertura,com_ia,metricas_rq30_disponiveis,2,Trials com medicao estatica vinculada por trial_id.
+tempo,com_ia,duracao_mediana_segundos,42.438,Mediana de duracao efetiva calculada pela RQ57.
+sucesso,com_ia,taxa_sucesso,1.0,Media de sucesso_binario nos trials validos.
+metricas_estaticas,com_ia,complexidade_por_loc_mediana,0.3037,Mediana disponivel na RQ57.
+cobertura,sem_ia,trials_unicos,9,Trials unicos apos deduplicacao da RQ57.
+cobertura,sem_ia,issues_informadas,5,"Registros com issue preenchida, excluindo placeholder <ISSUE>."
+cobertura,sem_ia,metricas_rq30_disponiveis,0,Trials com medicao estatica vinculada por trial_id.
+tempo,sem_ia,duracao_mediana_segundos,93.016,Mediana de duracao efetiva calculada pela RQ57.
+sucesso,sem_ia,taxa_sucesso,1.0,Media de sucesso_binario nos trials validos.
+metricas_estaticas,sem_ia,complexidade_por_loc_mediana,,Sem RQ30 suficiente para este tratamento.
+resumo_participante,Arthur|sem_ia,n_trials,2,Linha herdada de lab02_rq57_resumo_tratamento.csv.
+resumo_participante,Joao_Pedro|com_ia,n_trials,1,Linha herdada de lab02_rq57_resumo_tratamento.csv.
+resumo_participante,Joao_Pedro|sem_ia,n_trials,2,Linha herdada de lab02_rq57_resumo_tratamento.csv.
+resumo_participante,bblop|com_ia,n_trials,2,Linha herdada de lab02_rq57_resumo_tratamento.csv.
+resumo_participante,bblop|sem_ia,n_trials,5,Linha herdada de lab02_rq57_resumo_tratamento.csv.
