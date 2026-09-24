@@ -1,35 +1,44 @@
 {
   "rq": "RQ2 - taxa de sucesso / defeitos",
-  "csv_rq28": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq28_tempos.csv",
-  "total_trials_lidos": 3,
+  "csv_rq28": "C:\\Users\\arthurbacelete_frwk\\Desktop\\Repositorios PUC MG\\metrica-software\\dados\\lab02_rq28_tempos.csv",
+  "total_trials_lidos": 15,
   "trials_ignorados": [],
   "agregados_por_participante": {
     "bblop": {
-      "com_ia": 1.0
+      "com_ia": 1.0,
+      "sem_ia": 1.0
     },
     "Joao_Pedro": {
-      "sem_ia": 1.0
+      "sem_ia": 1.0,
+      "com_ia": 1.0
+    },
+    "Arthur": {
+      "sem_ia": 1.0,
+      "com_ia": 1.0
     }
   },
-  "pares_utilizados": [],
-  "participantes_incompletos": [
+  "pares_utilizados": [
     {
       "participante": "bblop",
-      "tratamentos_faltando": [
-        "sem_ia"
-      ]
+      "com_ia": 1.0,
+      "sem_ia": 1.0
     },
     {
       "participante": "Joao_Pedro",
-      "tratamentos_faltando": [
-        "com_ia"
-      ]
+      "com_ia": 1.0,
+      "sem_ia": 1.0
+    },
+    {
+      "participante": "Arthur",
+      "com_ia": 1.0,
+      "sem_ia": 1.0
     }
   ],
+  "participantes_incompletos": [],
   "wilcoxon": {
     "suficiente": false,
-    "motivo": "nenhum par completo (mesmo participante nos dois tratamentos)",
-    "n_pares": 0
+    "motivo": "todas as diferencas entre tratamentos sao zero",
+    "n_pares": 3
   },
-  "interpretacao": "Dados insuficientes: nenhum par completo (mesmo participante nos dois tratamentos)."
+  "interpretacao": "Dados insuficientes: todas as diferencas entre tratamentos sao zero."
 }

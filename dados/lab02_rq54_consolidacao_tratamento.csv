@@ -1,2 +1,3 @@
 tratamento,n_trials,n_katas,complexidade_media_mediana,complexidade_media_iqr,complexidade_media_n,loc_mediana,loc_iqr,loc_n,duplicacao_percentual_mediana,duplicacao_percentual_iqr,duplicacao_percentual_n
-com_ia,2,2,6.333349999999999,3.3333000000000004,2,36.0,18.0,2,,,0
+com_ia,4,4,4.333349999999999,2.8333499999999994,4,34.0,18.0,4,,,0
+sem_ia,2,2,4.0,1.3333999999999997,2,59.0,4.0,2,,,0

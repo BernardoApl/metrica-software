@@ -1,0 +1,7 @@
+kata,tratamento,n_trials,complexidade_media_mediana,complexidade_media_iqr,complexidade_media_n,loc_mediana,loc_iqr,loc_n,duplicacao_percentual_mediana,duplicacao_percentual_iqr,duplicacao_percentual_n
+kata01_frete_progressivo,com_ia,1,8.0,,1,27.0,,1,,,0
+kata01_frete_progressivo,sem_ia,1,3.3333,,1,61.0,,1,,,0
+kata02_calculo_estacionamento,com_ia,1,3.0,,1,23.0,,1,,,0
+kata03_deduplicador_contatos,com_ia,1,4.6667,,1,45.0,,1,,,0
+kata03_deduplicador_contatos,sem_ia,1,4.6667,,1,57.0,,1,,,0
+kata04_calculo_tarifa_energia,com_ia,1,4.0,,1,41.0,,1,,,0

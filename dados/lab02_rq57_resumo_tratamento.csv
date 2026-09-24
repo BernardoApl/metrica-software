@@ -1,5 +1,6 @@
 participante,tratamento,n_trials,n_issues_informadas,n_metricas_estaticas,mediana_tempo_segundos,taxa_sucesso,mediana_complexidade_por_loc,mediana_duplicacao_percentual,mediana_indice_manutenibilidade
-Arthur,sem_ia,2,2,0,787.2887615,1.0,,,
+Arthur,com_ia,2,2,2,1.707262,1.0,0.1627783669141039,,55.18455
+Arthur,sem_ia,2,2,2,787.2887615,1.0,0.20477428817946505,,48.294200000000004
 Joao_Pedro,com_ia,1,1,0,72.25,1.0,,,
 Joao_Pedro,sem_ia,2,2,0,974.0775,1.0,,,
 bblop,com_ia,2,2,2,35.133,1.0,0.3037048148148148,,51.810249999999996

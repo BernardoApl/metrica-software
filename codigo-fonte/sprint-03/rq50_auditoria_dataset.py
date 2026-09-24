@@ -28,7 +28,7 @@ SAIDA_PADRAO = RAIZ / "dados" / "lab02_rq50_auditoria.json"
 KATAS_OFICIAIS = {
     "01": "kata01_frete_progressivo",
     "02": "kata02_calculo_estacionamento",
-    "03": "kata03_desconto_pedido",
+    "03": "kata03_deduplicador_contatos",
     "04": "kata04_calculo_tarifa_energia",
 }
 

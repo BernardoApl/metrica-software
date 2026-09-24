@@ -1,18 +1,29 @@
 {
   "rq": "RQ3 - metricas estaticas normalizadas por LOC",
-  "csv_rq30": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
-  "total_trials_lidos": 2,
+  "csv_rq30": "C:\\Users\\arthurbacelete_frwk\\Desktop\\Repositorios PUC MG\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
+  "total_trials_lidos": 6,
   "loc_mediano_por_tratamento_controle": {
-    "com_ia": 36.0
+    "com_ia": 34.0,
+    "sem_ia": 59.0
   },
   "metricas": {
     "complexidade_por_loc": {
       "agregados_por_participante": {
         "bblop": {
           "com_ia": 0.3037048148148148
+        },
+        "Arthur": {
+          "sem_ia": 0.20477428817946505,
+          "com_ia": 0.1627783669141039
         }
       },
-      "pares_utilizados": [],
+      "pares_utilizados": [
+        {
+          "participante": "Arthur",
+          "com_ia": 0.1627783669141039,
+          "sem_ia": 0.20477428817946505
+        }
+      ],
       "participantes_incompletos": [
         {
           "participante": "bblop",
@@ -22,11 +33,18 @@
         }
       ],
       "wilcoxon": {
-        "suficiente": false,
-        "motivo": "nenhum par completo (mesmo participante nos dois tratamentos)",
-        "n_pares": 0
+        "suficiente": true,
+        "n_pares": 1,
+        "aviso_amostra_pequena": true,
+        "mediana_a": 0.1627783669141039,
+        "mediana_b": 0.20477428817946505,
+        "w_mais": 0,
+        "w_menos": 1.0,
+        "effect_size_rank_biserial": -1.0,
+        "estatistica": 0.0,
+        "p_valor": 1.0
       },
-      "interpretacao": "Dados insuficientes: nenhum par completo (mesmo participante nos dois tratamentos)."
+      "interpretacao": "p-valor=1.0000 >= 0.05: nao rejeita H0 (sem evidencia de diferenca)."
     },
     "duplicacao_percentual": {
       "agregados_por_participante": {},

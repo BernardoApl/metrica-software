@@ -1,15 +1,14 @@
 {
-  "csv_rq28": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq28_tempos.csv",
-  "csv_rq30": "C:\\Users\\João\\Documents\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
-  "total_trials_rq28": 3,
-  "total_trials_rq30": 2,
+  "csv_rq28": "C:\\Users\\arthurbacelete_frwk\\Desktop\\Repositorios PUC MG\\metrica-software\\dados\\lab02_rq28_tempos.csv",
+  "csv_rq30": "C:\\Users\\arthurbacelete_frwk\\Desktop\\Repositorios PUC MG\\metrica-software\\dados\\lab02_rq30_metricas_estaticas.csv",
+  "total_trials_rq28": 15,
+  "total_trials_rq30": 6,
   "cobertura": {
     "total_esperado": 12,
-    "total_ok": 0,
-    "total_divergente": 2,
-    "total_faltando": 10,
-    "ok": [],
-    "divergentes": [
+    "total_ok": 5,
+    "total_divergente": 5,
+    "total_faltando": 3,
+    "ok": [
       {
         "issue": "36",
         "kata_numero": "03",
@@ -18,8 +17,85 @@
         "trial_id": "8f2bd412-1fb9-4228-a4ca-d5e8e03583f9",
         "participante_csv": "bblop",
         "kata_csv": "kata03_deduplicador_contatos",
+        "problemas": []
+      },
+      {
+        "issue": "37",
+        "kata_numero": "01",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "bacelete",
+        "trial_id": "a3639fe7-e3eb-41bf-883b-ef2da981b564",
+        "participante_csv": "Arthur",
+        "kata_csv": "kata01_frete_progressivo",
+        "problemas": []
+      },
+      {
+        "issue": "38",
+        "kata_numero": "02",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "bacelete",
+        "trial_id": "6e8d797e-a498-4ebf-a515-1356cc53d16c",
+        "participante_csv": "Arthur",
+        "kata_csv": "kata02_calculo_estacionamento",
+        "problemas": []
+      },
+      {
+        "issue": "39",
+        "kata_numero": "03",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "bacelete",
+        "trial_id": "13cee879-f4ab-4c50-814f-62f3ab70b005",
+        "participante_csv": "Arthur",
+        "kata_csv": "kata03_deduplicador_contatos",
+        "problemas": []
+      },
+      {
+        "issue": "48",
+        "kata_numero": "04",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "bacelete",
+        "trial_id": "677810b8-e310-4ddd-aa0c-8086c0be0748",
+        "participante_csv": "Arthur",
+        "kata_csv": "kata04_calculo_tarifa_energia",
+        "problemas": []
+      }
+    ],
+    "divergentes": [
+      {
+        "issue": "47",
+        "kata_numero": "04",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "BernardoApl",
+        "trial_id": "2d7f4589-1640-4201-add9-13252095a77b",
+        "participante_csv": "bblop",
+        "kata_csv": "kata04_calculo_tarifa_energia",
         "problemas": [
-          "kata 'kata03_deduplicador_contatos' nao e o nome oficial selecionado na RQ32 (kata03_desconto_pedido)"
+          "trial com sucesso mas sem medicao correspondente na RQ30"
+        ]
+      },
+      {
+        "issue": "41",
+        "kata_numero": "02",
+        "tratamento": "com_ia",
+        "responsavel_esperado": "Joaopedrotavaress",
+        "trial_id": "0df5d1fd-d623-4967-a0bf-28372bc7b411",
+        "participante_csv": "Joao_Pedro",
+        "kata_csv": "kata02_calculo_estacionamento",
+        "problemas": [
+          "tratamento da linha (sem_ia) nao bate com o esperado (com_ia)",
+          "trial com sucesso mas sem medicao correspondente na RQ30"
+        ]
+      },
+      {
+        "issue": "42",
+        "kata_numero": "03",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "Joaopedrotavaress",
+        "trial_id": "74119062-092a-4dfa-afad-568b63999833",
+        "participante_csv": "Joao_Pedro",
+        "kata_csv": "kata03_deduplicador_contatos",
+        "problemas": [
+          "trial com sucesso mas sem medicao correspondente na RQ30"
         ]
       },
       {
@@ -31,7 +107,20 @@
         "participante_csv": "Joao_Pedro",
         "kata_csv": "kata03",
         "problemas": [
-          "kata 'kata03' nao e o nome oficial selecionado na RQ32 (kata03_desconto_pedido)",
+          "kata 'kata03' nao e o nome oficial selecionado na RQ32 (kata03_deduplicador_contatos)",
+          "trial com sucesso mas sem medicao correspondente na RQ30"
+        ]
+      },
+      {
+        "issue": "49",
+        "kata_numero": "04",
+        "tratamento": "sem_ia",
+        "responsavel_esperado": "Joaopedrotavaress",
+        "trial_id": "2fd701b3-9f0b-4f05-a2b8-bddb93ba4d20",
+        "participante_csv": "Joao_Pedro",
+        "kata_csv": "kata04_calculo_tarifa_energia",
+        "problemas": [
+          "tratamento da linha (com_ia) nao bate com o esperado (sem_ia)",
           "trial com sucesso mas sem medicao correspondente na RQ30"
         ]
       }
@@ -50,70 +139,44 @@
         "responsavel_esperado": "BernardoApl"
       },
       {
-        "issue": "47",
-        "kata_numero": "04",
-        "tratamento": "sem_ia",
-        "responsavel_esperado": "BernardoApl"
-      },
-      {
-        "issue": "37",
-        "kata_numero": "01",
-        "tratamento": "sem_ia",
-        "responsavel_esperado": "bacelete"
-      },
-      {
-        "issue": "38",
-        "kata_numero": "02",
-        "tratamento": "com_ia",
-        "responsavel_esperado": "bacelete"
-      },
-      {
-        "issue": "39",
-        "kata_numero": "03",
-        "tratamento": "sem_ia",
-        "responsavel_esperado": "bacelete"
-      },
-      {
-        "issue": "48",
-        "kata_numero": "04",
-        "tratamento": "com_ia",
-        "responsavel_esperado": "bacelete"
-      },
-      {
         "issue": "40",
         "kata_numero": "01",
         "tratamento": "com_ia",
-        "responsavel_esperado": "Joaopedrotavaress"
-      },
-      {
-        "issue": "41",
-        "kata_numero": "02",
-        "tratamento": "com_ia",
-        "responsavel_esperado": "Joaopedrotavaress"
-      },
-      {
-        "issue": "49",
-        "kata_numero": "04",
-        "tratamento": "sem_ia",
         "responsavel_esperado": "Joaopedrotavaress"
       }
     ]
   },
   "outliers": {
     "duracao_segundos": {
-      "n": 3,
-      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
+      "n": 15,
+      "q1": 0.9184384999999999,
+      "q3": 643.1566134999999,
+      "iqr": 642.238175,
+      "limite_inferior": -962.438824,
+      "limite_superior": 1606.513876,
       "outliers": []
     },
     "complexidade_media": {
-      "n": 2,
-      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
-      "outliers": []
+      "n": 6,
+      "q1": 3.499975,
+      "q3": 4.6667,
+      "iqr": 1.1667249999999996,
+      "limite_inferior": 1.7498875000000007,
+      "limite_superior": 6.416787499999999,
+      "outliers": [
+        8.0
+      ]
     },
     "indice_manutenibilidade": {
-      "n": 2,
-      "aviso": "menos de 4 valores: deteccao de outliers por IQR nao e confiavel",
-      "outliers": []
+      "n": 6,
+      "q1": 48.9788,
+      "q3": 53.110825,
+      "iqr": 4.132024999999999,
+      "limite_inferior": 42.7807625,
+      "limite_superior": 59.3088625,
+      "outliers": [
+        59.3228
+      ]
     },
     "duplicacao_percentual": {
       "n": 0,
