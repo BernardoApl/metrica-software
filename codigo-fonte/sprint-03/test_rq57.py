@@ -45,6 +45,25 @@ class TestCarregarRq28(unittest.TestCase):
             df = rq57.carregar_rq28(caminho)
         self.assertEqual(df.loc[0, "duracao_efetiva_segundos"], 100.0)
         self.assertEqual(df.loc[0, "sucesso_binario"], 1.0)
+        self.assertTrue(df.loc[0, "issue_informada"])
+
+    def test_remove_trial_id_duplicado_preservando_primeira_ocorrencia(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            caminho = Path(tmp) / "rq28.csv"
+            escrever_csv(caminho, [
+                linha_rq28(kata="kata03_deduplicador_contatos"),
+                linha_rq28(kata="kata03"),
+            ])
+            df = rq57.carregar_rq28(caminho)
+        self.assertEqual(len(df), 1)
+        self.assertEqual(df.loc[0, "kata"], "kata03_deduplicador_contatos")
+
+    def test_issue_placeholder_nao_conta_como_informada(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            caminho = Path(tmp) / "rq28.csv"
+            escrever_csv(caminho, [linha_rq28(issue="<ISSUE>")])
+            df = rq57.carregar_rq28(caminho)
+        self.assertFalse(df.loc[0, "issue_informada"])
 
     def test_censurado_usa_limite_e_interrompido_fica_nan(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -80,8 +99,11 @@ class TestExecutar(unittest.TestCase):
 
         self.assertEqual(len(unificado), 1)
         self.assertEqual(unificado.loc[0, "loc"], 20)
+        self.assertTrue(unificado.loc[0, "metricas_rq30_disponiveis"])
         self.assertEqual(len(resumo), 1)
         self.assertEqual(resumo.loc[0, "participante"], "a")
+        self.assertEqual(resumo.loc[0, "n_issues_informadas"], 1)
+        self.assertEqual(resumo.loc[0, "n_metricas_estaticas"], 1)
         self.assertEqual(resumo.loc[0, "mediana_tempo_segundos"], 100.0)
         self.assertEqual(resumo.loc[0, "taxa_sucesso"], 1.0)
 

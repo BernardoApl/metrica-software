@@ -9,6 +9,9 @@ Prepara os dados para o dashboard (RQ58) - nao gera grafico aqui. Gera dois CSVs
 `duracao_efetiva_segundos` e `sucesso_binario` seguem a mesma regra do RQ51/RQ52: sucesso usa o tempo
 real, censura usa o limite (35 min), interrupcao/erro de execucao ficam de fora (NaN). `complexidade_por_loc`
 segue o RQ53 (complexidade total normalizada pelo tamanho do arquivo).
+
+Quando o CSV da RQ28 contem o mesmo `trial_id` mais de uma vez, o pipeline preserva a primeira ocorrencia
+para manter uma linha por trial no dataset do dashboard.
 """
 
 from __future__ import annotations
@@ -35,14 +38,20 @@ STATUS_TENTATIVA_VALIDA = {"sucesso", "limite_atingido"}
 
 def carregar_rq28(caminho: Path = RQ28_PADRAO) -> pd.DataFrame:
     if not Path(caminho).exists():
-        return pd.DataFrame(columns=COLUNAS_RQ28 + ["duracao_efetiva_segundos", "sucesso_binario"])
+        return pd.DataFrame(columns=COLUNAS_RQ28 + [
+            "issue_informada", "duracao_efetiva_segundos", "sucesso_binario",
+        ])
 
     df = pd.read_csv(caminho, dtype=str)
+    df = df.drop_duplicates(subset=["trial_id"], keep="first").copy()
     df["duracao_segundos"] = pd.to_numeric(df["duracao_segundos"], errors="coerce")
     df["limite_segundos"] = pd.to_numeric(df["limite_segundos"], errors="coerce")
     sucesso_bool = df["sucesso"].str.lower() == "true"
     censurado_bool = df["censurado"].str.lower() == "true"
     status_lower = df["status"].str.lower()
+    issue_texto = df["issue"].fillna("").str.strip()
+
+    df["issue_informada"] = (issue_texto != "") & (issue_texto != "<ISSUE>")
 
     df["duracao_efetiva_segundos"] = pd.NA
     df.loc[sucesso_bool, "duracao_efetiva_segundos"] = df.loc[sucesso_bool, "duracao_segundos"]
@@ -72,17 +81,24 @@ def carregar_rq30(caminho: Path = RQ30_PADRAO) -> pd.DataFrame:
 
 
 def construir_dataset_unificado(rq28: pd.DataFrame, rq30: pd.DataFrame) -> pd.DataFrame:
-    return rq28.merge(rq30, on="trial_id", how="left", suffixes=("", "_rq30"))
+    unificado = rq28.merge(rq30, on="trial_id", how="left", suffixes=("", "_rq30"))
+    unificado["metricas_rq30_disponiveis"] = unificado["loc"].notna()
+    unificado["duplicacao_percentual_disponivel"] = unificado["duplicacao_percentual"].notna()
+    return unificado
 
 
 def construir_resumo_por_tratamento(unificado: pd.DataFrame) -> pd.DataFrame:
     if unificado.empty:
-        return pd.DataFrame(columns=["participante", "tratamento", "n_trials", "mediana_tempo_segundos",
-                                       "taxa_sucesso", "mediana_complexidade_por_loc",
-                                       "mediana_duplicacao_percentual", "mediana_indice_manutenibilidade"])
+        return pd.DataFrame(columns=[
+            "participante", "tratamento", "n_trials", "n_issues_informadas", "n_metricas_estaticas",
+            "mediana_tempo_segundos", "taxa_sucesso", "mediana_complexidade_por_loc",
+            "mediana_duplicacao_percentual", "mediana_indice_manutenibilidade",
+        ])
 
     resumo = unificado.groupby(["participante", "tratamento"]).agg(
         n_trials=("trial_id", "count"),
+        n_issues_informadas=("issue_informada", "sum"),
+        n_metricas_estaticas=("metricas_rq30_disponiveis", "sum"),
         mediana_tempo_segundos=("duracao_efetiva_segundos", "median"),
         taxa_sucesso=("sucesso_binario", "mean"),
         mediana_complexidade_por_loc=("complexidade_por_loc", "median"),
