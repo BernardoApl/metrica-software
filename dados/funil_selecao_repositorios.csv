@@ -1,0 +1,5 @@
+etapa,criterio,entrada,removidos_na_etapa,aprovados
+candidatos_iniciais,repositorios presentes no snapshot unificado,1000,0,1000
+presentes_nas_duas_coletas,presente na GraphQL e na REST,1000,0,1000
+identificacao_valida,"nome, URL e estrelas validos",1000,0,1000
+metricas_nucleares_validas,"idade, PRs, releases e ultimo push validos; status RQ04 igual a ok",1000,27,973
