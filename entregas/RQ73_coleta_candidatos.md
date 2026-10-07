@@ -1,5 +1,27 @@
 # RQ73 — Ampliação dos candidatos
 
+## Ampliação para 8.000 candidatos — 07/10/2026
+
+A segunda execução gerou `dados/rq73_candidatos_8000.json`,
+`dados/rq73_candidatos_8000.csv` e `dados/rq73_candidatos_8000_funil.csv`.
+São 8.000 IDs e nomes únicos: os 4.000 anteriores mais 4.000 novos.
+Foram examinados 8.001 registros e removida uma duplicação. O menor número
+de estrelas observado nessa lista foi 7.448.
+
+```powershell
+python codigo-fonte/coleta/rq73_coletar_candidatos.py --limite 8000 --saida dados/rq73_candidatos_8000.json
+```
+
+A estratégia reutiliza o cache e percorre novas faixas de estrelas, subdividindo
+as consultas com mais de 1.000 resultados. JSON, CSV e funil foram conferidos
+quanto a contagem, unicidade, ordenação e preservação dos candidatos anteriores.
+As respostas têm suas datas individuais: esta ampliação não atualiza os dados
+já armazenados no cache. Os arquivos originais de 4.000 candidatos continuam
+como entrada do checkpoint da RQ74; a lista de 8.000 ainda não foi incorporada
+a esse checkpoint nem validada pelos filtros DORA.
+
+## Coleta inicial de 4.000 candidatos
+
 Esta etapa amplia a base para 4.000 candidatos públicos com mais de 1.000
 estrelas. Os candidatos são buscados por popularidade decrescente. Não se trata
 da amostra final elegível para as métricas DORA: os filtros de releases e
