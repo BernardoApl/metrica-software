@@ -11,6 +11,7 @@ import sys
 import time
 import urllib.error
 import urllib.request
+from concurrent.futures import ThreadPoolExecutor
 from urllib.parse import parse_qs, urlsplit
 from datetime import datetime, timezone
 from pathlib import Path
@@ -271,6 +272,18 @@ def atualizar_derivados(estado):
                        else "incompleto")
 
 
+def substituir_com_retentativa(temporario, destino):
+    """Tolera bloqueios breves do arquivo por indexadores/antivirus no Windows."""
+    for tentativa in range(6):
+        try:
+            temporario.replace(destino)
+            return
+        except PermissionError:
+            if tentativa == 5:
+                raise
+            time.sleep(0.2 * (tentativa + 1))
+
+
 def salvar(estado, saida):
     atualizar_derivados(estado)
     registros = estado["repositorios"]
@@ -281,14 +294,14 @@ def salvar(estado, saida):
     saida.parent.mkdir(parents=True, exist_ok=True)
     temporario = saida.with_suffix(".json.tmp")
     temporario.write_text(json.dumps(estado, ensure_ascii=False, indent=2), encoding="utf-8")
-    temporario.replace(saida)
+    substituir_com_retentativa(temporario, saida)
     csv_saida = saida.with_suffix(".csv")
     csv_temporario = csv_saida.with_suffix(".csv.tmp")
     with csv_temporario.open("w", encoding="utf-8", newline="") as arquivo:
         escritor = csv.DictWriter(arquivo, fieldnames=COLUNAS, extrasaction="ignore")
         escritor.writeheader()
         escritor.writerows(registros)
-    csv_temporario.replace(csv_saida)
+    substituir_com_retentativa(csv_temporario, csv_saida)
 
 
 def coletar(cliente, estado, saida, tamanho_lote=10):
@@ -318,34 +331,51 @@ def coletar(cliente, estado, saida, tamanho_lote=10):
             estado["repositorios"][i] = normalizar(nome, dados.get("r%d" % alias), erros)
         estado["metadados"]["rate_limit"] = cliente.ultimo_rate_limit
         salvar(estado, saida)
-        print("RQ74: %d/%d repositorios com metadados completos." % (
-            estado["metadados"]["coletados_ok"], len(estado["repositorios"])), flush=True)
+        print("RQ74: %d/%d com metadados gerais; %d completos incluindo contribuidores." % (
+            sum(r.get("status_metadados") == "ok" for r in estado["repositorios"]),
+            len(estado["repositorios"]), estado["metadados"]["coletados_ok"]), flush=True)
     return estado
 
 
-def complementar_contribuidores(cliente, estado, saida):
-    for i, registro in enumerate(estado["repositorios"], 1):
-        if registro.get("status_metadados") != "ok" or registro.get("status_contribuidores") == "ok":
-            continue
+def complementar_contribuidores(cliente, estado, saida, trabalhadores=1):
+    if not 1 <= trabalhadores <= 4:
+        raise ValueError("Use entre 1 e 4 trabalhadores para contribuidores.")
+    pendentes = [r for r in estado["repositorios"]
+                 if r.get("status_metadados") == "ok" and r.get("status_contribuidores") != "ok"]
+
+    def consultar(registro):
         try:
-            evidencia = cliente.contribuidores(registro["nome_completo"])
+            return cliente.contribuidores(registro["nome_completo"]), None
         except ErroAutenticacao:
             raise
         except ErroGitHub as erro:
-            registro.update(status_contribuidores="erro", contribuidores_total=None,
-                            contribuidores_erro=str(erro), contribuidores_coletado_em=agora())
-        else:
-            registro.update(status_contribuidores="ok", contribuidores_total=evidencia["total"],
-                            contribuidores_coletado_em=evidencia["coletado_em"],
-                            contribuidores_erro=None, contribuidores_evidencia=evidencia)
-        salvar(estado, saida)
-        if i % 25 == 0 or i == len(estado["repositorios"]):
-            print("Contribuidores: %d/%d processados; %d completos." % (
-                i, len(estado["repositorios"]), estado["metadados"]["coletados_ok"]), flush=True)
-        if registro.get("contribuidores_evidencia", {}).get("rate_limit_remaining") == "0":
-            reset = registro["contribuidores_evidencia"].get("rate_limit_reset")
-            if reset:
-                cliente._dormir(max(0, float(reset) - time.time()) + 1)
+            return None, str(erro)
+
+    # So a thread principal altera o checkpoint. No maximo 25 respostas ficam
+    # em memoria entre gravacoes; interrupcoes normais tambem salvam no finally.
+    with ThreadPoolExecutor(max_workers=trabalhadores) as executor:
+        for inicio in range(0, len(pendentes), 25):
+            lote = pendentes[inicio:inicio + 25]
+            reinicio = None
+            try:
+                for registro, (evidencia, erro) in zip(lote, executor.map(consultar, lote)):
+                    if erro is not None:
+                        registro.update(status_contribuidores="erro", contribuidores_total=None,
+                                        contribuidores_erro=erro, contribuidores_coletado_em=agora())
+                        registro.pop("contribuidores_evidencia", None)
+                    else:
+                        registro.update(status_contribuidores="ok", contribuidores_total=evidencia["total"],
+                                        contribuidores_coletado_em=evidencia["coletado_em"],
+                                        contribuidores_erro=None, contribuidores_evidencia=evidencia)
+                        if evidencia.get("rate_limit_remaining") == "0" and evidencia.get("rate_limit_reset"):
+                            reinicio = max(reinicio or 0, float(evidencia["rate_limit_reset"]))
+            finally:
+                salvar(estado, saida)
+            print("Contribuidores: %d/%d completos; %d/%d pendencias processadas nesta execucao." % (
+                estado["metadados"]["coletados_ok"], len(estado["repositorios"]),
+                inicio + len(lote), len(pendentes)), flush=True)
+            if reinicio:
+                cliente._dormir(max(0, reinicio - time.time()) + 1)
 
 
 def principal(argv=None):
@@ -353,6 +383,7 @@ def principal(argv=None):
     parser.add_argument("--entrada", type=Path, default=DIRETORIO_DADOS / "repositorios_selecionados.csv")
     parser.add_argument("--saida", type=Path, default=DIRETORIO_DADOS / "rq74_metadados_repositorios.json")
     parser.add_argument("--tamanho-lote", type=int, choices=range(1, 21), default=10)
+    parser.add_argument("--trabalhadores-contribuidores", type=int, choices=range(1, 5), default=1)
     parser.add_argument("--referencia-idade", help="Data ISO 8601 com fuso; padrao: inicio da coleta.")
     parser.add_argument("--somente-cache", action="store_true", help="Atualiza derivados sem acessar a API.")
     args = parser.parse_args(argv)
@@ -367,7 +398,7 @@ def principal(argv=None):
         if not args.somente_cache and any(r["status"] != "ok" for r in estado["repositorios"]):
             cliente = ClienteMetadados(obter_token())
             coletar(cliente, estado, args.saida, args.tamanho_lote)
-            complementar_contribuidores(cliente, estado, args.saida)
+            complementar_contribuidores(cliente, estado, args.saida, args.trabalhadores_contribuidores)
         else:
             salvar(estado, args.saida)
         return 0 if estado["metadados"]["concluido"] else 1

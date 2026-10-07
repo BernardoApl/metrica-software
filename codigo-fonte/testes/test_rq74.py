@@ -27,6 +27,49 @@ def no_valido():
 
 
 class TestRQ74(unittest.TestCase):
+    def test_contribuidores_paralelos_salvam_lotes_e_preservam_falhas(self):
+        with tempfile.TemporaryDirectory() as pasta:
+            entrada = Path(pasta) / 'entrada.csv'
+            nomes = [f'org/repo{i}' for i in range(26)]
+            entrada.write_text('nome_completo\n' + '\n'.join(nomes), encoding='utf-8')
+            saida = Path(pasta) / 'saida.json'
+            estado = rq74.preparar_estado(nomes, entrada, saida)
+            estado['repositorios'] = [rq74.normalizar(n, dict(no_valido(), nameWithOwner=n)) for n in nomes]
+            cliente = Mock()
+            def consultar(nome):
+                if nome == 'org/repo12':
+                    raise rq74.ErroGitHub('HTTP 403')
+                return dict(total=int(nome.split('repo')[1]), coletado_em=rq74.agora())
+            cliente.contribuidores.side_effect = consultar
+            with patch.object(rq74, 'salvar', wraps=rq74.salvar) as gravar:
+                rq74.complementar_contribuidores(cliente, estado, saida, trabalhadores=4)
+            self.assertEqual(gravar.call_count, 2)
+            self.assertEqual(estado['metadados']['coletados_ok'], 25)
+            self.assertIsNone(estado['repositorios'][12]['contribuidores_total'])
+            for i, registro in enumerate(estado['repositorios']):
+                if i != 12:
+                    self.assertEqual(registro['contribuidores_total'], i)
+            cliente.contribuidores.reset_mock()
+            cliente.contribuidores.side_effect = lambda _: dict(total=12, coletado_em=rq74.agora())
+            rq74.complementar_contribuidores(cliente, estado, saida, trabalhadores=4)
+            cliente.contribuidores.assert_called_once_with('org/repo12')
+            self.assertTrue(estado['metadados']['concluido'])
+
+    def test_gravacao_repete_bloqueio_temporario(self):
+        temporario = Mock()
+        temporario.replace.side_effect = [PermissionError('arquivo em uso'), None]
+        with patch.object(rq74.time, 'sleep') as dormir:
+            rq74.substituir_com_retentativa(temporario, Path('destino.json'))
+        self.assertEqual(temporario.replace.call_count, 2)
+        dormir.assert_called_once_with(0.2)
+
+    def test_gravacao_nao_oculta_bloqueio_permanente(self):
+        temporario = Mock()
+        temporario.replace.side_effect = PermissionError('arquivo em uso')
+        with patch.object(rq74.time, 'sleep'), self.assertRaises(PermissionError):
+            rq74.substituir_com_retentativa(temporario, Path('destino.json'))
+        self.assertEqual(temporario.replace.call_count, 6)
+
     def test_preserva_renomeacao_nulos_e_zeros(self):
         registro = rq74.normalizar("org/antigo", no_valido())
         self.assertEqual(registro["status"], "ok")

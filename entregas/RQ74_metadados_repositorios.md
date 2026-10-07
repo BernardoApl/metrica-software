@@ -28,6 +28,50 @@ contribuidores e idade válidos. Contagens globais de releases e issues são
 descritivas e **não comprovam elegibilidade DORA na janela de 12 meses**.
 Filtros de Actions, releases e runs continuam fora do escopo da #74.
 
+## Ampliação para 8.000 candidatos
+
+Entrada: `dados/rq73_candidatos_8000.csv`. Saídas:
+`dados/rq74_metadados_candidatos_8000.json` e `.csv`.
+O checkpoint foi iniciado com 3.563 registros com metadados gerais válidos
+reaproveitados da base de 4.000, identificados pelo nome completo atual.
+As datas individuais de consulta foram preservadas, e a idade é calculada
+com a referência única do novo checkpoint. Isso não valida elegibilidade DORA.
+
+```powershell
+python codigo-fonte/coleta/rq74_metadados_repositorios.py --entrada dados/rq73_candidatos_8000.csv --saida dados/rq74_metadados_candidatos_8000.json --tamanho-lote 20 --trabalhadores-contribuidores 4
+```
+
+O comando retoma apenas as etapas pendentes ou com erro. Consulte as contagens
+e `concluido` no JSON antes de considerar a coleta completa. A gravação tenta
+novamente quando o Windows bloqueia temporariamente a substituição do arquivo;
+um bloqueio persistente continua sendo reportado como erro.
+
+A etapa REST aceita de um a quatro trabalhadores (padrão: um). Só a thread
+principal atualiza os registros, salvando a cada lote de até 25 respostas e
+também ao sair por exceção. Uma interrupção abrupta do processo pode exigir
+reconsulta do último lote. As consultas mantêm o tratamento de rate limit e
+retentativas; o coletor aguarda a renovação da cota quando ela se esgota.
+
+## Ampliação para os candidatos da RQ73
+
+A lista ampliada contém 4.000 candidatos, ainda sem validação de elegibilidade
+DORA. Seus metadados ficam em `dados/rq74_metadados_candidatos.json` e `.csv`,
+separados da coleta original de 973 repositórios.
+
+O checkpoint ampliado reaproveitou os 973 registros da coleta anterior por
+nome completo atual, preservando as datas individuais de consulta. As idades
+são recalculadas para a referência única do novo checkpoint. Registros com
+metadados ou contribuidores pendentes continuam sendo consultados pela API.
+
+Para retomar, com `GITHUB_TOKEN` configurado no ambiente ou no `.env`:
+
+```powershell
+python codigo-fonte/coleta/rq74_metadados_repositorios.py --entrada dados/rq73_candidatos.csv --saida dados/rq74_metadados_candidatos.json --tamanho-lote 10
+```
+
+Os campos `coletados_ok`, `pendentes_ou_falhos` e `concluido` do JSON indicam
+a cobertura real. Um erro de contribuidores não é convertido em contagem zero.
+
 ## Executar
 
 Configure `GITHUB_TOKEN` ou `GH_TOKEN` no ambiente, ou `GITHUB_TOKEN=...` no
