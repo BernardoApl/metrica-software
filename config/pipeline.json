@@ -4,6 +4,7 @@
   "meta_repositorios": 100,
   "criterios": {"minimo_releases": 5, "minimo_runs_validos": 50},
   "limite_runs_por_repositorio": 20000,
+  "limite_paginas_compare": 20,
   "trabalhadores": 8,
   "candidatos": {
     "limite_busca": 8000,

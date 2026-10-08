@@ -27,6 +27,13 @@ aceita data e hora); so um intervalo de um segundo acima do teto fica em
 entao o cache de coletas anteriores continua valendo. Cada consulta fica em
 ``intervalos`` para auditoria (``intervalos_runs.csv``).
 
+RQ76: ``GET /repos/{o}/{r}/compare/{base}...{head}`` devolve os commits de uma
+release em relacao a anterior. Sem paginacao ele para em 250 commits, entao a
+coleta segue o ``Link`` com ``per_page=100`` ate ``max_paginas``; se parar
+antes de ``total_commits``, o resultado fica marcado como ``truncado``. Do
+corpo so ficam ``sha``, ``commit.author.date`` e a 1a linha da mensagem (usada
+depois na heuristica de release corretiva); a lista ``files`` e descartada.
+
 Todas as funcoes recebem o cliente REST por parametro (testes usam um falso).
 """
 
@@ -34,6 +41,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, time, timedelta, timezone
 from typing import Iterable, Optional
+from urllib.parse import quote
 
 TETO_BUSCA = 1000
 POR_PAGINA = 100
@@ -42,6 +50,10 @@ CAMPOS_RUN = ("id", "workflow_id", "name", "event", "head_branch", "head_sha", "
               "conclusion", "run_attempt", "created_at", "run_started_at", "updated_at")
 CAMPOS_RELEASE = ("id", "tag_name", "name", "draft", "prerelease", "created_at",
                   "published_at", "target_commitish")
+CAMPOS_COMMIT = ("sha", "data_autor", "mensagem")
+TAMANHO_MENSAGEM = 200
+#: Caracteres mantidos sem escape no caminho do compare (tags de monorepo: ``@scope/pkg@1.0``).
+SEGUROS_TAG = "/@"
 
 
 def para_data(valor) -> date:
@@ -144,6 +156,57 @@ def releases_validas(releases: Iterable[dict], incluir_prerelease: bool = False)
     return [r for r in releases
             if r.get("dentro_janela") and not r.get("draft") and r.get("published_at")
             and (incluir_prerelease or not r.get("prerelease"))]
+
+
+def compactar_compare(corpo: dict) -> dict:
+    """Mantem os totais e, de cada commit, ``sha``, data de autoria e 1a linha da mensagem."""
+    commits = []
+    for item in corpo.get("commits") or []:
+        commit = item.get("commit") or {}
+        mensagem = (commit.get("message") or "").strip().splitlines()
+        commits.append({
+            "sha": item.get("sha"),
+            "data_autor": (commit.get("author") or {}).get("date"),
+            "mensagem": mensagem[0][:TAMANHO_MENSAGEM] if mensagem else "",
+        })
+    return {campo: corpo.get(campo) for campo in ("status", "ahead_by", "behind_by",
+                                                  "total_commits")} | {"commits": commits}
+
+
+def caminho_compare(nome: str, base: str, head: str) -> str:
+    return "/repos/%s/compare/%s...%s" % (nome, quote(base, safe=SEGUROS_TAG),
+                                          quote(head, safe=SEGUROS_TAG))
+
+
+def coletar_compare(cliente, nome: str, base: str, head: str,
+                    max_paginas: Optional[int] = None) -> dict:
+    """Commits de ``head`` que nao estao em ``base`` (todas as paginas, ate ``max_paginas``).
+
+    Devolve ``{"status", "total_commits", "commits", "truncado"}``. Status
+    diferente de 200 (404 de tag apagada, 422...) vem com ``commits = []``.
+    """
+    commits: list = []
+    status, total = 200, 0
+    for posicao, pagina in enumerate(cliente.paginar(
+            caminho_compare(nome, base, head), {"per_page": POR_PAGINA},
+            compactar=compactar_compare, max_paginas=max_paginas)):
+        if pagina["status"] != 200:
+            if posicao == 0:
+                return {"status": pagina["status"], "total_commits": None, "commits": [],
+                        "truncado": False}
+            status = pagina["status"]  # falhou no meio: fica com o que veio
+            break
+        corpo = pagina["corpo"] or {}
+        if posicao == 0:
+            total = corpo.get("total_commits") or 0
+        commits.extend(corpo.get("commits") or [])
+    vistos, unicos = set(), []
+    for commit in commits:
+        if commit["sha"] not in vistos:
+            vistos.add(commit["sha"])
+            unicos.append(commit)
+    return {"status": 200, "total_commits": total, "commits": unicos,
+            "truncado": len(unicos) < total or status != 200}
 
 
 UM_SEGUNDO = timedelta(seconds=1)

@@ -4,6 +4,7 @@ import re
 import sys
 from datetime import date, datetime, timezone
 from pathlib import Path
+from urllib.parse import unquote
 
 import pytest
 
@@ -25,13 +26,17 @@ def instante_do_run(run):
 class ClienteFalso:
     """Simula a API: ``releases`` por repo e ``runs`` filtrados por ``created``."""
 
-    def __init__(self, workflows=1, releases=(), runs=(), status=None, total_informado=None):
+    def __init__(self, workflows=1, releases=(), runs=(), status=None, total_informado=None,
+                 compares=None):
         self.workflows = workflows
         self.releases = list(releases)
         self.runs = list(runs)
         self.status = status or {}
         # Simula o total_count impreciso da API: funcao (total real) -> total informado.
         self.total_informado = total_informado or (lambda total: total)
+        # (base, head) -> lista de commits no formato da API, ou um status HTTP de erro.
+        # Pares nao configurados devolvem um compare vazio.
+        self.compares = compares or {}
         self.chamadas = []
 
     def get(self, caminho, parametros=None, compactar=None):
@@ -42,7 +47,16 @@ class ClienteFalso:
             return {"status": self.status[tipo], "corpo": None, "link": ""}
         pagina = parametros.get("page", 1)
         por_pagina = parametros.get("per_page", 30)
-        if tipo == "workflows":
+        if "/compare/" in caminho:
+            base, head = unquote(caminho.split("/compare/", 1)[1]).split("...")
+            commits = self.compares.get((base, head), [])
+            if isinstance(commits, int):
+                return {"status": commits, "corpo": None, "link": ""}
+            itens = commits[(pagina - 1) * por_pagina: pagina * por_pagina]
+            corpo = {"status": "ahead", "ahead_by": len(commits), "behind_by": 0,
+                     "total_commits": len(commits), "commits": itens, "files": ["enorme"]}
+            itens_total = len(commits)
+        elif tipo == "workflows":
             corpo = {"total_count": self.workflows, "workflows": []}
             itens_total = 0
         elif tipo == "releases":
@@ -74,6 +88,13 @@ class ClienteFalso:
             if max_paginas and pagina >= max_paginas:
                 return
             pagina += 1
+
+
+def commit_api(sha, data, mensagem="feat: algo"):
+    """Um item de ``commits`` como o ``compare`` devolve (so os campos usados + extras)."""
+    return {"sha": sha, "commit": {"author": {"name": "x", "date": data},
+                                   "committer": {"date": data}, "message": mensagem},
+            "author": {"login": "x"}, "parents": [{"sha": "pai"}]}
 
 
 def release(tag, publicada, draft=False, prerelease=False):

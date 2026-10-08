@@ -32,11 +32,24 @@ Janela usada: ver `resumo_execucao.json` (`config.janela`). As duas datas são i
 | `episodios_censura_esquerda` | inteiro | episódios | episódios em que o workflow já começa a janela falhando, sem sucesso anterior observado |
 | `proporcao_episodios_censurados` | real | fração (0–1) | `episodios_censurados ÷ episodios_falha` |
 | `intervalos_no_teto` | inteiro | intervalos | intervalos de **um segundo** ainda com 1.000 runs ou mais, em que a API só devolve os 1.000 primeiros (RQ77: dias e horas acima do teto são subdivididos até caber). Se for maior que 0, a coleta desse repositório está incompleta |
+| `lead_time_release_mediana_dias` | real | dias | **RQ 02 (a)**: mediana, entre as releases, de `published_at` de R − `commit.author.date` do commit mais antigo de `compare/{anterior}...{R}` |
+| `lead_time_commit_mediana_dias` | real | dias | **RQ 02 (b)**: mediana, entre **todos** os commits de todas as releases, de `published_at` de R − `commit.author.date` do commit |
+| `releases_com_lead_time` | inteiro | releases | releases da janela com lead time calculado (entram na variante a) |
+| `commits_com_lead_time` | inteiro | commits | commits que entram na variante (b) |
+| `releases_sem_anterior` | inteiro | releases | primeira release da história do repositório: sem base para o `compare`, ignorada |
+| `releases_sem_commits` | inteiro | releases | `compare` sem commits novos (ou só com commits de data posterior à release), ignorada |
+| `releases_compare_indisponivel` | inteiro | releases | `compare` com 404 (tag apagada/reescrita), 422 ou erro persistente, ignorada |
+| `releases_compare_truncado` | inteiro | releases | `compare` com mais páginas que `limite_paginas_compare` (ou que falhou no meio); o lead time usa só os commits obtidos |
+| `commits_negativos` | inteiro | commits | commits com `commit.author.date` posterior a `published_at` da release, descartados das duas variantes |
 | `classe_frequencia` | categoria | Elite/High/Medium/Low | tabela de referência da RQ 07 aplicada a `frequencia_deploy_semana` |
 | `classe_cfr` | categoria | idem | tabela da RQ 07 aplicada a `cfr_ci` |
+| `classe_lead_time` | categoria | idem | tabela da RQ 07 aplicada a `lead_time_release_mediana_dias` (variante a, combinação de referência C1) |
 | `classe_recuperacao` | categoria | idem | tabela da RQ 07 aplicada a `recuperacao_mediana_horas` |
+| `classe_geral` | categoria | idem | mediana das notas das quatro classes (Elite=4 … Low=1), arredondada para baixo. Vazia se alguma das quatro for indefinida |
 
-Lead time (RQ 02) e CFR de entrega (RQ 03 b) dependem do `compare` entre releases, que é parte de outra issue. Por isso, as colunas de lead time e a classificação geral ainda não estão neste arquivo. `releases.csv` já traz a release anterior à janela, que serve de base para esse cálculo.
+O CFR de entrega (RQ 03 b) ainda não está neste arquivo; ele vai usar as mensagens de `commits_releases.csv.gz`.
+
+**Release anterior (RQ76):** é a release publicada imediatamente anterior a R por `published_at`, com a mesma definição de deploy (não draft, não pré-release). Ela pode estar fora da janela.
 
 ## `releases.csv`
 
@@ -66,6 +79,30 @@ Uma linha por consulta a `GET /actions/runs` feita para os repositórios da amos
 | `subdividido` | booleano | `True` se o intervalo foi dividido em duas metades, porque `total_informado` > 1.000 ou `coletados` = 1.000 |
 
 Checagem: as linhas com `subdividido = False` cobrem a janela sem lacunas, e todas têm `coletados` < 1.000 (as exceções aparecem em `intervalos_no_teto`).
+
+## `lead_time_releases.csv` — lead time por release (RQ76)
+
+Uma linha por release da janela (não draft, não pré-release) dos repositórios da amostra.
+
+| Coluna | Tipo | Unidade | Significado |
+|---|---|---|---|
+| `nome_completo`, `tag_name` | texto | — | repositório e release R |
+| `anterior` | texto | — | `tag_name` da release anterior (base do `compare`); vazio se R é a primeira da história |
+| `published_at` | data | — | data de R |
+| `commits` | inteiro | commits | commits retornados pelo `compare` (com data de autoria) |
+| `commits_negativos` | inteiro | commits | dos quais com data posterior a R (descartados) |
+| `truncado` | booleano | — | `compare` incompleto (limite de páginas ou falha no meio) |
+| `lead_time_dias` | real | dias | variante (a) da release: R − commit mais antigo. Vazio se `motivo` preenchido |
+| `motivo` | categoria | — | por que R ficou sem lead time: `sem_release_anterior`, `sem_commits_novos`, `compare_indisponivel` |
+
+## `commits_releases.csv.gz` — commits de cada release (RQ76)
+
+| Coluna | Tipo | Origem |
+|---|---|---|
+| `nome_completo`, `tag_name`, `anterior` | texto | repositório, release R e base do `compare` |
+| `sha` | texto | `commits[].sha` de `GET /repos/{o}/{r}/compare/{anterior}...{R}` |
+| `data_autor` | data | `commits[].commit.author.date` |
+| `mensagem` | texto | 1ª linha de `commits[].commit.message`, até 200 caracteres (para a heurística de release corretiva da RQ 03 b) |
 
 ## `candidatos_avaliados.csv`
 

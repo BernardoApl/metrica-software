@@ -32,7 +32,8 @@ O que o comando faz, em ordem:
 1. Se o CSV de metadados configurado em `candidatos.metadados` não existir, roda a busca de candidatos (`rq73_coletar_candidatos.py`) e a coleta de metadados (`rq74_metadados_repositorios.py`).
 2. Descarta, sem chamar a API, forks, repositórios arquivados, desabilitados, vazios ou sem default branch.
 3. Percorre os candidatos por número de estrelas e aplica, do critério mais barato para o mais caro: usa GitHub Actions → ≥ 5 releases publicadas na janela → ≥ 50 workflow runs válidos no default branch. Para quando chega a `meta_repositorios`.
-4. Calcula frequência de deploy, CFR de CI, tempo de recuperação e as classes DORA, e grava os CSVs em `dados/lab03/`.
+4. Para os repositórios incluídos, compara cada release da janela com a anterior (`compare`) e calcula o lead time nas duas variantes (RQ76).
+5. Calcula frequência de deploy, lead time, CFR de CI, tempo de recuperação, as classes DORA e a classificação geral, e grava os CSVs em `dados/lab03/`.
 
 **Retomada.** Toda resposta da API vai para `dados/.cache/lab03_rest/`. Se a coleta parar por rate limit, queda de rede ou `Ctrl+C`, rode o **mesmo comando** de novo: o que já foi baixado sai do cache, sem gastar cota. No início, o script consulta `GET /rate_limit` (não consome cota) e mostra quantas requisições restam. Quando a cota está acabando (restam tantas quanto `trabalhadores`), ele espera sozinho até o `X-RateLimit-Reset`. Erros 5xx e quedas de rede são repetidos com backoff exponencial (1 s, 2 s, 4 s, …, até 60 s). Detalhes em [RQ78](entregas/laboratorio-03/sprint-01/RQ78_cache_rate_limit_retry.md).
 
@@ -44,6 +45,7 @@ O que o comando faz, em ordem:
 | `meta_repositorios` | Tamanho da amostra (100 na S01, ≥ 300 na S02) |
 | `criterios.minimo_releases`, `criterios.minimo_runs_validos` | Critério mínimo de inclusão do enunciado (5 e 50) |
 | `limite_runs_por_repositorio` | Teto operacional de runs por repositório na janela (custo de API). Quem passa dele é descartado e aparece no funil |
+| `limite_paginas_compare` | Máximo de páginas de 100 commits por `compare` entre releases (20 = 2.000 commits). Comparações maiores ficam marcadas como truncadas |
 | `trabalhadores` | Quantos candidatos são avaliados em paralelo. O resultado é o mesmo da execução sequencial |
 | `diretorio_cache`, `diretorio_saida` | Onde ficam o cache da API e os CSVs gerados |
 
@@ -60,6 +62,8 @@ O dicionário de dados de cada coluna está em [`dados/lab03/DICIONARIO.md`](dad
 | `dados/lab03/metricas_repositorios.csv` | Uma linha por repositório da amostra, com as métricas |
 | `dados/lab03/releases.csv` | Releases coletadas dos repositórios da amostra, incluindo as anteriores à janela, que servem de base para o lead time |
 | `dados/lab03/workflow_runs.csv.gz` | Workflow runs de `push` no default branch, dentro da janela |
+| `dados/lab03/lead_time_releases.csv` | Lead time de cada release da janela, a release anterior usada e o motivo quando não há lead time (RQ76) |
+| `dados/lab03/commits_releases.csv.gz` | Commits de cada release (sha, data de autoria, 1ª linha da mensagem), vindos do `compare` (RQ76) |
 | `dados/lab03/intervalos_runs.csv` | Auditoria da coleta de runs: cada intervalo consultado, total informado, runs coletados e se foi subdividido (RQ77) |
 | `dados/lab03/resumo_execucao.json` | Configuração usada, data da coleta e contadores de requisições e de cache |
 
@@ -78,7 +82,8 @@ A suíte padrão (`pytest.ini`) roda `codigo-fonte/testes`. Os testes não acess
 | `codigo-fonte/coleta/rq73_coletar_candidatos.py` | Busca de candidatos fatiada por faixas de estrelas |
 | `codigo-fonte/coleta/rq74_metadados_repositorios.py` | Metadados via GraphQL (estrelas, linguagem, idade, contribuidores) |
 | `codigo-fonte/coleta/cliente_rest.py` | Cliente REST próprio: cache, paginação, rate limit e backoff |
-| `codigo-fonte/coleta/coleta_dora.py` | Coleta de workflows, releases e runs, com subdivisão mensal da janela (e por dia/hora quando um intervalo chega ao teto de 1.000, RQ77) |
+| `codigo-fonte/coleta/coleta_dora.py` | Coleta de workflows, releases, runs (subdivisão mensal da janela, e por dia/hora quando um intervalo chega ao teto de 1.000, RQ77) e `compare` entre releases (RQ76) |
 | `codigo-fonte/metricas/ci.py` | CFR (a) e tempo de recuperação (RQ79) |
+| `codigo-fonte/metricas/lead_time.py` | Lead time por release (a) e por commit (b) (RQ76) |
 | `codigo-fonte/metricas/dora.py` | Frequência de deploy e classificação DORA |
 | `codigo-fonte/pipeline_dora.py` | Orquestra tudo num único comando (RQ80) |

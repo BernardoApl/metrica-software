@@ -47,13 +47,14 @@ configurar_caminhos()
 from cliente_github import ErroAutenticacao, obter_token  # noqa: E402
 from cliente_rest import ClienteREST, ErroREST  # noqa: E402
 import coleta_dora  # noqa: E402
-from metricas import ci, dora  # noqa: E402
+from metricas import ci, dora, lead_time  # noqa: E402
 
 CONFIG_PADRAO = {
     "janela": {"inicio": "2025-10-01", "fim": "2026-09-30"},
     "meta_repositorios": 100,
     "criterios": {"minimo_releases": 5, "minimo_runs_validos": 50},
     "limite_runs_por_repositorio": 20000,
+    "limite_paginas_compare": 20,
     "trabalhadores": 4,
     "candidatos": {
         "limite_busca": 8000,
@@ -81,12 +82,20 @@ COLUNAS_METRICAS = (
     "runs_coletados", "runs_validos", "runs_falha", "runs_sucesso", "cfr_ci",
     "recuperacao_mediana_horas", "episodios_falha", "episodios_completos",
     "episodios_censurados", "episodios_censura_esquerda", "proporcao_episodios_censurados",
-    "intervalos_no_teto", "classe_frequencia", "classe_cfr", "classe_recuperacao",
+    "intervalos_no_teto",
+    "lead_time_release_mediana_dias", "lead_time_commit_mediana_dias",
+    "releases_com_lead_time", "commits_com_lead_time", "releases_sem_anterior",
+    "releases_sem_commits", "releases_compare_indisponivel", "releases_compare_truncado",
+    "commits_negativos",
+    "classe_frequencia", "classe_lead_time", "classe_cfr", "classe_recuperacao", "classe_geral",
 )
 COLUNAS_RELEASES = ("nome_completo", *coleta_dora.CAMPOS_RELEASE, "dentro_janela")
 COLUNAS_RUNS = ("nome_completo", *coleta_dora.CAMPOS_RUN)
 COLUNAS_FUNIL = ("etapa", "criterio", "entrada", "removidos_na_etapa", "aprovados")
 COLUNAS_INTERVALOS = ("nome_completo", "intervalo", "total_informado", "coletados", "subdividido")
+COLUNAS_LEAD_TIME = ("nome_completo", "tag_name", "anterior", "published_at", "commits",
+                     "commits_negativos", "truncado", "lead_time_dias", "motivo")
+COLUNAS_COMMITS = ("nome_completo", "tag_name", "anterior", *coleta_dora.CAMPOS_COMMIT)
 
 
 # ---------------------------------------------------------------- configuracao
@@ -219,8 +228,11 @@ def avaliar_repositorio(cliente, candidato: dict, config: dict) -> dict:
         return dict(avaliacao, motivo="poucos_runs")
 
     frequencia = dora.frequencia_de_deploy(len(validas), coleta_dora.semanas_da_janela(inicio, fim))
-    classes = dora.classificar_repositorio(frequencia, None, metricas["cfr_ci"],
-                                           metricas["recuperacao_mediana_horas"])
+    lead = calcular_lead_time(cliente, nome, coleta_releases["releases"], config)
+    # Combinacao de referencia (C1 da RQ 07): lead time (a), por release.
+    classes = dora.classificar_repositorio(
+        frequencia, lead["metricas"]["lead_time_release_mediana_dias"], metricas["cfr_ci"],
+        metricas["recuperacao_mediana_horas"])
     linha = {
         "nome_completo": nome,
         "url": candidato.get("url"),
@@ -238,11 +250,42 @@ def avaliar_repositorio(cliente, candidato: dict, config: dict) -> dict:
         "runs_coletados": len(coleta_runs["runs"]),
         "intervalos_no_teto": len(coleta_runs["teto_atingido"]),
         **metricas,
+        **lead["metricas"],
         **{k: v for k, v in classes.items() if k in COLUNAS_METRICAS},
     }
     return dict(avaliacao, motivo=INCLUIDO, metricas=linha,
                 releases=coleta_releases["releases"], runs=coleta_runs["runs"],
-                intervalos=coleta_runs["intervalos"])
+                intervalos=coleta_runs["intervalos"], lead_time=lead["releases"],
+                commits=lead["commits"])
+
+
+def calcular_lead_time(cliente, nome: str, releases: list[dict], config: dict) -> dict:
+    """RQ76: ``compare`` de cada release da janela com a anterior e lead time (a) e (b).
+
+    Um ``compare`` que falha mesmo depois das tentativas do cliente (ex.: 5xx
+    persistente em comparacoes enormes) nao derruba o repositorio: a release
+    conta como ``compare_indisponivel`` e, como a falha nao vai para o cache, a
+    proxima execucao tenta de novo.
+    """
+    avaliacoes, commits = [], []
+    for anterior, release in lead_time.pares_de_releases(releases):
+        compare = None
+        if anterior is not None:
+            try:
+                compare = coleta_dora.coletar_compare(cliente, nome, anterior["tag_name"],
+                                                      release["tag_name"],
+                                                      config.get("limite_paginas_compare"))
+            except ErroREST:
+                compare = {"status": None, "commits": []}
+        avaliacao = lead_time.avaliar_release(release, anterior, compare)
+        avaliacoes.append(avaliacao)
+        for commit in (compare or {}).get("commits") or []:
+            commits.append(dict(commit, tag_name=release["tag_name"],
+                                anterior=avaliacao["anterior"]))
+    return {"metricas": lead_time.metricas_lead_time(avaliacoes),
+            "releases": [{k: v for k, v in a.items() if k != "lead_times_commits"}
+                         for a in avaliacoes],
+            "commits": commits}
 
 
 def executar(cliente, candidatos: list[dict], config: dict,
@@ -267,6 +310,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
             aptos.append(candidato)
 
     avaliacoes, amostra, releases, runs, intervalos = [], [], [], [], []
+    lead_times, commits = [], []
     trabalhadores = max(1, int(config.get("trabalhadores") or 1))
     executor = ThreadPoolExecutor(max_workers=trabalhadores)
     pendentes: deque = deque()
@@ -288,6 +332,9 @@ def executar(cliente, candidatos: list[dict], config: dict,
                 runs.extend(dict(r, nome_completo=nome) for r in avaliacao["runs"])
                 intervalos.extend(dict(i, nome_completo=nome)
                                   for i in avaliacao.get("intervalos", []))
+                lead_times.extend(dict(l, nome_completo=nome)
+                                  for l in avaliacao.get("lead_time", []))
+                commits.extend(dict(c, nome_completo=nome) for c in avaliacao.get("commits", []))
             registrar("[%d/%d aprovados | candidato %d] %s: %s"
                       % (len(amostra), meta, avaliacao["posicao"], avaliacao["nome_completo"],
                          avaliacao["motivo"]))
@@ -302,6 +349,8 @@ def executar(cliente, candidatos: list[dict], config: dict,
         "releases": releases,
         "runs": runs,
         "intervalos": intervalos,
+        "lead_time": lead_times,
+        "commits": commits,
     }
 
 
@@ -365,6 +414,9 @@ def exportar(resultado: dict, config: dict, cliente=None) -> Path:
     salvar_csv(saida / "releases.csv", resultado["releases"], COLUNAS_RELEASES)
     salvar_csv(saida / "workflow_runs.csv.gz", resultado["runs"], COLUNAS_RUNS, comprimir=True)
     salvar_csv(saida / "intervalos_runs.csv", resultado.get("intervalos", []), COLUNAS_INTERVALOS)
+    salvar_csv(saida / "lead_time_releases.csv", resultado.get("lead_time", []), COLUNAS_LEAD_TIME)
+    salvar_csv(saida / "commits_releases.csv.gz", resultado.get("commits", []), COLUNAS_COMMITS,
+               comprimir=True)
     resumo = {
         "gerado_em": datetime.now(timezone.utc).isoformat(),
         "config": config,
