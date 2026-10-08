@@ -54,7 +54,7 @@ CONFIG_PADRAO = {
     "meta_repositorios": 100,
     "criterios": {"minimo_releases": 5, "minimo_runs_validos": 50},
     "limite_runs_por_repositorio": 20000,
-    "trabalhadores": 3,
+    "trabalhadores": 4,
     "candidatos": {
         "limite_busca": 8000,
         "saida_busca": "dados/rq73_candidatos_8000.json",
@@ -247,7 +247,8 @@ def executar(cliente, candidatos: list[dict], config: dict,
              registrar: Callable[[str], None] = print) -> dict:
     """Avalia os aptos em ordem de estrelas ate a meta.
 
-    Com ``trabalhadores > 1`` os proximos candidatos sao avaliados em paralelo,
+    Com ``trabalhadores > 1`` os proximos candidatos sao avaliados em paralelo
+    (ate ``4 * trabalhadores`` enfileirados),
     mas os resultados sao consumidos estritamente na ordem de estrelas: a
     amostra e o funil saem identicos aos de uma execucao sequencial. Candidatos
     adiantados depois de a meta ser atingida sao descartados (contam como nao
@@ -270,7 +271,9 @@ def executar(cliente, candidatos: list[dict], config: dict,
     proximo = 0
     try:
         while len(amostra) < meta and (pendentes or proximo < len(aptos)):
-            while proximo < len(aptos) and len(pendentes) < trabalhadores:
+            # Enfileira alem dos trabalhadores para que um repositorio lento na
+            # frente da fila nao deixe os demais ociosos.
+            while proximo < len(aptos) and len(pendentes) < trabalhadores * 4:
                 pendentes.append(executor.submit(avaliar_repositorio, cliente, aptos[proximo], config))
                 proximo += 1
             avaliacao = pendentes.popleft().result()
