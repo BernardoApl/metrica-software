@@ -1,0 +1,35 @@
+{
+  "gerado_em": "2026-10-08T03:52:34.036968+00:00",
+  "config": {
+    "janela": {
+      "inicio": "2025-10-01",
+      "fim": "2026-09-30"
+    },
+    "meta_repositorios": 100,
+    "criterios": {
+      "minimo_releases": 5,
+      "minimo_runs_validos": 50
+    },
+    "limite_runs_por_repositorio": 20000,
+    "trabalhadores": 8,
+    "candidatos": {
+      "limite_busca": 8000,
+      "saida_busca": "dados/rq73_candidatos_8000.json",
+      "metadados": "dados/rq74_metadados_candidatos_8000.csv"
+    },
+    "diretorio_cache": "dados/.cache/lab03_rest",
+    "diretorio_saida": "dados/lab03",
+    "_comentario": "Janela provisoria: confirmar as datas fixadas pelo professor na abertura do Lab03S01."
+  },
+  "repositorios_na_amostra": 100,
+  "meta_atingida": true,
+  "candidatos_avaliados": 272,
+  "requisicoes_api": 9146,
+  "respostas_do_cache": 3452,
+  "pre_filtro": {
+    "metadados_indisponiveis": 0,
+    "fork": 0,
+    "arquivado_ou_desabilitado": 481,
+    "sem_default_branch": 0
+  }
+}

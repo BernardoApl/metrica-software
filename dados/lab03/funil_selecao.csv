@@ -1,0 +1,9 @@
+etapa,criterio,entrada,removidos_na_etapa,aprovados
+candidatos_iniciais,candidatos com metadados RQ74,8000,0,8000
+metadados_validos_e_ativos,status ok; nao e fork; nao arquivado/desabilitado/vazio; com default branch,8000,481,7519
+avaliados_ate_a_meta,"candidatos avaliados, por estrelas, ate atingir 100 repositorios",7519,7247,272
+api_acessivel,"workflows, releases e runs acessiveis pela API",272,0,272
+usa_github_actions,actions/workflows com total_count > 0,272,19,253
+minimo_releases,">= 5 releases publicadas (nao draft, nao pre-release) na janela",253,121,132
+limite_operacional_runs,ate 20000 workflow runs de push no default branch na janela (custo de coleta),132,18,114
+minimo_runs,">= 50 workflow runs validos (push, default branch) na janela",114,14,100

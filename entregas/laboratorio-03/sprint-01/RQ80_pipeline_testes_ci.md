@@ -28,3 +28,26 @@ Issue: #80. Requisitos de engenharia da seção 7 do enunciado, para a entrega L
 ## Fora do escopo desta issue
 
 Lead time (RQ 02) e CFR de entrega (RQ 03 b) usam o `compare` entre releases (integrante B). O pipeline já salva, em `releases.csv`, as releases da janela e a anterior a ela, e as colunas novas entram em `metricas_repositorios.csv` quando essa issue for integrada.
+
+## Resultado da coleta Lab03S01 (100 repositórios)
+
+Coleta executada em 08/10/2026 com `config/pipeline.json` (janela provisória 2025-10-01 a 2026-09-30, 8 trabalhadores), com 9.146 requisições à API e 3.452 respostas reaproveitadas do cache. Os arquivos estão em `dados/lab03/`.
+
+| Etapa | Entrada | Removidos | Aprovados |
+|---|---:|---:|---:|
+| candidatos_iniciais | 8000 | 0 | 8000 |
+| metadados_validos_e_ativos (481 arquivados) | 8000 | 481 | 7519 |
+| avaliados_ate_a_meta | 7519 | 7247 | 272 |
+| api_acessivel | 272 | 0 | 272 |
+| usa_github_actions | 272 | 19 | 253 |
+| minimo_releases (≥ 5) | 253 | 121 | 132 |
+| limite_operacional_runs (≤ 20.000) | 132 | 18 | 114 |
+| minimo_runs (≥ 50 válidos) | 114 | 14 | **100** |
+
+Visão inicial, apenas para checagem de sanidade (a análise fica para a S03):
+
+- 382.863 runs de `push` no default branch, todos dentro da janela. Nenhum dia passou do teto de 1.000 runs (`intervalos_no_teto = 0`).
+- 18.153 releases coletadas, das quais 8.715 dentro da janela (incluindo as pré-releases e as anteriores à janela usadas como base).
+- Frequência mediana de 0,54 release/semana (IQR 0,23–1,22); CFR (a) mediano de 5,1% (IQR 2,4%–12,2%); recuperação mediana de 3,4 h (IQR 1,5–7,6 h).
+- 7 repositórios não tiveram nenhum episódio completo de falha, e por isso estão com a recuperação indefinida.
+- O teto operacional removeu 18 repositórios, cerca de 14% dos que passaram pelo critério de releases. É um viés relevante para a seção de ameaças à validade.
