@@ -123,31 +123,31 @@ def contar_workflows(cliente, nome: str) -> dict:
 
 
 def coletar_releases(cliente, nome: str, inicio, fim) -> dict:
-    """Releases da janela + as anteriores da primeira pagina que passa do inicio.
+    """Pagina todo o historico: a ordem da API nao garante published_at.
 
-    A listagem vem da mais nova para a mais antiga; a paginacao para depois de
-    uma pagina inteira anterior a janela. Releases anteriores a janela sao
-    mantidas (servem de base do ``compare`` no lead time), marcadas com
-    ``dentro_janela = False``.
+    Preserva releases anteriores para encontrar a base cronologica correta.
+    Releases sem published_at nao entram na janela.
     """
     abertura, fechamento = limites_da_janela(inicio, fim)
     releases = []
     status = 200
+    vistos = set()
     for pagina in cliente.paginar("/repos/%s/releases" % nome, {"per_page": POR_PAGINA},
                                   compactar=compactar_releases):
         status = pagina["status"]
         if status != 200:
             break
         itens = pagina["corpo"] or []
-        antigas = 0
         for release in itens:
-            data = _data_utc(release.get("published_at") or release.get("created_at"))
-            release = dict(release, dentro_janela=bool(data and abertura <= data <= fechamento))
+            identidade = release.get("id")
+            if identidade is not None and identidade in vistos:
+                continue
+            if identidade is not None:
+                vistos.add(identidade)
+            data = _data_utc(release.get("published_at"))
+            release = dict(release, dentro_janela=bool(
+                data and abertura <= data < fechamento + timedelta(seconds=1)))
             releases.append(release)
-            if data is not None and data < abertura:
-                antigas += 1
-        if itens and antigas == len(itens):
-            break
     return {"status": status, "releases": releases}
 
 

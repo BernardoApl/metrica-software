@@ -138,13 +138,13 @@ def test_contar_workflows():
     assert coleta_dora.contar_workflows(erro, "o/r") == {"status": 404, "total": None}
 
 
-def test_releases_para_apos_pagina_inteira_anterior_a_janela():
+def test_releases_percorre_todas_as_paginas_mesmo_anteriores_a_janela():
     novas = [release("v2.%d" % i, "2026-0%d-01T00:00:00Z" % (i + 1)) for i in range(5)]
     antigas = [release("v1.%d" % i, "2024-01-%02dT00:00:00Z" % (1 + i % 28)) for i in range(250)]
     cliente = ClienteFalso(releases=list(reversed(novas)) + antigas)
     resultado = coleta_dora.coletar_releases(cliente, "o/r", "2025-10-01", "2026-09-30")
     assert resultado["status"] == 200
-    assert len(cliente.chamadas) == 2  # a 2a pagina e toda anterior a janela; a 3a nao e pedida
+    assert len(cliente.chamadas) == 3  # published_at pode nao seguir a ordem da listagem
     assert sum(r["dentro_janela"] for r in resultado["releases"]) == 5
     assert "extra" not in resultado["releases"][0]
 
