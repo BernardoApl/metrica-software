@@ -34,7 +34,7 @@ O que o comando faz, em ordem:
 3. Percorre os candidatos por número de estrelas e aplica, do critério mais barato para o mais caro: usa GitHub Actions → ≥ 5 releases publicadas na janela → ≥ 50 workflow runs válidos no default branch. Para quando chega a `meta_repositorios`.
 4. Calcula frequência de deploy, CFR de CI, tempo de recuperação e as classes DORA, e grava os CSVs em `dados/lab03/`.
 
-**Retomada.** Toda resposta da API vai para `dados/.cache/lab03_rest/`. Se a coleta parar por rate limit, queda de rede ou `Ctrl+C`, rode o **mesmo comando** de novo: o que já foi baixado sai do cache, sem gastar cota. Quando a cota acaba, o script espera sozinho até o `X-RateLimit-Reset`. Erros 5xx são repetidos com backoff exponencial (1 s, 2 s, 4 s, …).
+**Retomada.** Toda resposta da API vai para `dados/.cache/lab03_rest/`. Se a coleta parar por rate limit, queda de rede ou `Ctrl+C`, rode o **mesmo comando** de novo: o que já foi baixado sai do cache, sem gastar cota. No início, o script consulta `GET /rate_limit` (não consome cota) e mostra quantas requisições restam. Quando a cota está acabando (restam tantas quanto `trabalhadores`), ele espera sozinho até o `X-RateLimit-Reset`. Erros 5xx e quedas de rede são repetidos com backoff exponencial (1 s, 2 s, 4 s, …, até 60 s). Detalhes em [RQ78](entregas/laboratorio-03/sprint-01/RQ78_cache_rate_limit_retry.md).
 
 **Configuração** (`config/pipeline.json`):
 

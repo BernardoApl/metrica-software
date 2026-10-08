@@ -367,12 +367,32 @@ def exportar(resultado: dict, config: dict, cliente=None) -> Path:
         "candidatos_avaliados": len(avaliados),
         "requisicoes_api": getattr(cliente, "requisicoes", None),
         "respostas_do_cache": getattr(cliente, "acertos_cache", None),
+        "esperas_rate_limit": getattr(cliente, "esperas_rate_limit", None),
+        "repeticoes_por_erro_temporario": getattr(cliente, "repeticoes", None),
         "pre_filtro": {motivo: sum(1 for _, m in resultado["pre_filtrados"] if m == motivo)
                        for motivo in MOTIVOS_PRE_FILTRO},
     }
     (saida / "resumo_execucao.json").write_text(
         json.dumps(resumo, ensure_ascii=False, indent=2), encoding="utf-8")
     return saida
+
+
+def criar_cliente(token: str, config: dict, registrar: Callable[[str], None] = print,
+                  **kwargs) -> ClienteREST:
+    """RQ78: cliente com cache e margem de cota igual ao numero de trabalhadores.
+
+    Com N threads, ate N requisicoes podem estar em voo quando a cota chega a
+    zero; pausar com N restantes evita que elas voltem como HTTP 403.
+    """
+    trabalhadores = max(1, int(config.get("trabalhadores") or 1))
+    cliente = ClienteREST(token, caminho_projeto(config["diretorio_cache"]),
+                          margem_cota=trabalhadores, registrar=registrar, **kwargs)
+    cota = cliente.consultar_cota()
+    if cota and cota.get("remaining") is not None:
+        reset = datetime.fromtimestamp(float(cota["reset"] or 0), timezone.utc)
+        registrar("[rate limit] cota inicial: %s de %s requisicoes (renova as %s UTC)."
+                  % (cota["remaining"], cota["limit"], reset.strftime("%H:%M:%S")))
+    return cliente
 
 
 def principal(argv=None) -> int:
@@ -387,7 +407,7 @@ def principal(argv=None) -> int:
             print("[aviso] a janela termina hoje ou no futuro; o cache congelaria dados parciais.")
         token = obter_token(args.token)
         metadados = preparar_candidatos(config)
-        cliente = ClienteREST(token, caminho_projeto(config["diretorio_cache"]))
+        cliente = criar_cliente(token, config)
         resultado = executar(cliente, ler_candidatos(metadados), config)
     except (ErroAutenticacao, ErroREST, OSError, ValueError, subprocess.CalledProcessError) as erro:
         print("Erro: %s" % erro, file=sys.stderr)
@@ -402,8 +422,10 @@ def principal(argv=None) -> int:
     for etapa in resultado["funil"]:
         print("  %-28s %6d -> %6d" % (etapa["etapa"], etapa["entrada"], etapa["aprovados"]))
     print("Amostra: %d repositorios. Arquivos em %s" % (len(resultado["amostra"]), saida))
-    print("Requisicoes a API: %d | respostas do cache: %d"
-          % (cliente.requisicoes, cliente.acertos_cache))
+    print("Requisicoes a API: %d | respostas do cache: %d | esperas de rate limit: %d | "
+          "repeticoes por erro temporario: %d"
+          % (cliente.requisicoes, cliente.acertos_cache, cliente.esperas_rate_limit,
+             cliente.repeticoes))
     return 0
 
 
