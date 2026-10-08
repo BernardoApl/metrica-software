@@ -60,6 +60,7 @@ O dicionário de dados de cada coluna está em [`dados/lab03/DICIONARIO.md`](dad
 | `dados/lab03/metricas_repositorios.csv` | Uma linha por repositório da amostra, com as métricas |
 | `dados/lab03/releases.csv` | Releases coletadas dos repositórios da amostra, incluindo as anteriores à janela, que servem de base para o lead time |
 | `dados/lab03/workflow_runs.csv.gz` | Workflow runs de `push` no default branch, dentro da janela |
+| `dados/lab03/intervalos_runs.csv` | Auditoria da coleta de runs: cada intervalo consultado, total informado, runs coletados e se foi subdividido (RQ77) |
 | `dados/lab03/resumo_execucao.json` | Configuração usada, data da coleta e contadores de requisições e de cache |
 
 ### Testes
@@ -77,7 +78,7 @@ A suíte padrão (`pytest.ini`) roda `codigo-fonte/testes`. Os testes não acess
 | `codigo-fonte/coleta/rq73_coletar_candidatos.py` | Busca de candidatos fatiada por faixas de estrelas |
 | `codigo-fonte/coleta/rq74_metadados_repositorios.py` | Metadados via GraphQL (estrelas, linguagem, idade, contribuidores) |
 | `codigo-fonte/coleta/cliente_rest.py` | Cliente REST próprio: cache, paginação, rate limit e backoff |
-| `codigo-fonte/coleta/coleta_dora.py` | Coleta de workflows, releases e runs, com subdivisão mensal da janela |
+| `codigo-fonte/coleta/coleta_dora.py` | Coleta de workflows, releases e runs, com subdivisão mensal da janela (e por dia/hora quando um intervalo chega ao teto de 1.000, RQ77) |
 | `codigo-fonte/metricas/ci.py` | CFR (a) e tempo de recuperação (RQ79) |
 | `codigo-fonte/metricas/dora.py` | Frequência de deploy e classificação DORA |
 | `codigo-fonte/pipeline_dora.py` | Orquestra tudo num único comando (RQ80) |

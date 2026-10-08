@@ -86,6 +86,7 @@ COLUNAS_METRICAS = (
 COLUNAS_RELEASES = ("nome_completo", *coleta_dora.CAMPOS_RELEASE, "dentro_janela")
 COLUNAS_RUNS = ("nome_completo", *coleta_dora.CAMPOS_RUN)
 COLUNAS_FUNIL = ("etapa", "criterio", "entrada", "removidos_na_etapa", "aprovados")
+COLUNAS_INTERVALOS = ("nome_completo", "intervalo", "total_informado", "coletados", "subdividido")
 
 
 # ---------------------------------------------------------------- configuracao
@@ -240,7 +241,8 @@ def avaliar_repositorio(cliente, candidato: dict, config: dict) -> dict:
         **{k: v for k, v in classes.items() if k in COLUNAS_METRICAS},
     }
     return dict(avaliacao, motivo=INCLUIDO, metricas=linha,
-                releases=coleta_releases["releases"], runs=coleta_runs["runs"])
+                releases=coleta_releases["releases"], runs=coleta_runs["runs"],
+                intervalos=coleta_runs["intervalos"])
 
 
 def executar(cliente, candidatos: list[dict], config: dict,
@@ -264,7 +266,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
         else:
             aptos.append(candidato)
 
-    avaliacoes, amostra, releases, runs = [], [], [], []
+    avaliacoes, amostra, releases, runs, intervalos = [], [], [], [], []
     trabalhadores = max(1, int(config.get("trabalhadores") or 1))
     executor = ThreadPoolExecutor(max_workers=trabalhadores)
     pendentes: deque = deque()
@@ -284,6 +286,8 @@ def executar(cliente, candidatos: list[dict], config: dict,
                 nome = avaliacao["nome_completo"]
                 releases.extend(dict(r, nome_completo=nome) for r in avaliacao["releases"])
                 runs.extend(dict(r, nome_completo=nome) for r in avaliacao["runs"])
+                intervalos.extend(dict(i, nome_completo=nome)
+                                  for i in avaliacao.get("intervalos", []))
             registrar("[%d/%d aprovados | candidato %d] %s: %s"
                       % (len(amostra), meta, avaliacao["posicao"], avaliacao["nome_completo"],
                          avaliacao["motivo"]))
@@ -297,6 +301,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
         "amostra": amostra,
         "releases": releases,
         "runs": runs,
+        "intervalos": intervalos,
     }
 
 
@@ -359,6 +364,7 @@ def exportar(resultado: dict, config: dict, cliente=None) -> Path:
     salvar_csv(saida / "metricas_repositorios.csv", resultado["amostra"], COLUNAS_METRICAS)
     salvar_csv(saida / "releases.csv", resultado["releases"], COLUNAS_RELEASES)
     salvar_csv(saida / "workflow_runs.csv.gz", resultado["runs"], COLUNAS_RUNS, comprimir=True)
+    salvar_csv(saida / "intervalos_runs.csv", resultado.get("intervalos", []), COLUNAS_INTERVALOS)
     resumo = {
         "gerado_em": datetime.now(timezone.utc).isoformat(),
         "config": config,

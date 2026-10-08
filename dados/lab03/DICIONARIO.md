@@ -31,7 +31,7 @@ Janela usada: ver `resumo_execucao.json` (`config.janela`). As duas datas são i
 | `episodios_censurados` | inteiro | episódios | episódios sem sucesso até o fim da janela (censura à direita) |
 | `episodios_censura_esquerda` | inteiro | episódios | episódios em que o workflow já começa a janela falhando, sem sucesso anterior observado |
 | `proporcao_episodios_censurados` | real | fração (0–1) | `episodios_censurados ÷ episodios_falha` |
-| `intervalos_no_teto` | inteiro | intervalos | dias com mais de 1.000 runs, em que a API só devolve os 1.000 primeiros. Se for maior que 0, a coleta desse repositório está incompleta |
+| `intervalos_no_teto` | inteiro | intervalos | intervalos de **um segundo** ainda com 1.000 runs ou mais, em que a API só devolve os 1.000 primeiros (RQ77: dias e horas acima do teto são subdivididos até caber). Se for maior que 0, a coleta desse repositório está incompleta |
 | `classe_frequencia` | categoria | Elite/High/Medium/Low | tabela de referência da RQ 07 aplicada a `frequencia_deploy_semana` |
 | `classe_cfr` | categoria | idem | tabela da RQ 07 aplicada a `cfr_ci` |
 | `classe_recuperacao` | categoria | idem | tabela da RQ 07 aplicada a `recuperacao_mediana_horas` |
@@ -52,6 +52,20 @@ Lead time (RQ 02) e CFR de entrega (RQ 03 b) dependem do `compare` entre release
 |---|---|---|
 | `nome_completo` | texto | repositório |
 | `id`, `workflow_id`, `name`, `event`, `head_branch`, `head_sha`, `status`, `conclusion`, `run_attempt`, `created_at`, `run_started_at`, `updated_at` | — | `GET /repos/{o}/{r}/actions/runs?branch={default}&event=push&created={intervalo}` |
+
+## `intervalos_runs.csv` — auditoria da coleta de runs (RQ77)
+
+Uma linha por consulta a `GET /actions/runs` feita para os repositórios da amostra. Serve para comprovar que nenhum intervalo ficou preso no teto de 1.000 resultados da busca.
+
+| Coluna | Tipo | Significado |
+|---|---|---|
+| `nome_completo` | texto | repositório |
+| `intervalo` | texto | valor do filtro `created`: `AAAA-MM-DD..AAAA-MM-DD` para dias inteiros, ou `AAAA-MM-DDTHH:MM:SS+00:00..` para frações de dia. Extremos inclusivos, em UTC |
+| `total_informado` | inteiro | `total_count` devolvido pela API para o intervalo (impreciso: pode saturar ou subestimar) |
+| `coletados` | inteiro | runs efetivamente paginados no intervalo. Vazio quando o intervalo foi subdividido sem paginar, porque `total_informado` já passava de 1.000 |
+| `subdividido` | booleano | `True` se o intervalo foi dividido em duas metades, porque `total_informado` > 1.000 ou `coletados` = 1.000 |
+
+Checagem: as linhas com `subdividido = False` cobrem a janela sem lacunas, e todas têm `coletados` < 1.000 (as exceções aparecem em `intervalos_no_teto`).
 
 ## `candidatos_avaliados.csv`
 

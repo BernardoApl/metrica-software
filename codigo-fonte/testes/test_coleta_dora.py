@@ -11,14 +11,27 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "coleta"))
 import coleta_dora
 
 
+def instante_do_filtro(valor, fim=False):
+    """``AAAA-MM-DD`` (dia inteiro) ou ``AAAA-MM-DDTHH:MM:SS+00:00``, como a busca do GitHub."""
+    if "T" not in valor:
+        return datetime.fromisoformat(valor + ("T23:59:59+00:00" if fim else "T00:00:00+00:00"))
+    return datetime.fromisoformat(valor)
+
+
+def instante_do_run(run):
+    return datetime.fromisoformat(run["created_at"].replace("Z", "+00:00"))
+
+
 class ClienteFalso:
     """Simula a API: ``releases`` por repo e ``runs`` filtrados por ``created``."""
 
-    def __init__(self, workflows=1, releases=(), runs=(), status=None):
+    def __init__(self, workflows=1, releases=(), runs=(), status=None, total_informado=None):
         self.workflows = workflows
         self.releases = list(releases)
         self.runs = list(runs)
         self.status = status or {}
+        # Simula o total_count impreciso da API: funcao (total real) -> total informado.
+        self.total_informado = total_informado or (lambda total: total)
         self.chamadas = []
 
     def get(self, caminho, parametros=None, compactar=None):
@@ -36,10 +49,11 @@ class ClienteFalso:
             itens = self.releases[(pagina - 1) * por_pagina: pagina * por_pagina]
             corpo, itens_total = itens, len(self.releases)
         else:
-            de, ate = parametros["created"].split("..")
-            filtrados = [r for r in self.runs if de <= r["created_at"][:10] <= ate]
+            de, ate = [instante_do_filtro(v, fim=i == 1)
+                       for i, v in enumerate(parametros["created"].split(".."))]
+            filtrados = [r for r in self.runs if de <= instante_do_run(r) <= ate]
             itens = filtrados[(pagina - 1) * por_pagina: pagina * por_pagina]
-            corpo = {"total_count": len(filtrados), "workflow_runs": itens}
+            corpo = {"total_count": self.total_informado(len(filtrados)), "workflow_runs": itens}
             itens_total = min(len(filtrados), 1000)
         link = ""
         if pagina * por_pagina < itens_total:
@@ -146,12 +160,14 @@ def test_runs_mes_a_mes_com_subdivisao_quando_passa_do_teto():
     assert all(p["event"] == "push" and p["branch"] == "main" for _, p in cliente.chamadas)
 
 
-def test_dia_unico_acima_do_teto_e_registrado():
+def test_segundo_unico_acima_do_teto_e_registrado():
+    # 1.200 runs no mesmo segundo: nao ha como dividir mais; a coleta fica incompleta.
     cliente = ClienteFalso(runs=[run_em("2026-01-05", i) for i in range(1200)])
     resultado = coleta_dora.coletar_runs(cliente, "o/r", "main", "2026-01-05", "2026-01-05")
     assert len(resultado["runs"]) == 1000
-    assert resultado["teto_atingido"] == [{"intervalo": "2026-01-05..2026-01-05",
-                                          "total_informado": 1200}]
+    assert resultado["teto_atingido"] == [{
+        "intervalo": "2026-01-05T10:00:00+00:00..2026-01-05T10:00:00+00:00",
+        "total_informado": 1200}]
 
 
 def test_runs_com_erro_http_levantam_erro_de_coleta():
