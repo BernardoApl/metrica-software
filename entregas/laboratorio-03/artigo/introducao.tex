@@ -1,0 +1,120 @@
+% Secao 1 do artigo do LAB03 (template SBC). Issue #81.
+% Uso no Overleaf: \input{introducao} no corpo e \bibliography{referencias}
+% com \bibliographystyle{sbc}. Requer \usepackage[utf8]{inputenc} (ja no template).
+% Hipoteses registradas antes da analise dos dados.
+
+\section{Introdução}
+\label{sec:introducao}
+
+Medir o desempenho de entrega de software é um problema antigo da engenharia de
+software. Nos últimos anos ele ganhou um vocabulário comum com as métricas DORA
+(\textit{DevOps Research and Assessment}). Popularizadas pelo livro
+\textit{Accelerate}~\cite{forsgren2018accelerate} e atualizadas anualmente pelos
+relatórios \textit{State of DevOps}~\cite{dora2024report}, elas descrevem a
+entrega em duas dimensões. A \textbf{velocidade} é medida pela frequência de
+deploy e pelo \textit{lead time for changes}. A \textbf{estabilidade} é medida
+pela taxa de falha das mudanças (\textit{change failure rate}, CFR) e pelo tempo
+de recuperação após um deploy com falha~\cite{dora2024fourkeys}. Um dos achados
+mais citados dessa linha de pesquisa é que velocidade e estabilidade
+\textbf{não} seriam um \textit{trade-off}: as equipes de melhor desempenho iriam
+bem nas duas dimensões ao mesmo tempo.
+
+Esses resultados vêm, na maior parte, de questionários respondidos por
+profissionais de empresas. Em projetos open-source, os dados de entrega são
+públicos e podem ser \textbf{minerados}: releases, \textit{commits} e execuções de
+integração contínua (CI) no GitHub Actions ficam registrados com data e
+resultado. O GitHub, porém, não registra ``deploys em produção'' nem ``falhas em
+produção''. Cada métrica DORA precisa então ser aproximada por um
+\textbf{proxy}. Uma release publicada faz o papel de deploy, e uma execução de CI
+com falha, ou uma release corretiva logo em seguida, faz o papel de falha.
+Proxies podem enganar. Uma biblioteca que publica uma release por mês não está
+``deployando'' nada; quem faz isso são os usuários dela. Um \textit{workflow} de
+CI vermelho indica falha de pipeline, e não necessariamente um defeito que
+chegou ao usuário.
+
+Este trabalho minera as métricas DORA de repositórios open-source populares que
+usam CI/CD com GitHub Actions. Ele tem dois objetivos. O primeiro é
+\textbf{descrever} o desempenho de entrega desses projetos sob definições
+operacionais comuns: janela de 12 meses, \textit{default branch}, releases
+não-\textit{draft} e execuções disparadas por \texttt{push}. O segundo é
+\textbf{avaliar o quanto essas medidas são confiáveis}. Para isso, (i) validamos
+as heurísticas automáticas contra uma amostra rotulada manualmente por três
+avaliadores independentes e (ii) medimos o quanto a classificação DORA de cada
+repositório muda quando a definição operacional muda (análise de
+sensibilidade). Investigamos as seguintes questões de pesquisa:
+
+\begin{itemize}
+  \item \textbf{RQ01.} Qual a frequência de deploys dos repositórios populares que usam CI/CD?
+  \item \textbf{RQ02.} Qual o tempo entre um \textit{commit} e seu respectivo deploy, por release e por \textit{commit}?
+  \item \textbf{RQ03.} Qual a taxa de falha das mudanças entregues, pelo proxy de CI e pelo proxy de entrega?
+  \item \textbf{RQ04.} Qual o tempo de recuperação após uma execução de CI/CD com falha?
+  \item \textbf{RQ05.} Repositórios com maior frequência de deploy apresentam maior ou menor taxa de falha?
+  \item \textbf{RQ06.} Quais características dos repositórios estão associadas a um melhor desempenho DORA?
+  \item \textbf{RQ07.} O quanto a classificação DORA de um repositório depende da definição operacional escolhida?
+\end{itemize}
+
+O pipeline de coleta foi escrito pelo grupo, sem bibliotecas de acesso à API do
+GitHub. Ele é executável com um único comando, tem cache e retomada, é coberto
+por testes automatizados que rodam no GitHub Actions do próprio grupo e será
+replicado por outro grupo da turma. A Seção~2 descreve a metodologia; a
+Seção~3 apresenta os resultados; a Seção~4 discute as hipóteses frente aos
+resultados; a Seção~5 trata das ameaças à validade; e a Seção~6 relata a
+replicação cruzada.
+
+\subsection{Hipóteses informais}
+\label{sec:hipoteses}
+
+Para cada RQ registramos, antes da análise dos dados, o que esperamos encontrar
+e por quê. As faixas Elite/High/Medium/Low seguem a tabela de referência da
+disciplina.
+
+\begin{description}
+  \item[H1 (RQ01).] Mediana da ordem de uma release a cada uma ou duas semanas
+  ($\approx$0,5 a 1 release/semana), concentrando os repositórios nas faixas
+  Medium e High, com cauda longa à direita e poucos repositórios Elite (releases
+  automatizadas, \textit{nightlies}, \textit{monorepos}). Mesmo após o critério
+  de inclusão ($\geq$5 releases), projetos open-source agrupam mudanças em
+  versões, porque cada release tem custo para quem a consome.
+
+  \item[H2 (RQ02).] O lead time por release (a) terá mediana na faixa de semanas
+  (Medium, muitas vezes Low), e o lead time por \textit{commit} (b) será
+  sistematicamente menor, na faixa de dias. A variante (a) é definida pelo
+  \textit{commit} mais antigo da release, então um único \textit{commit}
+  ``esquecido'' (\textit{branch} longo, \textit{cherry-pick}, \textit{rebase} que
+  preserva a data de autoria) a faz explodir; a (b) dilui esse \textit{commit}.
+  A diferença entre (a) e (b) deve crescer com o tamanho das releases.
+
+  \item[H3 (RQ03).] CFR de CI (a) mediano entre 10\% e 25\% (Elite/High), por
+  testes instáveis e quebras corrigidas no \textit{commit} seguinte, atenuadas
+  pela proteção do \textit{default branch}. CFR de entrega (b) menor, entre 5\% e
+  15\%, porém mais variável. Correlação fraca entre (a) e (b) ($|\rho|<0{,}3$),
+  porque as duas medem fenômenos diferentes: fragilidade do pipeline e defeitos
+  que escaparam até a release.
+
+  \item[H4 (RQ04).] Tempo de recuperação mediano de algumas horas (entre 1 hora e
+  1 dia, High): uma quebra no \textit{default branch} bloqueia os colaboradores e
+  tende a ser corrigida no mesmo dia. Distribuição assimétrica, com cauda de
+  episódios longos em \textit{workflows} secundários. Proporção de episódios
+  censurados abaixo de 10\%.
+
+  \item[H5 (RQ05).] Ausência de \textit{trade-off}: correlação de Spearman
+  próxima de zero ou levemente negativa entre frequência de deploy e CFR (b), em
+  linha com o DORA, e próxima de zero para o CFR (a). Mais releases tendem a vir
+  acompanhadas de mais automação. Uma correlação fraca não implica causalidade e
+  pode refletir fatores de confusão, como tamanho da equipe e maturidade.
+
+  \item[H6 (RQ06).] Repositórios com mais contribuidores terão maior frequência de
+  deploy e menor tempo de recuperação, mas CFR (a) maior. Bibliotecas e
+  frameworks terão lead time maior e frequência menor que ferramentas CLI e
+  aplicações, pela exigência de estabilidade de API. A linguagem principal estará
+  associada à frequência de deploy. Os efeitos devem ser pequenos a médios
+  ($\varepsilon^2<0{,}06$ na maioria) e parte deles deve perder significância
+  após a correção de Holm. Estrelas terão efeito desprezível.
+
+  \item[H7 (RQ07).] A classificação DORA será frágil: pelo menos 30\% dos
+  repositórios mudarão de categoria geral entre a combinação de referência e as
+  alternativas, com kappa de Cohen ponderado entre 0,2 e 0,6. Pré-releases e
+  tags devem inflar a frequência de deploy, e trocar o lead time (a) pelo (b)
+  deve melhorar a classe de muitos repositórios. Se confirmada, as conclusões
+  das RQ01 a RQ06 devem ser lidas como condicionais à definição operacional.
+\end{description}
