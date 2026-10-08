@@ -47,7 +47,7 @@ Coleta executada em 08/10/2026 com `config/pipeline.json` (janela provisória 20
 Visão inicial, apenas para checagem de sanidade (a análise fica para a S03):
 
 - 382.863 runs de `push` no default branch, todos dentro da janela. Nenhum dia passou do teto de 1.000 runs (`intervalos_no_teto = 0`).
-- 18.153 releases coletadas, das quais 8.715 dentro da janela (incluindo as pré-releases e as anteriores à janela usadas como base).
+- 18.153 releases coletadas: 8.715 publicadas dentro da janela (contando pré-releases) e as demais anteriores a ela, mantidas como base do `compare` do lead time.
 - Frequência mediana de 0,54 release/semana (IQR 0,23–1,22); CFR (a) mediano de 5,1% (IQR 2,4%–12,2%); recuperação mediana de 3,4 h (IQR 1,5–7,6 h).
 - 7 repositórios não tiveram nenhum episódio completo de falha, e por isso estão com a recuperação indefinida.
 - O teto operacional removeu 18 repositórios, cerca de 14% dos que passaram pelo critério de releases. É um viés relevante para a seção de ameaças à validade.
