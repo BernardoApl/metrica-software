@@ -1,0 +1,17 @@
+{
+  "_comentario": "Avaliacao de todos os candidatos da base existente. Janela provisoria herdada do pipeline; confirmar com o professor.",
+  "janela": {"inicio": "2025-10-01", "fim": "2026-09-30"},
+  "meta_repositorios": 300,
+  "avaliar_todos": true,
+  "criterios": {"minimo_releases": 5, "minimo_runs_validos": 50},
+  "limite_runs_por_repositorio": 20000,
+  "limite_paginas_compare": 20,
+  "trabalhadores": 4,
+  "candidatos": {
+    "limite_busca": 8000,
+    "saida_busca": "dados/rq73_candidatos_8000.json",
+    "metadados": "dados/rq74_metadados_candidatos_8000.csv"
+  },
+  "diretorio_cache": "dados/.cache/lab03_rest",
+  "diretorio_saida": "dados/lab03_avaliacao_completa"
+}

@@ -91,6 +91,19 @@ def cenario():
     return ClientePorRepositorio(repositorios), candidatos
 
 
+def test_avaliar_todos_nao_para_na_meta(cenario, config):
+    cliente, candidatos = cenario
+    config = dict(config, meta_repositorios=1, avaliar_todos=True)
+    resultado = pipeline_dora.executar(cliente, candidatos, config, registrar=lambda _: None)
+    assert len(resultado['avaliacoes']) == 9
+    assert len(resultado['amostra']) == 3
+    assert resultado['avaliacoes'][-1]['nome_completo'] == 'o/nunca-avaliado'
+    assert resultado['funil'][2]['removidos_na_etapa'] == 0
+    saida = pipeline_dora.exportar(resultado, config)
+    resumo = json.loads((saida / 'resumo_execucao.json').read_text(encoding='utf-8'))
+    assert resumo['todos_aptos_avaliados']
+
+
 def test_pre_filtro():
     assert pipeline_dora.motivo_pre_filtro(candidato("o/a", 1)) is None
     assert pipeline_dora.motivo_pre_filtro(candidato("o/a", 1, fork="True")) == "fork"

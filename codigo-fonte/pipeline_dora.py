@@ -52,6 +52,7 @@ from metricas import ci, dora, lead_time  # noqa: E402
 CONFIG_PADRAO = {
     "janela": {"inicio": "2025-10-01", "fim": "2026-09-30"},
     "meta_repositorios": 100,
+    "avaliar_todos": False,
     "criterios": {"minimo_releases": 5, "minimo_runs_validos": 50},
     "limite_runs_por_repositorio": 20000,
     "limite_paginas_compare": 20,
@@ -298,6 +299,9 @@ def executar(cliente, candidatos: list[dict], config: dict,
     amostra e o funil saem identicos aos de uma execucao sequencial. Candidatos
     adiantados depois de a meta ser atingida sao descartados (contam como nao
     avaliados); as respostas deles ficam no cache.
+
+    Com ``avaliar_todos = true`` percorre todos os aptos, mesmo depois de
+    atingir a meta. Use ``--config config/avaliar_todos.json`` para esse modo.
     """
     meta = config["meta_repositorios"]
     pre_filtrados = []
@@ -316,7 +320,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
     pendentes: deque = deque()
     proximo = 0
     try:
-        while len(amostra) < meta and (pendentes or proximo < len(aptos)):
+        while (config.get("avaliar_todos", False) or len(amostra) < meta) and (pendentes or proximo < len(aptos)):
             # Enfileira alem dos trabalhadores para que um repositorio lento na
             # frente da fila nao deixe os demais ociosos.
             while proximo < len(aptos) and len(pendentes) < trabalhadores * 4:
@@ -369,8 +373,9 @@ def montar_funil(total: int, pre_filtrados: list, aptos: int, avaliacoes: list[d
               "status ok; nao e fork; nao arquivado/desabilitado/vazio; com default branch",
               len(pre_filtrados))
     adicionar("avaliados_ate_a_meta",
-              "candidatos avaliados, por estrelas, ate atingir %d repositorios"
-              % config["meta_repositorios"], aptos - len(avaliacoes))
+              ("todos os candidatos aptos avaliados, por estrelas" if config.get("avaliar_todos") else
+               "candidatos avaliados, por estrelas, ate atingir %d repositorios" % config["meta_repositorios"]),
+              aptos - len(avaliacoes))
     motivos = [a["motivo"] for a in avaliacoes]
     adicionar("api_acessivel", "workflows, releases e runs acessiveis pela API",
               motivos.count("inacessivel"))
@@ -423,6 +428,7 @@ def exportar(resultado: dict, config: dict, cliente=None) -> Path:
         "repositorios_na_amostra": len(resultado["amostra"]),
         "meta_atingida": len(resultado["amostra"]) >= config["meta_repositorios"],
         "candidatos_avaliados": len(avaliados),
+        "todos_aptos_avaliados": resultado["funil"][1]["aprovados"] == len(avaliados),
         "requisicoes_api": getattr(cliente, "requisicoes", None),
         "respostas_do_cache": getattr(cliente, "acertos_cache", None),
         "esperas_rate_limit": getattr(cliente, "esperas_rate_limit", None),
