@@ -45,7 +45,7 @@ from bootstrap import configurar_caminhos  # noqa: E402
 
 configurar_caminhos()
 from cliente_github import ErroAutenticacao, obter_token  # noqa: E402
-from cliente_rest import ClienteREST, ErroREST  # noqa: E402
+from cliente_rest import ClienteREST, ErroREST, ErroAutenticacaoREST  # noqa: E402
 import coleta_dora  # noqa: E402
 from metricas import ci, dora, lead_time  # noqa: E402
 
@@ -276,6 +276,8 @@ def calcular_lead_time(cliente, nome: str, releases: list[dict], config: dict) -
                 compare = coleta_dora.coletar_compare(cliente, nome, anterior["tag_name"],
                                                       release["tag_name"],
                                                       config.get("limite_paginas_compare"))
+            except ErroAutenticacaoREST:
+                raise
             except ErroREST:
                 compare = {"status": None, "commits": []}
         avaliacao = lead_time.avaliar_release(release, anterior, compare)
@@ -290,7 +292,7 @@ def calcular_lead_time(cliente, nome: str, releases: list[dict], config: dict) -
 
 
 def executar(cliente, candidatos: list[dict], config: dict,
-             registrar: Callable[[str], None] = print) -> dict:
+             registrar: Callable[[str], None] = print, avaliador=None) -> dict:
     """Avalia os aptos em ordem de estrelas ate a meta.
 
     Com ``trabalhadores > 1`` os proximos candidatos sao avaliados em paralelo
@@ -304,6 +306,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
     atingir a meta. Use ``--config config/avaliar_todos.json`` para esse modo.
     """
     meta = config["meta_repositorios"]
+    avaliar = avaliador or avaliar_repositorio
     pre_filtrados = []
     aptos = []
     for candidato in candidatos:
@@ -315,6 +318,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
 
     avaliacoes, amostra, releases, runs, intervalos = [], [], [], [], []
     lead_times, commits = [], []
+    tags = []
     trabalhadores = max(1, int(config.get("trabalhadores") or 1))
     executor = ThreadPoolExecutor(max_workers=trabalhadores)
     pendentes: deque = deque()
@@ -324,7 +328,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
             # Enfileira alem dos trabalhadores para que um repositorio lento na
             # frente da fila nao deixe os demais ociosos.
             while proximo < len(aptos) and len(pendentes) < trabalhadores * 4:
-                pendentes.append(executor.submit(avaliar_repositorio, cliente, aptos[proximo], config))
+                pendentes.append(executor.submit(avaliar, cliente, aptos[proximo], config))
                 proximo += 1
             avaliacao = pendentes.popleft().result()
             avaliacao["posicao"] = len(avaliacoes) + 1
@@ -339,6 +343,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
                 lead_times.extend(dict(l, nome_completo=nome)
                                   for l in avaliacao.get("lead_time", []))
                 commits.extend(dict(c, nome_completo=nome) for c in avaliacao.get("commits", []))
+                tags.extend(dict(t, nome_completo=nome) for t in avaliacao.get("tags", []))
             registrar("[%d/%d aprovados | candidato %d] %s: %s"
                       % (len(amostra), meta, avaliacao["posicao"], avaliacao["nome_completo"],
                          avaliacao["motivo"]))
@@ -355,6 +360,7 @@ def executar(cliente, candidatos: list[dict], config: dict,
         "intervalos": intervalos,
         "lead_time": lead_times,
         "commits": commits,
+        "tags": tags,
     }
 
 

@@ -1,0 +1,19 @@
+{
+  "_comentario": "RQ82: amostra de pelo menos 300. Confirmar a janela com o professor antes de marcar janela_confirmada=true.",
+  "janela": {"inicio": "2025-10-01", "fim": "2026-09-30"},
+  "janela_confirmada": false,
+  "meta_repositorios": 300,
+  "avaliar_todos": false,
+  "criterios": {"minimo_releases": 5, "minimo_runs_validos": 50},
+  "limite_runs_por_repositorio": 20000,
+  "limite_paginas_compare": null,
+  "trabalhadores": 4,
+  "candidatos": {
+    "limite_busca": 8000,
+    "saida_busca": "dados/rq73_candidatos_8000.json",
+    "metadados": "dados/rq74_metadados_candidatos_8000.csv"
+  },
+  "diretorio_cache": "dados/.cache/lab03_rest",
+  "diretorio_checkpoints": "dados/.cache/rq82_repositorios",
+  "diretorio_saida": "dados/lab03_final"
+}
