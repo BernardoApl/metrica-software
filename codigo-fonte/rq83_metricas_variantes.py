@@ -14,7 +14,7 @@ import sys
 from bootstrap import configurar_caminhos, RAIZ_PROJETO
 configurar_caminhos()
 import coleta_dora
-from metricas import ci, dora, lead_time, variantes
+from metricas import ci, corretiva, dora, lead_time, variantes
 from pipeline_dora import salvar_csv
 
 ARQUIVOS = ('resumo_execucao.json', 'metricas_repositorios.csv', 'releases.csv',
@@ -46,7 +46,8 @@ def agrupar(linhas):
     return grupos
 
 
-def calcular_repositorio(repo, releases, runs, registros_lead, commits, janela, lead_disponivel=True):
+def calcular_repositorio(repo, releases, runs, registros_lead, commits, janela, lead_disponivel=True,
+                         heuristica=None):
     inicio, fim = coleta_dora.limites_da_janela(janela['inicio'], janela['fim'])
     pendencias = []
     releases = [dict(r, draft=booleano(r.get('draft')), prerelease=booleano(r.get('prerelease')),
@@ -85,6 +86,7 @@ def calcular_repositorio(repo, releases, runs, registros_lead, commits, janela, 
     for c in commits:
         commits_por_par[(c['anterior'], c['tag_name'])].append(c)
     avaliacoes = []
+    mensagens = {}
     if not lead_disponivel:
         pendencias.append('arquivos_lead_time_ausentes')
     for anterior, r in lead_time.pares_de_releases(releases):
@@ -103,9 +105,10 @@ def calcular_repositorio(repo, releases, runs, registros_lead, commits, janela, 
                 pendencias.append(f'commits_incompletos:{r["tag_name"]}')
             else:
                 compare = dict(status=200, commits=itens, truncado=False)
+                mensagens[r['tag_name']] = [c.get('mensagem') or '' for c in itens]
         avaliacoes.append(lead_time.avaliar_release(r, anterior, compare))
     lt = lead_time.metricas_lead_time(avaliacoes)
-    entrega = variantes.cfr_entrega(releases, inicio, fim)
+    entrega = variantes.cfr_entrega(releases, inicio, fim, heuristica, mensagens)
     linha = dict(nome_completo=repo['nome_completo'], releases_janela=len(validas),
                  frequencia_deploy_semana=dora.frequencia_de_deploy(len(validas), coleta_dora.semanas_da_janela(**janela)),
                  **lt, runs_validos=len(validos), runs_falha=cfr['falhas'], runs_sucesso=cfr['sucessos'],
@@ -126,7 +129,7 @@ def calcular_repositorio(repo, releases, runs, registros_lead, commits, janela, 
     return linha, entrega['detalhes'], recuperacao['detalhes']
 
 
-def executar(entrada, saida, permitir_parcial=False):
+def executar(entrada, saida, permitir_parcial=False, heuristica=None):
     entrada, saida = Path(entrada).resolve(), Path(saida).resolve()
     if saida == entrada or entrada.is_relative_to(saida):
         raise ValueError('Use uma pasta de saida separada dos dados de entrada.')
@@ -152,7 +155,7 @@ def executar(entrada, saida, permitir_parcial=False):
     metricas, detalhes_cfr, episodios = [], [], []
     for repo in sorted(repos, key=lambda r: r['nome_completo'].casefold()):
         nome = repo['nome_completo']
-        linha, detalhes, eps = calcular_repositorio(repo, releases[nome], runs[nome], registros[nome], commits[nome], janela, disponivel)
+        linha, detalhes, eps = calcular_repositorio(repo, releases[nome], runs[nome], registros[nome], commits[nome], janela, disponivel, heuristica)
         metricas.append(linha)
         detalhes_cfr.extend(dict(nome_completo=nome, **d) for d in detalhes)
         episodios.extend(dict(nome_completo=nome, **e) for e in eps)
@@ -169,7 +172,7 @@ def executar(entrada, saida, permitir_parcial=False):
               'cfr_ci', 'cfr_entrega', 'recuperacao_mediana_horas')
     auditoria = dict(issue=83, gerado_em=datetime.now(timezone.utc).isoformat(), janela=janela,
                      janela_confirmada=fonte['config'].get('janela_confirmada', False),
-                     repositorios=len(metricas), heuristica=variantes.HEURISTICA, heuristica_validada_manualmente=False,
+                     repositorios=len(metricas), heuristica=heuristica or variantes.HEURISTICA, heuristica_validada_manualmente=False,
                      calculo_completo=all(m['calculo_completo'] for m in metricas), entrada_sha256=hashes,
                      arquivos_ausentes=[n for n in ARQUIVOS if n not in hashes],
                      pendencias=[dict(nome_completo=m['nome_completo'], motivos=m['pendencias']) for m in metricas if m['pendencias']],
@@ -183,9 +186,11 @@ def principal(argv=None):
     parser.add_argument('--entrada', type=Path, default=RAIZ_PROJETO / 'dados/lab03_final')
     parser.add_argument('--saida', type=Path)
     parser.add_argument('--permitir-parcial', action='store_true', help='Diagnostica dados antigos sem commits; nao declara calculo completo.')
+    parser.add_argument('--heuristica', choices=sorted(corretiva.HEURISTICAS), default=variantes.HEURISTICA,
+                        help='Versao da heuristica de release corretiva (CFR de entrega); validar com a RQ89.')
     args = parser.parse_args(argv)
     try:
-        resultado = executar(args.entrada, args.saida or args.entrada / 'rq83', args.permitir_parcial)
+        resultado = executar(args.entrada, args.saida or args.entrada / 'rq83', args.permitir_parcial, args.heuristica)
     except (OSError, ValueError, KeyError) as erro:
         print(f'[erro] {erro}', file=sys.stderr)
         return 1
