@@ -63,6 +63,21 @@ Retornos: 0 = validada; 2 = consolidada com pendências; 1 = erro operacional;
 
 ## Testes
 
+### Otimizacao da consulta de tags
+
+A coleta reaproveita a data de autoria de commits ja recebidos nas comparacoes
+entre releases quando o SHA da tag coincide exatamente. Datas ausentes,
+invalidas, sem fuso ou conflitantes continuam exigindo a consulta individual.
+Todas as tags e paginas continuam sendo percorridas. Nao se alteram a ordem
+dos candidatos, os criterios, a janela, os limites ou a meta de 300.
+
+Na verificacao inicial de 18 repositorios coletados, 1.486 dos 6.932 SHAs de
+tags ja tinham a mesma data nas comparacoes: cerca de 21% das consultas
+individuais dessa etapa podem ser evitadas. Esse percentual nao representa
+reducao garantida do tempo total, que tambem inclui runs, compares e esperas
+pela cota. O cache HTTP existente permanece reutilizavel; o hash de codigo
+dos checkpoints continua protegendo a retomada entre versoes.
+
 ```powershell
 .\.venv\Scripts\python.exe -m pytest codigo-fonte/testes/test_rq82.py codigo-fonte/testes/test_pipeline_dora.py codigo-fonte/testes/test_rq76_compare.py codigo-fonte/testes/test_rq75.py -q
 ```

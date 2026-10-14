@@ -30,11 +30,32 @@ def compactar_commit(corpo):
     return {'sha': corpo.get('sha'), 'data_autor': (commit.get('author') or {}).get('date')}
 
 
-def coletar_tags(cliente, nome, inicio, fim, releases):
+def coletar_tags(cliente, nome, inicio, fim, releases, commits_conhecidos=()):
     abertura, fechamento = limites_da_janela(inicio, fim)
     fechamento += timedelta(seconds=1)
     associadas = {r.get('tag_name') for r in releases}
     tags, vistos, commits = [], set(), {}
+    # O SHA identifica o mesmo commit nas respostas de compare e de commits.
+    # Reutiliza apenas datas completas; dados ausentes/invalidos continuam
+    # sendo consultados normalmente. Divergencias nunca escolhem uma data
+    # arbitrariamente: exigem a consulta individual.
+    datas, conflitos = {}, set()
+    for commit in commits_conhecidos:
+        sha, texto = commit.get('sha'), commit.get('data_autor')
+        if not sha or not isinstance(texto, str):
+            continue
+        try:
+            data = datetime.fromisoformat(texto.replace('Z', '+00:00'))
+        except ValueError:
+            continue
+        if data.tzinfo is None:
+            continue
+        if sha in datas and datas[sha] != texto:
+            conflitos.add(sha)
+        datas[sha] = texto
+    for sha, texto in datas.items():
+        if sha not in conflitos:
+            commits[sha] = {'status': 200, 'corpo': {'sha': sha, 'data_autor': texto}}
     status = 200
     for pagina in cliente.paginar(f'/repos/{nome}/tags', {'per_page': 100}, compactar=compactar_tags):
         status = pagina['status']
