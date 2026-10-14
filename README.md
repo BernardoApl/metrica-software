@@ -67,6 +67,21 @@ O dicionário de dados de cada coluna está em [`dados/lab03/DICIONARIO.md`](dad
 | `dados/lab03/intervalos_runs.csv` | Auditoria da coleta de runs: cada intervalo consultado, total informado, runs coletados e se foi subdividido (RQ77) |
 | `dados/lab03/resumo_execucao.json` | Configuração usada, data da coleta e contadores de requisições e de cache |
 
+### RQ83 — Calcular as variantes obrigatórias
+
+Após exportar a amostra final da RQ82, execute sem token ou acesso à API:
+
+```bash
+python codigo-fonte/rq83_metricas_variantes.py
+```
+
+Calcula frequência, lead time por release e por commit, CFR de CI e de
+entrega, recuperação, quartis e censura. Grava os resultados em
+`dados/lab03_final/rq83/`. Entradas ausentes ou incompletas são informadas;
+o piloto parcial não substitui a amostra final.
+Definições, comandos e limitações em
+[RQ83](entregas/laboratorio-03/sprint-02/RQ83_metricas_variantes.md).
+
 ### Testes
 
 ```bash
