@@ -67,6 +67,31 @@ O dicionário de dados de cada coluna está em [`dados/lab03/DICIONARIO.md`](dad
 | `dados/lab03/intervalos_runs.csv` | Auditoria da coleta de runs: cada intervalo consultado, total informado, runs coletados e se foi subdividido (RQ77) |
 | `dados/lab03/resumo_execucao.json` | Configuração usada, data da coleta e contadores de requisições e de cache |
 
+### RQ83 — Calcular as variantes obrigatórias
+
+Após exportar a amostra final da RQ82, execute sem token ou acesso à API:
+
+```bash
+python codigo-fonte/rq83_metricas_variantes.py
+```
+
+Calcula frequência, lead time por release e por commit, CFR de CI e de
+entrega, recuperação, quartis e censura. Grava os resultados em
+`dados/lab03_final/rq83/`. Entradas ausentes ou incompletas são informadas;
+o piloto parcial não substitui a amostra final.
+Definições, comandos e limitações em
+[RQ83](entregas/laboratorio-03/sprint-02/RQ83_metricas_variantes.md).
+
+### RQ89 — Avaliar a heurística de release corretiva
+
+Depois que o consenso da amostra-ouro (RQ88) estiver num CSV (`id_release`, `corretiva`), compare as versões da heurística de `codigo-fonte/metricas/corretiva.py`:
+
+```bash
+python codigo-fonte/validacao/rq89_heuristica.py avaliar --consenso dados/lab03_final/amostra_ouro/consenso_releases.csv
+```
+
+Grava precisão, recall e F1 por versão e a lista de erros em `dados/lab03_final/amostra_ouro/`. Para recalcular o CFR de entrega com outra versão: `python codigo-fonte/rq83_metricas_variantes.py --heuristica correcao_de_defeito_v3`. Detalhes em [RQ89](entregas/laboratorio-03/sprint-02/RQ89_heuristica_corretiva.md).
+
 ### Testes
 
 ```bash
@@ -86,4 +111,5 @@ A suíte padrão (`pytest.ini`) roda `codigo-fonte/testes`. Os testes não acess
 | `codigo-fonte/metricas/ci.py` | CFR (a) e tempo de recuperação (RQ79) |
 | `codigo-fonte/metricas/lead_time.py` | Lead time por release (a) e por commit (b) (RQ76) |
 | `codigo-fonte/metricas/dora.py` | Frequência de deploy e classificação DORA |
+| `codigo-fonte/metricas/corretiva.py` | Versões da heurística de release corretiva, para o CFR (b) (RQ89) |
 | `codigo-fonte/pipeline_dora.py` | Orquestra tudo num único comando (RQ80) |

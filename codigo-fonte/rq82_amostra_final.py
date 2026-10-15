@@ -73,7 +73,8 @@ def criar_avaliador(config, candidatos):
         if avaliacao['motivo'] == pipeline.INCLUIDO:
             janela = configuracao['janela']
             try:
-                tags = coletar_tags(cliente, nome, janela['inicio'], janela['fim'], avaliacao['releases'])
+                tags = coletar_tags(cliente, nome, janela['inicio'], janela['fim'],
+                                    avaliacao['releases'], avaliacao.get('commits', ()))
                 avaliacao.update(tags=tags['tags'], status_tags=tags['status'])
             except ErroAutenticacaoREST:
                 raise

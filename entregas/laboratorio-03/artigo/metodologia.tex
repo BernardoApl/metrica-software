@@ -1,0 +1,244 @@
+% Secao 2 do artigo do LAB03 (template SBC). Issue #90.
+% Uso no Overleaf: \input{metodologia} depois de \input{introducao}.
+% Requer os mesmos pacotes da introducao (nada alem do template).
+%
+% Trechos entre \apreencher{...} dependem de dados que ainda nao existem (amostra
+% final de 300, rotulos humanos, consenso, F1) ou de confirmacao do professor
+% (janela oficial). Nao ha numero inventado: o funil e o piloto da Sprint 01 sao
+% identificados como tais. Busque por "apreencher" antes de entregar.
+
+\providecommand{\apreencher}[1]{\textbf{[a preencher: #1]}}
+
+\section{Metodologia}
+\label{sec:metodologia}
+
+\subsection{Visão geral}
+
+O estudo calcula as quatro métricas DORA, a partir de dados públicos do GitHub,
+para repositórios \textit{open-source} populares que usam GitHub Actions, e mede
+a confiabilidade dessas medidas por duas vias: a validação manual das
+heurísticas (Seção~\ref{sec:validacao}) e a análise de sensibilidade às
+definições operacionais (RQ07). Todas as definições abaixo são comuns à turma,
+para que os resultados sejam comparáveis e o pipeline possa ser replicado por
+outro grupo (Seção~6).
+
+\subsection{Fonte de dados e coleta}
+\label{sec:coleta}
+
+A coleta usa um cliente próprio das APIs REST e GraphQL do GitHub, sem
+bibliotecas de acesso à API. A busca de candidatos (\texttt{GET
+/search/repositories}) é fatiada por faixas de estrelas para contornar o teto de
+1.000 resultados por consulta, e reúne 8.000 candidatos. Os metadados de cada
+um (estrelas, linguagem principal, data de criação, \textit{default branch},
+indicadores de \textit{fork}, arquivamento e repositório vazio) vêm da API
+GraphQL. Para os repositórios aceitos, o pipeline coleta, pela API REST, as
+releases (\texttt{/releases}), os \textit{commits} entre releases consecutivas
+(\texttt{/compare}, com paginação para ultrapassar o limite de 250 \textit{commits}),
+as tags e as execuções de \textit{workflow} (\texttt{/actions/runs}) do
+\textit{default branch}.
+
+Duas decisões de coleta afetam a validade. Primeiro, a busca de execuções
+retorna no máximo 1.000 resultados por consulta; por isso a janela é consultada
+mês a mês e qualquer intervalo que atinja o teto é dividido ao meio (até o
+nível de segundos), de modo que nenhuma execução se perde sem aviso. Segundo, o
+pipeline descarta repositórios com mais de 20.000 execuções na janela, por custo
+de coleta; esse limite é contabilizado no funil e discutido como limitação.
+
+A coleta é um pipeline reprodutível, executado por um único comando. Toda
+resposta da API é gravada em disco (um arquivo por URL), o que permite retomar
+uma coleta interrompida sem repetir chamadas. O cliente lê os cabeçalhos
+\texttt{X-RateLimit-Remaining} e \texttt{X-RateLimit-Reset} e espera
+sozinho quando a cota acaba. Erros temporários (respostas 5xx e quedas de rede)
+são repetidos com \textit{backoff} exponencial (1~s, 2~s, 4~s, \ldots, até 60~s,
+em até 6 tentativas). O \textit{token} vem de variável de ambiente e nunca é
+versionado. As funções que calculam as métricas têm testes automatizados
+(\textit{pytest}, cobertura mínima de 80\% do módulo de métricas, medida com
+\textit{pytest-cov}) executados no GitHub Actions do grupo a cada \textit{push}.
+
+\subsection{Seleção da amostra e funil}
+\label{sec:funil}
+
+Os candidatos são avaliados em ordem decrescente de estrelas, do critério mais
+barato ao mais caro, até se atingir a meta de pelo menos 300 repositórios. Um
+repositório entra na amostra se (i) não é \textit{fork}, está ativo (não
+arquivado, desabilitado ou vazio) e tem \textit{default branch}; (ii) usa GitHub
+Actions (\texttt{total\_count > 0} em \texttt{/actions/workflows}); (iii) tem
+pelo menos 5 releases publicadas na janela; e (iv) tem pelo menos 50 execuções
+válidas no \textit{default branch} na janela. Os critérios não são relaxados para
+atingir a meta. A Tabela~\ref{tab:funil} mostra o funil; as colunas trazem o
+piloto da primeira sprint (meta de 100) e a amostra final.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Funil de seleção. O piloto (Sprint 01) foi coletado com a janela
+provisória; a amostra final ainda não foi exportada.}
+\label{tab:funil}
+\begin{tabular}{lrr}
+\hline
+Etapa & Piloto ($n=100$) & Final \\
+\hline
+Candidatos com metadados & 8.000 & \apreencher{n} \\
+Ativos (sem \textit{fork}/arquivados/vazios) & 7.519 & \apreencher{n} \\
+Avaliados até a meta & 272 & \apreencher{n} \\
+Usam GitHub Actions & 253 & \apreencher{n} \\
+$\geq 5$ releases na janela & 132 & \apreencher{n} \\
+$\leq 20.000$ execuções (custo) & 114 & \apreencher{n} \\
+$\geq 50$ execuções válidas & 100 & \apreencher{$\geq 300$} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Definições operacionais}
+\label{sec:definicoes}
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Definições operacionais comuns à turma.}
+\label{tab:definicoes}
+\begin{tabular}{p{0.22\linewidth}p{0.68\linewidth}}
+\hline
+Elemento & Definição \\
+\hline
+Janela & 12 meses, de 01/10/2025 a 30/09/2026, com as duas datas inclusivas
+\apreencher{confirmar a janela oficial com o professor} \\
+\textit{Branch} & Apenas o \textit{default branch} (\texttt{default\_branch}) \\
+Deploy & Release publicada (\texttt{draft = false}) e não pré-release;
+pré-releases e tags são variantes da RQ07 \\
+Data do \textit{commit} & \texttt{commit.author.date} \\
+Execução de CI & \textit{Workflow run} do \textit{default branch} com
+\texttt{event = push}, criado na janela \\
+Sucesso & \texttt{success} \\
+Falha & \texttt{failure}, \texttt{timed\_out}, \texttt{startup\_failure} \\
+Ignorada & \texttt{cancelled}, \texttt{skipped}, \texttt{neutral},
+\texttt{action\_required}, \texttt{stale} ou vazio \\
+Censura & Evento final não observado na janela: registrado como censurado, não
+descartado \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Métricas e variantes}
+\label{sec:metricas}
+
+Em todas as RQs reportamos mediana e intervalo interquartil (IQR, quartis por
+interpolação linear), e não média e desvio-padrão, porque as distribuições são
+assimétricas.
+
+\textbf{RQ01 -- Frequência de deploy.} Releases publicadas na janela divididas
+pelo número de semanas da janela ($\approx 52{,}1$).
+
+\textbf{RQ02 -- \textit{Lead time}.} Para cada release R da janela, os
+\textit{commits} são os do \texttt{compare} com a release publicada
+imediatamente anterior, que pode estar fora da janela. Na variante (a), o
+\textit{lead time} de R é a data de R menos a do \textit{commit} mais antigo, e o
+valor do repositório é a mediana entre as releases. Na variante (b), cada
+\textit{commit} contribui com a data de R menos a sua, e o valor do repositório é
+a mediana de todos os \textit{commits} de todas as releases (e não uma mediana de
+medianas). Decisões do grupo: a primeira release da história do repositório é
+ignorada; \texttt{compare} indisponível (por exemplo, tag apagada) ou truncado
+exclui a release do cálculo e é contado; uma release sem \textit{commits} novos
+fica fora das duas variantes; e um \textit{commit} com data de autoria posterior
+à da release (relógio errado ou tag movida) é descartado e contado.
+
+\textbf{RQ03 -- Taxa de falha (CFR).} A variante (a), de CI, é o número de
+execuções com falha dividido por falhas mais sucessos, considerando todos os
+\textit{workflows} juntos; ela mede falha de pipeline, não de produção. A
+variante (b), de entrega, considera uma release R como falha se for seguida, em
+até 7 dias (inclusive), por uma release corretiva; o CFR é o número de releases
+que falharam dividido pelo de avaliadas. Várias corretivas na semana não
+multiplicam a falha de R. Releases dos últimos 7 dias da janela são censuradas e
+ficam fora do denominador.
+
+\textbf{RQ04 -- Tempo de recuperação.} Dentro de cada \textit{workflow}, um
+episódio de falha começa na primeira falha após um sucesso e termina no próximo
+sucesso; sua duração é o \texttt{updated\_at} do sucesso menos o
+\texttt{run\_started\_at} da falha. Execuções ignoradas não interrompem nem
+iniciam episódios. O valor do repositório é a mediana dos episódios de todos os
+seus \textit{workflows}. Episódios sem sucesso até o fim da janela são
+censurados à direita. Por decisão do grupo, também são censurados (à esquerda)
+os episódios de um \textit{workflow} cuja primeira execução válida na janela já
+é uma falha, pois o início real é desconhecido. Episódios censurados não entram
+na mediana, e a proporção deles é reportada por repositório. Repositório sem
+falhas tem recuperação indefinida (e não zero).
+
+\textbf{Classificação DORA.} Cada métrica recebe 4 (Elite), 3 (High), 2 (Medium)
+ou 1 (Low) pelos cortes fixos da disciplina; a categoria geral é a mediana dos
+quatro valores, arredondada para baixo.
+
+\subsection{Heurística de release corretiva}
+\label{sec:heuristica}
+
+Uma release é corretiva quando seu objetivo principal é corrigir um defeito
+recente. Como o GitHub não registra isso, usamos heurísticas sobre a tag e sobre
+a primeira linha das mensagens dos \textit{commits} entre a release anterior e a
+avaliada. Testamos três versões, aplicadas sempre em relação à release publicada
+imediatamente anterior:
+
+\begin{itemize}
+  \item \textbf{v1 (\textit{patch} SemVer):} só o número de \textit{patch}
+  mudou (por exemplo, $2.3.0 \rightarrow 2.3.1$). Tags que não seguem SemVer
+  estrito, pré-releases e \textit{downgrades} nunca são corretivas.
+  \item \textbf{v2 (\textit{patch} ou mensagem):} v1, ou algum \textit{commit}
+  com \texttt{revert}, \texttt{hotfix} ou \texttt{fix}.
+  \item \textbf{v3 (correção de defeito):} \texttt{revert} ou \texttt{hotfix}
+  bastam; caso contrário, exige \textit{commit} \texttt{fix} que não trate de
+  \textit{typo}, documentação, CI, testes ou dependências, e que o \textit{patch}
+  tenha mudado ou que ao menos metade dos \textit{commits} (sem \textit{merges}) seja
+  correção, sem \textit{commit} de funcionalidade. Sem mensagens disponíveis,
+  vale só a tag.
+\end{itemize}
+
+A versão usada no CFR (b) é a que atingir F1~$\geq 0{,}70$ contra o consenso
+da amostra-ouro; se nenhuma atingir, a heurística é refinada e reavaliada, e
+todas as versões e seus F1 são reportadas. Resultados:
+\apreencher{P, R e F1 de v1, v2, v3 e das versões seguintes}.
+As heurísticas não leem as \textit{release notes} nem o \textit{diff}; isso é
+uma limitação.
+
+\subsection{Validação manual (amostra-ouro)}
+\label{sec:validacao}
+
+Sorteamos 60 repositórios da amostra final com \texttt{df.sample(n=60,
+random\_state=42)}, sobre a amostra ordenada por nome (a ordem do arquivo não
+altera o sorteio), e, em cada um, até 5 releases da definição principal de
+deploy que tenham release anterior (a primeira da história fica de fora, pois
+não há lista de \textit{commits} para ler). Os três integrantes rotularam, de
+forma independente, sem consultar os demais e sem ver a saída da heurística, em
+planilhas idênticas com ligações para a página da release e para o
+\texttt{compare}: (i)~o tipo do projeto (biblioteca/\textit{framework},
+aplicação/serviço, ferramenta CLI ou outro); (ii)~se as releases representam
+entregas reais ao usuário (sim, não ou incerto); e (iii)~se cada release
+sorteada é corretiva (sim ou não).
+
+A concordância entre os três avaliadores é medida com o $\kappa$ de Fleiss em
+cada dimensão (interpretação de Landis e Koch). Os casos divergentes são
+discutidos pelo grupo e geram o rótulo de consenso; o protocolo de desempate é
+\apreencher{protocolo definido na consolidação do consenso}. Um $\kappa$ baixo é
+tratado como achado sobre a ambiguidade do critério. A heurística é avaliada
+contra o consenso com precisão, \textit{recall} e F1 (classe positiva:
+corretiva). Como as regras são ajustadas olhando os erros desta mesma amostra, o
+F1 final tende a ser otimista. Resultados: \apreencher{$\kappa$ por dimensão,
+tamanho do consenso}. O tipo do projeto rotulado alimenta a RQ06.
+
+\subsection{Análise estatística}
+\label{sec:analise}
+
+Para a RQ05, usamos a correlação de Spearman ($\rho$, p-valor e $n$) entre a
+frequência de deploy e o CFR, separadamente para as variantes (a) e (b). Na RQ06,
+comparamos as métricas entre subgrupos de pelo menos três fatores (linguagem,
+quartis de estrelas, de contribuidores e de idade, e tipo do projeto) com
+Kruskal-Wallis (ou Mann-Whitney, quando há dois grupos), corrigimos os p-valores
+por Holm e reportamos o tamanho de efeito ($\varepsilon^2 = H/(n-1)$ ou
+$\delta$ de Cliff). Na RQ07, montamos ao menos três combinações de definições
+(por exemplo, release, release com pré-release e tag como unidade de deploy,
+combinadas com as variantes de \textit{lead time} e de CFR), classificamos cada
+repositório em cada combinação e calculamos, por par, a proporção que muda de
+categoria e o $\kappa$ de Cohen ponderado (pesos lineares).
+
+\subsection{Disponibilidade}
+
+O código, os testes, o dicionário de dados e os CSVs finais estão no
+repositório do grupo (Seção~7). O pipeline é executável por outro grupo com um
+único comando, conforme o README.

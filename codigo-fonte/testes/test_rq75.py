@@ -46,6 +46,50 @@ def test_tags_paginadas_datadas_por_sha_com_reuso_e_falha():
     assert not resultado['tags'][2]['dentro_janela']
 
 
+def test_tags_reuso_compare_preserva_resultado_e_reduz_requisicoes():
+    def cliente():
+        c = Mock()
+        c.paginar.return_value = iter([{'status': 200, 'corpo': [
+            {'tag_name': 'v1', 'sha': 'a'},
+            {'tag_name': 'alias', 'sha': 'a'},
+            {'tag_name': 'antiga', 'sha': 'b'},
+            {'tag_name': 'desconhecida', 'sha': 'c'},
+        ]}])
+        datas = {'a': '2026-09-30T23:59:59.900Z',
+                 'b': '2020-01-01T00:00:00Z', 'c': '2026-02-01T00:00:00Z'}
+        c.get.side_effect = lambda caminho, **kw: {
+            'status': 200, 'corpo': {'sha': caminho.rsplit('/', 1)[1],
+                                   'data_autor': datas[caminho.rsplit('/', 1)[1]]}}
+        return c
+    original, otimizado = cliente(), cliente()
+    args = ('o/r', '2025-10-01', '2026-09-30', [{'tag_name': 'v1'}])
+    esperado = rq75.coletar_tags(original, *args)
+    obtido = rq75.coletar_tags(otimizado, *args, [
+        {'sha': 'a', 'data_autor': '2026-09-30T23:59:59.900Z'},
+        {'sha': 'b', 'data_autor': '2020-01-01T00:00:00Z'},
+    ])
+    assert obtido == esperado
+    assert original.get.call_count == 3
+    assert otimizado.get.call_count == 1
+
+
+def test_tags_dados_invalidos_ou_conflitantes_exigem_consulta():
+    c = Mock()
+    c.paginar.return_value = iter([{'status': 200, 'corpo': [
+        {'tag_name': s, 'sha': s} for s in ('a', 'b', 'c', 'd')]}])
+    c.get.return_value = {'status': 404, 'corpo': None}
+    conhecidos = [
+        {'sha': 'a', 'data_autor': None},
+        {'sha': 'b', 'data_autor': 'invalida'},
+        {'sha': 'c', 'data_autor': '2026-01-01T00:00:00'},
+        {'sha': 'd', 'data_autor': '2026-01-01T00:00:00Z'},
+        {'sha': 'd', 'data_autor': '2026-02-01T00:00:00Z'},
+    ]
+    r = rq75.coletar_tags(c, 'o/r', '2025-10-01', '2026-09-30', [], conhecidos)
+    assert c.get.call_count == 4
+    assert all(t['status'] == 'indisponivel' for t in r['tags'])
+
+
 class ClienteComTags(ClienteFalso):
     def paginar(self, caminho, *args, **kwargs):
         if caminho.endswith('/tags'):
