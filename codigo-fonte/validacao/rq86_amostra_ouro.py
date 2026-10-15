@@ -307,9 +307,13 @@ def ler_planilha(caminho: Path) -> dict:
     return abas
 
 
-def validar_planilha(caminho: Path, sorteio_dir: Optional[Path] = None) -> dict:
-    """Problemas de uma planilha preenchida; ``completa`` se nao houver nenhum."""
-    abas = ler_planilha(caminho)
+def validar_planilha(caminho: Path, sorteio_dir: Optional[Path] = None,
+                     abas: Optional[dict] = None) -> dict:
+    """Problemas de uma planilha preenchida; ``completa`` se nao houver nenhum.
+
+    ``abas`` evita reler o arquivo quando quem chama ja usou :func:`ler_planilha`.
+    """
+    abas = abas if abas is not None else ler_planilha(caminho)
     sorteio_dir = sorteio_dir or Path(caminho).resolve().parents[1]
     referencia = {"repositorios": sorteio_dir / "sorteio_repositorios.csv",
                   "releases": sorteio_dir / "sorteio_releases.csv"}
