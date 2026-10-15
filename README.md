@@ -53,7 +53,7 @@ Para testar rapidamente, crie uma cópia da config com `"meta_repositorios": 3` 
 
 ### Saídas
 
-O dicionário de dados de cada coluna está em [`dados/lab03/DICIONARIO.md`](dados/lab03/DICIONARIO.md).
+O dicionário de dados oficial, cobrindo todas as colunas de todos os CSVs da amostra final, está em [`dados/lab03_final/DICIONARIO.md`](dados/lab03_final/DICIONARIO.md) (gerado pela RQ84). O da amostra piloto continua em [`dados/lab03/DICIONARIO.md`](dados/lab03/DICIONARIO.md).
 
 | Arquivo | Conteúdo |
 |---|---|
@@ -91,6 +91,16 @@ python codigo-fonte/validacao/rq89_heuristica.py avaliar --consenso dados/lab03_
 ```
 
 Grava precisão, recall e F1 por versão e a lista de erros em `dados/lab03_final/amostra_ouro/`. Para recalcular o CFR de entrega com outra versão: `python codigo-fonte/rq83_metricas_variantes.py --heuristica correcao_de_defeito_v3`. Detalhes em [RQ89](entregas/laboratorio-03/sprint-02/RQ89_heuristica_corretiva.md).
+
+### RQ84 — Consolidar o dataset final
+
+Depois da RQ83, junta coleta, métricas nas variantes e consenso da amostra-ouro num CSV único (`dados/lab03_final/dataset_final.csv`), regenera o dicionário de dados e confere se toda coluna de todo CSV final está documentada:
+
+```bash
+python codigo-fonte/rq84_dataset_final.py
+```
+
+Detalhes em [RQ84](entregas/laboratorio-03/sprint-02/RQ84_dataset_final_dicionario.md).
 
 ### Testes
 

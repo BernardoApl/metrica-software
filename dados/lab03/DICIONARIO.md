@@ -1,5 +1,7 @@
 # Dicionário de dados — LAB03 (Sprint 01)
 
+> Este é o dicionário da **amostra piloto** de 100 repositórios. O dicionário oficial da amostra final, gerado automaticamente e cobrindo todos os arquivos (inclusive RQ83, amostra-ouro e `dataset_final.csv`), está em [`dados/lab03_final/DICIONARIO.md`](../lab03_final/DICIONARIO.md) (RQ84).
+
 Arquivos gerados por `python codigo-fonte/pipeline_dora.py --config config/pipeline.json`. Datas em ISO 8601 UTC. Valores vazios significam **indefinido**, e não zero. Por exemplo, um repositório sem falhas tem tempo de recuperação vazio.
 
 Janela usada: ver `resumo_execucao.json` (`config.janela`). As duas datas são inclusivas e o fim vai até 23:59:59 UTC.

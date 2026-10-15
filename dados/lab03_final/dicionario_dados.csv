@@ -1,0 +1,308 @@
+arquivo,coluna,tipo,unidade,formula_ou_origem,gerado_por
+dataset_final.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,url,texto,—,GraphQL `url`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,estrelas,inteiro,estrelas,GraphQL `stargazerCount` na coleta RQ74,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,linguagem,texto,—,GraphQL `primaryLanguage.name` (vazio se o GitHub não detecta),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,criado_em,data,—,GraphQL `createdAt`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,idade_anos,real,anos,"(data de referência da coleta RQ74 − `criado_em`) ÷ 365,25",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,contribuidores_total,inteiro,pessoas,nº da última página de `GET /contributors?per_page=1&anon=true` (vazio se não coletado),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,branch_padrao,texto,—,`defaultBranchRef.name`; só esse branch é considerado,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,workflows_total,inteiro,workflows,`total_count` de `GET /actions/workflows`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,estrelas_quartil,categoria,Q1–Q4,"quartil de `estrelas` na amostra final: Q1 se ≤ P25, Q2 se ≤ P50, Q3 se ≤ P75, senão Q4 (empates vão para o quartil inferior)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,contribuidores_quartil,categoria,Q1–Q4,"quartil de `contribuidores_total`, mesma regra; vazio se o valor é ausente",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,idade_quartil,categoria,Q1–Q4,"quartil de `idade_anos`, mesma regra",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,na_amostra_ouro,booleano,—,repositório sorteado para a validação manual (RQ86),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,tipo_projeto,categoria,biblioteca_framework/aplicacao_servico/ferramenta_cli/outro,rótulo de consenso dos 3 avaliadores (RQ88); vazio fora da amostra-ouro,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,entregas_reais,categoria,sim/nao/incerto,consenso (RQ88): as releases representam entregas reais ao usuário?; vazio fora da amostra-ouro,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_janela,inteiro,releases,"releases com `draft = false`, `prerelease = false` e `published_at` dentro da janela (deploys, definição principal)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,prereleases_janela,inteiro,releases,pré-releases publicadas na janela (variante da RQ 07),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,frequencia_deploy_semana,real,releases/semana,RQ 01: `releases_janela` ÷ (dias da janela ÷ 7),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_release_mediana_dias,real,dias,"RQ 02 (a): mediana, entre as releases, de `published_at` de R − `commit.author.date` do commit mais antigo de `compare/{anterior}...{R}`",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_release_q1_dias,real,dias,"1º quartil da distribuição da variante (a) do repositório (interpolação linear, tipo 7)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_release_q3_dias,real,dias,3º quartil da variante (a),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_release_iqr_dias,real,dias,`lead_time_release_q3_dias − lead_time_release_q1_dias`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_commit_mediana_dias,real,dias,"RQ 02 (b): mediana, entre **todos** os commits de todas as releases, de `published_at` de R − `commit.author.date`",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_commit_q1_dias,real,dias,1º quartil da variante (b),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_commit_q3_dias,real,dias,3º quartil da variante (b),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,lead_time_commit_iqr_dias,real,dias,`lead_time_commit_q3_dias − lead_time_commit_q1_dias`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_com_lead_time,inteiro,releases,releases da janela com lead time calculado (entram na variante a),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,commits_com_lead_time,inteiro,commits,commits que entram na variante (b),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_sem_anterior,inteiro,releases,"primeira release da história do repositório: sem base para o `compare`, ignorada no lead time",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_sem_commits,inteiro,releases,"`compare` sem commits novos (ou só com datas posteriores à release), ignorada",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_compare_indisponivel,inteiro,releases,"`compare` com 404 (tag apagada/reescrita), 422 ou erro persistente, ignorada",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_compare_truncado,inteiro,releases,`compare` incompleto (limite de páginas ou falha no meio da paginação),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,commits_negativos,inteiro,commits,"commits com `commit.author.date` posterior ao `published_at` da release, descartados das duas variantes",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,runs_coletados,inteiro,runs,"runs de `push` no default branch criados na janela, de qualquer `conclusion`",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,runs_validos,inteiro,runs,"`runs_falha + runs_sucesso` (push, default branch, janela, conclusão válida)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,runs_falha,inteiro,runs,"`conclusion` ∈ {`failure`, `timed_out`, `startup_failure`}",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,runs_sucesso,inteiro,runs,`conclusion = success`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,cfr_ci,real,fração (0–1),RQ 03 (a): `runs_falha ÷ runs_validos`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,cfr_entrega,real,fração (0–1),RQ 03 (b): `releases_falha_cfr ÷ releases_avaliadas_cfr`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_avaliadas_cfr,inteiro,releases,releases da janela publicadas mais de 7 dias antes do fim da janela (denominador do CFR b),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_falha_cfr,inteiro,releases,"releases seguidas, em até 7 dias (inclusive), por uma release corretiva segundo a heurística",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_censuradas_cfr,inteiro,releases,"releases dos últimos 7 dias da janela, fora do denominador do CFR b (censura)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,releases_sem_semver,inteiro,releases,releases da janela cuja tag não é SemVer `MAJOR.MINOR.PATCH` (a heurística por patch não as reconhece),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,heuristica_cfr_entrega,categoria,—,versão da heurística de release corretiva usada no CFR (b) (`resumo_rq83.json`; RQ89),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,recuperacao_mediana_horas,real,horas,RQ 04: mediana dos episódios completos de todos os workflows; episódio = `updated_at` do sucesso − `run_started_at` da 1ª falha do mesmo workflow,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,recuperacao_q1_horas,real,horas,1º quartil dos episódios completos,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,recuperacao_q3_horas,real,horas,3º quartil dos episódios completos,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,recuperacao_iqr_horas,real,horas,`recuperacao_q3_horas − recuperacao_q1_horas`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,episodios_falha,inteiro,episódios,"total de episódios de falha, incluindo os censurados",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,episodios_completos,inteiro,episódios,episódios usados na mediana (sem censura),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,episodios_censurados,inteiro,episódios,episódios sem sucesso até o fim da janela (censura à direita),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,episodios_censura_esquerda,inteiro,episódios,"episódios em que o workflow já começa a janela falhando, sem sucesso anterior observado",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,proporcao_episodios_censurados,real,fração (0–1),`episodios_censurados ÷ episodios_falha`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,classe_frequencia,categoria,Elite/High/Medium/Low,tabela de referência da RQ 07 aplicada a `frequencia_deploy_semana`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,classe_lead_time,categoria,Elite/High/Medium/Low,"tabela da RQ 07 aplicada a `lead_time_release_mediana_dias` (variante a, combinação C1)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,classe_cfr,categoria,Elite/High/Medium/Low,"tabela da RQ 07 aplicada a `cfr_ci` (variante a, combinação C1)",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,classe_recuperacao,categoria,Elite/High/Medium/Low,tabela da RQ 07 aplicada a `recuperacao_mediana_horas`,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,classe_geral,categoria,Elite/High/Medium/Low,"mediana das notas das quatro classes (Elite=4 … Low=1), arredondada para baixo; vazia se alguma for indefinida",RQ84 `rq84_dataset_final.py`
+dataset_final.csv,intervalos_no_teto,inteiro,intervalos,intervalos de 1 segundo ainda com ≥ 1.000 runs (coleta de runs incompleta se > 0; RQ77),RQ84 `rq84_dataset_final.py`
+dataset_final.csv,calculo_completo,booleano,—,RQ83: todas as métricas do repositório calculadas sem pendência,RQ84 `rq84_dataset_final.py`
+dataset_final.csv,pendencias,texto,—,"RQ83: lista das pendências do repositório (ex.: compare truncado), separadas por `;`",RQ84 `rq84_dataset_final.py`
+metricas_repositorios.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,url,texto,—,GraphQL `url`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,estrelas,inteiro,estrelas,GraphQL `stargazerCount` na coleta RQ74,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,linguagem,texto,—,GraphQL `primaryLanguage.name` (vazio se o GitHub não detecta),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,criado_em,data,—,GraphQL `createdAt`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,idade_anos,real,anos,"(data de referência da coleta RQ74 − `criado_em`) ÷ 365,25",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,contribuidores_total,inteiro,pessoas,nº da última página de `GET /contributors?per_page=1&anon=true` (vazio se não coletado),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,branch_padrao,texto,—,`defaultBranchRef.name`; só esse branch é considerado,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,workflows_total,inteiro,workflows,`total_count` de `GET /actions/workflows`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,releases_janela,inteiro,releases,"releases com `draft = false`, `prerelease = false` e `published_at` dentro da janela (deploys, definição principal)",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,prereleases_janela,inteiro,releases,pré-releases publicadas na janela (variante da RQ 07),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,frequencia_deploy_semana,real,releases/semana,RQ 01: `releases_janela` ÷ (dias da janela ÷ 7),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,runs_coletados,inteiro,runs,"runs de `push` no default branch criados na janela, de qualquer `conclusion`",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,runs_validos,inteiro,runs,"`runs_falha + runs_sucesso` (push, default branch, janela, conclusão válida)",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,runs_falha,inteiro,runs,"`conclusion` ∈ {`failure`, `timed_out`, `startup_failure`}",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,runs_sucesso,inteiro,runs,`conclusion = success`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,cfr_ci,real,fração (0–1),RQ 03 (a): `runs_falha ÷ runs_validos`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,recuperacao_mediana_horas,real,horas,RQ 04: mediana dos episódios completos de todos os workflows; episódio = `updated_at` do sucesso − `run_started_at` da 1ª falha do mesmo workflow,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,episodios_falha,inteiro,episódios,"total de episódios de falha, incluindo os censurados",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,episodios_completos,inteiro,episódios,episódios usados na mediana (sem censura),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,episodios_censurados,inteiro,episódios,episódios sem sucesso até o fim da janela (censura à direita),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,episodios_censura_esquerda,inteiro,episódios,"episódios em que o workflow já começa a janela falhando, sem sucesso anterior observado",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,proporcao_episodios_censurados,real,fração (0–1),`episodios_censurados ÷ episodios_falha`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,intervalos_no_teto,inteiro,intervalos,intervalos de 1 segundo ainda com ≥ 1.000 runs (coleta de runs incompleta se > 0; RQ77),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,lead_time_release_mediana_dias,real,dias,"RQ 02 (a): mediana, entre as releases, de `published_at` de R − `commit.author.date` do commit mais antigo de `compare/{anterior}...{R}`",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,lead_time_commit_mediana_dias,real,dias,"RQ 02 (b): mediana, entre **todos** os commits de todas as releases, de `published_at` de R − `commit.author.date`",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,releases_com_lead_time,inteiro,releases,releases da janela com lead time calculado (entram na variante a),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,commits_com_lead_time,inteiro,commits,commits que entram na variante (b),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,releases_sem_anterior,inteiro,releases,"primeira release da história do repositório: sem base para o `compare`, ignorada no lead time",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,releases_sem_commits,inteiro,releases,"`compare` sem commits novos (ou só com datas posteriores à release), ignorada",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,releases_compare_indisponivel,inteiro,releases,"`compare` com 404 (tag apagada/reescrita), 422 ou erro persistente, ignorada",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,releases_compare_truncado,inteiro,releases,`compare` incompleto (limite de páginas ou falha no meio da paginação),RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,commits_negativos,inteiro,commits,"commits com `commit.author.date` posterior ao `published_at` da release, descartados das duas variantes",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,classe_frequencia,categoria,Elite/High/Medium/Low,tabela de referência da RQ 07 aplicada a `frequencia_deploy_semana`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,classe_lead_time,categoria,Elite/High/Medium/Low,"tabela da RQ 07 aplicada a `lead_time_release_mediana_dias` (variante a, combinação C1)",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,classe_cfr,categoria,Elite/High/Medium/Low,"tabela da RQ 07 aplicada a `cfr_ci` (variante a, combinação C1)",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,classe_recuperacao,categoria,Elite/High/Medium/Low,tabela da RQ 07 aplicada a `recuperacao_mediana_horas`,RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,classe_geral,categoria,Elite/High/Medium/Low,"mediana das notas das quatro classes (Elite=4 … Low=1), arredondada para baixo; vazia se alguma for indefinida",RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,posicao,inteiro,—,"ordem de avaliação (estrelas decrescentes, entre os aptos no pré-filtro)",RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,estrelas,inteiro,estrelas,GraphQL `stargazerCount` na coleta RQ74,RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,motivo,categoria,—,"`incluido`, `sem_actions`, `poucas_releases`, `poucos_runs`, `runs_acima_do_limite`, `inacessivel`",RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,workflows_total,inteiro,workflows,`total_count` de `GET /actions/workflows`,RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,releases_janela,inteiro,releases,releases da janela até a etapa em que o candidato parou,RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,runs_total_informado,inteiro,runs,`total_count` da busca de runs na janela inteira (satura em intervalos longos),RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,runs_validos,inteiro,runs,runs válidos até a etapa em que o candidato parou,RQ82/RQ80 `pipeline_dora.py`
+candidatos_avaliados.csv,erro,texto,—,"status HTTP, quando `motivo = inacessivel`",RQ82/RQ80 `pipeline_dora.py`
+funil_selecao.csv,etapa,texto,—,nome da etapa do funil,RQ82/RQ80 `pipeline_dora.py`
+funil_selecao.csv,criterio,texto,—,regra aplicada na etapa,RQ82/RQ80 `pipeline_dora.py`
+funil_selecao.csv,entrada,inteiro,repositórios,repositórios que chegaram à etapa,RQ82/RQ80 `pipeline_dora.py`
+funil_selecao.csv,removidos_na_etapa,inteiro,repositórios,repositórios descartados na etapa,RQ82/RQ80 `pipeline_dora.py`
+funil_selecao.csv,aprovados,inteiro,repositórios,`entrada − removidos_na_etapa`,RQ82/RQ80 `pipeline_dora.py`
+releases.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,id,inteiro,—,id do objeto na API do GitHub,RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,tag_name,texto,—,tag da release (`tag_name`),RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,name,texto,—,título da release ou nome do workflow (`name`),RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,draft,booleano,—,`draft` da release (rascunho; nunca é deploy),RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,prerelease,booleano,—,`prerelease` da release,RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,created_at,data,—,`created_at` do objeto na API,RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,published_at,data,—,`published_at` da release (data do deploy),RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,target_commitish,texto,—,branch ou SHA de onde a release foi criada,RQ82 `GET /repos/{o}/{r}/releases`
+releases.csv,dentro_janela,booleano,—,data de publicação (release) ou de autoria do commit (tag) dentro da janela,RQ82 `GET /repos/{o}/{r}/releases`
+workflow_runs.csv.gz,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,id,inteiro,—,id do objeto na API do GitHub,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,workflow_id,inteiro,—,id do workflow do run (agrupa os episódios da RQ 04),RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,name,texto,—,título da release ou nome do workflow (`name`),RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,event,categoria,—,evento que disparou o run; sempre `push`,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,head_branch,texto,—,branch do run; sempre o default branch,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,head_sha,texto,—,SHA do commit do run,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,status,categoria,—,"`status` do run (`completed`, `queued`…)",RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,conclusion,categoria,—,`conclusion` do run: `success` = sucesso; `failure`/`timed_out`/`startup_failure` = falha; demais = ignorado,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,run_attempt,inteiro,tentativas,"nº da tentativa (a API devolve só a última; ameaça à validade, RQ77)",RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,created_at,data,—,`created_at` do objeto na API,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,run_started_at,data,—,início real da última tentativa do run,RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+workflow_runs.csv.gz,updated_at,data,—,"última atualização do run (fim, para runs concluídos)",RQ82/RQ77 `GET /actions/runs?branch=…&event=push&created=…`
+intervalos_runs.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ77 `coleta_dora.coletar_runs`
+intervalos_runs.csv,intervalo,texto,—,filtro `created` consultado: `AAAA-MM-DD..AAAA-MM-DD` ou com hora UTC,RQ77 `coleta_dora.coletar_runs`
+intervalos_runs.csv,total_informado,inteiro,runs,`total_count` da API para o intervalo,RQ77 `coleta_dora.coletar_runs`
+intervalos_runs.csv,coletados,inteiro,runs,runs paginados no intervalo (vazio se subdividido sem paginar),RQ77 `coleta_dora.coletar_runs`
+intervalos_runs.csv,subdividido,booleano,—,intervalo dividido ao meio por ter chegado ao teto de 1.000,RQ77 `coleta_dora.coletar_runs`
+lead_time_releases.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,tag_name,texto,—,tag da release (`tag_name`),RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,anterior,texto,—,`tag_name` da release publicada imediatamente antes (base do `compare`),RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,published_at,data,—,`published_at` da release (data do deploy),RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,commits,inteiro,commits,commits devolvidos pelo `compare` com data de autoria,RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,commits_negativos,inteiro,commits,"dos commits da release, quantos têm data posterior a ela (descartados)",RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,truncado,booleano,—,`compare` incompleto (limite de páginas ou falha no meio),RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,lead_time_dias,real,dias,variante (a) da release: `published_at` − commit mais antigo,RQ76 `pipeline_dora.calcular_lead_time`
+lead_time_releases.csv,motivo,categoria,—,"por que R ficou sem lead time: `sem_release_anterior`, `sem_commits_novos`, `compare_indisponivel` (vazio se calculado)",RQ76 `pipeline_dora.calcular_lead_time`
+commits_releases.csv.gz,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ76 `GET /compare/{anterior}...{R}`
+commits_releases.csv.gz,tag_name,texto,—,tag da release (`tag_name`),RQ76 `GET /compare/{anterior}...{R}`
+commits_releases.csv.gz,anterior,texto,—,`tag_name` da release publicada imediatamente antes (base do `compare`),RQ76 `GET /compare/{anterior}...{R}`
+commits_releases.csv.gz,sha,texto,—,SHA do commit,RQ76 `GET /compare/{anterior}...{R}`
+commits_releases.csv.gz,data_autor,data,—,`commit.author.date`,RQ76 `GET /compare/{anterior}...{R}`
+commits_releases.csv.gz,mensagem,texto,—,"1ª linha de `commit.message`, até 200 caracteres",RQ76 `GET /compare/{anterior}...{R}`
+tags.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,tag_name,texto,—,tag da release (`tag_name`),RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,sha,texto,—,SHA do commit,RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,data_autor,data,—,`commit.author.date`,RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,tem_release,booleano,—,a tag tem release publicada associada,RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,dentro_janela,booleano,—,`data_autor` do commit da tag dentro da janela,RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,status,categoria,—,situação da coleta da tag (`ok` = data do commit obtida),RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,status_commit,inteiro,—,status HTTP de `GET /commits/{sha}`,RQ75 `GET /tags` + `GET /commits/{sha}`
+tags.csv,erro,texto,—,"mensagem de erro da API, quando houver",RQ75 `GET /tags` + `GET /commits/{sha}`
+rq83/metricas_variantes.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_janela,inteiro,releases,"releases com `draft = false`, `prerelease = false` e `published_at` dentro da janela (deploys, definição principal)",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,frequencia_deploy_semana,real,releases/semana,RQ 01: `releases_janela` ÷ (dias da janela ÷ 7),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_release_mediana_dias,real,dias,"RQ 02 (a): mediana, entre as releases, de `published_at` de R − `commit.author.date` do commit mais antigo de `compare/{anterior}...{R}`",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_commit_mediana_dias,real,dias,"RQ 02 (b): mediana, entre **todos** os commits de todas as releases, de `published_at` de R − `commit.author.date`",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_com_lead_time,inteiro,releases,releases da janela com lead time calculado (entram na variante a),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,commits_com_lead_time,inteiro,commits,commits que entram na variante (b),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_sem_anterior,inteiro,releases,"primeira release da história do repositório: sem base para o `compare`, ignorada no lead time",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_sem_commits,inteiro,releases,"`compare` sem commits novos (ou só com datas posteriores à release), ignorada",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_compare_indisponivel,inteiro,releases,"`compare` com 404 (tag apagada/reescrita), 422 ou erro persistente, ignorada",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_compare_truncado,inteiro,releases,`compare` incompleto (limite de páginas ou falha no meio da paginação),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,commits_negativos,inteiro,commits,"commits com `commit.author.date` posterior ao `published_at` da release, descartados das duas variantes",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,runs_validos,inteiro,runs,"`runs_falha + runs_sucesso` (push, default branch, janela, conclusão válida)",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,runs_falha,inteiro,runs,"`conclusion` ∈ {`failure`, `timed_out`, `startup_failure`}",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,runs_sucesso,inteiro,runs,`conclusion = success`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,cfr_ci,real,fração (0–1),RQ 03 (a): `runs_falha ÷ runs_validos`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,cfr_entrega,real,fração (0–1),RQ 03 (b): `releases_falha_cfr ÷ releases_avaliadas_cfr`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_avaliadas_cfr,inteiro,releases,releases da janela publicadas mais de 7 dias antes do fim da janela (denominador do CFR b),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_falha_cfr,inteiro,releases,"releases seguidas, em até 7 dias (inclusive), por uma release corretiva segundo a heurística",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_censuradas_cfr,inteiro,releases,"releases dos últimos 7 dias da janela, fora do denominador do CFR b (censura)",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,releases_sem_semver,inteiro,releases,releases da janela cuja tag não é SemVer `MAJOR.MINOR.PATCH` (a heurística por patch não as reconhece),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,episodios_falha,inteiro,episódios,"total de episódios de falha, incluindo os censurados",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,episodios_completos,inteiro,episódios,episódios usados na mediana (sem censura),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,episodios_censurados,inteiro,episódios,episódios sem sucesso até o fim da janela (censura à direita),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,episodios_censura_esquerda,inteiro,episódios,"episódios em que o workflow já começa a janela falhando, sem sucesso anterior observado",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,proporcao_episodios_censurados,real,fração (0–1),`episodios_censurados ÷ episodios_falha`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_release_q1_dias,real,dias,"1º quartil da distribuição da variante (a) do repositório (interpolação linear, tipo 7)",RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_release_q3_dias,real,dias,3º quartil da variante (a),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_release_iqr_dias,real,dias,`lead_time_release_q3_dias − lead_time_release_q1_dias`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_commit_q1_dias,real,dias,1º quartil da variante (b),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_commit_q3_dias,real,dias,3º quartil da variante (b),RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,lead_time_commit_iqr_dias,real,dias,`lead_time_commit_q3_dias − lead_time_commit_q1_dias`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,recuperacao_mediana_horas,real,horas,RQ 04: mediana dos episódios completos de todos os workflows; episódio = `updated_at` do sucesso − `run_started_at` da 1ª falha do mesmo workflow,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,recuperacao_q1_horas,real,horas,1º quartil dos episódios completos,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,recuperacao_q3_horas,real,horas,3º quartil dos episódios completos,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,recuperacao_iqr_horas,real,horas,`recuperacao_q3_horas − recuperacao_q1_horas`,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,calculo_completo,booleano,—,RQ83: todas as métricas do repositório calculadas sem pendência,RQ83 `rq83_metricas_variantes.py`
+rq83/metricas_variantes.csv,pendencias,texto,—,"RQ83: lista das pendências do repositório (ex.: compare truncado), separadas por `;`",RQ83 `rq83_metricas_variantes.py`
+rq83/cfr_entrega_releases.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,tag_name,texto,—,tag da release (`tag_name`),RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,published_at,data,—,`published_at` da release (data do deploy),RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,censurada,booleano,—,publicada nos últimos 7 dias da janela: fora do denominador do CFR (b),RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,falha,booleano,—,seguida por release corretiva em até 7 dias (vazio se censurada),RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,corretiva_tag,texto,—,tag da primeira release corretiva encontrada nos 7 dias,RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,tag_semver,booleano,—,a tag segue SemVer `MAJOR.MINOR.PATCH`,RQ83 `metricas/variantes.cfr_entrega`
+rq83/cfr_entrega_releases.csv,heuristica,categoria,—,versão da heurística de release corretiva (RQ89),RQ83 `metricas/variantes.cfr_entrega`
+rq83/episodios_recuperacao.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,workflow_id,inteiro,—,id do workflow do run (agrupa os episódios da RQ 04),RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,inicio,data,—,`run_started_at` da primeira falha do episódio,RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,fim,data,—,"`updated_at` do sucesso que encerra o episódio (ou fim da janela, se censurado)",RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,horas,real,horas,`fim − inicio`,RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,falhas,inteiro,runs,falhas no episódio,RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,censurado,booleano,—,sem sucesso até o fim da janela (censura à direita),RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+rq83/episodios_recuperacao.csv,censura_esquerda,booleano,—,workflow já começa a janela falhando,RQ83 / RQ79 `metricas/ci.episodios_de_falha`
+amostra_ouro/sorteio_repositorios.csv,id_repositorio,texto,—,identificador do repositório sorteado (`R01`…`R60`),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_repositorios.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_repositorios.csv,linguagem,texto,—,GraphQL `primaryLanguage.name` (vazio se o GitHub não detecta),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_repositorios.csv,estrelas,inteiro,estrelas,GraphQL `stargazerCount` na coleta RQ74,RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_repositorios.csv,link_repositorio,texto,URL,página do repositório no GitHub,RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_repositorios.csv,link_releases,texto,URL,página de releases do repositório,RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,id_release,texto,—,identificador da release sorteada (`R01-1`…),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,id_repositorio,texto,—,identificador do repositório sorteado (`R01`…`R60`),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,tag_name,texto,—,tag da release (`tag_name`),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,release_anterior,texto,—,release publicada imediatamente antes (base do `compare`),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,published_at,data,—,`published_at` da release (data do deploy),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,link_release,texto,URL,página da release (release notes),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/sorteio_releases.csv,link_commits,texto,URL,`compare` com a release anterior (lista de commits),RQ86 `validacao/rq86_amostra_ouro.py gerar`
+amostra_ouro/consenso_repositorios.csv,id_repositorio,texto,—,identificador do repositório sorteado (`R01`…`R60`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,tipo_projeto_BernardoApl,categoria,código,"tipo do projeto, segundo BernardoApl",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,tipo_projeto_bacelete,categoria,código,"tipo do projeto, segundo bacelete",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,tipo_projeto_Joaopedrotavaress,categoria,código,"tipo do projeto, segundo Joaopedrotavaress",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,tipo_projeto_consenso,categoria,biblioteca_framework/aplicacao_servico/ferramenta_cli/outro,"rótulo de consenso: 3-0 unânime, 2-1 maioria, 1-1-1 decidido em reunião (RQ88)",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,tipo_projeto_origem,categoria,unanime/maioria/reuniao/empate_pendente,como o consenso foi obtido,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,tipo_projeto_justificativa,texto,—,justificativa registrada em `decisoes_reuniao.csv` (só `origem = reuniao`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,entregas_reais_BernardoApl,categoria,código,"releases são entregas reais, segundo BernardoApl",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,entregas_reais_bacelete,categoria,código,"releases são entregas reais, segundo bacelete",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,entregas_reais_Joaopedrotavaress,categoria,código,"releases são entregas reais, segundo Joaopedrotavaress",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,entregas_reais_consenso,categoria,sim/nao/incerto,"rótulo de consenso: 3-0 unânime, 2-1 maioria, 1-1-1 decidido em reunião (RQ88)",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,entregas_reais_origem,categoria,unanime/maioria/reuniao/empate_pendente,como o consenso foi obtido,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_repositorios.csv,entregas_reais_justificativa,texto,—,justificativa registrada em `decisoes_reuniao.csv` (só `origem = reuniao`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,id_release,texto,—,identificador da release sorteada (`R01-1`…),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,id_repositorio,texto,—,identificador do repositório sorteado (`R01`…`R60`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,tag_name,texto,—,tag da release (`tag_name`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,release_anterior,texto,—,release publicada imediatamente antes (base do `compare`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,published_at,data,—,`published_at` da release (data do deploy),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,corretiva_BernardoApl,categoria,código,"release corretiva, segundo BernardoApl",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,corretiva_bacelete,categoria,código,"release corretiva, segundo bacelete",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,corretiva_Joaopedrotavaress,categoria,código,"release corretiva, segundo Joaopedrotavaress",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,corretiva_consenso,categoria,sim/nao,"rótulo de consenso: 3-0 unânime, 2-1 maioria, 1-1-1 decidido em reunião (RQ88)",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,corretiva_origem,categoria,unanime/maioria/reuniao/empate_pendente,como o consenso foi obtido,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/consenso_releases.csv,corretiva_justificativa,texto,—,justificativa registrada em `decisoes_reuniao.csv` (só `origem = reuniao`),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,dimensao,categoria,—,"`tipo_projeto`, `entregas_reais` ou `corretiva`",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,itens,inteiro,itens,itens rotulados na dimensão,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,avaliadores,inteiro,pessoas,avaliadores independentes,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,kappa_fleiss,real,−1 a 1,`statsmodels` `aggregate_raters` + `fleiss_kappa(method='fleiss')` sobre os rótulos independentes; vazio se indefinido (todos na mesma categoria),RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,interpretacao,categoria,—,"Landis & Koch (1977): pobre, leve, razoavel, moderada, substancial, quase perfeita",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,concordancia_total,real,fração (0–1),`itens_unanimes ÷ itens`,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,itens_unanimes,inteiro,itens,itens 3-0,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,itens_2_1,inteiro,itens,itens 2-1,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,itens_1_1_1,inteiro,itens,itens 1-1-1,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/concordancia_fleiss.csv,distribuicao,json,rótulos,"contagem de rótulos por categoria, somando os 3 avaliadores",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,dimensao,categoria,—,"`tipo_projeto`, `entregas_reais` ou `corretiva`",RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,id_item,texto,—,`id_repositorio` ou `id_release`,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,obrigatoria,booleano,—,empate 1-1-1 (precisa de decisão); falso = divergência 2-1 para revisar,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,BernardoApl,categoria,código,rótulo de BernardoApl,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,bacelete,categoria,código,rótulo de bacelete,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,Joaopedrotavaress,categoria,código,rótulo de Joaopedrotavaress,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/pendencias_reuniao.csv,maioria,categoria,código,rótulo da maioria nos itens 2-1,RQ88 `validacao/rq88_concordancia.py`
+amostra_ouro/decisoes_reuniao.csv,dimensao,categoria,—,"`tipo_projeto`, `entregas_reais` ou `corretiva`","grupo, conforme protocolo da RQ88"
+amostra_ouro/decisoes_reuniao.csv,id_item,texto,—,`id_repositorio` ou `id_release`,"grupo, conforme protocolo da RQ88"
+amostra_ouro/decisoes_reuniao.csv,rotulo,categoria,código ou texto da lista,rótulo decidido em reunião,"grupo, conforme protocolo da RQ88"
+amostra_ouro/decisoes_reuniao.csv,justificativa,texto,—,motivo da decisão (obrigatório),"grupo, conforme protocolo da RQ88"
+amostra_ouro/avaliacao_heuristica.csv,versao,categoria,—,versão da heurística (`metricas/corretiva.py`),RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,n,inteiro,releases,releases com rótulo de consenso,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,corretivas_consenso,inteiro,releases,corretivas segundo o consenso,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,corretivas_heuristica,inteiro,releases,corretivas segundo a heurística,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,vp,inteiro,releases,verdadeiros positivos,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,fp,inteiro,releases,falsos positivos,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,fn,inteiro,releases,falsos negativos,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,vn,inteiro,releases,verdadeiros negativos,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,precisao,real,fração (0–1),"`vp ÷ (vp + fp)` (`precision_recall_fscore_support`, `zero_division=0`)",RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,recall,real,fração (0–1),`vp ÷ (vp + fn)`,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,f1,real,fração (0–1),`2·P·R ÷ (P + R)`,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/avaliacao_heuristica.csv,sem_mensagens,inteiro,releases,releases sem mensagens de commit disponíveis (só a tag é avaliada),RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,versao,categoria,—,versão da heurística,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,erro,categoria,—,`falso_positivo` ou `falso_negativo`,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,id_release,texto,—,identificador da release sorteada (`R01-1`…),RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,tag_name,texto,—,tag da release (`tag_name`),RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,release_anterior,texto,—,release publicada imediatamente antes (base do `compare`),RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_patch,booleano,—,evidência: só o patch SemVer aumentou,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_mensagens_disponiveis,booleano,—,evidência: há mensagens de commit do `compare`,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_uteis,inteiro,commits,evidência: commits sem os de merge,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_revert_hotfix,inteiro,commits,evidência: commits com `revert`/`hotfix`,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_fix,inteiro,commits,evidência: commits com `fix`/`fixes`/`fixed`/`bugfix`,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_fix_defeito,inteiro,commits,evidência: `fix` que não é de typo/docs/lint/CI/testes/dependências,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,ev_feat,inteiro,commits,evidência: commits de funcionalidade,RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,link_release,texto,URL,página da release (release notes),RQ89 `validacao/rq89_heuristica.py avaliar`
+amostra_ouro/erros_heuristica.csv,link_commits,texto,URL,`compare` com a release anterior (lista de commits),RQ89 `validacao/rq89_heuristica.py avaliar`
