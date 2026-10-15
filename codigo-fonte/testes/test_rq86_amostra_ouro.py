@@ -219,6 +219,19 @@ def test_planilha_preenchida_e_completa(gerado):
     assert set(abas["releases"]["corretiva"]) == {"nao"}
 
 
+@pytest.mark.parametrize("ausente", [None, float("nan"), pd.NA])
+def test_validacao_de_abas_reutilizadas_rejeita_ausentes(gerado, ausente):
+    saida, _ = gerado
+    planilha = saida / "rotulos" / "rotulos_BernardoApl.xlsx"
+    preencher(planilha)
+    abas = ouro.ler_planilha(planilha)
+    abas["repositorios"].loc[0, "tipo_projeto"] = ausente
+    abas["repositorios"].loc[0, "tipo_projeto_original"] = ""
+    resultado = ouro.validar_planilha(planilha, abas=abas)
+    assert not resultado["completa"]
+    assert resultado["problemas"] == ["repositorios R01: tipo_projeto vazio"]
+
+
 def test_valor_fora_da_lista_e_celula_vazia_sao_apontados(gerado):
     saida, _ = gerado
     planilha = saida / "rotulos" / "rotulos_bacelete.xlsx"

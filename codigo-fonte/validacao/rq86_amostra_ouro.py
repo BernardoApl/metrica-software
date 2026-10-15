@@ -303,7 +303,11 @@ def ler_planilha(caminho: Path) -> dict:
         if coluna not in tabela:
             raise ValueError("%s: aba %s sem a coluna %s." % (caminho, aba, coluna))
         tabela[coluna + "_original"] = tabela[coluna]
-        tabela[coluna] = [codigo_do_rotulo(v, permitidos) for v in tabela[coluna]]
+        # Preserva None: a inferencia do pandas pode converter ausentes em NaN,
+        # que nao passa pela verificacao de identidade ``is None``.
+        tabela[coluna] = pd.Series(
+            [codigo_do_rotulo(v, permitidos) for v in tabela[coluna]],
+            index=tabela.index, dtype=object)
     return abas
 
 
@@ -332,7 +336,7 @@ def validar_planilha(caminho: Path, sorteio_dir: Optional[Path] = None,
         chave = CHAVES[aba][0]
         for _, linha in tabela.iterrows():
             original = linha[coluna + "_original"]
-            if linha[coluna] is not None:
+            if pd.notna(linha[coluna]) and linha[coluna] in permitidos:
                 continue
             if normalizar(original) == "":
                 problemas.append("%s %s: %s vazio" % (aba, linha[chave], coluna))
