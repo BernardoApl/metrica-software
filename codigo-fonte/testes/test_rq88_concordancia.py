@@ -271,3 +271,18 @@ def test_cli_codigos_de_saida(pasta, capsys):
     (pasta / "rotulos" / ("rotulos_%s.xlsx" % A)).unlink()
     assert rq88.principal(["--pasta", str(pasta)]) == 1
     assert "incompletas" in capsys.readouterr().err
+
+
+# ------------------------------------------------------- integracao com a RQ89
+def test_consenso_da_rq88_e_lido_pela_rq89(pasta):
+    """O ``consenso_releases.csv`` gerado aqui e a entrada padrao da RQ89."""
+    import rq89_heuristica as rq89
+
+    (pasta / "decisoes_reuniao.csv").write_text(
+        "dimensao,id_item,rotulo,justificativa\ntipo_projeto,R01,outro,x\n", encoding="utf-8")
+    rq88.executar(pasta)
+    rotulos, invalidos = rq89.ler_rotulos(pasta / "consenso_releases.csv")
+    assert invalidos == []
+    assert len(rotulos) == len(pd.read_csv(pasta / "sorteio_releases.csv"))
+    assert rotulos["R01-1"] is True  # 2-1 pela maioria ("sim")
+    assert sum(rotulos.values()) == 1

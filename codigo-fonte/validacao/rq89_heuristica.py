@@ -47,7 +47,8 @@ LIMIAR_F1 = 0.70
 ENTRADA_PADRAO = ouro.ENTRADA_PADRAO
 AMOSTRA_PADRAO = ouro.SAIDA_PADRAO
 CONSENSO_PADRAO = AMOSTRA_PADRAO / "consenso_releases.csv"
-COLUNAS_ROTULO = ("corretiva", "consenso", "consenso_corretiva")
+#: ``corretiva_consenso`` e a coluna do ``consenso_releases.csv`` gerado pela RQ88.
+COLUNAS_ROTULO = ("corretiva_consenso", "corretiva", "consenso", "consenso_corretiva")
 
 
 # ----------------------------------------------------------------------- entradas
