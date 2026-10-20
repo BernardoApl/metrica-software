@@ -1,0 +1,16 @@
+{
+  "issue": 82,
+  "repositorios": 300,
+  "meta": 300,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "amostra_final_validada": false,
+  "pendencias": [
+    {
+      "motivo": "janela_nao_confirmada"
+    }
+  ],
+  "entrada_sha256": "014c112f1358fb844477cbb24bcf605c9af0a74f883e93c0a77a3730bef2ed3c"
+}
