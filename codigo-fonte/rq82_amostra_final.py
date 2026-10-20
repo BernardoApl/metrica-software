@@ -6,6 +6,8 @@ import gzip
 import hashlib
 import json
 import sys
+import time
+from datetime import datetime
 from pathlib import Path
 
 import pipeline_dora as pipeline
@@ -53,13 +55,15 @@ def criar_avaliador(config, candidatos):
     fontes = [Path(__file__), Path(pipeline.__file__),
               Path(pipeline.coleta_dora.__file__), Path(pipeline.lead_time.__file__),
               Path(pipeline.ci.__file__), Path(pipeline.dora.__file__),
-              Path(sys.modules[coletar_tags.__module__].__file__)]
+              Path(sys.modules[coletar_tags.__module__].__file__),
+              Path(pipeline.git_local.__file__)]
     contexto = hashlib.sha256(json.dumps({'config': config, 'candidatos': candidatos},
                                        sort_keys=True).encode())
     for fonte in fontes:
         contexto.update(fonte.read_bytes())
     pasta = pipeline.caminho_projeto(config['diretorio_checkpoints']) / contexto.hexdigest()
     pasta.mkdir(parents=True, exist_ok=True)
+    fabrica_git = pipeline.criar_fabrica_git(config)
 
     def avaliar(cliente, candidato, configuracao):
         nome = candidato['nome_completo']
@@ -69,8 +73,20 @@ def criar_avaliador(config, candidatos):
                 salvo = json.load(arquivo)
             if salvo.get('reutilizavel') and salvo['avaliacao']['nome_completo'] == nome:
                 return salvo['avaliacao']
-        avaliacao = pipeline.avaliar_repositorio(cliente, candidato, configuracao)
-        if avaliacao['motivo'] == pipeline.INCLUIDO:
+        argumentos = (cliente, candidato, configuracao)
+        try:
+            avaliacao = (pipeline.avaliar_repositorio(*argumentos, fabrica_git=fabrica_git)
+                         if fabrica_git else pipeline.avaliar_repositorio(*argumentos))
+        except ErroAutenticacaoREST:
+            raise
+        except ErroREST as erro:
+            # Falha que persistiu depois das tentativas do cliente (5xx, rede): nao derruba
+            # a coleta inteira. Nao e gravada como reutilizavel nem entra no cache HTTP,
+            # entao a proxima passada tenta de novo.
+            return {'nome_completo': nome, 'estrelas': pipeline._inteiro(candidato.get('estrelas')),
+                    'motivo': 'inacessivel', 'erro': str(erro), 'transitorio': True}
+        if avaliacao['motivo'] == pipeline.INCLUIDO and 'tags' not in avaliacao:
+            # Sem tags do clone git (desligado ou falhou): busca pela API.
             janela = configuracao['janela']
             try:
                 tags = coletar_tags(cliente, nome, janela['inicio'], janela['fim'],
@@ -112,6 +128,9 @@ def validar_amostra(resultado, config):
     for avaliacao in resultado['avaliacoes']:
         pendencias.extend({'nome_completo': avaliacao['nome_completo'], 'motivo': p}
                           for p in problemas_coleta(avaliacao))
+        if avaliacao.get('transitorio'):
+            pendencias.append({'nome_completo': avaliacao['nome_completo'],
+                               'motivo': 'falha_temporaria_persistente', 'erro': avaliacao.get('erro')})
     if resultado['funil'][-1]['aprovados'] != len(amostra):
         pendencias.append({'motivo': 'funil_inconsistente'})
     return {'issue': 82, 'repositorios': len(amostra), 'meta': config['meta_repositorios'],
@@ -119,9 +138,34 @@ def validar_amostra(resultado, config):
             'pendencias': pendencias}
 
 
+def registrar_com_hora(mensagem):
+    print('%s %s' % (datetime.now().strftime('%H:%M:%S'), mensagem), flush=True)
+
+
+def executar_com_passadas(cliente, candidatos, config, passadas, espera=120, dormir=time.sleep):
+    """Repete a avaliacao enquanto sobrar repositorio que falhou por erro temporario da API.
+
+    Cada passada reaproveita checkpoints e cache HTTP: so o que falhou e refeito. Uma
+    falha temporaria tirava o repositorio do funil e puxava um candidato de menos
+    estrelas para o lugar dele; refazer a passada devolve a ordem por estrelas.
+    """
+    passadas = max(1, passadas)
+    for passada in range(1, passadas + 1):
+        resultado = pipeline.executar(cliente, candidatos, config, registrar=registrar_com_hora,
+                                      avaliador=criar_avaliador(config, candidatos))
+        falhas = [a['nome_completo'] for a in resultado['avaliacoes'] if a.get('transitorio')]
+        if not falhas or passada == passadas:
+            return resultado
+        registrar_com_hora('[passada %d] %d repositorio(s) com falha temporaria da API (%s...); '
+                           'nova passada em %d s.' % (passada, len(falhas), falhas[0], espera * passada))
+        dormir(espera * passada)
+
+
 def principal(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', type=Path, default=pipeline.RAIZ_PROJETO / 'config/rq82_amostra_final.json')
+    parser.add_argument('--passadas', type=int, default=3,
+                        help='Quantas vezes repetir a avaliacao se houver falha temporaria da API.')
     args = parser.parse_args(argv)
     try:
         config = pipeline.carregar_config(args.config)
@@ -129,7 +173,7 @@ def principal(argv=None):
         entrada = pipeline.caminho_projeto(config['candidatos']['metadados'])
         candidatos = pipeline.ler_candidatos(entrada)
         cliente = pipeline.criar_cliente(obter_token(), config)
-        resultado = pipeline.executar(cliente, candidatos, config, avaliador=criar_avaliador(config, candidatos))
+        resultado = executar_com_passadas(cliente, candidatos, config, args.passadas)
         saida = pipeline.exportar(resultado, config, cliente)
         pipeline.salvar_csv(saida / 'tags.csv', resultado['tags'], COLUNAS['tags'])
         auditoria = validar_amostra(resultado, config)

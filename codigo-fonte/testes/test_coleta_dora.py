@@ -207,7 +207,9 @@ def test_total_de_runs_usa_uma_unica_chamada_barata():
 
 
 def test_limite_operacional_interrompe_a_coleta():
-    cliente = ClienteFalso(runs=[run_em("2026-01-%02d" % (1 + i % 28), i) for i in range(400)])
+    # total_count subinformado (satura na API real): a sondagem dos totais nao pega, a paginacao sim.
+    cliente = ClienteFalso(runs=[run_em("2026-01-%02d" % (1 + i % 28), i) for i in range(400)],
+                           total_informado=lambda total: 100)
     with pytest.raises(coleta_dora.LimiteDeRunsExcedido):
         coleta_dora.coletar_runs(cliente, "o/r", "main", "2026-01-01", "2026-01-31", limite=250)
     paginas = [p for _, p in cliente.chamadas if "page" in p]

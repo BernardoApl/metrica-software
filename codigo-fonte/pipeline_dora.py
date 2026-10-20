@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import functools
 import gzip
 import json
 import subprocess
@@ -47,6 +48,7 @@ configurar_caminhos()
 from cliente_github import ErroAutenticacao, obter_token  # noqa: E402
 from cliente_rest import ClienteREST, ErroREST, ErroAutenticacaoREST  # noqa: E402
 import coleta_dora  # noqa: E402
+import git_local  # noqa: E402
 from metricas import ci, dora, lead_time  # noqa: E402
 
 CONFIG_PADRAO = {
@@ -57,6 +59,11 @@ CONFIG_PADRAO = {
     "limite_runs_por_repositorio": 20000,
     "limite_paginas_compare": 20,
     "trabalhadores": 4,
+    # Commits entre releases e datas das tags vem de um clone git parcial (so commits),
+    # em vez de /compare e /commits/{sha}. Se o clone falhar, o repositorio usa a API.
+    "commits_via_git": False,
+    "git": {"tempo_limite_segundos": 900, "clones_simultaneos": 2,
+            "diretorio_clones": "dados/.cache/git_clones"},
     "candidatos": {
         "limite_busca": 8000,
         "saida_busca": "dados/rq73_candidatos_8000.json",
@@ -89,6 +96,7 @@ COLUNAS_METRICAS = (
     "releases_sem_commits", "releases_compare_indisponivel", "releases_compare_truncado",
     "commits_negativos",
     "classe_frequencia", "classe_lead_time", "classe_cfr", "classe_recuperacao", "classe_geral",
+    "fonte_commits",
 )
 COLUNAS_RELEASES = ("nome_completo", *coleta_dora.CAMPOS_RELEASE, "dentro_janela")
 COLUNAS_RUNS = ("nome_completo", *coleta_dora.CAMPOS_RUN)
@@ -184,8 +192,32 @@ def motivo_pre_filtro(candidato: dict) -> Optional[str]:
 
 
 # ------------------------------------------------------------------- avaliacao
-def avaliar_repositorio(cliente, candidato: dict, config: dict) -> dict:
-    """Aplica os criterios da mais barata para a mais cara e coleta o necessario."""
+def criar_fabrica_git(config: dict):
+    """``FabricaClones`` da configuracao, ou ``None`` se ``commits_via_git`` estiver desligado."""
+    if not config.get("commits_via_git"):
+        return None
+    opcoes = config["git"]
+    return git_local.FabricaClones(caminho_projeto(opcoes["diretorio_clones"]),
+                                   opcoes["tempo_limite_segundos"], opcoes["clones_simultaneos"])
+
+
+def _abrir_clone(fabrica_git, nome: str):
+    """Clone parcial de ``nome``, ou ``None`` (desligado ou falhou: o repositorio usa a API)."""
+    if fabrica_git is None:
+        return None
+    try:
+        return fabrica_git.abrir(nome)
+    except (git_local.ErroGit, OSError) as erro:
+        print("[git] clone de %s indisponivel (%s); usando a API." % (nome, erro), flush=True)
+        return None
+
+
+def avaliar_repositorio(cliente, candidato: dict, config: dict, fabrica_git=None) -> dict:
+    """Aplica os criterios da mais barata para a mais cara e coleta o necessario.
+
+    Com ``fabrica_git``, os commits entre releases e as tags vem de um clone local
+    (``fonte_commits = git``); sem ele, ou se o clone falhar, do ``compare`` da API.
+    """
     nome = candidato["nome_completo"]
     branch = candidato["branch_padrao"]
     inicio, fim = config["janela"]["inicio"], config["janela"]["fim"]
@@ -229,7 +261,18 @@ def avaliar_repositorio(cliente, candidato: dict, config: dict) -> dict:
         return dict(avaliacao, motivo="poucos_runs")
 
     frequencia = dora.frequencia_de_deploy(len(validas), coleta_dora.semanas_da_janela(inicio, fim))
-    lead = calcular_lead_time(cliente, nome, coleta_releases["releases"], config)
+    clone = aberto = _abrir_clone(fabrica_git, nome)
+    try:
+        lead = calcular_lead_time(cliente, nome, coleta_releases["releases"], config, clone)
+        tags = (git_local.tags_datadas(clone, inicio, fim, coleta_releases["releases"])
+                if clone is not None else None)
+    except git_local.ErroGit as erro:
+        print("[git] %s: %s; usando a API." % (nome, erro), flush=True)
+        clone, tags = None, None
+        lead = calcular_lead_time(cliente, nome, coleta_releases["releases"], config)
+    finally:
+        if aberto is not None:
+            aberto.fechar()
     # Combinacao de referencia (C1 da RQ 07): lead time (a), por release.
     classes = dora.classificar_repositorio(
         frequencia, lead["metricas"]["lead_time_release_mediana_dias"], metricas["cfr_ci"],
@@ -250,18 +293,26 @@ def avaliar_repositorio(cliente, candidato: dict, config: dict) -> dict:
         "frequencia_deploy_semana": frequencia,
         "runs_coletados": len(coleta_runs["runs"]),
         "intervalos_no_teto": len(coleta_runs["teto_atingido"]),
+        "fonte_commits": "git" if clone is not None else "api",
         **metricas,
         **lead["metricas"],
         **{k: v for k, v in classes.items() if k in COLUNAS_METRICAS},
     }
-    return dict(avaliacao, motivo=INCLUIDO, metricas=linha,
-                releases=coleta_releases["releases"], runs=coleta_runs["runs"],
-                intervalos=coleta_runs["intervalos"], lead_time=lead["releases"],
-                commits=lead["commits"])
+    resultado = dict(avaliacao, motivo=INCLUIDO, metricas=linha,
+                     releases=coleta_releases["releases"], runs=coleta_runs["runs"],
+                     intervalos=coleta_runs["intervalos"], lead_time=lead["releases"],
+                     commits=lead["commits"])
+    if tags is not None:  # sem tags aqui, a consolidacao (RQ82) busca pela API
+        resultado.update(tags=tags["tags"], status_tags=tags["status"])
+    return resultado
 
 
-def calcular_lead_time(cliente, nome: str, releases: list[dict], config: dict) -> dict:
+def calcular_lead_time(cliente, nome: str, releases: list[dict], config: dict,
+                       clone=None) -> dict:
     """RQ76: ``compare`` de cada release da janela com a anterior e lead time (a) e (b).
+
+    Com ``clone`` (``git_local.CloneLocal``), os commits vem de ``git log`` local, sem
+    chamadas a API. Um erro do git propaga: quem chamou refaz o repositorio pela API.
 
     Um ``compare`` que falha mesmo depois das tentativas do cliente (ex.: 5xx
     persistente em comparacoes enormes) nao derruba o repositorio: a release
@@ -271,7 +322,9 @@ def calcular_lead_time(cliente, nome: str, releases: list[dict], config: dict) -
     avaliacoes, commits = [], []
     for anterior, release in lead_time.pares_de_releases(releases):
         compare = None
-        if anterior is not None:
+        if anterior is not None and clone is not None:
+            compare = clone.commits_entre(anterior["tag_name"], release["tag_name"])
+        elif anterior is not None:
             try:
                 compare = coleta_dora.coletar_compare(cliente, nome, anterior["tag_name"],
                                                       release["tag_name"],
@@ -306,7 +359,8 @@ def executar(cliente, candidatos: list[dict], config: dict,
     atingir a meta. Use ``--config config/avaliar_todos.json`` para esse modo.
     """
     meta = config["meta_repositorios"]
-    avaliar = avaliador or avaliar_repositorio
+    avaliar = avaliador or functools.partial(avaliar_repositorio,
+                                             fabrica_git=criar_fabrica_git(config))
     pre_filtrados = []
     aptos = []
     for candidato in candidatos:

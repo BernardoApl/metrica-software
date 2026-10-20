@@ -47,6 +47,8 @@ O que o comando faz, em ordem:
 | `limite_runs_por_repositorio` | Teto operacional de runs por repositório na janela (custo de API). Quem passa dele é descartado e aparece no funil |
 | `limite_paginas_compare` | Máximo de páginas de 100 commits por `compare` entre releases (20 = 2.000 commits). Comparações maiores ficam marcadas como truncadas |
 | `trabalhadores` | Quantos candidatos são avaliados em paralelo. O resultado é o mesmo da execução sequencial |
+| `commits_via_git` | `true` obtém os commits entre releases e as datas das tags de um **clone git parcial** (só commits, sem árvores nem blobs), em vez de `compare` e `/commits/{sha}` na API. Exige o `git` no PATH. Se o clone falhar, aquele repositório usa a API. Padrão: `false` (S01) |
+| `git.tempo_limite_segundos`, `git.clones_simultaneos`, `git.diretorio_clones` | Tempo máximo por operação do git (padrão 900), quantos clones existem ao mesmo tempo (padrão 2) e onde ficam. O clone é anônimo (o token não é usado) e a pasta é apagada assim que o repositório é avaliado |
 | `diretorio_cache`, `diretorio_saida` | Onde ficam o cache da API e os CSVs gerados |
 
 Para testar rapidamente, crie uma cópia da config com `"meta_repositorios": 3` e `"diretorio_saida"` apontando para outra pasta.
@@ -66,6 +68,14 @@ O dicionário de dados oficial, cobrindo todas as colunas de todos os CSVs da am
 | `dados/lab03/commits_releases.csv.gz` | Commits de cada release (sha, data de autoria, 1ª linha da mensagem), vindos do `compare` (RQ76) |
 | `dados/lab03/intervalos_runs.csv` | Auditoria da coleta de runs: cada intervalo consultado, total informado, runs coletados e se foi subdividido (RQ77) |
 | `dados/lab03/resumo_execucao.json` | Configuração usada, data da coleta e contadores de requisições e de cache |
+
+### RQ82 — Coleta final (≥ 300 repositórios)
+
+```bash
+python -u codigo-fonte/rq82_amostra_final.py --config config/rq82_amostra_final.json
+```
+
+Retomável (checkpoint por repositório + cache HTTP) e feito para rodar sem supervisão: falha temporária da API não derruba a coleta (o repositório é refeito numa nova passada, `--passadas`, padrão 3), o rate limit é esperado sozinho e cada linha do log leva a hora. Os commits entre releases e as datas das tags vêm de um clone git parcial (`commits_via_git`), o que elimina as chamadas mais numerosas da coleta; repositórios com mais de 20.000 runs são descartados logo após a primeira página de cada mês, sem baixar até o limite. Detalhes e medições em [RQ82](entregas/laboratorio-03/sprint-02/RQ82_amostra_final.md).
 
 ### RQ83 — Calcular as variantes obrigatórias
 
@@ -117,6 +127,7 @@ A suíte padrão (`pytest.ini`) roda `codigo-fonte/testes`. Os testes não acess
 | `codigo-fonte/coleta/rq73_coletar_candidatos.py` | Busca de candidatos fatiada por faixas de estrelas |
 | `codigo-fonte/coleta/rq74_metadados_repositorios.py` | Metadados via GraphQL (estrelas, linguagem, idade, contribuidores) |
 | `codigo-fonte/coleta/cliente_rest.py` | Cliente REST próprio: cache, paginação, rate limit e backoff |
+| `codigo-fonte/coleta/git_local.py` | Clone git parcial (só commits e tags): commits entre releases e datas das tags sem gastar cota da API |
 | `codigo-fonte/coleta/coleta_dora.py` | Coleta de workflows, releases, runs (subdivisão mensal da janela, e por dia/hora quando um intervalo chega ao teto de 1.000, RQ77) e `compare` entre releases (RQ76) |
 | `codigo-fonte/metricas/ci.py` | CFR (a) e tempo de recuperação (RQ79) |
 | `codigo-fonte/metricas/lead_time.py` | Lead time por release (a) e por commit (b) (RQ76) |

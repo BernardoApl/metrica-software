@@ -315,6 +315,31 @@ class ErroColeta(RuntimeError):
     """Resposta inesperada no meio da coleta de um repositorio."""
 
 
+def _conferir_limite_pelos_totais(cliente, nome: str, branch: str, meses: list, limite: int) -> None:
+    """Descarta cedo quem ja passa de ``limite`` runs somando o ``total_count`` de cada mes.
+
+    A primeira pagina de cada mes e a mesma que a coleta pede depois, entao ela vem do
+    cache e esta sondagem nao gasta requisicao extra. Na S01, nos 1.200 pares
+    repositorio-mes conferidos, ``total_count`` nunca passou do numero de runs
+    realmente coletados (so fica abaixo quando satura), logo a soma e um limite
+    inferior: se ela ja passa de ``limite``, o repositorio seria descartado de qualquer
+    forma, e baixar ate ``limite`` runs (200 paginas) para descobrir era o maior
+    desperdicio de cota da coleta.
+
+    :raises LimiteDeRunsExcedido: se a soma parcial dos totais passar de ``limite``.
+    """
+    soma = 0
+    for de, ate in meses:
+        parametros = _parametros_runs(branch, _instante(de), _instante(ate, fim=True), POR_PAGINA)
+        pagina = cliente.get("/repos/%s/actions/runs" % nome, parametros, compactar=compactar_runs)
+        if pagina["status"] != 200:
+            return  # a coleta normal trata o erro
+        soma += pagina["corpo"].get("total_count") or 0
+        if soma > limite:
+            raise LimiteDeRunsExcedido("%s passou de %d runs na janela (total informado >= %d)"
+                                       % (nome, limite, soma))
+
+
 def coletar_runs(cliente, nome: str, branch: str, inicio, fim, limite: Optional[int] = None) -> dict:
     """Todos os runs de ``push`` no ``branch`` dentro da janela, mes a mes, sem duplicatas.
 
@@ -328,7 +353,10 @@ def coletar_runs(cliente, nome: str, branch: str, inicio, fim, limite: Optional[
     registros: dict = {}
     intervalos: list = []
     avisos: list = []
-    for de, ate in meses_da_janela(inicio, fim):
+    meses = meses_da_janela(inicio, fim)
+    if limite is not None:
+        _conferir_limite_pelos_totais(cliente, nome, branch, meses, limite)
+    for de, ate in meses:
         _coletar_intervalo(cliente, nome, branch, _instante(de), _instante(ate, fim=True),
                            registros, intervalos, avisos, limite)
     runs = sorted(registros.values(), key=lambda r: (r.get("created_at") or "", r["id"]))

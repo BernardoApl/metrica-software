@@ -76,13 +76,27 @@ def test_checkpoint_reutiliza_e_isola_mudanca_de_contexto(tmp_path, monkeypatch)
 def test_checkpoint_incompleto_e_retentado(tmp_path, monkeypatch):
     config = config_final(tmp_path)
     candidatos = [candidato('o/r0', 10000)]
-    coleta = Mock(side_effect=lambda *a: copy.deepcopy(avaliacao('o/r0')))
+    # Sem tags vindas do clone git, a RQ82 as busca pela API; aqui a API falha (403).
+    sem_tags = lambda *a: {k: v for k, v in copy.deepcopy(avaliacao('o/r0')).items()
+                           if k not in ('tags', 'status_tags')}
+    coleta = Mock(side_effect=sem_tags)
     monkeypatch.setattr(pipeline, 'avaliar_repositorio', coleta)
     monkeypatch.setattr(rq82, 'coletar_tags', lambda *a: {'status': 403, 'tags': []})
     avaliar = rq82.criar_avaliador(config, candidatos)
     avaliar(None, candidatos[0], config)
     avaliar(None, candidatos[0], config)
     assert coleta.call_count == 2
+
+
+def test_tags_do_clone_dispensam_a_consulta_pela_api(tmp_path, monkeypatch):
+    config = config_final(tmp_path)
+    candidatos = [candidato('o/r0', 10000)]
+    monkeypatch.setattr(pipeline, 'avaliar_repositorio',
+                        Mock(side_effect=lambda *a: copy.deepcopy(avaliacao('o/r0'))))
+    api = Mock(side_effect=AssertionError('nao deveria consultar tags pela API'))
+    monkeypatch.setattr(rq82, 'coletar_tags', api)
+    rq82.criar_avaliador(config, candidatos)(None, candidatos[0], config)
+    api.assert_not_called()
 
 
 def test_execucao_consolida_300_e_exporta_sem_rede(tmp_path, monkeypatch):

@@ -43,6 +43,7 @@ Janela usada: ver `resumo_execucao.json` (`config.janela`). As duas datas são i
 | `releases_compare_indisponivel` | inteiro | releases | `compare` com 404 (tag apagada/reescrita), 422 ou erro persistente, ignorada |
 | `releases_compare_truncado` | inteiro | releases | `compare` com mais páginas que `limite_paginas_compare` (ou que falhou no meio); o lead time usa só os commits obtidos |
 | `commits_negativos` | inteiro | commits | commits com `commit.author.date` posterior a `published_at` da release, descartados das duas variantes |
+| `fonte_commits` | categoria | `git` / `api` | de onde vieram os commits entre releases e as datas das tags: `git` = `git log base..head` num clone parcial local (só commits, sem árvores); `api` = `GET /compare` (padrão da S01 e fallback quando o clone falha). Os dois devolvem o mesmo conjunto de commits e a mesma data de autoria (UTC) |
 | `classe_frequencia` | categoria | Elite/High/Medium/Low | tabela de referência da RQ 07 aplicada a `frequencia_deploy_semana` |
 | `classe_cfr` | categoria | idem | tabela da RQ 07 aplicada a `cfr_ci` |
 | `classe_lead_time` | categoria | idem | tabela da RQ 07 aplicada a `lead_time_release_mediana_dias` (variante a, combinação de referência C1) |

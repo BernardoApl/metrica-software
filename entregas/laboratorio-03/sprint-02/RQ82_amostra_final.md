@@ -61,6 +61,19 @@ apenas quantidade; não substitui `amostra_final_validada`.
 Retornos: 0 = validada; 2 = consolidada com pendências; 1 = erro operacional;
 130 = interrupção. Os checkpoints permanecem disponíveis em caso de erro.
 
+## Redução do tempo de coleta (clone git parcial)
+
+A coleta por API levava mais de 14 h: só nos 18 primeiros repositórios eram 6.932 consultas de data de tag (`/commits/{sha}`), além de uma ou mais páginas de `compare` por release. Agora (`commits_via_git: true`):
+
+- **Tags e commits entre releases** vêm de um clone git parcial anônimo (`git fetch --filter=tree:0`, só `refs/tags/*`; `codigo-fonte/coleta/git_local.py`). `git log base..head` devolve o mesmo conjunto de commits do `compare/{base}...{head}`, sem teto de páginas, e a data de autoria é a mesma (`%at`, em UTC). O clone leva de 2 a 15 s por repositório, é apagado logo após a avaliação e não usa o token nem a cota da API. Se o clone falhar, aquele repositório volta ao `compare` (a coluna `fonte_commits` registra a origem; nos 300 aprovados foi sempre `git`).
+- **Equivalência verificada** contra a API real em 4 repositórios (`nvm-sh/nvm`, `toeverything/AFFiNE`, `laravel/laravel`, `shadcn-ui/ui`): 29 de 29 comparações com SHAs, datas e mensagens idênticos.
+- **Corte antecipado do limite de 20.000 runs.** A soma do `total_count` da primeira página de cada mês (que a coleta pede de qualquer forma, vindo do cache) é um limite inferior do total real: nos 1.200 pares repositório-mês da S01 nunca passou do coletado. Se a soma já passa de 20.000, o repositório é descartado sem baixar até 200 páginas. O resultado do funil é o mesmo; só se evita o desperdício de cota.
+- **Sem supervisão.** Erro temporário da API (5xx, rede) não derruba mais a execução: o repositório é refeito em nova passada (`--passadas`, padrão 3) e, se persistir, a auditoria acusa `falha_temporaria_persistente`. O log traz a hora de cada linha.
+
+**Execução de 20/10/2026** (cache da S01 aproveitado para os ~272 primeiros candidatos): 778 candidatos avaliados, 300 aprovados em ~2 h 20 min, 9.870 requisições à API (14.903 respostas do cache), nenhuma espera de rate limit. O restante do tempo é a paginação de workflow runs, que só existe pela API. Funil: 8.000 → 7.519 (pré-filtro) → 707 com Actions → 381 com ≥ 5 releases → 350 sob o limite de 20.000 runs → **300** com ≥ 50 runs válidos. `validacao_rq82.json`: única pendência `janela_nao_confirmada`.
+
+A fonte dos commits mudou da S01 (API, `limite_paginas_compare = 20`) para a S02 (git, sem limite): mencione na Metodologia e nas ameaças à validade.
+
 ## Testes
 
 ### Otimizacao da consulta de tags

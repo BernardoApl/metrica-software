@@ -8,6 +8,8 @@
   "limite_runs_por_repositorio": 20000,
   "limite_paginas_compare": null,
   "trabalhadores": 4,
+  "commits_via_git": true,
+  "git": {"tempo_limite_segundos": 900, "clones_simultaneos": 2, "diretorio_clones": "dados/.cache/git_clones"},
   "candidatos": {
     "limite_busca": 8000,
     "saida_busca": "dados/rq73_candidatos_8000.json",
