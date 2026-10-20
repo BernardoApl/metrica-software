@@ -147,6 +147,7 @@ métricas calculadas pelo pipeline durante a coleta (uma linha por repositório 
 | `classe_cfr` | categoria | Elite/High/Medium/Low | tabela da RQ 07 aplicada a `cfr_ci` (variante a, combinação C1) |
 | `classe_recuperacao` | categoria | Elite/High/Medium/Low | tabela da RQ 07 aplicada a `recuperacao_mediana_horas` |
 | `classe_geral` | categoria | Elite/High/Medium/Low | mediana das notas das quatro classes (Elite=4 … Low=1), arredondada para baixo; vazia se alguma for indefinida |
+| `fonte_commits` | categoria | git / api | origem dos commits entre releases e das datas das tags: `git` = `git log base..head` num clone parcial local; `api` = `GET /compare` (mesmo conjunto de commits e mesma data de autoria em UTC) |
 
 ## `candidatos_avaliados.csv`
 

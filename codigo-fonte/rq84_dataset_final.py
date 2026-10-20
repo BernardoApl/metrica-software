@@ -91,6 +91,7 @@ DEFINICOES = {
     "releases_compare_indisponivel": ("inteiro", "releases", "`compare` com 404 (tag apagada/reescrita), 422 ou erro persistente, ignorada"),
     "releases_compare_truncado": ("inteiro", "releases", "`compare` incompleto (limite de páginas ou falha no meio da paginação)"),
     "commits_negativos": ("inteiro", "commits", "commits com `commit.author.date` posterior ao `published_at` da release, descartados das duas variantes"),
+    "fonte_commits": ("categoria", "git / api", "origem dos commits entre releases e das datas das tags: `git` = `git log base..head` num clone parcial local; `api` = `GET /compare` (mesmo conjunto de commits e mesma data de autoria em UTC)"),
     # ----- RQ 03 (a) e RQ 04
     "runs_coletados": ("inteiro", "runs", "runs de `push` no default branch criados na janela, de qualquer `conclusion`"),
     "runs_validos": ("inteiro", "runs", "`runs_falha + runs_sucesso` (push, default branch, janela, conclusão válida)"),
@@ -312,7 +313,7 @@ _METRICAS_PIPELINE = (
     "lead_time_commit_mediana_dias", "releases_com_lead_time", "commits_com_lead_time",
     "releases_sem_anterior", "releases_sem_commits", "releases_compare_indisponivel",
     "releases_compare_truncado", "commits_negativos", "classe_frequencia", "classe_lead_time",
-    "classe_cfr", "classe_recuperacao", "classe_geral",
+    "classe_cfr", "classe_recuperacao", "classe_geral", "fonte_commits",
 )
 
 COLUNAS_DATASET = (

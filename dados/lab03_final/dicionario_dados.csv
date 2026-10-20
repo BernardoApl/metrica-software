@@ -98,6 +98,7 @@ metricas_repositorios.csv,classe_lead_time,categoria,Elite/High/Medium/Low,"tabe
 metricas_repositorios.csv,classe_cfr,categoria,Elite/High/Medium/Low,"tabela da RQ 07 aplicada a `cfr_ci` (variante a, combinação C1)",RQ82/RQ80 `pipeline_dora.py`
 metricas_repositorios.csv,classe_recuperacao,categoria,Elite/High/Medium/Low,tabela da RQ 07 aplicada a `recuperacao_mediana_horas`,RQ82/RQ80 `pipeline_dora.py`
 metricas_repositorios.csv,classe_geral,categoria,Elite/High/Medium/Low,"mediana das notas das quatro classes (Elite=4 … Low=1), arredondada para baixo; vazia se alguma for indefinida",RQ82/RQ80 `pipeline_dora.py`
+metricas_repositorios.csv,fonte_commits,categoria,git / api,origem dos commits entre releases e das datas das tags: `git` = `git log base..head` num clone parcial local; `api` = `GET /compare` (mesmo conjunto de commits e mesma data de autoria em UTC),RQ82/RQ80 `pipeline_dora.py`
 candidatos_avaliados.csv,posicao,inteiro,—,"ordem de avaliação (estrelas decrescentes, entre os aptos no pré-filtro)",RQ82/RQ80 `pipeline_dora.py`
 candidatos_avaliados.csv,nome_completo,texto,—,"`owner/repo` (GraphQL `nameWithOwner`, RQ74). Chave de junção entre os arquivos",RQ82/RQ80 `pipeline_dora.py`
 candidatos_avaliados.csv,estrelas,inteiro,estrelas,GraphQL `stargazerCount` na coleta RQ74,RQ82/RQ80 `pipeline_dora.py`
