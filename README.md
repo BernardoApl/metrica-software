@@ -198,6 +198,25 @@ Execução local, sem token ou nova coleta. Resultados em
 O CFR (b) usa a heurística padrão (`patch_semver_v1`), ainda sem F1 medido;
 reexecute com `--heuristica` se a RQ89 indicar outra versão.
 
+### RQ97 — Change failure rate nas duas variantes
+
+Reconta o CFR (a) de CI a partir dos workflow runs (conferido com a coleta),
+calcula o CFR (b) de entrega (conferido com `metricas.variantes.cfr_entrega`) e
+compara as variantes: mediana/IQR com IC por bootstrap, classes DORA, Wilcoxon
+pareado, Spearman, matriz de transição e κ ponderado. Diagnostica o que cada
+proxy mede (composição das falhas de CI, cobertura SemVer da heurística) e mede a
+sensibilidade do CFR (b) às heurísticas v2 e v3. Inclui o confronto com a H3:
+
+```bash
+python codigo-fonte/analise/rq97_cfr.py
+```
+
+Execução local, sem token ou nova coleta. Resultados em
+[RQ97 — relatório](entregas/laboratorio-03/sprint-03/RQ97/RELATORIO.md).
+As heurísticas v2 e v3 leem `commits_releases.csv.gz` (não versionado, acima de
+100 MB); sem o arquivo, ou com `--sem-commits`, só a v1 é calculada. Nenhuma
+versão da heurística tem F1 medido contra a amostra-ouro.
+
 ### Testes
 
 ```bash

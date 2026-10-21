@@ -1,0 +1,300 @@
+{
+  "repositorios": 300,
+  "estatisticas": [
+    {
+      "variante": "cfr_ci",
+      "rotulo": "CFR (a), proxy de CI",
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 0.045672,
+      "q1": 0.02348625,
+      "q3": 0.1114375,
+      "iqr": 0.08795125,
+      "p10": 0.0073333,
+      "p90": 0.2117589,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.0908722867,
+      "ic95_mediana_inf": 0.0399665,
+      "ic95_mediana_sup": 0.056182,
+      "classe_da_mediana": "Elite"
+    },
+    {
+      "variante": "cfr_entrega",
+      "rotulo": "CFR (b), proxy de entrega (v1)",
+      "n": 299,
+      "indefinidos": 1,
+      "mediana": 0.1875,
+      "q1": 0.0,
+      "q3": 0.4467366842,
+      "iqr": 0.4467366842,
+      "p10": 0.0,
+      "p90": 0.7651428571,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.2737098637,
+      "ic95_mediana_inf": 0.1332608696,
+      "ic95_mediana_sup": 0.2352941176,
+      "classe_da_mediana": "High"
+    },
+    {
+      "variante": "cfr_entrega_patch_ou_mensagem_v2",
+      "rotulo": "CFR (b) com patch_ou_mensagem_v2",
+      "n": 299,
+      "indefinidos": 1,
+      "mediana": 0.4347826087,
+      "q1": 0.2,
+      "q3": 0.7307249712,
+      "iqr": 0.5307249712,
+      "p10": 0.0555555556,
+      "p90": 0.9279113384,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.4668439617,
+      "ic95_mediana_inf": 0.375,
+      "ic95_mediana_sup": 0.52,
+      "classe_da_mediana": "Medium"
+    },
+    {
+      "variante": "cfr_entrega_correcao_de_defeito_v3",
+      "rotulo": "CFR (b) com correcao_de_defeito_v3",
+      "n": 299,
+      "indefinidos": 1,
+      "mediana": 0.2727272727,
+      "q1": 0.1,
+      "q3": 0.5698051948,
+      "iqr": 0.4698051948,
+      "p10": 0.0,
+      "p90": 0.8091774892,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.3457922322,
+      "ic95_mediana_inf": 0.2222222222,
+      "ic95_mediana_sup": 0.3333333333,
+      "classe_da_mediana": "High"
+    }
+  ],
+  "classes": {
+    "cfr_ci": {
+      "Elite": 249,
+      "High": 34,
+      "Medium": 10,
+      "Low": 7,
+      "Indefinida": 0
+    },
+    "cfr_entrega": {
+      "Elite": 142,
+      "High": 55,
+      "Medium": 27,
+      "Low": 75,
+      "Indefinida": 1
+    },
+    "cfr_entrega_patch_ou_mensagem_v2": {
+      "Elite": 60,
+      "High": 52,
+      "Medium": 40,
+      "Low": 147,
+      "Indefinida": 1
+    },
+    "cfr_entrega_correcao_de_defeito_v3": {
+      "Elite": 105,
+      "High": 50,
+      "Medium": 46,
+      "Low": 98,
+      "Indefinida": 1
+    }
+  },
+  "comparacao_a_b": {
+    "n": 299,
+    "spearman_rho": 0.06544057232992745,
+    "spearman_p": 0.2593017404445173,
+    "b_maior_que_a": 182,
+    "b_menor_que_a": 108,
+    "b_igual_a": 9,
+    "diferenca_mediana_b_menos_a": 0.09285714285714285,
+    "wilcoxon": {
+      "n": 299,
+      "estatistica": 9355.0,
+      "p_valor": 2.1132768542236051e-16,
+      "rank_bisserial": 0.5565825334755303
+    },
+    "classes": {
+      "n": 299,
+      "mudam": 171,
+      "proporcao_mudam": 0.5719063545150501,
+      "melhoram": 27,
+      "pioram": 144,
+      "mudam_2_ou_mais": 101,
+      "kappa_linear": 0.021541092188406052,
+      "concordancia_exata": 0.4280936454849499,
+      "interpretacao_kappa": "leve"
+    },
+    "transicao": {
+      "Elite": {
+        "Elite": 122,
+        "High": 46,
+        "Medium": 21,
+        "Low": 59
+      },
+      "High": {
+        "Elite": 14,
+        "High": 4,
+        "Medium": 3,
+        "Low": 13
+      },
+      "Medium": {
+        "Elite": 4,
+        "High": 3,
+        "Medium": 1,
+        "Low": 2
+      },
+      "Low": {
+        "Elite": 2,
+        "High": 2,
+        "Medium": 2,
+        "Low": 1
+      }
+    }
+  },
+  "ci": {
+    "cfr_agregado": 0.09222325769242821,
+    "runs_validos": 861659,
+    "runs_falha": 79465,
+    "runs_ignorados": 86487,
+    "runs_push_branch": 948146,
+    "falhas_por_conclusao": {
+      "failure": 78337,
+      "startup_failure": 1128,
+      "timed_out": 0
+    },
+    "repositorios_com_timed_out_ou_startup": 26,
+    "repositorios_sem_falha": 14,
+    "repositorios_cfr_ci_acima_45": 7,
+    "participacao_workflow_mais_falho": {
+      "n": 286,
+      "indefinidos": 0,
+      "mediana": 0.7306366769454018,
+      "q1": 0.5236291486291487,
+      "q3": 0.9735792622133599,
+      "iqr": 0.4499501135842112,
+      "p10": 0.39413956639566394,
+      "p90": 1.0,
+      "minimo": 0.2080536912751678,
+      "maximo": 1.0,
+      "media": 0.721945157298076
+    },
+    "workflows_com_runs": {
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 4.0,
+      "q1": 2.0,
+      "q3": 7.0,
+      "iqr": 5.0,
+      "p10": 1.0,
+      "p90": 12.0,
+      "minimo": 1.0,
+      "maximo": 30.0,
+      "media": 5.3933333333333335
+    },
+    "mediana_proporcao_ignorados": 0.02276428782943441
+  },
+  "entrega": {
+    "releases_avaliadas": 17714,
+    "releases_falha": 6773,
+    "releases_censuradas": 492,
+    "cfr_agregado": 0.38235294117647056,
+    "repositorios_sem_release_avaliavel": [
+      "Alishahryar1/free-claude-code"
+    ],
+    "repositorios_cfr_zero": 95,
+    "repositorios_cfr_zero_sem_nenhum_semver": 42,
+    "repositorios_sem_nenhum_semver": 42,
+    "repositorios_semver_ge_80": 222,
+    "releases_sem_semver": 7130,
+    "releases_na_janela": 18206,
+    "proporcao_corretivas": {
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 0.42857142857142855,
+      "q1": 0.09977477477477478,
+      "q3": 0.7635448916408669,
+      "iqr": 0.6637701168660921,
+      "p10": 0.0,
+      "p90": 0.9019310640119889,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.4430491618630153
+    },
+    "avaliadas_por_repositorio": {
+      "n": 299,
+      "indefinidos": 0,
+      "mediana": 24.0,
+      "q1": 12.0,
+      "q3": 57.5,
+      "iqr": 45.5,
+      "p10": 7.0,
+      "p90": 142.19999999999976,
+      "minimo": 4.0,
+      "maximo": 1419.0,
+      "media": 59.24414715719063
+    },
+    "repositorios_menos_de_10_avaliadas": 48,
+    "estatisticas_semver_ge_80": {
+      "n": 222,
+      "indefinidos": 0,
+      "mediana": 0.2682317682317682,
+      "q1": 0.08497191011235955,
+      "q3": 0.5714285714285714,
+      "iqr": 0.48645666131621185,
+      "p10": 0.0,
+      "p90": 0.8486954108068099,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.3464051403810634,
+      "classe_da_mediana": "High"
+    },
+    "disponiveis_para_mensagens": 18147
+  },
+  "heuristicas": [
+    {
+      "heuristica": "patch_ou_mensagem_v2",
+      "n": 299,
+      "spearman_com_v1": 0.5897194078,
+      "spearman_p": 2.14034217e-29,
+      "proporcao_corretivas_mediana": 0.9857113697,
+      "mudam": 122,
+      "proporcao_mudam": 0.4080267559,
+      "melhoram": 0,
+      "pioram": 122,
+      "kappa_linear": 0.4743543535
+    },
+    {
+      "heuristica": "correcao_de_defeito_v3",
+      "n": 299,
+      "spearman_com_v1": 0.6863564653,
+      "spearman_p": 5.6209577e-43,
+      "proporcao_corretivas_mediana": 0.6127016129,
+      "mudam": 95,
+      "proporcao_mudam": 0.3177257525,
+      "melhoram": 22,
+      "pioram": 73,
+      "kappa_linear": 0.6275571312
+    }
+  ],
+  "heuristicas_com_mensagens": true,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "janela_confirmada": false,
+  "heuristica_padrao": "patch_semver_v1",
+  "heuristica_validada_manualmente": false,
+  "fontes_sha256": {
+    "lab03_final/metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "lab03_final/releases.csv": "1761eec4b0fcd866c5fc93597e1a91ed70f68ae250a667740e80b309497dab17",
+    "lab03_final/workflow_runs.csv.gz": "0679413a3b14e3b6d3d3056ab22714b393cebadd9c24034e746e53d78c4978b5",
+    "lab03_final/lead_time_releases.csv": "d879b4748c17043ba5f44797040e7052c48d5a7d3b021d50dd102afb97d49c05",
+    "lab03_final/resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf",
+    "lab03_final/commits_releases.csv.gz": "ff9050d17cf2a7849af48c6769178bba7d5c55fd8258ce3bab953250bdfab55e"
+  }
+}
