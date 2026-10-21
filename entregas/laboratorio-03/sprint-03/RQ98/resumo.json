@@ -1,0 +1,284 @@
+{
+  "repositorios": 300,
+  "principais": [
+    {
+      "variante": "a",
+      "rotulo": "CFR (a) · CI",
+      "n": 300,
+      "rho": 0.150354383144453,
+      "p": 0.009102360391054,
+      "ic95_inf": 0.042749632254301,
+      "ic95_sup": 0.265090275037776,
+      "interpretacao": "fraca positiva",
+      "p_holm": 0.009102360391054
+    },
+    {
+      "variante": "b",
+      "rotulo": "CFR (b) · entrega (v1)",
+      "n": 299,
+      "rho": 0.397501463770638,
+      "p": 9.26e-13,
+      "ic95_inf": 0.285445685449182,
+      "ic95_sup": 0.506845249695139,
+      "interpretacao": "moderada positiva",
+      "p_holm": 1.852e-12
+    }
+  ],
+  "mecanica": {
+    "frequencia_x_nulo": {
+      "n": 299,
+      "rho": 0.5906645541996901,
+      "p": 1.6572649681668184e-29,
+      "ic95_inf": 0.4909159604826895,
+      "ic95_sup": 0.6862693236611394,
+      "interpretacao": "forte positiva"
+    },
+    "frequencia_x_oportunidade": {
+      "n": 299,
+      "rho": 0.8330309989146887,
+      "p": 2.4324117910168445e-78,
+      "ic95_inf": 0.7835773971249146,
+      "ic95_sup": 0.8708253330456746,
+      "interpretacao": "forte positiva"
+    },
+    "frequencia_x_proporcao_corretivas": {
+      "n": 300,
+      "rho": -0.020993319179840906,
+      "p": 0.7172497341180237,
+      "ic95_inf": -0.14177761643997933,
+      "ic95_sup": 0.09594469727692102,
+      "interpretacao": "desprezível"
+    },
+    "observado_x_nulo": {
+      "n": 299,
+      "rho": 0.8035496798871706,
+      "p": 6.957391165462022e-69,
+      "ic95_inf": 0.7381764915245596,
+      "ic95_sup": 0.857739392381905,
+      "interpretacao": "forte positiva"
+    },
+    "frequencia_x_nulo_semver": {
+      "n": 222,
+      "rho": 0.7814133073564099,
+      "p": 6.009534411590445e-47,
+      "ic95_inf": 0.713875185062211,
+      "ic95_sup": 0.8350660697761034,
+      "interpretacao": "forte positiva"
+    },
+    "nulo_mediana": 0.20610769230769233,
+    "observado_mediana": 0.1875,
+    "observado_abaixo_do_nulo": 128,
+    "observado_acima_do_nulo": 121,
+    "replicas": 1000
+  },
+  "robustez": [
+    {
+      "variante": "a",
+      "subconjunto": "todos os repositórios",
+      "n": 300,
+      "rho": 0.150354383144453,
+      "p": 0.009102360391054,
+      "ic95_inf": 0.042749632254301,
+      "ic95_sup": 0.265090275037776,
+      "interpretacao": "fraca positiva"
+    },
+    {
+      "variante": "a",
+      "subconjunto": "sem extremos de frequência (acima de Q3 + 1,5·IQR)",
+      "n": 267,
+      "rho": 0.121530181668703,
+      "p": 0.047271242625754,
+      "ic95_inf": 0.001516492671375,
+      "ic95_sup": 0.242354256523541,
+      "interpretacao": "fraca positiva"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "todos os repositórios",
+      "n": 299,
+      "rho": 0.397501463770638,
+      "p": 9.26e-13,
+      "ic95_inf": 0.285445685449182,
+      "ic95_sup": 0.506845249695139,
+      "interpretacao": "moderada positiva"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "sem extremos de frequência (acima de Q3 + 1,5·IQR)",
+      "n": 266,
+      "rho": 0.38162528440935,
+      "p": 1.19325e-10,
+      "ic95_inf": 0.2625321931203,
+      "ic95_sup": 0.494587582634295,
+      "interpretacao": "moderada positiva"
+    },
+    {
+      "variante": "a",
+      "subconjunto": "com pelo menos 500 runs válidos",
+      "n": 222,
+      "rho": 0.140179385769601,
+      "p": 0.036874442428883,
+      "ic95_inf": 0.003357095867649,
+      "ic95_sup": 0.2754661503295,
+      "interpretacao": "fraca positiva"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "com pelo menos 20 releases avaliadas",
+      "n": 171,
+      "rho": 0.285428246880203,
+      "p": 0.000154260064946,
+      "ic95_inf": 0.126841039223463,
+      "ic95_sup": 0.438467860470948,
+      "interpretacao": "fraca positiva"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "com pelo menos 80% das releases em SemVer",
+      "n": 222,
+      "rho": 0.655392462096005,
+      "p": 1.24739824600714e-28,
+      "ic95_inf": 0.555506292681856,
+      "ic95_sup": 0.739258233712245,
+      "interpretacao": "forte positiva"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "SemVer (≥ 80%) e sem extremos de frequência",
+      "n": 203,
+      "rho": 0.568492444048198,
+      "p": 8.97479882730728e-19,
+      "ic95_inf": 0.458241524452444,
+      "ic95_sup": 0.668500156224421,
+      "interpretacao": "forte positiva"
+    },
+    {
+      "variante": "a",
+      "subconjunto": "parcial: controlando idade e contribuidores",
+      "n": 300,
+      "rho": 0.086676575847254,
+      "p": 0.135491649635446,
+      "ic95_inf": null,
+      "ic95_sup": null,
+      "interpretacao": "desprezível"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "parcial: controlando idade e contribuidores",
+      "n": 299,
+      "rho": 0.331939085860088,
+      "p": 4.532251e-09,
+      "ic95_inf": null,
+      "ic95_sup": null,
+      "interpretacao": "moderada positiva"
+    },
+    {
+      "variante": "b",
+      "subconjunto": "parcial: controlando o CFR (b) esperado pela linha de base",
+      "n": 299,
+      "rho": -0.160578053370611,
+      "p": 0.005462578789774,
+      "ic95_inf": null,
+      "ic95_sup": null,
+      "interpretacao": "fraca negativa"
+    }
+  ],
+  "faixas": [
+    {
+      "faixa": "Q1",
+      "n": 78,
+      "frequencia_min": 0.09589,
+      "frequencia_max": 0.230137,
+      "cfr_a_mediana": 0.0410645,
+      "cfr_b_mediana": 0.0,
+      "cfr_b_nulo_mediana": 0.058833333333333,
+      "oportunidade_7d_mediana": 0.181818181818182,
+      "cfr_a_elite_ou_high": 73,
+      "cfr_b_elite_ou_high": 68
+    },
+    {
+      "faixa": "Q2",
+      "n": 75,
+      "frequencia_min": 0.249315,
+      "frequencia_max": 0.479452,
+      "cfr_a_mediana": 0.04,
+      "cfr_b_mediana": 0.130434782608696,
+      "cfr_b_nulo_mediana": 0.121285714285714,
+      "oportunidade_7d_mediana": 0.277777777777778,
+      "cfr_a_elite_ou_high": 72,
+      "cfr_b_elite_ou_high": 65
+    },
+    {
+      "faixa": "Q3",
+      "n": 72,
+      "frequencia_min": 0.49863,
+      "frequencia_max": 1.150685,
+      "cfr_a_mediana": 0.043932,
+      "cfr_b_mediana": 0.324324324324324,
+      "cfr_b_nulo_mediana": 0.34704,
+      "oportunidade_7d_mediana": 0.619047619047619,
+      "cfr_a_elite_ou_high": 68,
+      "cfr_b_elite_ou_high": 34
+    },
+    {
+      "faixa": "Q4",
+      "n": 75,
+      "frequencia_min": 1.169863,
+      "frequencia_max": 28.172603,
+      "cfr_a_mediana": 0.068091,
+      "cfr_b_mediana": 0.441860465116279,
+      "cfr_b_nulo_mediana": 0.668554404145078,
+      "oportunidade_7d_mediana": 0.90625,
+      "cfr_a_elite_ou_high": 70,
+      "cfr_b_elite_ou_high": 30
+    }
+  ],
+  "cruzamento_dora": {
+    "a": {
+      "n": 300,
+      "frequencia_alta_cfr_alto": 75,
+      "frequencia_alta_cfr_baixo": 5,
+      "frequencia_baixa_cfr_alto": 208,
+      "frequencia_baixa_cfr_baixo": 12,
+      "proporcao_cfr_alto_na_frequencia_alta": 0.9375,
+      "proporcao_cfr_alto_na_frequencia_baixa": 0.9454545454545454,
+      "razao_de_chances": 0.8653846153846154,
+      "fisher_p": 0.7812610751164175
+    },
+    "b": {
+      "n": 299,
+      "frequencia_alta_cfr_alto": 32,
+      "frequencia_alta_cfr_baixo": 48,
+      "frequencia_baixa_cfr_alto": 165,
+      "frequencia_baixa_cfr_baixo": 54,
+      "proporcao_cfr_alto_na_frequencia_alta": 0.4,
+      "proporcao_cfr_alto_na_frequencia_baixa": 0.7534246575342466,
+      "razao_de_chances": 0.21818181818181817,
+      "fisher_p": 3.778035816481792e-08
+    }
+  },
+  "classes_frequencia": {
+    "Elite": 5,
+    "High": 75,
+    "Medium": 152,
+    "Low": 68
+  },
+  "extremos_de_frequencia": {
+    "limite_tukey": 2.54349325,
+    "repositorios_acima": 33
+  },
+  "heuristica": "patch_semver_v1",
+  "heuristica_validada_manualmente": false,
+  "cfr_b_indefinido": 1,
+  "mediana_frequencia": 0.479452,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "janela_confirmada": false,
+  "fontes_sha256": {
+    "lab03_final/metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "lab03_final/releases.csv": "1761eec4b0fcd866c5fc93597e1a91ed70f68ae250a667740e80b309497dab17",
+    "lab03_final/resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf"
+  }
+}

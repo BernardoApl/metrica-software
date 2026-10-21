@@ -1,0 +1,12 @@
+variante,subconjunto,n,rho,p,ic95_inf,ic95_sup,interpretacao
+a,todos os repositórios,300,0.150354383144,0.00910236039105,0.0427496322543,0.265090275038,fraca positiva
+a,"sem extremos de frequência (acima de Q3 + 1,5·IQR)",267,0.121530181669,0.0472712426258,0.00151649267138,0.242354256524,fraca positiva
+b,todos os repositórios,299,0.397501463771,9.26213041293e-13,0.285445685449,0.506845249695,moderada positiva
+b,"sem extremos de frequência (acima de Q3 + 1,5·IQR)",266,0.381625284409,1.19324564028e-10,0.26253219312,0.494587582634,moderada positiva
+a,com pelo menos 500 runs válidos,222,0.14017938577,0.0368744424289,0.00335709586765,0.275466150329,fraca positiva
+b,com pelo menos 20 releases avaliadas,171,0.28542824688,0.000154260064946,0.126841039223,0.438467860471,fraca positiva
+b,com pelo menos 80% das releases em SemVer,222,0.655392462096,1.24739824601e-28,0.555506292682,0.739258233712,forte positiva
+b,SemVer (≥ 80%) e sem extremos de frequência,203,0.568492444048,8.97479882731e-19,0.458241524452,0.668500156224,forte positiva
+a,parcial: controlando idade e contribuidores,300,0.0866765758473,0.135491649635,,,desprezível
+b,parcial: controlando idade e contribuidores,299,0.33193908586,4.5322506977e-09,,,moderada positiva
+b,parcial: controlando o CFR (b) esperado pela linha de base,299,-0.160578053371,0.00546257878977,,,fraca negativa

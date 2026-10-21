@@ -217,6 +217,23 @@ As heurísticas v2 e v3 leem `commits_releases.csv.gz` (não versionado, acima d
 100 MB); sem o arquivo, ou com `--sem-commits`, só a v1 é calculada. Nenhuma
 versão da heurística tem F1 medido contra a amostra-ouro.
 
+### RQ98 — Correlação entre frequência de deploy e CFR
+
+Spearman (ρ, p-valor e n) entre a frequência de deploy e cada variante do CFR,
+com IC por bootstrap e correção de Holm. Complementa com a leitura por quartis
+de frequência, o cruzamento das classes DORA e uma **linha de base mecânica** do
+CFR (b): quanto mais releases, maior a chance de um *patch* sair em até 7 dias
+mesmo ao acaso. Inclui robustez (sem extremos, só SemVer, correlação parcial) e
+o confronto com a H5:
+
+```bash
+python codigo-fonte/analise/rq98_correlacao_df_cfr.py
+```
+
+Execução local, sem token, rede ou `commits_releases.csv.gz`. Resultados em
+[RQ98 — relatório](entregas/laboratorio-03/sprint-03/RQ98/RELATORIO.md). O CFR (b)
+usa a heurística padrão (`patch_semver_v1`), ainda sem F1 medido.
+
 ### Testes
 
 ```bash
