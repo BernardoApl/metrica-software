@@ -1,0 +1,114 @@
+% Secao 4 do artigo do LAB03 (template SBC). Issue #99.
+% Uso no Overleaf: \input{discussao} depois de \input{resultados}.
+% Os numeros vem das mesmas analises da Secao 3 (entregas/laboratorio-03/sprint-03, RQ91 a RQ98).
+% Trechos em \apreencher{...} dependem da RQ06 (issue #93) e da validacao manual (issues #85 a #89).
+
+\providecommand{\apreencher}[1]{\textbf{[a preencher: #1]}}
+
+\section{Discussão}
+\label{sec:discussao}
+
+\subsection{Hipóteses e resultados}
+
+A Tabela~\ref{tab:hipoteses} confronta cada hipótese informal da Seção~\ref{sec:hipoteses},
+registrada antes da análise, com o que encontramos. Nenhuma faixa prevista foi alterada depois
+da análise.
+
+\begin{table}[ht]
+\centering
+\scriptsize
+\caption{Hipóteses (Seção~\ref{sec:hipoteses}) frente aos resultados (Seção~\ref{sec:resultados}).}
+\label{tab:hipoteses}
+\begin{tabular}{p{0.05\linewidth}p{0.28\linewidth}p{0.40\linewidth}p{0.15\linewidth}}
+\hline
+ & Previsão & Resultado & Veredito \\
+\hline
+H1 & Mediana de 0,5 a 1 release/semana; Medium e High; cauda longa; poucos Elite
+   & Mediana de 0,48; Medium e High somam 75,7\%; 33 extremos; 1,7\% Elite
+   & Confirmada, com a mediana pouco abaixo da faixa \\
+H2 & (a) em semanas (Medium ou Low); (b) sistematicamente menor; diferença cresce com o tamanho da release
+   & (a) = 10,5 dias, com 60,7\% em Medium ou Low; (b) = 12,1 dias, menor em 177 de 300 repositórios, mas
+     sem diferença pareada ($p = 0{,}12$); $\rho = -0{,}30$ com o tamanho
+   & Parcial: (a) e o efeito do tamanho sim; (b) menor, não \\
+H3 & CFR (a) de 10 a 25\%; (b) de 5 a 15\% e mais variável; $|\rho| < 0{,}3$ entre (a) e (b)
+   & (a) = 4,6\%; (b) = 18,8\%, com IQR de 44,7 contra 8,8 pontos; $\rho = 0{,}07$
+   & Parcial (2 de 4): variabilidade e correlação sim; níveis, não \\
+H4 & Recuperação de 1 hora a 1 dia; cauda longa; censura abaixo de 10\%
+   & 2,7 horas; P90 de 24,5 horas e máximo de 560; censura de 0,83\% (24 repositórios com $\geq 10$\%)
+   & Confirmada \\
+H5 & $\rho$ próximo de zero ou levemente negativo no (b) e próximo de zero no (a)
+   & (a) $\rho = 0{,}15$; (b) $\rho = 0{,}40$, ou $-0{,}16$ após a linha de base
+   & Parcial: vale, fracamente, no (a); não vale no (b) bruto \\
+H6 & Efeitos pequenos a médios; contribuidores, tipo e linguagem associados
+   & \apreencher{RQ06 (issue \#93)}
+   & Pendente \\
+H7 & $\geq 30$\% mudam de classe; $\kappa$ de 0,2 a 0,6; pré-releases e tags inflam a frequência; \textit{lead time} (b) melhora a classe
+   & 1 de 6 alternativas com $\geq 30$\% (C7: 35,5\%); $\kappa$ de 0,44 a 0,95; pré-releases e tags só melhoram a classe de frequência; (b) melhora 61 repositórios e piora 66
+   & Parcial: depende de qual definição muda \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{O que surpreendeu e por quê}
+
+\textbf{A velocidade é o gargalo; a estabilidade quase nunca.} Esperávamos CFR de CI entre 10\% e
+25\% e encontramos 4,6\%. Com o corte de Elite em 15\%, 83\% dos repositórios são Elite no CFR (a),
+e 85,4\% têm estabilidade alta contra 21,1\% com velocidade alta. O resultado é coerente com o
+perfil da amostra, projetos populares com CI madura, mas também com a natureza do proxy: o CFR (a)
+mede falha de pipeline, concentrada em um ou dois \textit{workflows} (73,1\% das falhas, na mediana),
+e não mede defeito que chega ao usuário. Os cortes DORA vêm de questionários com empresas; aqui o
+CFR (a) discrimina pouco, e a classe geral fica presa à frequência e ao \textit{lead time}. Já a
+frequência baixa tem uma leitura própria: uma biblioteca que publica uma release por mês não está
+``deployando'' nada, e a classe Medium da maioria dos repositórios reflete o ritmo de publicação,
+não necessariamente uma entrega lenta.
+
+\textbf{Os dois CFR respondem a perguntas diferentes.} O CFR (b) não ficou abaixo do (a), como
+previsto, e a correlação entre eles é desprezível ($\rho = 0{,}07$); 57,2\% dos repositórios mudam de
+classe ao trocar um pelo outro. A previsão de que medem fenômenos distintos se confirmou, mas o
+nível do (b) é frágil: depende de uma heurística cuja versão v1 deixa de fora 39,2\% das releases
+(tags fora do SemVer), e a mediana vai de 18,8\% a 43,5\% conforme a versão
+(Seção~\ref{sec:rq03}). Sem o F1 contra o consenso da amostra-ouro (\apreencher{P, R e F1 das versões
+da heurística e $\kappa$ de Fleiss entre os avaliadores}), não sabemos qual dessas taxas se aproxima da
+taxa real de releases corretivas; por isso reportamos as duas variantes e não escolhemos a mais
+favorável a uma hipótese.
+
+\textbf{Mais releases, mais CFR (b), mas por aritmética.} Esperávamos ausência de \textit{trade-off}, em
+linha com o DORA. O $\rho$ bruto entre frequência e CFR (b) foi de $0{,}40$, e 40\% dos repositórios de
+frequência alta têm CFR (b) Elite ou High, contra 75\% dos de frequência baixa. Lido sem cuidado, isso
+sugeriria que publicar mais piora a estabilidade. Mas o CFR (b) conta uma falha quando alguma release
+\textit{patch} sai em até 7 dias, e quanto mais releases, maior a chance de isso acontecer ao acaso: a fração
+de releases com alguma sucessora em 7 dias tem $\rho = 0{,}83$ com a frequência, enquanto a proporção de
+\textit{patches} quase não varia com ela. Embaralhando, em cada repositório, quais releases são corretivas,
+o CFR (b) esperado ao acaso tem $\rho = 0{,}59$ com a frequência, acima do observado, e o $\rho$ parcial,
+controlando esse esperado, é $-0{,}16$. Para o CFR (a), a relação é fraca ($\rho = 0{,}15$) e perde a
+significância ao controlar idade e contribuidores ($0{,}09$; $p = 0{,}14$). Assim, os dados
+\textit{open source} não confirmam nem contradizem a afirmação do DORA de que velocidade e estabilidade
+andam juntas: o proxy de entrega tem um acoplamento aritmético com a frequência, e o de CI quase não
+discrimina. Correlação não implica causalidade; tamanho da equipe, maturidade e automação de
+releases podem afetar as duas medidas.
+
+\textbf{\textit{Lead time} por \textit{commit} não é menor que por release.} Previmos o (b) sistematicamente
+menor, porque um \textit{commit} antigo ``esquecido'' infla o (a) e é diluído no (b). O mecanismo aparece nas
+releases grandes ($\rho = -0{,}30$ entre o tamanho e a razão (b)/(a)), mas o (b) pondera as releases pelo
+número de \textit{commits}: onde poucas releases grandes concentram \textit{commits} antigos e muitas releases
+pequenas são rápidas, a mediana por \textit{commit} cai dentro das grandes e supera a por release. No
+agregado, as variantes divergem em ambos os sentidos, e o teste pareado não as separa.
+
+\textbf{A classificação é frágil, mas não a todas as escolhas.} Dos repositórios classificados em todas as
+combinações, 41,6\% mudam de classe em pelo menos uma alternativa, e o efeito não é uniforme: trocar a
+unidade de deploy muda de 3,6\% a 10,7\% das classes, sempre para melhor ($\kappa \geq 0{,}85$), enquanto as
+combinações com o CFR (b) mudam de 20,8\% a 35,5\%, em geral para pior ($\kappa$ de 0,44 a 0,68). Como o CFR (b) depende de uma heurística
+ainda sem F1, parte desse efeito pode ser do proxy, não da definição. As conclusões das RQ01 a RQ05
+valem, portanto, para a combinação C1 e são condicionais à definição de falha, e menos à de deploy.
+
+\subsection{Implicações}
+
+Para quem minera métricas DORA no GitHub, três cuidados decorrem dos resultados. Primeiro, release
+não é deploy, e falha de CI não é falha em produção; as classes servem para comparar repositórios entre si,
+não para dizer que um projeto de código aberto é ``Elite'' no sentido do DORA. Segundo, o CFR
+baseado em releases corretivas só tem sentido com uma heurística validada contra julgamento humano, e
+deve ser comparado ao que o acaso produziria quando a frequência de releases é alta. Terceiro, vale
+reportar a sensibilidade às definições, como fizemos na RQ07, porque a escolha do CFR por si só
+reclassifica de 20,8\% a 35,5\% dos repositórios. A RQ06 (características dos repositórios)
+ainda não foi analisada (\apreencher{discussão da RQ06 e da H6}); as ameaças à validade que decorrem
+destes achados estão na Seção~5.

@@ -1,0 +1,188 @@
+% Secao 3 do artigo do LAB03 (template SBC). Issue #99.
+% Uso no Overleaf: \input{resultados} depois de \input{metodologia}; as figuras ficam em figuras/
+% (\usepackage{graphicx}, ja no template).
+%
+% Todos os numeros vem das analises do repositorio (entregas/laboratorio-03/sprint-03):
+% RQ91 (RQ01), RQ94 (RQ02), RQ97 (RQ03), RQ92 (RQ04), RQ95 (classificacao C1),
+% RQ98 (RQ05), RQ96 (RQ07). Janela provisoria; CFR (b) com a heuristica v1, ainda sem F1 medido.
+% Trechos em \apreencher{...} dependem de analises ainda nao feitas (RQ06, issue #93) ou da
+% validacao manual (issues #85 a #89). Busque por "apreencher" antes de entregar.
+
+\providecommand{\apreencher}[1]{\textbf{[a preencher: #1]}}
+
+\section{Resultados}
+\label{sec:resultados}
+
+Os resultados se referem aos 300 repositórios da amostra final (Seção~\ref{sec:funil}),
+na janela de 01/10/2025 a 30/09/2026, ainda provisória (Seção~\ref{sec:definicoes}). Cada
+repositório tem o mesmo peso e a estatística da amostra é a mediana dos valores dos
+repositórios, com o intervalo interquartil (IQR, Q1--Q3). A Tabela~\ref{tab:descritivo} resume
+as métricas e a classificação DORA de cada uma. Nas Seções~\ref{sec:rq03} e~\ref{sec:rq05},
+o CFR (b) usa a versão v1 da heurística de release corretiva, que ainda não tem F1 medido
+contra o consenso da amostra-ouro (\apreencher{P, R e F1 das versões v1, v2 e v3}).
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Métricas DORA e classes (\% dos repositórios com a métrica definida). Frequência em
+releases/semana; \textit{lead time} em dias; CFR em \%; recuperação em horas.}
+\label{tab:descritivo}
+\begin{tabular}{lrrrrrr}
+\hline
+Métrica & $n$ & Mediana (Q1--Q3) & Elite & High & Medium & Low \\
+\hline
+Frequência de deploy      & 300 & 0,48 (0,23--1,16) & 1,7  & 25,0 & 50,7 & 22,7 \\
+\textit{Lead time} (a)    & 300 & 10,5 (3,6--39,5)  & 14,3 & 25,0 & 30,3 & 30,3 \\
+\textit{Lead time} (b)    & 300 & 12,1 (3,3--57,5)  & 10,3 & 28,7 & 28,7 & 32,3 \\
+CFR (a), CI               & 300 & 4,6 (2,3--11,1)   & 83,0 & 11,3 & 3,3  & 2,3  \\
+CFR (b), entrega (v1)     & 299 & 18,8 (0,0--44,7)  & 47,5 & 18,4 & 9,0  & 25,1 \\
+Recuperação               & 280 & 2,7 (1,1--6,9)    & 23,2 & 66,4 & 9,3  & 1,1  \\
+\hline
+Classe geral (C1)         & 280 & ---               & 6,4  & 43,6 & 45,7 & 4,3  \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.92\linewidth]{figuras/distribuicoes_c1.png}
+\caption{Distribuição acumulada das métricas da combinação C1 (linhas pontilhadas: cortes DORA;
+linha vermelha: mediana).}
+\label{fig:distribuicoes}
+\end{figure}
+
+\subsection{RQ01 --- Frequência de deploy}
+
+A mediana é de 0,48 release/semana (IQR 0,93), com cauda longa à direita: o máximo é de 28,2
+releases/semana e 33 repositórios passam do limite de Tukey (2,54). Os 30 repositórios mais
+ativos (10\%) concentram 51,5\% das releases. Metade dos repositórios é Medium (50,7\%), um quarto é
+High e só 5 (1,7\%) são Elite.
+
+\subsection{RQ02 --- \textit{Lead time}}
+
+Por release (a), a mediana é de 10,5 dias (IQR 35,9); por \textit{commit} (b), 12,1 dias (IQR 54,3).
+Das 18.206 releases da janela, 14.589 têm \textit{lead time}; as demais são a primeira release
+da história do repositório (57) ou não trazem \textit{commits} novos (3.560). A variante (b) é
+menor que a (a) em 177 repositórios e maior em 122; a razão (b)/(a) tem mediana de 0,78 e o
+teste de Wilcoxon pareado não rejeita a igualdade ($p = 0{,}12$). Trocar (a) por (b) muda a classe de
+127 repositórios (42,3\%). Quanto maior a release, menor o (b) em relação ao (a)
+($\rho = -0{,}30$ entre o número de \textit{commits} por release e a razão (b)/(a)).
+
+\subsection{RQ03 --- Taxa de falha das mudanças}
+\label{sec:rq03}
+
+O CFR de CI (a) tem mediana de 4,6\% (IQR 8,8 pontos percentuais): 83,0\% dos repositórios são
+Elite, e só 14 não têm nenhuma falha. O CFR de entrega (b), com a v1, tem mediana de 18,8\%
+(IQR 44,7 pontos), muito mais disperso, e espalha os repositórios pelas quatro classes
+(Tabela~\ref{tab:descritivo}). Somando todos os \textit{runs} e todas as releases, o CFR é de
+9,2\% (a) e de 38,2\% (b). As duas variantes quase não concordam: $\rho = 0{,}07$ entre elas
+($p = 0{,}26$), o (b) é maior que o (a) em 182 de 299 repositórios (Wilcoxon, $p < 10^{-15}$)
+e 57,2\% dos repositórios mudam de classe ao trocar uma pela outra
+($\kappa$ ponderado $= 0{,}02$, concordância leve), 144 deles para pior.
+
+Os dois proxies medem coisas diferentes. No (a), 98,6\% das falhas são \texttt{failure} e 1,4\%
+são \texttt{startup\_failure}, e o workflow que mais falha em cada repositório responde, na
+mediana, por 73,1\% das falhas: o CFR (a) reflete sobretudo um ou dois \textit{workflows}. No
+(b), 39,2\% das releases (7.130 de 18.206) têm tag fora do SemVer estrito e nunca são
+corretivas na v1; 42 repositórios não têm nenhuma tag SemVer, e o CFR (b) deles é zero por
+construção. Por outro lado, na mediana 42,9\% das releases de um repositório mudam só o
+\textit{patch}. O nível do (b) depende da heurística: com as versões v2 (\textit{patch} ou qualquer
+\textit{commit} com \texttt{fix}, \texttt{revert} ou \texttt{hotfix}) e v3 (correção de defeito),
+a mediana vai a 43,5\% e 27,3\%, e 40,8\% e 31,8\% dos repositórios mudam de classe em relação à
+v1. A v2 e a v3 marcam como corretivas 98,6\% e 61,3\% das releases na mediana, o que indica
+excesso de marcações.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\linewidth]{figuras/cfr_variantes.png}
+\caption{CFR nas duas variantes: distribuição acumulada (esquerda) e dispersão (a)~$\times$~(b)
+(direita); linha tracejada: $y = x$.}
+\label{fig:cfr}
+\end{figure}
+
+\subsection{RQ04 --- Tempo de recuperação}
+
+Há 280 repositórios com tempo estimável (20 não têm nenhum episódio de falha completo e ficam
+sem estimativa, não com zero). A mediana é de 2,7 horas (IQR 5,7), com cauda longa: o P90 é de
+24,5 horas e o máximo, de 560 horas. Dos 27.839 episódios, 230 (0,83\%) terminam censurados à
+direita, mas 24 repositórios têm pelo menos 10\% dos episódios censurados. Em 88,9\% dos
+episódios a recuperação ocorre em até 24 horas (79,2\% com peso igual por repositório).
+
+\subsection{Classificação DORA geral}
+
+Pela combinação de referência C1 (release, \textit{lead time} (a), CFR (a)), 280 repositórios
+recebem classe geral: 6,4\% Elite, 43,6\% High, 45,7\% Medium e 4,3\% Low; os 20 repositórios sem
+episódio de falha completo ficam sem classe. A estabilidade é alta (Elite ou High nas duas métricas
+da dimensão) em 85,4\% dos repositórios classificados, mas só 21,1\% têm velocidade alta. A classe
+geral é limitada pela velocidade, não pela estabilidade.
+
+\subsection{RQ05 --- Frequência de deploy e CFR}
+\label{sec:rq05}
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Correlação de Spearman entre a frequência de deploy e o CFR (IC de 95\% por
+\textit{bootstrap}; $p$ com correção de Holm). O $\rho$ parcial controla idade e contribuidores
+no (a) e o CFR (b) esperado ao acaso no (b) (Seção~\ref{sec:discussao}).}
+\label{tab:rq05}
+\begin{tabular}{lrrrrr}
+\hline
+Variante & $n$ & $\rho$ & $p$ (Holm) & IC 95\% & $\rho$ parcial \\
+\hline
+CFR (a), CI           & 300 & 0,15 & 0,009            & 0,04 a 0,27 & 0,09 ($p = 0{,}14$) \\
+CFR (b), entrega (v1) & 299 & 0,40 & $2 \times 10^{-12}$ & 0,29 a 0,51 & $-0{,}16$ ($p = 0{,}005$) \\
+\hline
+\end{tabular}
+\end{table}
+
+A frequência de deploy tem correlação fraca e positiva com o CFR (a) e moderada e positiva com o CFR (b)
+(Tabela~\ref{tab:rq05}, Figura~\ref{fig:rq05}). Em quartis de frequência, a mediana do CFR (a) fica
+em torno de 4--7\% em todas as faixas, enquanto a do CFR (b) sobe de 0\% (Q1) para 44,2\% (Q4).
+Em termos de classes, 94\% dos repositórios de frequência alta (Elite ou High) têm CFR (a) Elite
+ou High, contra 95\% dos de frequência baixa (Fisher, $p = 0{,}78$); no CFR (b), 40\% contra 75\%
+($p < 10^{-7}$).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\linewidth]{figuras/dispersao_df_cfr.png}
+\caption{Frequência de deploy (escala logarítmica) e CFR. Linha preta: mediana por octil de
+frequência; linha tracejada: CFR (b) esperado ao acaso (linha de base da Seção~\ref{sec:discussao}).}
+\label{fig:rq05}
+\end{figure}
+
+\subsection{RQ06 --- Características dos repositórios}
+\label{sec:rq06}
+
+\apreencher{resultados da RQ06 (issue \#93): Kruskal-Wallis ou Mann-Whitney por fator, p-valores
+com correção de Holm, $\varepsilon^2$ e $\delta$ de Cliff}
+
+\subsection{RQ07 --- Sensibilidade da classificação DORA}
+
+Classificamos cada repositório em sete combinações de definições (C1 a C7, Tabela~\ref{tab:rq07}).
+Dos 279 repositórios classificados em todas elas, 163 (58,4\%) têm a mesma classe geral em todas
+e 116 (41,6\%) mudam em pelo menos uma alternativa à C1. Trocar só a unidade de deploy (C5 e C6)
+muda de 3,6\% a 10,7\% das classes, sempre para melhor ($\kappa$ de 0,85 a 0,95); as
+combinações com o CFR (b) mudam de 20,8\% a 35,5\%, e 75\% das mudanças são para pior. No nível
+de cada métrica, trocar o CFR (a) pelo (b) muda a classe de 57,2\% dos repositórios
+($\kappa = 0{,}02$), o \textit{lead time} (a) pelo (b), de 42,3\%, e a unidade de deploy de
+release para tag, de 24,0\%.
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Mudança da classe geral em relação à C1 (279 a 280 repositórios por par).}
+\label{tab:rq07}
+\begin{tabular}{llrrl}
+\hline
+Combinação & O que muda em relação à C1 & Mudam (\%) & $\kappa$ pond. & Landis--Koch \\
+\hline
+C2 & \textit{lead time} (b)                     & 14,3 & 0,79 & substancial \\
+C3 & CFR (b)                                    & 20,8 & 0,68 & substancial \\
+C4 & \textit{lead time} (b) e CFR (b)           & 29,7 & 0,52 & moderada \\
+C5 & pré-releases contam como deploy            & 3,6  & 0,95 & quase perfeita \\
+C6 & tags contam como deploy                    & 10,7 & 0,85 & quase perfeita \\
+C7 & tags, \textit{lead time} (b) e CFR (b)     & 35,5 & 0,44 & moderada \\
+\hline
+\end{tabular}
+\end{table}

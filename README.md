@@ -234,6 +234,16 @@ Execução local, sem token, rede ou `commits_releases.csv.gz`. Resultados em
 [RQ98 — relatório](entregas/laboratorio-03/sprint-03/RQ98/RELATORIO.md). O CFR (b)
 usa a heurística padrão (`patch_semver_v1`), ainda sem F1 medido.
 
+### RQ99 — Resultados e discussão do artigo
+
+As Seções 3 (Resultados) e 4 (Discussão) do artigo estão em
+[`artigo/resultados.tex`](entregas/laboratorio-03/artigo/resultados.tex) e
+[`artigo/discussao.tex`](entregas/laboratorio-03/artigo/discussao.tex), com as
+figuras em `artigo/figuras/`. Os números vêm dos relatórios das RQ91 a RQ98. A
+RQ06 e o F1 da heurística ainda estão como `\apreencher{...}`. Detalhes, fontes
+de cada número e pendências em
+[RQ99](entregas/laboratorio-03/sprint-03/RQ99_resultados_discussao.md).
+
 ### Testes
 
 ```bash
