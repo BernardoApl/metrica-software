@@ -112,6 +112,24 @@ python codigo-fonte/rq84_dataset_final.py
 
 Detalhes em [RQ84](entregas/laboratorio-03/sprint-02/RQ84_dataset_final_dicionario.md).
 
+### RQ91 — Deployment Frequency e classificação DORA
+
+Reconta as releases da amostra final, confere as métricas exportadas e gera
+mediana, quartis, IQR, distribuição das classes de frequência e gráficos.
+Complementa a análise com concentração das releases, extremos mantidos na
+amostra e painel mensal com zeros explícitos e taxas normalizadas pelos dias
+observados. Inclui auditoria dos filtros e confronto descritivo com a H1:
+
+```bash
+python codigo-fonte/analise/rq91_deployment_frequency.py
+```
+
+Execução local, sem token ou nova coleta. Resultados e discussão da H1 em
+[RQ91 — relatório](entregas/laboratorio-03/sprint-03/RQ91/RELATORIO.md).
+As classes são as da **frequência**, pelos cortes da disciplina; a classificação
+geral das quatro métricas é distinta. A confirmação da janela permanece
+registrada como pendência nos dados de entrada.
+
 ### Testes
 
 ```bash

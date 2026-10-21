@@ -1,0 +1,77 @@
+{
+  "repositorios": 300,
+  "releases_principais": 18206,
+  "inicio": "2025-10-01",
+  "fim_inclusivo": "2026-09-30",
+  "semanas": 52.142857142857146,
+  "mediana": 0.4794520547945205,
+  "q1": 0.23013698630136986,
+  "q3": 1.1554794520547944,
+  "iqr": 0.9253424657534246,
+  "minimo": 0.0958904109589041,
+  "maximo": 28.172602739726027,
+  "p90": 2.706027397260283,
+  "quantis": "interpolação linear (pandas)",
+  "unidade": "releases por semana",
+  "classes": [
+    {
+      "classe_frequencia": "Elite",
+      "repositorios": 5,
+      "percentual": 1.6666666666666667
+    },
+    {
+      "classe_frequencia": "High",
+      "repositorios": 75,
+      "percentual": 25.0
+    },
+    {
+      "classe_frequencia": "Medium",
+      "repositorios": 152,
+      "percentual": 50.66666666666667
+    },
+    {
+      "classe_frequencia": "Low",
+      "repositorios": 68,
+      "percentual": 22.666666666666664
+    }
+  ],
+  "auditoria": {
+    "linhas_releases": 94297,
+    "drafts_excluidos": 0,
+    "prereleases_excluidas": 22530,
+    "fora_janela_excluidas": 53561,
+    "releases_incluidas": 18206,
+    "contagens_frequencias_classes_reconciliadas": true
+  },
+  "cortes": {
+    "Elite": ">= 7/semana",
+    "High": ">= 1 e < 7/semana",
+    "Medium": ">= 0.229979466119 e < 1/semana",
+    "Low": "< 0.229979466119/semana"
+  },
+  "concentracao": {
+    "top_10pct_quantidade": 30,
+    "top_10pct_releases": 9381,
+    "top_10pct_participacao_percentual": 51.5269691310557,
+    "limite_superior_tukey": 2.543493150684931,
+    "extremos_superiores": 33,
+    "criterio_extremo": "frequência > Q3 + 1,5 × IQR; todos mantidos na análise",
+    "desempate_top": "nome_completo em ordem crescente; k = teto(0,1 × n)"
+  },
+  "hipotese_h1": {
+    "faixa_mediana_prevista": [
+      0.5,
+      1.0
+    ],
+    "mediana_dentro_faixa": false,
+    "medium_high_percentual": 75.66666666666667,
+    "elite_percentual": 1.6666666666666667,
+    "interpretacao": "Comparação descritiva. Poucos Elite e concentração não tinham cortes numéricos pré-registrados."
+  },
+  "janela_confirmada": false,
+  "fontes_sha256": {
+    "metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "releases.csv": "1761eec4b0fcd866c5fc93597e1a91ed70f68ae250a667740e80b309497dab17",
+    "resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf"
+  }
+}
