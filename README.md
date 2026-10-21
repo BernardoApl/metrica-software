@@ -181,6 +181,23 @@ Execução local, sem token ou nova coleta. Resultados em
 [RQ95 — relatório](entregas/laboratorio-03/sprint-03/RQ95/RELATORIO.md).
 A C1 é a base de comparação da RQ07.
 
+### RQ96 — Sensibilidade das classificações DORA
+
+Classifica cada repositório em sete combinações de definições (unidade de
+deploy release, release + pré-release ou tag; lead time (a) ou (b); CFR (a) ou
+(b)) e mede, por par, a proporção que muda de classe geral e o kappa de Cohen
+ponderado (pesos lineares), com a C1 da RQ95 como referência. Inclui o
+confronto com a H7:
+
+```bash
+python codigo-fonte/analise/rq96_sensibilidade_dora.py
+```
+
+Execução local, sem token ou nova coleta. Resultados em
+[RQ96 — relatório](entregas/laboratorio-03/sprint-03/RQ96/RELATORIO.md).
+O CFR (b) usa a heurística padrão (`patch_semver_v1`), ainda sem F1 medido;
+reexecute com `--heuristica` se a RQ89 indicar outra versão.
+
 ### Testes
 
 ```bash

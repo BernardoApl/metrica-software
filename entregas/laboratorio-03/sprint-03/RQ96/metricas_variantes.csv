@@ -1,0 +1,5 @@
+metrica,referencia,alternativa,n,mudam,proporcao_mudam,melhoram,pioram,mudam_2_ou_mais,kappa_linear,concordancia_exata,interpretacao_kappa
+frequencia,classe_freq_release,classe_freq_release_prerelease,300,34,0.113333333333,34,0,2,0.846088071826,0.886666666667,quase perfeita
+frequencia,classe_freq_release,classe_freq_tag,300,72,0.24,72,0,11,0.664893617021,0.76,substancial
+lead_time,classe_lead_a,classe_lead_b,300,127,0.423333333333,61,66,14,0.575952870473,0.576666666667,moderada
+cfr,classe_cfr_a,classe_cfr_b,299,171,0.571906354515,27,144,101,0.0215410921884,0.428093645485,leve

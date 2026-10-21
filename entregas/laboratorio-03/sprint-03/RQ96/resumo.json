@@ -1,0 +1,278 @@
+{
+  "repositorios": 300,
+  "heuristica_cfr_entrega": "patch_semver_v1",
+  "heuristica_validada_manualmente": false,
+  "combinacoes": {
+    "C1": {
+      "unidade_deploy": "release",
+      "lead_time": "a",
+      "cfr": "a",
+      "descricao": "Referência: release, lead time por release, CFR de CI"
+    },
+    "C2": {
+      "unidade_deploy": "release",
+      "lead_time": "b",
+      "cfr": "a",
+      "descricao": "Lead time por commit"
+    },
+    "C3": {
+      "unidade_deploy": "release",
+      "lead_time": "a",
+      "cfr": "b",
+      "descricao": "CFR de entrega (release corretiva)"
+    },
+    "C4": {
+      "unidade_deploy": "release",
+      "lead_time": "b",
+      "cfr": "b",
+      "descricao": "Lead time por commit e CFR de entrega"
+    },
+    "C5": {
+      "unidade_deploy": "release_prerelease",
+      "lead_time": "a",
+      "cfr": "a",
+      "descricao": "Pré-releases contam como deploy"
+    },
+    "C6": {
+      "unidade_deploy": "tag",
+      "lead_time": "a",
+      "cfr": "a",
+      "descricao": "Tags contam como deploy"
+    },
+    "C7": {
+      "unidade_deploy": "tag",
+      "lead_time": "b",
+      "cfr": "b",
+      "descricao": "Tags, lead time por commit e CFR de entrega"
+    }
+  },
+  "classificados": {
+    "C1": 280,
+    "C2": 280,
+    "C3": 279,
+    "C4": 279,
+    "C5": 280,
+    "C6": 280,
+    "C7": 279
+  },
+  "distribuicao": {
+    "C1": {
+      "Elite": 18,
+      "High": 122,
+      "Medium": 128,
+      "Low": 12
+    },
+    "C2": {
+      "Elite": 16,
+      "High": 127,
+      "Medium": 126,
+      "Low": 11
+    },
+    "C3": {
+      "Elite": 4,
+      "High": 97,
+      "Medium": 165,
+      "Low": 13
+    },
+    "C4": {
+      "Elite": 3,
+      "High": 102,
+      "Medium": 157,
+      "Low": 17
+    },
+    "C5": {
+      "Elite": 20,
+      "High": 125,
+      "Medium": 126,
+      "Low": 9
+    },
+    "C6": {
+      "Elite": 21,
+      "High": 143,
+      "Medium": 107,
+      "Low": 9
+    },
+    "C7": {
+      "Elite": 4,
+      "High": 123,
+      "Medium": 136,
+      "Low": 16
+    }
+  },
+  "pares_c1": [
+    {
+      "combinacao_2": "C2",
+      "combinacao_1": "C1",
+      "n": 280,
+      "mudam": 40,
+      "proporcao_mudam": 0.1428571429,
+      "melhoram": 21,
+      "pioram": 19,
+      "mudam_2_ou_mais": 0,
+      "kappa_linear": 0.793814433,
+      "concordancia_exata": 0.8571428571,
+      "interpretacao_kappa": "substancial"
+    },
+    {
+      "combinacao_2": "C3",
+      "combinacao_1": "C1",
+      "n": 279,
+      "mudam": 58,
+      "proporcao_mudam": 0.2078853047,
+      "melhoram": 3,
+      "pioram": 55,
+      "mudam_2_ou_mais": 0,
+      "kappa_linear": 0.6843645159,
+      "concordancia_exata": 0.7921146953,
+      "interpretacao_kappa": "substancial"
+    },
+    {
+      "combinacao_2": "C4",
+      "combinacao_1": "C1",
+      "n": 279,
+      "mudam": 83,
+      "proporcao_mudam": 0.2974910394,
+      "melhoram": 18,
+      "pioram": 65,
+      "mudam_2_ou_mais": 6,
+      "kappa_linear": 0.5229119834,
+      "concordancia_exata": 0.7025089606,
+      "interpretacao_kappa": "moderada"
+    },
+    {
+      "combinacao_2": "C5",
+      "combinacao_1": "C1",
+      "n": 280,
+      "mudam": 10,
+      "proporcao_mudam": 0.0357142857,
+      "melhoram": 10,
+      "pioram": 0,
+      "mudam_2_ou_mais": 0,
+      "kappa_linear": 0.9488901869,
+      "concordancia_exata": 0.9642857143,
+      "interpretacao_kappa": "quase perfeita"
+    },
+    {
+      "combinacao_2": "C6",
+      "combinacao_1": "C1",
+      "n": 280,
+      "mudam": 30,
+      "proporcao_mudam": 0.1071428571,
+      "melhoram": 30,
+      "pioram": 0,
+      "mudam_2_ou_mais": 0,
+      "kappa_linear": 0.8473504398,
+      "concordancia_exata": 0.8928571429,
+      "interpretacao_kappa": "quase perfeita"
+    },
+    {
+      "combinacao_2": "C7",
+      "combinacao_1": "C1",
+      "n": 279,
+      "mudam": 99,
+      "proporcao_mudam": 0.3548387097,
+      "melhoram": 38,
+      "pioram": 61,
+      "mudam_2_ou_mais": 6,
+      "kappa_linear": 0.437273094,
+      "concordancia_exata": 0.6451612903,
+      "interpretacao_kappa": "moderada"
+    }
+  ],
+  "metricas_variantes": [
+    {
+      "metrica": "frequencia",
+      "referencia": "classe_freq_release",
+      "alternativa": "classe_freq_release_prerelease",
+      "n": 300,
+      "mudam": 34,
+      "proporcao_mudam": 0.1133333333,
+      "melhoram": 34,
+      "pioram": 0,
+      "mudam_2_ou_mais": 2,
+      "kappa_linear": 0.8460880718,
+      "concordancia_exata": 0.8866666667,
+      "interpretacao_kappa": "quase perfeita"
+    },
+    {
+      "metrica": "frequencia",
+      "referencia": "classe_freq_release",
+      "alternativa": "classe_freq_tag",
+      "n": 300,
+      "mudam": 72,
+      "proporcao_mudam": 0.24,
+      "melhoram": 72,
+      "pioram": 0,
+      "mudam_2_ou_mais": 11,
+      "kappa_linear": 0.664893617,
+      "concordancia_exata": 0.76,
+      "interpretacao_kappa": "substancial"
+    },
+    {
+      "metrica": "lead_time",
+      "referencia": "classe_lead_a",
+      "alternativa": "classe_lead_b",
+      "n": 300,
+      "mudam": 127,
+      "proporcao_mudam": 0.4233333333,
+      "melhoram": 61,
+      "pioram": 66,
+      "mudam_2_ou_mais": 14,
+      "kappa_linear": 0.5759528705,
+      "concordancia_exata": 0.5766666667,
+      "interpretacao_kappa": "moderada"
+    },
+    {
+      "metrica": "cfr",
+      "referencia": "classe_cfr_a",
+      "alternativa": "classe_cfr_b",
+      "n": 299,
+      "mudam": 171,
+      "proporcao_mudam": 0.5719063545,
+      "melhoram": 27,
+      "pioram": 144,
+      "mudam_2_ou_mais": 101,
+      "kappa_linear": 0.0215410922,
+      "concordancia_exata": 0.4280936455,
+      "interpretacao_kappa": "leve"
+    }
+  ],
+  "repositorios_classificados_em_todas": 279,
+  "repositorios_mesma_classe_em_todas": 163,
+  "repositorios_mudam_em_alguma_alternativa": 116,
+  "alternativas_com_mudanca_ge_30pct": [
+    "C7"
+  ],
+  "kappa_vs_c1_min": 0.43727309398951186,
+  "kappa_vs_c1_max": 0.9488901869158879,
+  "kappa_todos_pares_min": 0.43727309398951186,
+  "kappa_todos_pares_max": 0.9488901869158879,
+  "mediana_frequencia": {
+    "release": 0.4794520547945205,
+    "release_prerelease": 0.5657534246575342,
+    "tag": 0.7671232876712328
+  },
+  "mediana_razao_tag_sobre_release": 1.1213235294117647,
+  "repositorios_com_prerelease": 128,
+  "repositorios_mais_tags_que_releases": 214,
+  "repositorios_menos_tags_que_releases": 4,
+  "cfr_entrega": {
+    "mediana": 0.1875,
+    "indefinidos": 1,
+    "releases_avaliadas": 17714,
+    "releases_falha": 6773,
+    "releases_sem_semver": 7130
+  },
+  "cfr_ci_mediana": 0.045672,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "janela_confirmada": false,
+  "fontes_sha256": {
+    "metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "releases.csv": "1761eec4b0fcd866c5fc93597e1a91ed70f68ae250a667740e80b309497dab17",
+    "tags.csv": "50791b6b102f2005e80837fdec86d66a81328a16842236a0eb09dec0e4ff6de2",
+    "resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf"
+  }
+}

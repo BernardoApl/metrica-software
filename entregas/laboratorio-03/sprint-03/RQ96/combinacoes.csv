@@ -1,0 +1,8 @@
+combinacao,unidade_deploy,lead_time,cfr,descricao,repositorios_classificados
+C1,release,a,a,"Referência: release, lead time por release, CFR de CI",280
+C2,release,b,a,Lead time por commit,280
+C3,release,a,b,CFR de entrega (release corretiva),279
+C4,release,b,b,Lead time por commit e CFR de entrega,279
+C5,release_prerelease,a,a,Pré-releases contam como deploy,280
+C6,tag,a,a,Tags contam como deploy,280
+C7,tag,b,b,"Tags, lead time por commit e CFR de entrega",279
