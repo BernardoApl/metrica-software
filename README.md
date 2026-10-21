@@ -130,6 +130,24 @@ As classes são as da **frequência**, pelos cortes da disciplina; a classifica�
 geral das quatro métricas é distinta. A confirmação da janela permanece
 registrada como pendência nos dados de entrada.
 
+### RQ92 — Tempo de recuperação após falhas
+
+Reconstitui os episódios de falha por workflow, reconcilia a coleta e analisa
+mediana/IQR, classes de recuperação e censuras à esquerda e à direita:
+
+```bash
+python codigo-fonte/analise/rq92_tempo_recuperacao.py
+```
+
+Sucessos encerrados após o fim da janela são censurados nesta análise, com
+auditoria antes/depois. Repositórios sem episódios completos ficam como
+**Não estimável**. Relatório escrito, gráficos, episódios e resultados em
+[RQ92 — análise da recuperação](entregas/laboratorio-03/sprint-03/RQ92/RELATORIO.md).
+O comando usa os CSVs locais e não requer token.
+Inclui limites descritivos de recuperação em 1 h, 24 h e 7 dias, com casos
+indeterminados por censura, e diagnóstico da mediana em subconjuntos com
+pelo menos 5 e 10 episódios completos. A definição principal permanece igual.
+
 ### Testes
 
 ```bash

@@ -1,0 +1,168 @@
+{
+  "repositorios": 300,
+  "runs_lidos": 948146,
+  "runs_validos": 861659,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "recuperacao_horas": {
+    "n": 280,
+    "mediana": 2.7156944444444444,
+    "q1": 1.1143055555555557,
+    "q3": 6.8523958333333335,
+    "iqr": 5.738090277777777,
+    "minimo": 0.06527777777777778,
+    "maximo": 560.0011111111111
+  },
+  "censura_direita_por_repositorio": {
+    "n": 286,
+    "mediana": 0.0,
+    "q1": 0.0,
+    "q3": 0.01941808191808192,
+    "iqr": 0.01941808191808192,
+    "minimo": 0.0,
+    "maximo": 1.0
+  },
+  "censura_qualquer_por_repositorio": {
+    "n": 286,
+    "mediana": 0.011237373737373737,
+    "q1": 0.0,
+    "q3": 0.058403361344537816,
+    "iqr": 0.058403361344537816,
+    "minimo": 0.0,
+    "maximo": 1.0
+  },
+  "repositorios_censura_direita_ge_10pct": 24,
+  "episodios": {
+    "episodios": 27839,
+    "completos": 27379,
+    "censura_direita": 230,
+    "censura_esquerda": 342,
+    "censura_ambas": 112,
+    "censura_qualquer": 460
+  },
+  "situacoes": {
+    "estimável": 280,
+    "sem episódio": 14,
+    "somente censura": 6
+  },
+  "classes": [
+    {
+      "classe_recuperacao": "Elite",
+      "repositorios": 65,
+      "percentual_amostra": 21.6666666667,
+      "percentual_estimaveis": 23.2142857143
+    },
+    {
+      "classe_recuperacao": "High",
+      "repositorios": 186,
+      "percentual_amostra": 62.0,
+      "percentual_estimaveis": 66.4285714286
+    },
+    {
+      "classe_recuperacao": "Medium",
+      "repositorios": 26,
+      "percentual_amostra": 8.6666666667,
+      "percentual_estimaveis": 9.2857142857
+    },
+    {
+      "classe_recuperacao": "Low",
+      "repositorios": 3,
+      "percentual_amostra": 1.0,
+      "percentual_estimaveis": 1.0714285714
+    },
+    {
+      "classe_recuperacao": "Não estimável",
+      "repositorios": 20,
+      "percentual_amostra": 6.6666666667,
+      "percentual_estimaveis": null
+    }
+  ],
+  "sucessos_tardios_reclassificados": 4,
+  "episodios_iniciados_apos_janela": 1,
+  "repositorios_com_correcao_corte": 4,
+  "censura_direita_global": 0.008261791012608212,
+  "horizontes": [
+    {
+      "horizonte_horas": 1,
+      "repositorios": 281,
+      "episodios": 27497,
+      "recuperados": 8358,
+      "indeterminados": 5,
+      "nao_recuperados": 19134,
+      "limite_inferior": 0.303960432,
+      "limite_superior": 0.3041422701,
+      "limite_inferior_peso_igual": 0.3383991552,
+      "limite_superior_peso_igual": 0.3385804104,
+      "episodios_excluidos_inicio_desconhecido": 342
+    },
+    {
+      "horizonte_horas": 24,
+      "repositorios": 281,
+      "episodios": 27497,
+      "recuperados": 24435,
+      "indeterminados": 28,
+      "nao_recuperados": 3034,
+      "limite_inferior": 0.8886423974,
+      "limite_superior": 0.8896606903,
+      "limite_inferior_peso_igual": 0.7921488836,
+      "limite_superior_peso_igual": 0.7972898153,
+      "episodios_excluidos_inicio_desconhecido": 342
+    },
+    {
+      "horizonte_horas": 168,
+      "repositorios": 281,
+      "episodios": 27497,
+      "recuperados": 27023,
+      "indeterminados": 41,
+      "nao_recuperados": 433,
+      "limite_inferior": 0.9827617558,
+      "limite_superior": 0.9842528276,
+      "limite_inferior_peso_igual": 0.938525963,
+      "limite_superior_peso_igual": 0.9454219381,
+      "episodios_excluidos_inicio_desconhecido": 342
+    }
+  ],
+  "robustez_cobertura": [
+    {
+      "minimo_completos": 1,
+      "excluidos": 20,
+      "n": 280,
+      "mediana": 2.7156944444,
+      "q1": 1.1143055556,
+      "q3": 6.8523958333,
+      "iqr": 5.7380902778,
+      "minimo": 0.0652777778,
+      "maximo": 560.0011111111
+    },
+    {
+      "minimo_completos": 5,
+      "excluidos": 54,
+      "n": 246,
+      "mediana": 2.7156944444,
+      "q1": 1.2492013889,
+      "q3": 5.9082638889,
+      "iqr": 4.6590625,
+      "minimo": 0.0813888889,
+      "maximo": 109.46625
+    },
+    {
+      "minimo_completos": 10,
+      "excluidos": 81,
+      "n": 219,
+      "mediana": 2.7691666667,
+      "q1": 1.2895138889,
+      "q3": 5.6470833333,
+      "iqr": 4.3575694444,
+      "minimo": 0.0813888889,
+      "maximo": 109.46625
+    }
+  ],
+  "janela_confirmada": false,
+  "fontes_sha256": {
+    "metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "workflow_runs.csv.gz": "0679413a3b14e3b6d3d3056ab22714b393cebadd9c24034e746e53d78c4978b5",
+    "resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf"
+  }
+}
