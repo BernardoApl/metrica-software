@@ -148,6 +148,23 @@ Inclui limites descritivos de recuperação em 1 h, 24 h e 7 dias, com casos
 indeterminados por censura, e diagnóstico da mediana em subconjuntos com
 pelo menos 5 e 10 episódios completos. A definição principal permanece igual.
 
+### RQ94 — Lead time for changes nas duas variantes
+
+Recalcula o lead time (a) por release e confere com as métricas exportadas,
+verifica o (b) por commit pelas contagens e limites da definição, e compara as
+variantes: mediana/IQR, classes DORA, matriz de transição, Wilcoxon pareado,
+efeito do tamanho das releases e diagnóstico de linhas de release intercaladas
+(backports e monorepos). Inclui o confronto com a H2:
+
+```bash
+python codigo-fonte/analise/rq94_lead_time.py
+```
+
+Execução local, sem token ou nova coleta. Resultados em
+[RQ94 — relatório](entregas/laboratorio-03/sprint-03/RQ94/RELATORIO.md).
+O (b) não é recalculado porque `commits_releases.csv.gz` (acima de 100 MB) não
+é versionado.
+
 ### Testes
 
 ```bash

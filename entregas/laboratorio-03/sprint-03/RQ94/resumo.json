@@ -1,0 +1,120 @@
+{
+  "repositorios": 300,
+  "releases_janela": 18206,
+  "releases_com_lead_time": 14589,
+  "releases_sem_anterior": 57,
+  "releases_sem_commits": 3560,
+  "releases_compare_indisponivel": 0,
+  "releases_compare_truncado": 0,
+  "commits_com_lead_time": 5202383,
+  "commits_negativos": 890,
+  "participacao_commits_top10_repositorios": 0.7543946687508397,
+  "estatisticas": [
+    {
+      "variante": "a_por_release",
+      "n": 300,
+      "mediana": 10.46779525,
+      "q1": 3.555279125,
+      "q3": 39.46492775,
+      "iqr": 35.909648625,
+      "minimo": 0.000347,
+      "maximo": 2109.7405095
+    },
+    {
+      "variante": "b_por_commit",
+      "n": 300,
+      "mediana": 12.062873,
+      "q1": 3.275726,
+      "q3": 57.527185,
+      "iqr": 54.251459,
+      "minimo": 0.000347,
+      "maximo": 4464.668958
+    },
+    {
+      "variante": "a_sem_linhas_intercaladas",
+      "n": 298,
+      "mediana": 10.1350925,
+      "q1": 3.0337385,
+      "q3": 38.503374,
+      "iqr": 35.4696355,
+      "minimo": 0.000347,
+      "maximo": 3383.365098
+    },
+    {
+      "variante": "diferenca_a_menos_b",
+      "n": 300,
+      "mediana": 0.778611,
+      "q1": -6.317420125,
+      "q3": 9.545294625,
+      "iqr": 15.86271475,
+      "minimo": -4444.131302,
+      "maximo": 1156.6565215
+    },
+    {
+      "variante": "razao_b_sobre_a",
+      "n": 300,
+      "mediana": 0.7759131076,
+      "q1": 0.4979743925,
+      "q3": 2.3153935389,
+      "iqr": 1.8174191464,
+      "minimo": 0.011709528,
+      "maximo": 1125.7662702703
+    }
+  ],
+  "repositorios_b_menor_que_a": 177,
+  "repositorios_b_igual_a": 1,
+  "repositorios_b_maior_que_a": 122,
+  "repositorios_mudam_de_classe": 127,
+  "passos_classe_b_menos_a": {
+    "-3": 2,
+    "-2": 11,
+    "-1": 53,
+    "0": 173,
+    "1": 60,
+    "2": 1
+  },
+  "wilcoxon_a_vs_b": {
+    "n": 300,
+    "estatistica": 20069.0,
+    "p_valor": 0.11534794271838882,
+    "rank_bisserial": 0.10506131549609811
+  },
+  "tamanho_da_release": {
+    "repositorio_commits_por_release_vs_razao_b_sobre_a": {
+      "n": 300,
+      "rho": -0.30177839410944723,
+      "p_valor": 9.82621992322696e-08
+    },
+    "repositorio_commits_por_release_vs_diferenca_a_menos_b": {
+      "n": 300,
+      "rho": 0.3853122282178271,
+      "p_valor": 4.686482359723579e-12
+    },
+    "release_commits_vs_lead_time_a": {
+      "n": 14589,
+      "rho": 0.8207964005800689,
+      "p_valor": 0.0
+    }
+  },
+  "relacao_com_anterior": {
+    "avanco": 12579,
+    "serie_diferente": 1277,
+    "regressao": 728,
+    "sem_versao": 5
+  },
+  "releases_linha_intercalada": 2005,
+  "repositorios_com_linha_intercalada": 106,
+  "commits_em_releases_intercaladas": 840209,
+  "repositorios_mudam_classe_sem_intercaladas": 11,
+  "repositorios_sem_release_apos_filtro": 2,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "janela_confirmada": false,
+  "fontes_sha256": {
+    "metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "lead_time_releases.csv": "d879b4748c17043ba5f44797040e7052c48d5a7d3b021d50dd102afb97d49c05",
+    "resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf"
+  }
+}

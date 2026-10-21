@@ -1,0 +1,13 @@
+variante,classe,repositorios,percentual
+a,Elite,43,14.3333333333
+a,High,75,25
+a,Medium,91,30.3333333333
+a,Low,91,30.3333333333
+b,Elite,31,10.3333333333
+b,High,86,28.6666666667
+b,Medium,86,28.6666666667
+b,Low,97,32.3333333333
+a_sem_intercaladas,Elite,43,14.4295302013
+a_sem_intercaladas,High,74,24.8322147651
+a_sem_intercaladas,Medium,92,30.8724832215
+a_sem_intercaladas,Low,89,29.8657718121
