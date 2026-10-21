@@ -165,6 +165,22 @@ Execução local, sem token ou nova coleta. Resultados em
 O (b) não é recalculado porque `commits_releases.csv.gz` (acima de 100 MB) não
 é versionado.
 
+### RQ95 — Estatísticas descritivas e classificação DORA C1
+
+Consolida mediana, quartis, IQR e percentis das quatro métricas e classifica
+cada repositório na combinação de referência C1 (release, lead time (a),
+CFR (a), recuperação), conferindo com as classes exportadas. Analisa os
+indefinidos, o arredondamento da classe geral, os perfis de velocidade e
+estabilidade e a sensibilidade ao ajuste de corte da RQ92:
+
+```bash
+python codigo-fonte/analise/rq95_estatisticas_c1.py
+```
+
+Execução local, sem token ou nova coleta. Resultados em
+[RQ95 — relatório](entregas/laboratorio-03/sprint-03/RQ95/RELATORIO.md).
+A C1 é a base de comparação da RQ07.
+
 ### Testes
 
 ```bash

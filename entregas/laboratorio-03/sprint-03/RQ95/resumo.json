@@ -1,0 +1,245 @@
+{
+  "repositorios": 300,
+  "combinacao": "C1",
+  "definicao": "release publicada (não draft, não pré-release); lead time (a); CFR (a) de CI; recuperação",
+  "estatisticas": [
+    {
+      "metrica": "frequencia_deploy_semana",
+      "rotulo": "Frequência de deploy (RQ01)",
+      "unidade": "releases/semana",
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 0.479452,
+      "q1": 0.230137,
+      "q3": 1.1554795,
+      "iqr": 0.9253425,
+      "p10": 0.1515072,
+      "p90": 2.706027,
+      "minimo": 0.09589,
+      "maximo": 28.172603,
+      "media": 1.1638538667,
+      "classe_da_mediana": "Medium"
+    },
+    {
+      "metrica": "lead_time_release_mediana_dias",
+      "rotulo": "Lead time (a) por release (RQ02)",
+      "unidade": "dias",
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 10.467795,
+      "q1": 3.55527925,
+      "q3": 39.46492775,
+      "iqr": 35.9096485,
+      "p10": 0.6359733,
+      "p90": 174.1832885,
+      "minimo": 0.000347,
+      "maximo": 2109.740509,
+      "media": 82.1016407067,
+      "classe_da_mediana": "Medium"
+    },
+    {
+      "metrica": "cfr_ci",
+      "rotulo": "CFR (a) de CI (RQ03)",
+      "unidade": "fração",
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 0.045672,
+      "q1": 0.02348625,
+      "q3": 0.1114375,
+      "iqr": 0.08795125,
+      "p10": 0.0073333,
+      "p90": 0.2117589,
+      "minimo": 0.0,
+      "maximo": 1.0,
+      "media": 0.0908722867,
+      "classe_da_mediana": "Elite"
+    },
+    {
+      "metrica": "recuperacao_mediana_horas",
+      "rotulo": "Recuperação (RQ04)",
+      "unidade": "horas",
+      "n": 280,
+      "indefinidos": 20,
+      "mediana": 2.7156945,
+      "q1": 1.11430575,
+      "q3": 6.8523955,
+      "iqr": 5.73808975,
+      "p10": 0.5117496,
+      "p90": 24.4871943,
+      "minimo": 0.065278,
+      "maximo": 560.001111,
+      "media": 12.0043457393,
+      "classe_da_mediana": "High"
+    },
+    {
+      "metrica": "lead_time_commit_mediana_dias",
+      "rotulo": "Lead time (b) por commit (RQ02)",
+      "unidade": "dias",
+      "n": 300,
+      "indefinidos": 0,
+      "mediana": 12.062873,
+      "q1": 3.275726,
+      "q3": 57.527185,
+      "iqr": 54.251459,
+      "p10": 0.9556929,
+      "p90": 312.8846776,
+      "minimo": 0.000347,
+      "maximo": 4464.668958,
+      "media": 98.19499367,
+      "classe_da_mediana": "Medium"
+    }
+  ],
+  "classes": {
+    "classe_frequencia": {
+      "Elite": 5,
+      "High": 75,
+      "Medium": 152,
+      "Low": 68
+    },
+    "classe_lead_time": {
+      "Elite": 43,
+      "High": 75,
+      "Medium": 91,
+      "Low": 91
+    },
+    "classe_cfr": {
+      "Elite": 249,
+      "High": 34,
+      "Medium": 10,
+      "Low": 7
+    },
+    "classe_recuperacao": {
+      "Elite": 65,
+      "High": 186,
+      "Medium": 26,
+      "Low": 3
+    },
+    "classe_geral": {
+      "Elite": 18,
+      "High": 122,
+      "Medium": 128,
+      "Low": 12
+    }
+  },
+  "classe_geral_indefinida": 20,
+  "motivo_indefinida": {
+    "classe_frequencia": 0,
+    "classe_lead_time": 0,
+    "classe_cfr": 0,
+    "classe_recuperacao": 20
+  },
+  "classe_geral_metricas_definidas_nos_indefinidos": {
+    "Elite": 1,
+    "High": 6,
+    "Medium": 7,
+    "Low": 6
+  },
+  "arredondados_para_baixo": 136,
+  "alinhamento_com_geral": {
+    "classe_frequencia": {
+      "acima": 6,
+      "igual": 159,
+      "abaixo": 115
+    },
+    "classe_lead_time": {
+      "acima": 28,
+      "igual": 156,
+      "abaixo": 96
+    },
+    "classe_cfr": {
+      "acima": 231,
+      "igual": 40,
+      "abaixo": 9
+    },
+    "classe_recuperacao": {
+      "acima": 165,
+      "igual": 109,
+      "abaixo": 6
+    }
+  },
+  "perfis_velocidade_estabilidade": {
+    "alto": {
+      "alto": 54,
+      "misto": 62,
+      "baixo": 123
+    },
+    "misto": {
+      "alto": 5,
+      "misto": 8,
+      "baixo": 24
+    },
+    "baixo": {
+      "alto": 0,
+      "misto": 1,
+      "baixo": 3
+    }
+  },
+  "combinacoes_mais_frequentes": [
+    {
+      "combinacao": "M/M/E/H",
+      "classe_geral": "Medium",
+      "repositorios": 34
+    },
+    {
+      "combinacao": "M/L/E/H",
+      "classe_geral": "Medium",
+      "repositorios": 23
+    },
+    {
+      "combinacao": "L/L/E/H",
+      "classe_geral": "Medium",
+      "repositorios": 21
+    },
+    {
+      "combinacao": "M/H/E/H",
+      "classe_geral": "High",
+      "repositorios": 16
+    },
+    {
+      "combinacao": "M/M/E/E",
+      "classe_geral": "High",
+      "repositorios": 16
+    },
+    {
+      "combinacao": "H/H/E/H",
+      "classe_geral": "High",
+      "repositorios": 15
+    },
+    {
+      "combinacao": "H/E/E/E",
+      "classe_geral": "Elite",
+      "repositorios": 9
+    },
+    {
+      "combinacao": "H/E/E/H",
+      "classe_geral": "High",
+      "repositorios": 9
+    },
+    {
+      "combinacao": "L/L/E/M",
+      "classe_geral": "Low",
+      "repositorios": 9
+    },
+    {
+      "combinacao": "H/H/E/E",
+      "classe_geral": "High",
+      "repositorios": 7
+    }
+  ],
+  "combinacoes_distintas": 62,
+  "sensibilidade_corte_rq92": {
+    "recuperacao_alterada": 3,
+    "classe_recuperacao_alterada": 0,
+    "classe_geral_alterada": 0
+  },
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "janela_confirmada": false,
+  "fontes_sha256": {
+    "lab03_final/metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "lab03_final/resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf",
+    "RQ92/repositorios.csv": "7724844ca141dc77b0caf6b27ff4fda0f223c1380b96d3c74ffa5fb346d4e2eb"
+  }
+}

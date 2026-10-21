@@ -1,0 +1,6 @@
+metrica,rotulo,unidade,n,indefinidos,mediana,q1,q3,iqr,p10,p90,minimo,maximo,media,classe_da_mediana
+frequencia_deploy_semana,Frequência de deploy (RQ01),releases/semana,300,0,0.479452,0.230137,1.1554795,0.9253425,0.1515072,2.706027,0.09589,28.172603,1.16385386667,Medium
+lead_time_release_mediana_dias,Lead time (a) por release (RQ02),dias,300,0,10.467795,3.55527925,39.46492775,35.9096485,0.6359733,174.1832885,0.000347,2109.740509,82.1016407067,Medium
+cfr_ci,CFR (a) de CI (RQ03),fração,300,0,0.045672,0.02348625,0.1114375,0.08795125,0.0073333,0.2117589,0,1,0.0908722866667,Elite
+recuperacao_mediana_horas,Recuperação (RQ04),horas,280,20,2.7156945,1.11430575,6.8523955,5.73808975,0.5117496,24.4871943,0.065278,560.001111,12.0043457393,High
+lead_time_commit_mediana_dias,Lead time (b) por commit (RQ02),dias,300,0,12.062873,3.275726,57.527185,54.251459,0.9556929,312.8846776,0.000347,4464.668958,98.19499367,Medium
