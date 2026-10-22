@@ -1,0 +1,17 @@
+fator,metrica,n,k,excluidos,grupos,status,teste,estatistica,p,efeito,tipo_efeito,magnitude,p_holm,rejeita_005,familia_n_testes
+contribuidores_total,frequencia_deploy_semana,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,4.39207355401,0.222121479213,0.0146892092107,epsilon²,ver valor numérico,1,False,16
+contribuidores_total,lead_time_release_mediana_dias,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,50.3035765227,6.8840856531e-11,0.168239386364,epsilon²,ver valor numérico,1.03261284797e-09,True,16
+contribuidores_total,cfr_ci,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,0.992696608545,0.803019155939,0.00332005554697,epsilon²,ver valor numérico,1,False,16
+contribuidores_total,recuperacao_mediana_horas,280,4,20,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,3.23846470035,0.356299447883,0.0116074003597,epsilon²,ver valor numérico,1,False,16
+estrelas,frequencia_deploy_semana,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,2.63703234156,0.451034255234,0.00881950615906,epsilon²,ver valor numérico,1,False,16
+estrelas,lead_time_release_mediana_dias,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,1.0170772979,0.79711985033,0.00340159631403,epsilon²,ver valor numérico,1,False,16
+estrelas,cfr_ci,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,1.25187497412,0.740591293532,0.00418687282314,epsilon²,ver valor numérico,1,False,16
+estrelas,recuperacao_mediana_horas,280,4,20,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,3.73425893706,0.29162607949,0.0133844406346,epsilon²,ver valor numérico,1,False,16
+idade_anos,frequencia_deploy_semana,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,29.5561154318,1.71098645861e-06,0.0988498843872,epsilon²,ver valor numérico,2.39538104205e-05,True,16
+idade_anos,lead_time_release_mediana_dias,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,100.614260022,1.14660733195e-21,0.33650254188,epsilon²,ver valor numérico,1.83457173111e-20,True,16
+idade_anos,cfr_ci,300,4,0,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,5.14745646197,0.161312658055,0.0172155734514,epsilon²,ver valor numérico,1,False,16
+idade_anos,recuperacao_mediana_horas,280,4,20,Q1; Q2; Q3; Q4,calculado,Kruskal–Wallis,10.1304666849,0.017489063037,0.0363099164333,epsilon²,ver valor numérico,0.205965961439,False,16
+linguagem,frequencia_deploy_semana,286,11,14,C; C#; C++; Go; Java; JavaScript; Python; Ruby; Rust; Shell; TypeScript,calculado,Kruskal–Wallis,21.6196691335,0.0171638301199,0.0758584881878,epsilon²,ver valor numérico,0.205965961439,False,16
+linguagem,lead_time_release_mediana_dias,286,11,14,C; C#; C++; Go; Java; JavaScript; Python; Ruby; Rust; Shell; TypeScript,calculado,Kruskal–Wallis,42.1751737743,6.97914862436e-06,0.147983065875,epsilon²,ver valor numérico,9.07289321166e-05,True,16
+linguagem,cfr_ci,286,11,14,C; C#; C++; Go; Java; JavaScript; Python; Ruby; Rust; Shell; TypeScript,calculado,Kruskal–Wallis,19.1801263671,0.0380335591356,0.0672986890072,epsilon²,ver valor numérico,0.380335591356,False,16
+linguagem,recuperacao_mediana_horas,267,11,33,C; C#; C++; Go; Java; JavaScript; Python; Ruby; Rust; Shell; TypeScript,calculado,Kruskal–Wallis,13.4289775862,0.200665962202,0.0504848781435,epsilon²,ver valor numérico,1,False,16

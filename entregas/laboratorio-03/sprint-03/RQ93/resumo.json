@@ -1,0 +1,66 @@
+{
+  "repositorios": 300,
+  "janela": {
+    "inicio": "2025-10-01",
+    "fim": "2026-09-30"
+  },
+  "janela_confirmada": false,
+  "fatores": [
+    "contribuidores_total",
+    "estrelas",
+    "idade_anos",
+    "linguagem"
+  ],
+  "metricas": {
+    "frequencia_deploy_semana": [
+      "Frequência",
+      "releases/semana",
+      "maior"
+    ],
+    "lead_time_release_mediana_dias": [
+      "Lead time (a)",
+      "dias",
+      "menor"
+    ],
+    "cfr_ci": [
+      "CFR (a)",
+      "fração",
+      "menor"
+    ],
+    "recuperacao_mediana_horas": [
+      "Recuperação",
+      "horas",
+      "menor"
+    ]
+  },
+  "cortes_quartis": {
+    "contribuidores_total": [
+      188.75,
+      410.5,
+      862.5
+    ],
+    "estrelas": [
+      44858.0,
+      56822.5,
+      83008.5
+    ],
+    "idade_anos": [
+      2.521482,
+      6.408286,
+      10.742063
+    ]
+  },
+  "minimo_por_grupo": 5,
+  "testes_principais": 16,
+  "significativos_holm": 4,
+  "pares_testados": 292,
+  "pares_sustentados": 11,
+  "fonte_recuperacao": "RQ92, com ajuste do fim da janela e censura; hash da coleta reconciliado",
+  "fontes_sha256": {
+    "dados\\lab03_final\\metricas_repositorios.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "C:\\Users\\bblop\\Downloads\\metrica-software\\metrica-software-main\\metrica-software\\dados\\lab03_final\\resumo_execucao.json": "8bc4a10082f98724041d08c06d40bd4ec8eea0c67bb5910d4ac8748e0cde19cf",
+    "C:\\Users\\bblop\\Downloads\\metrica-software\\metrica-software-main\\metrica-software\\entregas\\laboratorio-03\\sprint-03\\RQ92\\repositorios.csv": "7724844ca141dc77b0caf6b27ff4fda0f223c1380b96d3c74ffa5fb346d4e2eb",
+    "C:\\Users\\bblop\\Downloads\\metrica-software\\metrica-software-main\\metrica-software\\entregas\\laboratorio-03\\sprint-03\\RQ92\\resumo.json": "250e3a4675d7cad4bf9d71ba51853e294bcec90dab3e9900d4801d9565f44725"
+  },
+  "tipo_projeto": "não analisado: consenso humano indisponível; rótulos de IA não utilizados"
+}

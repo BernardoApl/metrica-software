@@ -244,6 +244,24 @@ RQ06 e o F1 da heurística ainda estão como `\apreencher{...}`. Detalhes, fonte
 de cada número e pendências em
 [RQ99](entregas/laboratorio-03/sprint-03/RQ99_resultados_discussao.md).
 
+### RQ93 — Características dos repositórios e desempenho DORA
+
+Compara as quatro métricas de referência por contribuidores, estrelas e idade
+(quartis que preservam empates), além de linguagem. Gera descritivas, testes
+Kruskal–Wallis/Mann–Whitney, efeitos ε²/Cliff δ e correção de Holm:
+
+```bash
+python codigo-fonte/analise/rq93_caracteristicas_dora.py
+```
+
+Usa a recuperação ajustada pela RQ92 e confere a origem dessa análise. Para
+usar a recuperação original da coleta: `--usar-recuperacao-original`.
+Não depende dos scripts RQ94–RQ98 ou de acesso à rede. Grupos com menos de
+cinco valores válidos são documentados e ficam fora dos testes. O fator tipo
+de projeto aguarda consenso humano; rótulos de IA não entram na análise.
+Resultados, gráficos e discussão da H6 em
+[RQ93 — análise das características](entregas/laboratorio-03/sprint-03/RQ93/RELATORIO.md).
+
 ### Testes
 
 ```bash
