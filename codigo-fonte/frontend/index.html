@@ -14,6 +14,7 @@
     <a class="brand" href="#cenario"><span class="brand-mark" aria-hidden="true">M</span> Métricas de Software</a>
     <nav aria-label="Navegação da seção">
       <a href="#cenario">Cenário</a>
+      <a href="#protocolo">Protocolo</a>
       <a href="#pergunta">Pergunta</a>
       <a href="#hipoteses">Hipóteses</a>
     </nav>
@@ -27,8 +28,9 @@
           <p class="lead">Um experimento pareado para comparar a mesma operação em duas condições: com cache e sem cache.</p>
         </div>
         <aside class="scope" aria-label="Estado do experimento">
-          <span class="status"><span aria-hidden="true"></span> Protocolo em definição</span>
-          <p>Esta seção apresenta o desenho do estudo. Ainda não exibe medições, resultados ou conclusões.</p>
+          <span class="status"><span aria-hidden="true"></span> Protocolo implementado na #102</span>
+          <p>Coleta local concluída em 03/11/2026. A análise estatística ainda não foi realizada.</p>
+          <a href="#protocolo">Entender como a coleta funciona →</a>
         </aside>
       </div>
 
@@ -37,36 +39,53 @@
       <div class="treatments">
         <article class="treatment" aria-labelledby="sem-cache">
           <div class="treatment-heading"><span class="symbol" aria-hidden="true">A</span><h3 id="sem-cache">Sem cache</h3></div>
-          <p>A operação é executada sem reutilizar o resultado armazenado pelo mecanismo de cache avaliado.</p>
+          <p>Abre o CSV e recalcula, por linguagem, a quantidade de repositórios e a soma de estrelas a cada repetição.</p>
           <p class="measure">Tempo observado <strong>t<sub>sem</sub></strong></p>
         </article>
         <article class="treatment cached" aria-labelledby="com-cache">
           <div class="treatment-heading"><span class="symbol" aria-hidden="true">B</span><h3 id="com-cache">Com cache</h3></div>
-          <p>A mesma operação usa o mecanismo de cache, com o estado inicial e o aquecimento definidos no protocolo.</p>
+          <p>Recupera da memória o mesmo resultado, já calculado antes do par. O preenchimento do cache é medido separadamente.</p>
           <p class="measure">Tempo observado <strong>t<sub>com</sub></strong></p>
         </article>
       </div>
       <dl class="study-facts">
         <div><dt>Variável independente</dt><dd>Uso do cache: com ou sem.</dd></div>
-        <div><dt>Variável dependente</dt><dd>Tempo de execução, na mesma unidade para os dois tratamentos.</dd></div>
-        <div><dt>Unidade de comparação</dt><dd>Um par de execuções da mesma operação e entrada.</dd></div>
+        <div><dt>Variável dependente</dt><dd>Tempo médio por operação no lote, em milissegundos (ms).</dd></div>
+        <div><dt>Unidade de comparação</dt><dd>Um par de lotes sobre o mesmo CSV, com 20 operações por tratamento.</dd></div>
       </dl>
+    </section>
+
+    <section id="protocolo" aria-labelledby="titulo-protocolo">
+      <div class="section-heading"><span aria-hidden="true">02</span><h2 id="titulo-protocolo">Como a comparação é feita</h2></div>
+      <p>O cenário inicial utiliza o CSV de metadados dos 300 repositórios. O coletor salva uma cópia da entrada e verifica se os dois tratamentos retornam o mesmo resultado.</p>
+      <dl class="study-facts protocol-facts">
+        <div><dt>Amostra de tempos</dt><dd><strong>30 pares</strong><br>60 medições de lotes</dd></div>
+        <div><dt>Ordem balanceada</dt><dd><strong>15 + 15</strong><br>Metade começa com cache; metade sem cache</dd></div>
+        <div><dt>Aquecimento inicial</dt><dd><strong>3 pares separados</strong><br>Fora da amostra principal</dd></div>
+      </dl>
+      <ol class="protocol-steps">
+        <li><strong>Preparar.</strong> Criar e preencher um cache novo antes de cada par, registrando esse custo fora dos tempos principais.</li>
+        <li><strong>Medir.</strong> Executar os dois lotes na ordem embaralhada com semente 102. Dividir o tempo de cada lote por suas 20 operações.</li>
+        <li><strong>Conferir.</strong> Comparar todas as respostas com a referência depois de parar o relógio. Preservar falhas e marcar pares inválidos.</li>
+        <li><strong>Registrar.</strong> Salvar tempos, pares, aquecimentos e informações do ambiente em CSV e JSON.</li>
+      </ol>
       <details class="protocol">
-        <summary>O que precisa estar definido antes de medir?</summary>
-        <p><strong>Operação medida: a definir no protocolo de coleta.</strong> Não se pressupõe aqui uma API, consulta ao banco ou cálculo específico.</p>
+        <summary>O que esta comparação permite concluir?</summary>
+        <p><strong>O experimento mede reutilização de um resultado em memória para uma entrada fixa.</strong> Não mede chamadas de API, banco de dados ou cache frio.</p>
         <ul>
-          <li>Operação, entradas e critério de equivalência dos resultados.</li>
-          <li>Camada de cache, limpeza, validade e aquecimento; distinguir cache frio de cache aquecido.</li>
-          <li>Ambiente, unidade de tempo, número de pares e controle da ordem dos tratamentos.</li>
-          <li>Tratamento de erros, tentativas incompletas e valores extremos, sem removê-los por conveniência.</li>
+          <li>Os 300 repositórios são registros da entrada, não 300 observações independentes de tempo.</li>
+          <li>As repetições de um lote não são amostras independentes. Os pares também compartilham entrada e ambiente; dependência temporal deve ser avaliada antes de aplicar testes.</li>
+          <li>O tempo com cache considera hits e exclui o preenchimento. Laços de execução, carga da máquina e coleta de lixo podem influenciar os tempos.</li>
+          <li>A semente reproduz a ordem dos tratamentos, não os tempos medidos. Não se removem erros ou valores extremos por conveniência.</li>
         </ul>
         <p>A execução sem cache deve controlar o mecanismo estudado; não significa que todos os caches do sistema estejam desativados.</p>
       </details>
+      <p class="notation">Configuração da coleta de 03/11/2026, executada localmente pela #102. Esta página é descritiva: não inicia coletas nem acompanha execuções em tempo real.</p>
     </section>
 
     <section id="pergunta" aria-labelledby="titulo-pergunta">
-      <div class="section-heading"><span aria-hidden="true">02</span><h2 id="titulo-pergunta">Pergunta de pesquisa</h2></div>
-      <blockquote>O uso de cache altera o tempo de execução da mesma operação, em comparação com sua execução sem cache?</blockquote>
+      <div class="section-heading"><span aria-hidden="true">03</span><h2 id="titulo-pergunta">Pergunta de pesquisa</h2></div>
+      <blockquote>Reutilizar em memória a agregação do CSV por linguagem altera o tempo médio por operação, em comparação com recalcular essa agregação a cada execução?</blockquote>
       <div class="comparison">
         <div><h3>Compare pares, não execuções desconectadas</h3><p>Cada observação sem cache deve estar ligada à observação com cache da mesma tarefa e entrada. A ordem dos tratamentos precisa ser controlada para reduzir efeitos de aquecimento e variação do ambiente.</p></div>
         <div class="difference">
@@ -79,8 +98,8 @@
     </section>
 
     <section id="hipoteses" aria-labelledby="titulo-hipoteses">
-      <div class="section-heading"><span aria-hidden="true">03</span><h2 id="titulo-hipoteses">Hipóteses H0 e H1</h2></div>
-      <p>Formulação inicial <strong>bilateral</strong>: o estudo considera tanto redução quanto aumento do tempo. Essa escolha deve ser confirmada antes de observar os resultados.</p>
+      <div class="section-heading"><span aria-hidden="true">04</span><h2 id="titulo-hipoteses">Hipóteses H0 e H1</h2></div>
+      <p>Formulação proposta na #101, antes da coleta: <strong>bilateral</strong>, considerando tanto redução quanto aumento do tempo. A execução da #102 não confirma nem rejeita essas hipóteses.</p>
       <div class="hypotheses">
         <article aria-labelledby="titulo-h0">
           <p class="hypothesis-id" aria-hidden="true">H0</p>
