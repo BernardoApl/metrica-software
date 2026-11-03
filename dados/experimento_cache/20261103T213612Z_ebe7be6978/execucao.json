@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "execucao_id": "20261103T213612Z_ebe7be6978",
+  "iniciado_em": "2026-11-03T21:36:12.321681+00:00",
+  "status": "concluida",
+  "operacao": "csv_agrupar_linguagem_v1",
+  "entrada_nome": "metricas_repositorios.csv",
+  "entrada_sha256": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+  "coletor_sha256": "6bf81a3f4c56a2f337003276f8883a439626e13c70785d1fb6b86480e2f43b05",
+  "parametros": {
+    "pares": 30,
+    "repeticoes_por_tratamento": 20,
+    "pares_aquecimento": 3,
+    "semente": 102
+  },
+  "plano": [
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "com_cache",
+      "sem_cache"
+    ],
+    [
+      "sem_cache",
+      "com_cache"
+    ]
+  ],
+  "cache": "resultado em memória; vazio e preenchido antes de cada par; hits cronometrados",
+  "limite": "Cache de aplicação, não de disco/OS. Mesma entrada repetida; não generaliza para rede ou cache frio.",
+  "unidade": "ms por operação (tempo total do lote dividido pelas repetições)",
+  "ambiente": {
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "plataforma": "Windows-11-10.0.26200-SP0",
+    "arquitetura": "AMD64",
+    "gc_habilitado": true
+  },
+  "relogio": {
+    "nome": "perf_counter_ns",
+    "monotonic": true,
+    "resolucao_segundos": 1e-07,
+    "implementacao": "QueryPerformanceCounter()"
+  },
+  "resultado_sha256": "595cb0d52f8637140042b6fd39294a12558017b1660bb178acc02bc0855a14b5",
+  "repositorios": 300,
+  "finalizado_em": "2026-11-03T21:36:17.417651+00:00",
+  "pares_concluidos": 30,
+  "pares_validos": 30,
+  "artefatos_sha256": {
+    "aquecimentos.csv": "7612accbd3ee4730cf4c3c2fc5a534f26b73aa7205d4ca66f6a68c4c63e7d8ff",
+    "entrada.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "pares.csv": "e3cb7863d4681ceae8db5161b96435299cdb8ce1e29e01a5c6769533997d66e4",
+    "resultado.json": "e124bcab2d0a6714bf1f8ad49c8c4b6e15f965286908a02cd2b6269b650b19e0",
+    "tempos.csv": "47fad838ad5946e25ebf4f62faeb8ecf6a18059549d4f8df60c1e7fb5791f937"
+  }
+}

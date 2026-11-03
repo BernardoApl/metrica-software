@@ -13,6 +13,19 @@ Abra http://127.0.0.1:8080. Esta entrega apresenta somente o cenário e as
 hipóteses; coleta, simulação, testes estatísticos e gráficos pertencem às
 issues seguintes.
 
+## Experimento de cache — backend #102
+
+Coleta real e pareada de tempos de agregação do CSV de repositórios, comparando
+recálculo e cache de resultado em memória. Exporta tempos, pares, aquecimentos
+e manifesto de execução, com conferência dos resultados e hashes.
+
+```powershell
+python codigo-fonte/coleta/rq102_tempos_cache.py
+```
+
+[Protocolo, arquivos e validação da RQ102](codigo-fonte/coleta/README_rq102_tempos_cache.md).
+Uma coleta de 30 pares válidos está salva em `dados/experimento_cache/`.
+
 Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-weQYHP1wi-tA8pVOEQvs/edit?tab=t.0
 
 ## LAB03 — Mineração de métricas DORA
