@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Cenário experimental | Cache e tempo de execução</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <header class="site-header">
+    <a class="brand" href="#cenario"><span class="brand-mark" aria-hidden="true">M</span> Métricas de Software</a>
+    <nav aria-label="Navegação da seção">
+      <a href="#cenario">Cenário</a>
+      <a href="#pergunta">Pergunta</a>
+      <a href="#hipoteses">Hipóteses</a>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <section id="cenario" aria-labelledby="titulo-cenario">
+      <div class="introduction">
+        <div>
+          <h1 id="titulo-cenario">O que muda no tempo de execução quando usamos cache?</h1>
+          <p class="lead">Um experimento pareado para comparar a mesma operação em duas condições: com cache e sem cache.</p>
+        </div>
+        <aside class="scope" aria-label="Estado do experimento">
+          <span class="status"><span aria-hidden="true"></span> Protocolo em definição</span>
+          <p>Esta seção apresenta o desenho do estudo. Ainda não exibe medições, resultados ou conclusões.</p>
+        </aside>
+      </div>
+
+      <div class="section-heading"><span aria-hidden="true">01</span><h2>Cenário experimental</h2></div>
+      <p>O cache permite reutilizar um resultado previamente armazenado. A comparação investiga se essa reutilização altera o tempo da operação, mantendo equivalentes a entrada, a tarefa e o ambiente de execução.</p>
+      <div class="treatments">
+        <article class="treatment" aria-labelledby="sem-cache">
+          <div class="treatment-heading"><span class="symbol" aria-hidden="true">A</span><h3 id="sem-cache">Sem cache</h3></div>
+          <p>A operação é executada sem reutilizar o resultado armazenado pelo mecanismo de cache avaliado.</p>
+          <p class="measure">Tempo observado <strong>t<sub>sem</sub></strong></p>
+        </article>
+        <article class="treatment cached" aria-labelledby="com-cache">
+          <div class="treatment-heading"><span class="symbol" aria-hidden="true">B</span><h3 id="com-cache">Com cache</h3></div>
+          <p>A mesma operação usa o mecanismo de cache, com o estado inicial e o aquecimento definidos no protocolo.</p>
+          <p class="measure">Tempo observado <strong>t<sub>com</sub></strong></p>
+        </article>
+      </div>
+      <dl class="study-facts">
+        <div><dt>Variável independente</dt><dd>Uso do cache: com ou sem.</dd></div>
+        <div><dt>Variável dependente</dt><dd>Tempo de execução, na mesma unidade para os dois tratamentos.</dd></div>
+        <div><dt>Unidade de comparação</dt><dd>Um par de execuções da mesma operação e entrada.</dd></div>
+      </dl>
+      <details class="protocol">
+        <summary>O que precisa estar definido antes de medir?</summary>
+        <p><strong>Operação medida: a definir no protocolo de coleta.</strong> Não se pressupõe aqui uma API, consulta ao banco ou cálculo específico.</p>
+        <ul>
+          <li>Operação, entradas e critério de equivalência dos resultados.</li>
+          <li>Camada de cache, limpeza, validade e aquecimento; distinguir cache frio de cache aquecido.</li>
+          <li>Ambiente, unidade de tempo, número de pares e controle da ordem dos tratamentos.</li>
+          <li>Tratamento de erros, tentativas incompletas e valores extremos, sem removê-los por conveniência.</li>
+        </ul>
+        <p>A execução sem cache deve controlar o mecanismo estudado; não significa que todos os caches do sistema estejam desativados.</p>
+      </details>
+    </section>
+
+    <section id="pergunta" aria-labelledby="titulo-pergunta">
+      <div class="section-heading"><span aria-hidden="true">02</span><h2 id="titulo-pergunta">Pergunta de pesquisa</h2></div>
+      <blockquote>O uso de cache altera o tempo de execução da mesma operação, em comparação com sua execução sem cache?</blockquote>
+      <div class="comparison">
+        <div><h3>Compare pares, não execuções desconectadas</h3><p>Cada observação sem cache deve estar ligada à observação com cache da mesma tarefa e entrada. A ordem dos tratamentos precisa ser controlada para reduzir efeitos de aquecimento e variação do ambiente.</p></div>
+        <div class="difference">
+          <p class="formula" aria-label="Diferença d igual ao tempo sem cache menos o tempo com cache">d = t<sub>sem</sub> − t<sub>com</sub></p>
+          <p><strong>d &gt; 0</strong> Com cache foi mais rápido naquele par.</p>
+          <p><strong>d = 0</strong> Os tempos observados foram iguais.</p>
+          <p><strong>d &lt; 0</strong> Com cache foi mais lento naquele par.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="hipoteses" aria-labelledby="titulo-hipoteses">
+      <div class="section-heading"><span aria-hidden="true">03</span><h2 id="titulo-hipoteses">Hipóteses H0 e H1</h2></div>
+      <p>Formulação inicial <strong>bilateral</strong>: o estudo considera tanto redução quanto aumento do tempo. Essa escolha deve ser confirmada antes de observar os resultados.</p>
+      <div class="hypotheses">
+        <article aria-labelledby="titulo-h0">
+          <p class="hypothesis-id" aria-hidden="true">H0</p>
+          <h3 id="titulo-h0">Hipótese nula</h3>
+          <p>Não há diferença no tempo médio de execução entre as condições com e sem cache.</p>
+          <p class="formula" aria-label="Média populacional das diferenças igual a zero">μ<sub>d</sub> = 0</p>
+        </article>
+        <article aria-labelledby="titulo-h1">
+          <p class="hypothesis-id" aria-hidden="true">H1</p>
+          <h3 id="titulo-h1">Hipótese alternativa</h3>
+          <p>Há diferença no tempo médio de execução entre as condições com e sem cache.</p>
+          <p class="formula" aria-label="Média populacional das diferenças diferente de zero">μ<sub>d</sub> ≠ 0</p>
+        </article>
+      </div>
+      <p class="notation">μ<sub>d</sub> representa a média populacional das diferenças pareadas. As expressões acima correspondem ao teste t pareado; não são resultados calculados.</p>
+      <details>
+        <summary>Como essas hipóteses se relacionam ao Wilcoxon pareado?</summary>
+        <p>O Wilcoxon signed-rank não testa diretamente igualdade de médias. Sua hipótese nula considera a distribuição das diferenças pareadas simétrica em torno de zero; a alternativa bilateral admite deslocamento do centro para qualquer direção, sob os pressupostos do teste.</p>
+        <p>Por isso, uma implementação não deve apenas trocar o nome do teste e manter a interpretação em termos de médias. Pressupostos, diferenças nulas e empates precisam ser tratados na análise estatística.</p>
+      </details>
+      <aside class="interpretation" aria-label="Cuidado com a interpretação">
+        <h3>Uma hipótese não é uma conclusão</h3>
+        <p>Não rejeitar H0 não prova que os tratamentos são equivalentes. Rejeitar H0 também não demonstra, por si só, uma melhoria relevante: é preciso examinar a direção, a magnitude e a incerteza da diferença.</p>
+      </aside>
+      <details class="sources">
+        <summary>Referências das definições estatísticas</summary>
+        <ul>
+          <li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html">SciPy — teste t para amostras pareadas</a></li>
+          <li><a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html">SciPy — Wilcoxon signed-rank</a></li>
+        </ul>
+      </details>
+    </section>
+  </main>
+  <footer>Laboratório de Experimentação de Software · Cenário e hipóteses <a href="#cenario">Voltar ao início ↑</a></footer>
+</body>
+</html>

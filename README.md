@@ -1,5 +1,18 @@
 # metrica-software
 
+## Experimento de cache — frontend #101
+
+Cenário experimental, pergunta de pesquisa e hipóteses H0/H1, em uma página
+responsiva sem dependências. [Instruções e escopo](codigo-fonte/frontend/README.md).
+
+```powershell
+python -m http.server 8080 --bind 127.0.0.1 --directory codigo-fonte/frontend
+```
+
+Abra http://127.0.0.1:8080. Esta entrega apresenta somente o cenário e as
+hipóteses; coleta, simulação, testes estatísticos e gráficos pertencem às
+issues seguintes.
+
 Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-weQYHP1wi-tA8pVOEQvs/edit?tab=t.0
 
 ## LAB03 — Mineração de métricas DORA
