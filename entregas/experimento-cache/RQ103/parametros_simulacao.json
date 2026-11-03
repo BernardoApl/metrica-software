@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "origem": {
+    "execucao_id": "20261103T213612Z_ebe7be6978",
+    "manifesto_sha256": "b09bb5ebc291bf9c78aa31659ff7428f880bff19162a73889724418a83289623",
+    "artefatos_sha256": {
+      "aquecimentos.csv": "7612accbd3ee4730cf4c3c2fc5a534f26b73aa7205d4ca66f6a68c4c63e7d8ff",
+      "entrada.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+      "pares.csv": "e3cb7863d4681ceae8db5161b96435299cdb8ce1e29e01a5c6769533997d66e4",
+      "resultado.json": "e124bcab2d0a6714bf1f8ad49c8c4b6e15f965286908a02cd2b6269b650b19e0",
+      "tempos.csv": "47fad838ad5946e25ebf4f62faeb8ecf6a18059549d4f8df60c1e7fb5791f937"
+    },
+    "entrada_sha256": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "coletor_sha256": "6bf81a3f4c56a2f337003276f8883a439626e13c70785d1fb6b86480e2f43b05",
+    "analise_sha256": "9e8535ddbe033c509ec05c170a3ab9fb6778ae10a906ab22e6f2584da1dc9111",
+    "ambiente_coleta": {
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "plataforma": "Windows-11-10.0.26200-SP0",
+      "arquitetura": "AMD64",
+      "gc_habilitado": true
+    }
+  },
+  "metodo": "reamostragem_empirica_pareada_estratificada_v1",
+  "finalidade": "Simulação descritiva do cenário observado; não é distribuição sob H0.",
+  "unidade": "ms por operação no lote",
+  "tamanho_amostra_pares": 30,
+  "semente_sugerida": 104,
+  "algoritmo": "Para cada estrato, sortear com reposição índices uniformes de pares completos; manter os dois tempos juntos. Embaralhar a lista final com o mesmo gerador inicializado uma única vez.",
+  "estratos": [
+    {
+      "ordem_primeiro": "sem_cache",
+      "quantidade": 15,
+      "pares": [
+        {
+          "par_id_origem": 3,
+          "tempo_sem_cache_ms": 8.46151,
+          "tempo_com_cache_ms": 0.000565
+        },
+        {
+          "par_id_origem": 4,
+          "tempo_sem_cache_ms": 5.99836,
+          "tempo_com_cache_ms": 0.000575
+        },
+        {
+          "par_id_origem": 5,
+          "tempo_sem_cache_ms": 5.90883,
+          "tempo_com_cache_ms": 0.00059
+        },
+        {
+          "par_id_origem": 6,
+          "tempo_sem_cache_ms": 7.084675,
+          "tempo_com_cache_ms": 0.000555
+        },
+        {
+          "par_id_origem": 7,
+          "tempo_sem_cache_ms": 6.896695,
+          "tempo_com_cache_ms": 0.000465
+        },
+        {
+          "par_id_origem": 8,
+          "tempo_sem_cache_ms": 6.13623,
+          "tempo_com_cache_ms": 0.000455
+        },
+        {
+          "par_id_origem": 9,
+          "tempo_sem_cache_ms": 6.04118,
+          "tempo_com_cache_ms": 0.000405
+        },
+        {
+          "par_id_origem": 10,
+          "tempo_sem_cache_ms": 6.017695,
+          "tempo_com_cache_ms": 0.000575
+        },
+        {
+          "par_id_origem": 13,
+          "tempo_sem_cache_ms": 6.23775,
+          "tempo_com_cache_ms": 0.00055
+        },
+        {
+          "par_id_origem": 15,
+          "tempo_sem_cache_ms": 5.20525,
+          "tempo_com_cache_ms": 0.00069
+        },
+        {
+          "par_id_origem": 16,
+          "tempo_sem_cache_ms": 5.21731,
+          "tempo_com_cache_ms": 0.000355
+        },
+        {
+          "par_id_origem": 20,
+          "tempo_sem_cache_ms": 5.35246,
+          "tempo_com_cache_ms": 0.000515
+        },
+        {
+          "par_id_origem": 23,
+          "tempo_sem_cache_ms": 4.902245,
+          "tempo_com_cache_ms": 0.000385
+        },
+        {
+          "par_id_origem": 24,
+          "tempo_sem_cache_ms": 4.786325,
+          "tempo_com_cache_ms": 0.00039
+        },
+        {
+          "par_id_origem": 30,
+          "tempo_sem_cache_ms": 4.305485,
+          "tempo_com_cache_ms": 0.00039
+        }
+      ]
+    },
+    {
+      "ordem_primeiro": "com_cache",
+      "quantidade": 15,
+      "pares": [
+        {
+          "par_id_origem": 1,
+          "tempo_sem_cache_ms": 10.557155,
+          "tempo_com_cache_ms": 0.00049
+        },
+        {
+          "par_id_origem": 2,
+          "tempo_sem_cache_ms": 8.79914,
+          "tempo_com_cache_ms": 0.000485
+        },
+        {
+          "par_id_origem": 11,
+          "tempo_sem_cache_ms": 6.626195,
+          "tempo_com_cache_ms": 0.000535
+        },
+        {
+          "par_id_origem": 12,
+          "tempo_sem_cache_ms": 6.6836,
+          "tempo_com_cache_ms": 0.000495
+        },
+        {
+          "par_id_origem": 14,
+          "tempo_sem_cache_ms": 5.669535,
+          "tempo_com_cache_ms": 0.000575
+        },
+        {
+          "par_id_origem": 17,
+          "tempo_sem_cache_ms": 5.164975,
+          "tempo_com_cache_ms": 0.000455
+        },
+        {
+          "par_id_origem": 18,
+          "tempo_sem_cache_ms": 5.249465,
+          "tempo_com_cache_ms": 0.00034
+        },
+        {
+          "par_id_origem": 19,
+          "tempo_sem_cache_ms": 5.19153,
+          "tempo_com_cache_ms": 0.00053
+        },
+        {
+          "par_id_origem": 21,
+          "tempo_sem_cache_ms": 5.170595,
+          "tempo_com_cache_ms": 0.000415
+        },
+        {
+          "par_id_origem": 22,
+          "tempo_sem_cache_ms": 5.359035,
+          "tempo_com_cache_ms": 0.000525
+        },
+        {
+          "par_id_origem": 25,
+          "tempo_sem_cache_ms": 5.57776,
+          "tempo_com_cache_ms": 0.000525
+        },
+        {
+          "par_id_origem": 26,
+          "tempo_sem_cache_ms": 5.96687,
+          "tempo_com_cache_ms": 0.000505
+        },
+        {
+          "par_id_origem": 27,
+          "tempo_sem_cache_ms": 5.387455,
+          "tempo_com_cache_ms": 0.000445
+        },
+        {
+          "par_id_origem": 28,
+          "tempo_sem_cache_ms": 4.928665,
+          "tempo_com_cache_ms": 0.00046
+        },
+        {
+          "par_id_origem": 29,
+          "tempo_sem_cache_ms": 5.119105,
+          "tempo_com_cache_ms": 0.000495
+        }
+      ]
+    }
+  ],
+  "restricoes": [
+    "Não sortear os tratamentos separadamente.",
+    "Não incluir aquecimentos ou remover extremos automaticamente.",
+    "Não adicionar ruído nem impor distribuição normal sem nova justificativa.",
+    "A reamostragem não preserva dependência temporal nem cria novas evidências independentes.",
+    "Tempos simulados não são novas medições reais; identificar sua origem."
+  ]
+}

@@ -26,6 +26,20 @@ python codigo-fonte/coleta/rq102_tempos_cache.py
 [Protocolo, arquivos e validação da RQ102](codigo-fonte/coleta/README_rq102_tempos_cache.md).
 Uma coleta de 30 pares válidos está salva em `dados/experimento_cache/`.
 
+## Experimento de cache — análise e parâmetros #103
+
+Analisa os dados reais da #102, valida sua integridade e exporta estatísticas
+descritivas e parâmetros de reamostragem de pares para a futura #104.
+O relatório registra a variação temporal observada e as limitações da simulação.
+
+```powershell
+python codigo-fonte/analise/rq103_parametros_cache.py --saida dados/.cache/rq103_reanalise
+```
+
+Use uma pasta de saída nova a cada reanálise. A entrega já gerada está em
+[RQ103 — relatório](entregas/experimento-cache/RQ103/RELATORIO.md).
+[Execução e contrato da simulação](codigo-fonte/analise/README_rq103_parametros_cache.md).
+
 Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-weQYHP1wi-tA8pVOEQvs/edit?tab=t.0
 
 ## LAB03 — Mineração de métricas DORA
