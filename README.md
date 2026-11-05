@@ -1,5 +1,17 @@
 # metrica-software
 
+## LAB04 — Dashboard do experimento de cache
+
+Com as dependências instaladas (`pip install -r requirements.txt`), este comando
+reprocessa os dados com semente fixa, redesenha os gráficos e abre o dashboard:
+
+```powershell
+python codigo-fonte/frontend/rq109_dashboard.py
+```
+
+Estado na Sprint 1: cenário (#101) e G1 (#108) integrados; G2 aguarda a #106 e os
+dados simulados oficiais aguardam a #104. [Detalhes e integração](codigo-fonte/frontend/README.md).
+
 ## Experimento de cache — frontend #101
 
 Cenário experimental, pergunta de pesquisa e hipóteses H0/H1, em uma página

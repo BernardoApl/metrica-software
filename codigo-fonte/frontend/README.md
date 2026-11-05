@@ -31,3 +31,19 @@ Fonte do cenário: [protocolo da #102](../coleta/README_rq102_tempos_cache.md) e
 Não há gráficos nem chamadas a backends nesta entrega. Os expansores servem apenas para explicar o cenário e as hipóteses.
 
 Fontes estatísticas: [SciPy ttest_rel](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html) e [SciPy wilcoxon](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html).
+
+## Issues #108 e #109: G1 e dashboard
+
+`rq109_dashboard.py` executa a #107 e a #108, atualiza o bloco do G1 em `index.html` e abre a página:
+
+```powershell
+python codigo-fonte/frontend/rq109_dashboard.py
+```
+
+Só o trecho entre os marcadores `G1:INICIO` e `G1:FIM` é gerado; o resto da página continua editável à mão. Use `--sem-abrir` para apenas reconstruir.
+
+### Pendências de integração
+
+- **#104:** salvar os dados em `entregas/experimento-cache/RQ104/pares_simulados.csv`, com as colunas `tempo_sem_cache_ms` e `tempo_com_cache_ms`. Depois, reconstruir o dashboard: o aviso de dados provisórios sai sozinho.
+- **#106:** salvar o gráfico em `graficos/g2.svg` e trocar o aviso da seção `testes` em `index.html` pela figura e pelo texto.
+- **G2 a G4:** o enunciado pede a mesma cor para cada teste. Proposta: t pareado `#2a78d6` e Wilcoxon `#eb6834`. O G1 usa `#6250d6` (real) e `#1baf7a` (simulado), para não confundir origem dos dados com teste.
