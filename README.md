@@ -42,6 +42,21 @@ Use uma pasta de saída nova a cada reanálise. A entrega já gerada está em
 
 Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-weQYHP1wi-tA8pVOEQvs/edit?tab=t.0
 
+## LAB04 — Testes de hipótese: cache (t pareado × Wilcoxon pareado)
+
+Cenário, coleta e parâmetros: #101–#103 (`codigo-fonte/frontend`, `codigo-fonte/coleta/README_rq102_tempos_cache.md`, `codigo-fonte/analise/README_rq103_parametros_cache.md`).
+
+```bash
+python codigo-fonte/analise/rq104_gerador_simulacao.py
+python codigo-fonte/analise/rq105_testes_pareados.py
+python codigo-fonte/analise/rq106_dados_g2.py
+python -m http.server 8080 --bind 127.0.0.1 --directory codigo-fonte/frontend
+```
+
+- RQ104 — gerador de dados simulados com semente fixa (104): [README](codigo-fonte/analise/README_rq104_gerador_simulacao.md), saídas em `entregas/experimento-cache/RQ104/`.
+- RQ105 — t pareado e Wilcoxon pareado com interpretação: [README](codigo-fonte/analise/README_rq105_testes_pareados.md), saídas em `entregas/experimento-cache/RQ105/`.
+- RQ106 — G2 no dashboard (http://127.0.0.1:8080/#testes): [README](codigo-fonte/frontend/README.md).
+
 ## LAB03 — Mineração de métricas DORA
 
 ![testes](https://github.com/BernardoApl/metrica-software/actions/workflows/testes.yml/badge.svg)

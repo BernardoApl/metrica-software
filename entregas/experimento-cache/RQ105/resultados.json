@@ -1,0 +1,216 @@
+{
+  "simulada_observado": {
+    "amostra": "Simulada (RQ104), cenário observado",
+    "n_pares": 30,
+    "t_pareado": {
+      "teste": "t pareado",
+      "compara": "média das diferenças pareadas",
+      "h0": "μd = 0",
+      "h1": "μd ≠ 0",
+      "n": 30,
+      "graus_liberdade": 29,
+      "estatistica": 30.136516765466666,
+      "estatistica_nome": "t",
+      "p_valor": 1.934260891946451e-23,
+      "valor_critico": 2.045229642132704,
+      "regiao_rejeicao": "|t| > 2.0452",
+      "alfa": 0.05,
+      "rejeita_h0": true,
+      "media_diferenca_ms": 5.924624833333335,
+      "desvio_padrao_diferenca_ms": 1.0767835882381886,
+      "erro_padrao_ms": 0.19659288694313679,
+      "ic95_media_ms": [
+        5.522547233524788,
+        6.326702433141882
+      ],
+      "efeito_d_cohen_dz": 5.502150012359573,
+      "magnitude": "grande",
+      "pressupostos": {
+        "shapiro_w": 0.6961662343887846,
+        "shapiro_p": 1.3727973144180302e-06,
+        "normalidade_rejeitada": true,
+        "assimetria": 2.9298158514293884
+      }
+    },
+    "wilcoxon_pareado": {
+      "teste": "Wilcoxon pareado",
+      "compara": "postos dos |d| com sinal (simetria de d em torno de 0)",
+      "h0": "distribuição de d simétrica em torno de 0",
+      "h1": "distribuição de d deslocada de 0",
+      "n": 30,
+      "n_efetivo": 30,
+      "zeros_descartados": 0,
+      "empates_em_abs_d": true,
+      "estatistica": 465.0,
+      "estatistica_nome": "W+",
+      "w_menos": 0.0,
+      "w_scipy_min": 0.0,
+      "w_mais_esperado_h0": 232.5,
+      "z": null,
+      "p_valor": 1.862645149230957e-09,
+      "metodo": "exato (permutação dos sinais, postos médios)",
+      "alfa": 0.05,
+      "regiao_rejeicao": "W+ ≤ 137 ou W+ ≥ 328",
+      "limites_rejeicao": [
+        137.0,
+        328.0
+      ],
+      "nivel_real": 0.048980407416820526,
+      "rejeita_h0": true,
+      "mediana_diferenca_ms": 5.647625,
+      "hodges_lehmann_ms": 5.6923975,
+      "efeito_rank_biserial": 1.0,
+      "magnitude": "grande"
+    },
+    "interpretacao": [
+      "t pareado: t = 30.14, p = 1.93e-23 → rejeita H0 a α = 0.05; d de Cohen d_z = 5.50 (grande).",
+      "Wilcoxon pareado: W+ = 465, p = 1.86e-09 → rejeita H0 a α = 0.05; rank-biserial r = 1.00 (grande).",
+      "Direção: a operação foi mais rápida com cache. Diferença média 5.925 ms (IC 95% 5.523 a 6.327 ms); estimador de Hodges-Lehmann 5.692 ms.",
+      "Os dois testes chegam à mesma conclusão.",
+      "Pressuposto: Shapiro-Wilk rejeita a normalidade das diferenças (p = 1.37e-06, assimetria 2.93); o p-valor do t depende da aproximação pelo TLC.",
+      "Importância prática: tempo médio 5.925 ms sem cache e 0.0004842 ms com cache (razão 1.22e+04×). Significância estatística não é, sozinha, relevância prática."
+    ]
+  },
+  "simulada_h0": {
+    "amostra": "Simulada (RQ104), H0 verdadeira",
+    "n_pares": 30,
+    "t_pareado": {
+      "teste": "t pareado",
+      "compara": "média das diferenças pareadas",
+      "h0": "μd = 0",
+      "h1": "μd ≠ 0",
+      "n": 30,
+      "graus_liberdade": 29,
+      "estatistica": -0.8621718299902766,
+      "estatistica_nome": "t",
+      "p_valor": 0.39566670278499305,
+      "valor_critico": 2.045229642132704,
+      "regiao_rejeicao": "|t| > 2.0452",
+      "alfa": 0.05,
+      "rejeita_h0": false,
+      "media_diferenca_ms": -0.9514481666666667,
+      "desvio_padrao_diferenca_ms": 6.044382396327486,
+      "erro_padrao_ms": 1.1035481948852317,
+      "ic95_media_ms": [
+        -3.2084576463679806,
+        1.305561313034647
+      ],
+      "efeito_d_cohen_dz": -0.15741031991039453,
+      "magnitude": "desprezível",
+      "pressupostos": {
+        "shapiro_w": 0.7715960351445967,
+        "shapiro_p": 2.075277279751199e-05,
+        "normalidade_rejeitada": true,
+        "assimetria": 0.19932804684358837
+      }
+    },
+    "wilcoxon_pareado": {
+      "teste": "Wilcoxon pareado",
+      "compara": "postos dos |d| com sinal (simetria de d em torno de 0)",
+      "h0": "distribuição de d simétrica em torno de 0",
+      "h1": "distribuição de d deslocada de 0",
+      "n": 30,
+      "n_efetivo": 30,
+      "zeros_descartados": 0,
+      "empates_em_abs_d": true,
+      "estatistica": 190.0,
+      "estatistica_nome": "W+",
+      "w_menos": 275.0,
+      "w_scipy_min": 190.0,
+      "w_mais_esperado_h0": 232.5,
+      "z": null,
+      "p_valor": 0.389990558847785,
+      "metodo": "exato (permutação dos sinais, postos médios)",
+      "alfa": 0.05,
+      "regiao_rejeicao": "W+ ≤ 137 ou W+ ≥ 328",
+      "limites_rejeicao": [
+        137.0,
+        328.0
+      ],
+      "nivel_real": 0.048980407416820526,
+      "rejeita_h0": false,
+      "mediana_diferenca_ms": -5.141565,
+      "hodges_lehmann_ms": -0.2736649999999998,
+      "efeito_rank_biserial": -0.1827956989247312,
+      "magnitude": "pequeno"
+    },
+    "interpretacao": [
+      "t pareado: t = -0.8622, p = 0.396 → não rejeita H0 a α = 0.05; d de Cohen d_z = -0.16 (desprezível).",
+      "Wilcoxon pareado: W+ = 190, p = 0.39 → não rejeita H0 a α = 0.05; rank-biserial r = -0.18 (pequeno).",
+      "Os dois testes chegam à mesma conclusão.",
+      "Pressuposto: Shapiro-Wilk rejeita a normalidade das diferenças (p = 2.08e-05, assimetria 0.20); o p-valor do t depende da aproximação pelo TLC."
+    ]
+  },
+  "reais": {
+    "amostra": "Dados reais (RQ102)",
+    "n_pares": 30,
+    "t_pareado": {
+      "teste": "t pareado",
+      "compara": "média das diferenças pareadas",
+      "h0": "μd = 0",
+      "h1": "μd ≠ 0",
+      "n": 30,
+      "graus_liberdade": 29,
+      "estatistica": 24.92703398617805,
+      "estatistica_nome": "t",
+      "p_valor": 3.893327878487732e-21,
+      "valor_critico": 2.045229642132704,
+      "regiao_rejeicao": "|t| > 2.0452",
+      "alfa": 0.05,
+      "rejeita_h0": true,
+      "media_diferenca_ms": 5.999611499999999,
+      "desvio_padrao_diferenca_ms": 1.3182966560079104,
+      "erro_padrao_ms": 0.2406869386597203,
+      "ic95_media_ms": [
+        5.507351438578963,
+        6.491871561421036
+      ],
+      "efeito_d_cohen_dz": 4.5510329353092125,
+      "magnitude": "grande",
+      "pressupostos": {
+        "shapiro_w": 0.8086159662549879,
+        "shapiro_p": 9.449611351974877e-05,
+        "normalidade_rejeitada": true,
+        "assimetria": 1.9383283306610337
+      }
+    },
+    "wilcoxon_pareado": {
+      "teste": "Wilcoxon pareado",
+      "compara": "postos dos |d| com sinal (simetria de d em torno de 0)",
+      "h0": "distribuição de d simétrica em torno de 0",
+      "h1": "distribuição de d deslocada de 0",
+      "n": 30,
+      "n_efetivo": 30,
+      "zeros_descartados": 0,
+      "empates_em_abs_d": false,
+      "estatistica": 465.0,
+      "estatistica_nome": "W+",
+      "w_menos": 0.0,
+      "w_scipy_min": 0.0,
+      "w_mais_esperado_h0": 232.5,
+      "z": null,
+      "p_valor": 1.862645149230957e-09,
+      "metodo": "exato (permutação dos sinais)",
+      "alfa": 0.05,
+      "regiao_rejeicao": "W+ ≤ 137 ou W+ ≥ 328",
+      "limites_rejeicao": [
+        137.0,
+        328.0
+      ],
+      "nivel_real": 0.049710121005773544,
+      "rejeita_h0": true,
+      "mediana_diferenca_ms": 5.6230975,
+      "hodges_lehmann_ms": 5.73452,
+      "efeito_rank_biserial": 1.0,
+      "magnitude": "grande"
+    },
+    "interpretacao": [
+      "t pareado: t = 24.93, p = 3.89e-21 → rejeita H0 a α = 0.05; d de Cohen d_z = 4.55 (grande).",
+      "Wilcoxon pareado: W+ = 465, p = 1.86e-09 → rejeita H0 a α = 0.05; rank-biserial r = 1.00 (grande).",
+      "Direção: a operação foi mais rápida com cache. Diferença média 6 ms (IC 95% 5.507 a 6.492 ms); estimador de Hodges-Lehmann 5.735 ms.",
+      "Os dois testes chegam à mesma conclusão.",
+      "Pressuposto: Shapiro-Wilk rejeita a normalidade das diferenças (p = 9.45e-05, assimetria 1.94); o p-valor do t depende da aproximação pelo TLC.",
+      "Importância prática: tempo médio 6 ms sem cache e 0.0004912 ms com cache (razão 1.22e+04×). Significância estatística não é, sozinha, relevância prática."
+    ]
+  }
+}

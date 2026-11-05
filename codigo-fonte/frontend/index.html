@@ -17,6 +17,7 @@
       <a href="#protocolo">Protocolo</a>
       <a href="#pergunta">Pergunta</a>
       <a href="#hipoteses">Hipóteses</a>
+      <a href="#testes">Testes (G2)</a>
     </nav>
   </header>
 
@@ -132,7 +133,47 @@
         </ul>
       </details>
     </section>
+    <section id="testes" aria-labelledby="titulo-testes">
+      <div class="section-heading"><span aria-hidden="true">05</span><h2 id="titulo-testes">Como os testes funcionam</h2></div>
+      <div id="g2" class="g2">
+        <h3 class="g2-titulo">G2 — Distribuição da estatística de cada teste quando H0 é verdadeira</h3>
+        <div class="g2-opcoes" role="group" aria-label="Amostra de exemplo">
+          <span>Amostra de exemplo:</span>
+          <button type="button" data-amostra="simulada_h0" aria-pressed="true">Simulada com H0 verdadeira</button>
+          <button type="button" data-amostra="simulada_observado" aria-pressed="false">Simulada, cenário observado</button>
+          <button type="button" data-amostra="reais" aria-pressed="false">Dados reais</button>
+        </div>
+        <ul class="g2-legenda" aria-label="Legenda">
+          <li><span class="g2-chave linha serie-t" aria-hidden="true"></span>t pareado</li>
+          <li><span class="g2-chave linha serie-w" aria-hidden="true"></span>Wilcoxon pareado</li>
+          <li><span class="g2-chave regiao" aria-hidden="true"></span>Região de rejeição (α = 0,05, bilateral)</li>
+          <li><span class="g2-chave p" aria-hidden="true"></span>Área do p-valor (cor do teste)</li>
+          <li><span class="g2-chave obs" aria-hidden="true"></span>Estatística observada</li>
+        </ul>
+        <div class="g2-paineis">
+          <figure class="g2-painel" data-teste="t">
+            <figcaption><span class="g2-ponto serie-t" aria-hidden="true"></span>t pareado: distribuição t de Student</figcaption>
+            <svg viewBox="0 0 520 290" role="img"></svg>
+            <div class="g2-dica" hidden></div>
+          </figure>
+          <figure class="g2-painel" data-teste="w">
+            <figcaption><span class="g2-ponto serie-w" aria-hidden="true"></span>Wilcoxon pareado: distribuição exata de W+</figcaption>
+            <svg viewBox="0 0 520 290" role="img"></svg>
+            <div class="g2-dica" hidden></div>
+          </figure>
+        </div>
+        <p class="g2-texto" aria-live="polite"></p>
+        <table class="g2-tabela">
+          <caption></caption>
+          <thead><tr><th scope="col">Teste</th><th scope="col">Estatística observada</th><th scope="col">Região de rejeição</th><th scope="col">p-valor</th><th scope="col">Decisão</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <p class="notation">A amostra “H0 verdadeira” troca ao acaso os rótulos com/sem cache de cada par (RQ104), então o rótulo não tem efeito. A distribuição de W+ é exata, por permutação dos sinais, condicionada aos postos da amostra (com postos médios quando há empates). Estatísticas e p-valores vêm da RQ105; dados gerados por <code>codigo-fonte/analise/rq106_dados_g2.py</code>.</p>
+      </div>
+    </section>
   </main>
   <footer>Laboratório de Experimentação de Software · Cenário e hipóteses <a href="#cenario">Voltar ao início ↑</a></footer>
+  <script src="dados/g2.js"></script>
+  <script src="g2.js"></script>
 </body>
 </html>
