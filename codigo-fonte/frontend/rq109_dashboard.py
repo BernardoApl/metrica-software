@@ -9,6 +9,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))  # permite executar como script
 
 from analise import rq107_dados_visualizacao as rq107  # noqa: E402
+from analise import rq104_gerador_simulacao as rq104  # noqa: E402
+from analise import rq105_testes_pareados as rq105  # noqa: E402
+from analise import rq106_dados_g2 as rq106  # noqa: E402
 from frontend import rq108_g1 as rq108  # noqa: E402
 
 PAGINA = Path(__file__).resolve().parent / 'index.html'
@@ -36,6 +39,9 @@ def main():
     parser.add_argument('--sem-abrir', action='store_true', help='só reconstrói, sem abrir o navegador')
     args = parser.parse_args()
     try:
+        rq104.executar()  # dados simulados oficiais (semente 104), lidos pela #107
+        rq105.executar()  # t pareado e Wilcoxon pareado
+        rq106.executar()  # dados do G2
         origem = construir()
     except (ValueError, OSError, KeyError) as exc:
         sys.exit(f'Dashboard não construído: {exc}')

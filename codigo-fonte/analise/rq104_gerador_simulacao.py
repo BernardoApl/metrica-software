@@ -38,6 +38,7 @@ SAIDA = RAIZ / 'entregas/experimento-cache/RQ104'
 METODO = 'reamostragem_empirica_pareada_estratificada_v1'
 CENARIOS = ('observado', 'h0')
 SEMENTE_PADRAO = 104
+ARQUIVO_RQ107 = 'pares_simulados.csv'
 COLUNAS = ('sim_id', 'par_id_origem', 'ordem_primeiro', 'tempo_sem_cache_ms',
            'tempo_com_cache_ms', 'diferenca_ms', 'rotulos_trocados')
 
@@ -154,6 +155,9 @@ def executar(parametros_json=PARAMETROS, saida=SAIDA, semente=SEMENTE_PADRAO):
             pares_origem_distintos=len({r['par_id_origem'] for r in linhas}),
             rotulos_trocados=sum(r['rotulos_trocados'] for r in linhas),
             media_diferenca_ms=float(dif.mean()), mediana_diferenca_ms=float(np.median(dif)))
+        if cenario == 'observado':
+            # Nome esperado pela #107 (dados do G1): a amostra oficial do cenário observado.
+            gravar_csv(linhas, saida / ARQUIVO_RQ107)
     (saida / 'manifesto.json').write_text(json.dumps(manifesto, ensure_ascii=False, indent=2) + '\n',
                                           encoding='utf-8')
     return manifesto

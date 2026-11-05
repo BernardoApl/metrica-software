@@ -9,8 +9,9 @@ reprocessa os dados com semente fixa, redesenha os gráficos e abre o dashboard:
 python codigo-fonte/frontend/rq109_dashboard.py
 ```
 
-Estado na Sprint 1: cenário (#101) e G1 (#108) integrados; G2 aguarda a #106 e os
-dados simulados oficiais aguardam a #104. [Detalhes e integração](codigo-fonte/frontend/README.md).
+O comando roda, em ordem, o gerador de dados simulados (#104), os testes t pareado
+e Wilcoxon pareado (#105), os dados do G2 (#106) e o G1 (#107/#108). Estado na
+Sprint 1: cenário (#101), G1 (#108) e G2 (#106) integrados. [Detalhes e integração](codigo-fonte/frontend/README.md).
 
 ## Experimento de cache — frontend #101
 
@@ -71,20 +72,11 @@ existir, o script aplica o algoritmo de `parametros_simulacao.json` e registra
 
 Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-weQYHP1wi-tA8pVOEQvs/edit?tab=t.0
 
-## LAB04 — Testes de hipótese: cache (t pareado × Wilcoxon pareado)
+## Experimento de cache — simulação, testes e G2 #104–#106
 
-Cenário, coleta e parâmetros: #101–#103 (`codigo-fonte/frontend`, `codigo-fonte/coleta/README_rq102_tempos_cache.md`, `codigo-fonte/analise/README_rq103_parametros_cache.md`).
-
-```bash
-python codigo-fonte/analise/rq104_gerador_simulacao.py
-python codigo-fonte/analise/rq105_testes_pareados.py
-python codigo-fonte/analise/rq106_dados_g2.py
-python -m http.server 8080 --bind 127.0.0.1 --directory codigo-fonte/frontend
-```
-
-- RQ104 — gerador de dados simulados com semente fixa (104): [README](codigo-fonte/analise/README_rq104_gerador_simulacao.md), saídas em `entregas/experimento-cache/RQ104/`.
-- RQ105 — t pareado e Wilcoxon pareado com interpretação: [README](codigo-fonte/analise/README_rq105_testes_pareados.md), saídas em `entregas/experimento-cache/RQ105/`.
-- RQ106 — G2 no dashboard (http://127.0.0.1:8080/#testes): [README](codigo-fonte/frontend/README.md).
+- #104 — gerador de dados simulados com semente fixa (104): [README](codigo-fonte/analise/README_rq104_gerador_simulacao.md), saídas em `entregas/experimento-cache/RQ104/`.
+- #105 — t pareado e Wilcoxon pareado com interpretação: [README](codigo-fonte/analise/README_rq105_testes_pareados.md), saídas em `entregas/experimento-cache/RQ105/`.
+- #106 — G2 interativo na seção `#testes` do dashboard: [README](codigo-fonte/frontend/README.md).
 
 ## LAB03 — Mineração de métricas DORA
 

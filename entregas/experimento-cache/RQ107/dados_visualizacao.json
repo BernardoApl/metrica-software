@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "execucao_id": "20261103T213612Z_ebe7be6978",
-  "origem_simulados": "contrato_rq103_provisorio",
+  "origem_simulados": "rq104",
   "metodo_simulacao": "reamostragem_empirica_pareada_estratificada_v1",
   "semente": 104,
   "pares_reais": 30,
@@ -257,7 +257,7 @@
             6,
             9
           ],
-          "assimetria": 0.32206853994621404
+          "assimetria": 0.3220685399462141
         }
       },
       "histograma": {
@@ -358,7 +358,7 @@
             2,
             3
           ],
-          "assimetria": 1.9383283306610328
+          "assimetria": 1.9383283306610337
         }
       },
       "simulado": {
