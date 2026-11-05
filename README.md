@@ -40,6 +40,23 @@ Use uma pasta de saída nova a cada reanálise. A entrega já gerada está em
 [RQ103 — relatório](entregas/experimento-cache/RQ103/RELATORIO.md).
 [Execução e contrato da simulação](codigo-fonte/analise/README_rq103_parametros_cache.md).
 
+## Experimento de cache — dados para visualização #107
+
+Junta os pares reais validados pela #103 e um conjunto simulado em um único JSON
+para os gráficos: valores, descritivas de forma (assimetria, extremos) e
+histogramas com as mesmas classes para real e simulado. Semente fixa; reexecutar
+não altera o arquivo.
+
+```powershell
+python codigo-fonte/analise/rq107_dados_visualizacao.py
+```
+
+Saída: `entregas/experimento-cache/RQ107/dados_visualizacao.json`. Os simulados vêm
+de `entregas/experimento-cache/RQ104/pares_simulados.csv` (colunas
+`tempo_sem_cache_ms` e `tempo_com_cache_ms`). Enquanto esse arquivo da #104 não
+existir, o script aplica o algoritmo de `parametros_simulacao.json` e registra
+`origem_simulados: contrato_rq103_provisorio`.
+
 Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-weQYHP1wi-tA8pVOEQvs/edit?tab=t.0
 
 ## LAB03 — Mineração de métricas DORA
