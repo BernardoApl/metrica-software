@@ -4,12 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Cenário experimental | Cache e tempo de execução</title>
+  <title>Dashboard LAB04 | Cache e tempo de execução</title>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Ir para o conteúdo</a>
+  <p class="links-topo">
+    <strong>LAB04: t pareado × Wilcoxon pareado</strong>
+    <a href="https://github.com/BernardoApl/metrica-software">Repositório</a>
+    <a href="https://github.com/BernardoApl/metrica-software/projects">GitHub Projects</a>
+    <a href="https://github.com/BernardoApl/metrica-software#lab04--dashboard-do-experimento-de-cache">Como abrir o dashboard</a>
+  </p>
   <header class="site-header">
     <a class="brand" href="#cenario"><span class="brand-mark" aria-hidden="true">M</span> Métricas de Software</a>
     <nav aria-label="Navegação da seção">
@@ -17,7 +23,8 @@
       <a href="#protocolo">Protocolo</a>
       <a href="#pergunta">Pergunta</a>
       <a href="#hipoteses">Hipóteses</a>
-      <a href="#testes">Testes (G2)</a>
+      <a href="#dados">Os dados</a>
+      <a href="#testes">Os testes</a>
     </nav>
   </header>
 
@@ -35,7 +42,7 @@
         </aside>
       </div>
 
-      <div class="section-heading"><span aria-hidden="true">01</span><h2>Cenário experimental</h2></div>
+      <div class="section-heading"><span aria-hidden="true">1.1</span><h2>Cenário experimental</h2></div>
       <p>O cache permite reutilizar um resultado previamente armazenado. A comparação investiga se essa reutilização altera o tempo da operação, mantendo equivalentes a entrada, a tarefa e o ambiente de execução.</p>
       <div class="treatments">
         <article class="treatment" aria-labelledby="sem-cache">
@@ -57,7 +64,7 @@
     </section>
 
     <section id="protocolo" aria-labelledby="titulo-protocolo">
-      <div class="section-heading"><span aria-hidden="true">02</span><h2 id="titulo-protocolo">Como a comparação é feita</h2></div>
+      <div class="section-heading"><span aria-hidden="true">1.2</span><h2 id="titulo-protocolo">Como a comparação é feita</h2></div>
       <p>O cenário inicial utiliza o CSV de metadados dos 300 repositórios. O coletor salva uma cópia da entrada e verifica se os dois tratamentos retornam o mesmo resultado.</p>
       <dl class="study-facts protocol-facts">
         <div><dt>Amostra de tempos</dt><dd><strong>30 pares</strong><br>60 medições de lotes</dd></div>
@@ -85,7 +92,7 @@
     </section>
 
     <section id="pergunta" aria-labelledby="titulo-pergunta">
-      <div class="section-heading"><span aria-hidden="true">03</span><h2 id="titulo-pergunta">Pergunta de pesquisa</h2></div>
+      <div class="section-heading"><span aria-hidden="true">1.3</span><h2 id="titulo-pergunta">Pergunta de pesquisa</h2></div>
       <blockquote>Reutilizar em memória a agregação do CSV por linguagem altera o tempo médio por operação, em comparação com recalcular essa agregação a cada execução?</blockquote>
       <div class="comparison">
         <div><h3>Compare pares, não execuções desconectadas</h3><p>Cada observação sem cache deve estar ligada à observação com cache da mesma tarefa e entrada. A ordem dos tratamentos precisa ser controlada para reduzir efeitos de aquecimento e variação do ambiente.</p></div>
@@ -99,7 +106,7 @@
     </section>
 
     <section id="hipoteses" aria-labelledby="titulo-hipoteses">
-      <div class="section-heading"><span aria-hidden="true">04</span><h2 id="titulo-hipoteses">Hipóteses H0 e H1</h2></div>
+      <div class="section-heading"><span aria-hidden="true">1.4</span><h2 id="titulo-hipoteses">Hipóteses H0 e H1</h2></div>
       <p>Formulação proposta na #101, antes da coleta: <strong>bilateral</strong>, considerando tanto redução quanto aumento do tempo. A execução da #102 não confirma nem rejeita essas hipóteses.</p>
       <div class="hypotheses">
         <article aria-labelledby="titulo-h0">
@@ -133,8 +140,35 @@
         </ul>
       </details>
     </section>
+    <section id="dados" aria-labelledby="titulo-dados">
+      <div class="section-heading"><span aria-hidden="true">2</span><h2 id="titulo-dados">Os dados</h2></div>
+      <!-- G1:INICIO (gerado por rq109_dashboard.py) -->
+<p>Sem cache, os tempos reais são assimétricos à direita (coeficiente de assimetria 1,94), com mediana de 5,62 ms e máximo de 10,56 ms; os valores extremos são os pares 1, 2, 3, os primeiros da coleta. Com cache, os tempos ficam perto de 0,49 µs, cerca de 11.000 vezes menores, e quase simétricos (0,08). Como os dados não parecem normais, a simulação não impõe uma distribuição: sorteia pares observados completos, com reposição, mantendo 15 pares por ordem de execução e semente 104; por isso a mediana simulada fica próxima (5,65 ms), mas os valores só repetem os observados. A diferença d, que os testes analisam, tem quase a mesma forma do tempo sem cache, porque o tempo com cache é desprezível perto dele.</p>
+<figure class="grafico">
+  <img src="graficos/g1.svg" alt="Histogramas em seis painéis: tempo sem cache, tempo com cache e diferença pareada, com dados reais à esquerda e simulados à direita. Os valores exatos estão na tabela a seguir.">
+</figure>
+<details>
+  <summary>Ver os valores em tabela</summary>
+  <div class="tabela-rolavel">
+    <table>
+      <thead><tr><th scope="col">Série</th><th scope="col">Origem</th><th scope="col">n</th><th scope="col">Média</th><th scope="col">Mediana</th><th scope="col">Desvio padrão</th><th scope="col">Mínimo</th><th scope="col">Máximo</th><th scope="col">Assimetria</th><th scope="col">Extremos</th></tr></thead>
+      <tbody>
+<tr><th scope="row">Sem cache (ms)</th><td>Real</td><td>30</td><td>6,00</td><td>5,62</td><td>1,32</td><td>4,31</td><td>10,56</td><td>1,94</td><td>3</td></tr>
+<tr><th scope="row">Sem cache (ms)</th><td>Simulado</td><td>30</td><td>5,93</td><td>5,65</td><td>1,08</td><td>4,90</td><td>10,56</td><td>2,93</td><td>1</td></tr>
+<tr><th scope="row">Com cache (µs)</th><td>Real</td><td>30</td><td>0,49</td><td>0,49</td><td>0,08</td><td>0,34</td><td>0,69</td><td>0,08</td><td>0</td></tr>
+<tr><th scope="row">Com cache (µs)</th><td>Simulado</td><td>30</td><td>0,48</td><td>0,49</td><td>0,08</td><td>0,34</td><td>0,69</td><td>0,32</td><td>2</td></tr>
+<tr><th scope="row">Diferença d = sem − com (ms)</th><td>Real</td><td>30</td><td>6,00</td><td>5,62</td><td>1,32</td><td>4,31</td><td>10,56</td><td>1,94</td><td>3</td></tr>
+<tr><th scope="row">Diferença d = sem − com (ms)</th><td>Simulado</td><td>30</td><td>5,92</td><td>5,65</td><td>1,08</td><td>4,90</td><td>10,56</td><td>2,93</td><td>1</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="notation">Extremos: valores fora das cercas de 1,5 × IQR, todos mantidos. Dados: <code>entregas/experimento-cache/RQ107/dados_visualizacao.json</code>.</p>
+</details>
+<!-- G1:FIM -->
+    </section>
+
     <section id="testes" aria-labelledby="titulo-testes">
-      <div class="section-heading"><span aria-hidden="true">05</span><h2 id="titulo-testes">Como os testes funcionam</h2></div>
+      <div class="section-heading"><span aria-hidden="true">3</span><h2 id="titulo-testes">Como os testes funcionam</h2></div>
       <div id="g2" class="g2">
         <h3 class="g2-titulo">G2 — Distribuição da estatística de cada teste quando H0 é verdadeira</h3>
         <div class="g2-opcoes" role="group" aria-label="Amostra de exemplo">
@@ -171,8 +205,13 @@
         <p class="notation">A amostra “H0 verdadeira” troca ao acaso os rótulos com/sem cache de cada par (RQ104), então o rótulo não tem efeito. A distribuição de W+ é exata, por permutação dos sinais, condicionada aos postos da amostra (com postos médios quando há empates). Estatísticas e p-valores vêm da RQ105; dados gerados por <code>codigo-fonte/analise/rq106_dados_g2.py</code>.</p>
       </div>
     </section>
+
+    <section id="proximas" aria-labelledby="titulo-proximas">
+      <div class="section-heading"><span aria-hidden="true">4–7</span><h2 id="titulo-proximas">Próximas seções</h2></div>
+      <p>Erro tipo I (G3) e poder (G4) entram na Sprint 2. A tabela com os testes nos dados reais e a conclusão entram na entrega final.</p>
+    </section>
   </main>
-  <footer>Laboratório de Experimentação de Software · Cenário e hipóteses <a href="#cenario">Voltar ao início ↑</a></footer>
+  <footer>Laboratório de Experimentação de Software · Dashboard do LAB04 <a href="#cenario">Voltar ao início ↑</a></footer>
   <script src="dados/g2.js"></script>
   <script src="g2.js"></script>
 </body>

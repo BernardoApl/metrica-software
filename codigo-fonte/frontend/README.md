@@ -32,11 +32,27 @@ Não há gráficos nem chamadas a backends nesta entrega. Os expansores servem a
 
 Fontes estatísticas: [SciPy ttest_rel](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.ttest_rel.html) e [SciPy wilcoxon](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.wilcoxon.html).
 
+## Issues #108 e #109: G1 e dashboard
+
+`rq109_dashboard.py` executa a #107 e a #108, atualiza o bloco do G1 em `index.html` e abre a página:
+
+```powershell
+python codigo-fonte/frontend/rq109_dashboard.py
+```
+
+Só o trecho entre os marcadores `G1:INICIO` e `G1:FIM` é gerado; o resto da página continua editável à mão. Use `--sem-abrir` para apenas reconstruir.
+
+### Integração
+
+- **#104:** o gerador grava `entregas/experimento-cache/RQ104/pares_simulados.csv` (amostra do cenário observado), lido pela #107; o aviso de dados provisórios saiu do G1.
+- **#106:** o G2 é interativo (SVG desenhado por `g2.js` a partir de `dados/g2.js`), em vez de um `graficos/g2.svg` estático; ver a seção abaixo.
+- **Cores:** t pareado `#2a78d6` e Wilcoxon `#eb6834` em G2 a G4. O G1 usa `#6250d6` (real) e `#1baf7a` (simulado), para não confundir origem dos dados com teste.
+
 ## Issue #106 — G2: distribuições sob H0, regiões de rejeição e p-valores
 
-Seção `#testes` ("05 Como os testes funcionam"), desenhada em SVG por `g2.js` (JavaScript puro, sem bibliotecas nem CDN). Os dados vêm de `dados/g2.js`, gerado por [`rq106_dados_g2.py`](../analise/rq106_dados_g2.py) a partir das RQ104 (amostras simuladas) e RQ105 (testes). É um `.js` que atribui `window.G2_DADOS`, então a página também abre por `file://`.
+Seção `#testes` ("3 Como os testes funcionam"), desenhada em SVG por `g2.js` (JavaScript puro, sem bibliotecas nem CDN). Os dados vêm de `dados/g2.js`, gerado por [`rq106_dados_g2.py`](../analise/rq106_dados_g2.py) a partir das RQ104 (amostras simuladas) e RQ105 (testes). É um `.js` que atribui `window.G2_DADOS`, então a página também abre por `file://`.
 
-Para regenerar os dados (depois de mudar a RQ104 ou a RQ105):
+O `rq109_dashboard.py` já roda as RQ104, RQ105 e RQ106 antes do G1. Para regenerar só o G2:
 
 ```powershell
 python codigo-fonte/analise/rq104_gerador_simulacao.py
