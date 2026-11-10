@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "questao": "Q1",
+  "cenario": "h0",
+  "status": "concluida",
+  "repeticoes": 10000,
+  "n_pares": 30,
+  "semente": 110,
+  "alfa": 0.05,
+  "alternativa": "bilateral",
+  "criterio_rejeicao": "p < alfa",
+  "gerador": "numpy.random.default_rng / PCG64",
+  "parametros_sha256": "95128527c81b62450e656a0aacb450ec648bd89892b231a775c7c9272ab02f6c",
+  "origem": {
+    "execucao_id": "20261103T213612Z_ebe7be6978",
+    "manifesto_sha256": "b09bb5ebc291bf9c78aa31659ff7428f880bff19162a73889724418a83289623",
+    "artefatos_sha256": {
+      "aquecimentos.csv": "7612accbd3ee4730cf4c3c2fc5a534f26b73aa7205d4ca66f6a68c4c63e7d8ff",
+      "entrada.csv": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+      "pares.csv": "e3cb7863d4681ceae8db5161b96435299cdb8ce1e29e01a5c6769533997d66e4",
+      "resultado.json": "e124bcab2d0a6714bf1f8ad49c8c4b6e15f965286908a02cd2b6269b650b19e0",
+      "tempos.csv": "47fad838ad5946e25ebf4f62faeb8ecf6a18059549d4f8df60c1e7fb5791f937"
+    },
+    "entrada_sha256": "77655d6b4a95abc380d38acafb4855769797f3ef56ae0e59248ad6542eb66343",
+    "coletor_sha256": "6bf81a3f4c56a2f337003276f8883a439626e13c70785d1fb6b86480e2f43b05",
+    "analise_sha256": "9e8535ddbe033c509ec05c170a3ab9fb6778ae10a906ab22e6f2584da1dc9111",
+    "ambiente_coleta": {
+      "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+      "plataforma": "Windows-11-10.0.26200-SP0",
+      "arquitetura": "AMD64",
+      "gc_habilitado": true
+    }
+  },
+  "versoes": {
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1"
+  },
+  "codigo_sha256": {
+    "rq110_erro_tipo_i.py": "b295c93423c93da52ad6e2486fe8af81832dbb4a471edbdd61169f2d1b187a5f",
+    "rq104_gerador_simulacao.py": "b8971ea3aa4f08dd0f754d4d2f57b99cdd4fb8d149b51c5a742f870e3b33413d",
+    "rq105_testes_pareados.py": "351f799e53cbda1b4678f4a3b062d018af96782dce8f65456c1479901ad05eee"
+  },
+  "resultados": {
+    "t_pareado": {
+      "repeticoes_solicitadas": 10000,
+      "repeticoes_validas": 10000,
+      "falhas": 0,
+      "rejeicoes_h0": 544,
+      "erro_tipo_i": 0.0544,
+      "erro_padrao_monte_carlo": 0.0022680529094357563,
+      "ic95_clopper_pearson": [
+        0.050035001725441446,
+        0.05902672717334968
+      ],
+      "alfa_nominal": 0.05,
+      "desvio_do_nominal": 0.004399999999999994,
+      "alfa_no_ic95": false
+    },
+    "wilcoxon_pareado": {
+      "repeticoes_solicitadas": 10000,
+      "repeticoes_validas": 10000,
+      "falhas": 0,
+      "rejeicoes_h0": 526,
+      "erro_tipo_i": 0.0526,
+      "erro_padrao_monte_carlo": 0.0022323359962156237,
+      "ic95_clopper_pearson": [
+        0.04830552929882021,
+        0.05715731787779607
+      ],
+      "alfa_nominal": 0.05,
+      "desvio_do_nominal": 0.002599999999999998,
+      "alfa_no_ic95": true
+    }
+  },
+  "artefatos_sha256": {
+    "repeticoes.csv": "fff43bd3d6055c06fa38e2812dc45c7c91fc643b76570de771d0a4de2ee67976",
+    "parametros_origem.json": "95128527c81b62450e656a0aacb450ec648bd89892b231a775c7c9272ab02f6c",
+    "RELATORIO.md": "45f509fda788712d229f92c0e32fb03e24fc2ae6c0f38249a359848d06e9ef85"
+  }
+}

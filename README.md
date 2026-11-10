@@ -1,5 +1,18 @@
 # metrica-software
 
+## Q1 — Erro Tipo I (#110)
+
+Executa 10.000 simulações sob H0 para os testes t e Wilcoxon pareados, com
+semente fixa, registro dos p-valores e intervalo de confiança da taxa de rejeição.
+
+```powershell
+python codigo-fonte/analise/rq110_erro_tipo_i.py
+```
+
+[Instruções e método](codigo-fonte/analise/README_rq110_erro_tipo_i.md) ·
+[Resultados da Q1](entregas/experimento-cache/RQ110/RELATORIO.md).
+Para repetir, escolha outra pasta com `--saida`; resultados existentes são preservados.
+
 ## LAB04 — Dashboard do experimento de cache
 
 Com as dependências instaladas (`pip install -r requirements.txt`), este comando
