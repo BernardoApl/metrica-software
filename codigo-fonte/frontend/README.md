@@ -1,5 +1,17 @@
 # Frontend do experimento de cache
 
+## G4 — Poder (#114)
+
+A seção `#poder` mostra as curvas de poder da #113: quatro painéis SVG estáticos (base, amostra pequena, outliers e assimetria), cada um com o t pareado (`#2a78d6`) e o Wilcoxon pareado (`#eb6834`) — as mesmas cores do G2 e do G3. Linha cheia: α = 0,05; linha fina tracejada: α = 0,01 (pergunta 12 da apresentação). Referências tracejadas em 5% (erro tipo I) e 80% (poder usual). Eixo x: tamanho do efeito d<sub>z</sub>; eixo y: rejeições de H0 (%). Cada ponto tem um `<title>` com o valor, o IC 95% e o δ em ms, mostrado ao passar o mouse, sem JavaScript.
+
+Abaixo dos painéis há um texto gerado a partir dos números (qual teste detecta melhor e onde a vantagem muda de lado), uma tabela-resumo por cenário (erro tipo I, d<sub>z</sub> para 80% de poder e quem detecta melhor) e uma explicação expansível de como os cenários foram construídos.
+
+```powershell
+python codigo-fonte/frontend/rq114_g4.py
+```
+
+Lê `entregas/experimento-cache/RQ113/resultados.json` e não refaz as simulações (cerca de 2 minutos; rode `python codigo-fonte/analise/rq113_poder.py` para isso). Valida as proporções contra as contagens e os intervalos, e substitui somente o bloco entre `G4:INICIO` e `G4:FIM`. Também participa do `rq109_dashboard.py`.
+
 ## Resultados reais (#112)
 
 A seção `#resultados-reais` apresenta os 30 pares reais da #102: tempos médios,

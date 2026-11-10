@@ -178,3 +178,27 @@ polygon.g2-p-area { opacity: .55; }
   .g2-paineis { grid-template-columns: 1fr; }
   .g2-tabela { display: block; overflow-x: auto; }
 }
+
+/* G4 (RQ114): curvas de poder, mesmas cores do G2 e G3 */
+.g4-legenda { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; list-style: none; padding: 0; margin: 1rem 0; font-size: .85rem; color: var(--muted); }
+.g4-legenda li { display: flex; align-items: center; gap: .45rem; margin: 0; }
+.g4-chave { display: inline-block; width: 18px; height: 3px; border-radius: 2px; }
+.g4-chave.tracejada { background: repeating-linear-gradient(90deg, var(--muted) 0 4px, transparent 4px 7px); height: 2px; }
+.g4-chave.referencia { background: repeating-linear-gradient(90deg, #8995a0 0 3px, transparent 3px 6px); height: 1px; }
+.g4-paineis { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.g4-painel { margin: 0; background: white; border: 1px solid var(--line); border-radius: 10px; padding: 14px 10px 6px; }
+.g4-painel figcaption { font-size: .9rem; padding: 0 6px 6px; line-height: 1.4; }
+.g4-painel figcaption span { color: var(--muted); font-size: .8rem; }
+.g4-svg { display: block; width: 100%; height: auto; font: 11px system-ui, sans-serif; fill: var(--muted); overflow: visible; }
+.g4-grade { stroke: var(--grade); }
+.g4-base { stroke: #9aa7b2; }
+.g4-ref { stroke: #8995a0; stroke-dasharray: 3 3; }
+.g4-ref-rotulo { font-size: 10px; }
+.g4-rotulo { font-size: 11.5px; }
+.g4-linha { fill: none; stroke-width: 2; stroke-linejoin: round; }
+.g4-linha-01 { fill: none; stroke-width: 1.25; stroke-dasharray: 4 3; opacity: .75; }
+.g4-ponto { stroke: white; stroke-width: 1.5; }
+.g4-ponto:hover { stroke: var(--ink); }
+.g4-explicacao { margin-top: 24px; }
+@media (max-width: 760px) { .g4-paineis { grid-template-columns: 1fr; } }
+#poder caption { text-align: left; font-weight: 600; padding-bottom: 12px; }

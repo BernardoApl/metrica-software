@@ -26,6 +26,7 @@
       <a href="#dados">Os dados</a>
       <a href="#testes">Os testes</a>
       <a href="#erro-tipo-i">Erro Tipo I</a>
+      <a href="#poder">Poder</a>
       <a href="#resultados-reais">Resultados reais</a>
     </nav>
   </header>
@@ -249,6 +250,207 @@
 <p class="notation">Fonte: simulação Q1 da #110, com H0 construída por trocas aleatórias dos rótulos. Resultados estáticos da execução salva; o gráfico não executa novas simulações.</p>
 <!-- G3:FIM -->
     </section>
+    <section id="poder" aria-labelledby="titulo-poder">
+      <div class="section-heading"><span aria-hidden="true">5</span><h2 id="titulo-poder">G4 — Poder</h2></div>
+      <!-- G4:INICIO -->
+<p class="origem-selo">SIMULAÇÃO · efeito conhecido somado às diferenças</p>
+<p>Cada ponto é a proporção de 10.000 amostras simuladas em que o teste rejeitou H0; no efeito zero, essa proporção é o erro tipo I, e a partir dele é o poder. Com as diferenças reais simetrizadas (base, 30 pares), o Wilcoxon pareado detecta melhor: 80% de poder exige d<sub>z</sub> ≈ 0,53 no t e ≈ 0,45 no Wilcoxon, porque os extremos reais inflam o desvio padrão usado pelo t. A vantagem do Wilcoxon cresce com outliers (até 26,3 p.p.) e muda de lado na assimetria: ali o t tem mais poder (até 20,7 p.p.), e o Wilcoxon rejeita 21,8% das amostras sem efeito na média, porque testa a simetria (mediana), não a média; com 10 pares, os dois perdem poder (79,4% e 80,1% em d<sub>z</sub> = 1).</p>
+<ul class="g4-legenda" aria-label="Legenda do G4">
+<li><span class="g4-chave" style="background:#2a78d6" aria-hidden="true"></span>t pareado</li>
+<li><span class="g4-chave" style="background:#eb6834" aria-hidden="true"></span>Wilcoxon pareado</li>
+<li><span class="g4-chave tracejada" aria-hidden="true"></span>Linha fina tracejada: mesmo teste com α = 0,01</li>
+<li><span class="g4-chave referencia" aria-hidden="true"></span>Referências de 5% (erro tipo I) e 80% (poder usual)</li>
+</ul>
+<div class="g4-paineis">
+<figure class="g4-painel"><figcaption><strong>Base (30 pares)</strong> · Q2<br><span>Nenhuma: variação real das diferenças, simetrizada em torno de zero</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g4-base-t g4-base-d">
+<title id="g4-base-t">Poder — Base (30 pares)</title><desc id="g4-base-d">Proporção de rejeições por tamanho de efeito no cenário Base (30 pares), 30 pares. t pareado: 4,5% em d_z = 0 e 99,9% em d_z = 1,0. Wilcoxon pareado: 4,9% em d_z = 0 e 100,0% em d_z = 1,0.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">25%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">50%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">75%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">100%</text>
+<path d="M54 181.2 H308" class="g4-ref"/><text x="308" y="177.2" text-anchor="end" class="g4-ref-rotulo">5%</text>
+<path d="M54 49.2 H308" class="g4-ref"/><text x="308" y="45.2" text-anchor="end" class="g4-ref-rotulo">80%</text>
+<text x="54.0" y="206" text-anchor="middle">0,0</text>
+<text x="104.8" y="206" text-anchor="middle">0,2</text>
+<text x="155.6" y="206" text-anchor="middle">0,4</text>
+<text x="206.4" y="206" text-anchor="middle">0,6</text>
+<text x="257.2" y="206" text-anchor="middle">0,8</text>
+<text x="308.0" y="206" text-anchor="middle">1,0</text>
+<path d="M54 190.0 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Rejeições de H0 (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Tamanho do efeito d<tspan baseline-shift="sub" font-size="9">z</tspan> (adimensional)</text>
+<polyline points="54.0,188.7 79.4,186.6 104.8,177.7 130.2,157.7 155.6,128.9 181.0,96.5 206.4,65.1 257.2,27.7 308.0,16.1" class="g4-linha-01" stroke="#2a78d6"/>
+<polyline points="54.0,182.0 79.4,174.8 104.8,154.4 130.2,122.1 155.6,87.7 181.0,56.1 206.4,35.8 257.2,17.3 308.0,14.3" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="182.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,0 (δ = 0,000 ms): 4,5% de rejeições com α = 0,05 (IC 95% 4,1% a 5,0%); 0,8% com α = 0,01. 455 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="174.8" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,1 (δ = 0,130 ms): 8,6% de rejeições com α = 0,05 (IC 95% 8,1% a 9,2%); 1,9% com α = 0,01. 861 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="154.4" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,2 (δ = 0,259 ms): 20,2% de rejeições com α = 0,05 (IC 95% 19,4% a 21,0%); 7,0% com α = 0,01. 2023 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="122.1" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,3 (δ = 0,389 ms): 38,6% de rejeições com α = 0,05 (IC 95% 37,6% a 39,6%); 18,4% com α = 0,01. 3859 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="87.7" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,4 (δ = 0,518 ms): 58,1% de rejeições com α = 0,05 (IC 95% 57,2% a 59,1%); 34,7% com α = 0,01. 5813 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="56.1" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,5 (δ = 0,648 ms): 76,1% de rejeições com α = 0,05 (IC 95% 75,2% a 76,9%); 53,1% com α = 0,01. 7607 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="35.8" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,6 (δ = 0,778 ms): 87,6% de rejeições com α = 0,05 (IC 95% 87,0% a 88,3%); 71,0% com α = 0,01. 8762 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="17.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,8 (δ = 1,037 ms): 98,1% de rejeições com α = 0,05 (IC 95% 97,8% a 98,4%); 92,2% com α = 0,01. 9811 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="14.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 1,0 (δ = 1,296 ms): 99,9% de rejeições com α = 0,05 (IC 95% 99,8% a 99,9%); 98,8% com α = 0,01. 9985 de 10000 amostras.</title></circle>
+<polyline points="54.0,188.2 79.4,183.5 104.8,172.6 130.2,146.2 155.6,106.7 181.0,70.2 206.4,45.9 257.2,17.7 308.0,14.8" class="g4-linha-01" stroke="#eb6834"/>
+<polyline points="54.0,181.4 79.4,167.8 104.8,143.7 130.2,104.7 155.6,62.2 181.0,37.0 206.4,23.9 257.2,14.5 308.0,14.1" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="181.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,0 (δ = 0,000 ms): 4,9% de rejeições com α = 0,05 (IC 95% 4,5% a 5,3%); 1,0% com α = 0,01. 487 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="167.8" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,1 (δ = 0,130 ms): 12,6% de rejeições com α = 0,05 (IC 95% 12,0% a 13,3%); 3,7% com α = 0,01. 1263 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="143.7" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,2 (δ = 0,259 ms): 26,3% de rejeições com α = 0,05 (IC 95% 25,4% a 27,2%); 9,9% com α = 0,01. 2628 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="104.7" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,3 (δ = 0,389 ms): 48,5% de rejeições com α = 0,05 (IC 95% 47,5% a 49,5%); 24,9% com α = 0,01. 4848 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="62.2" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,4 (δ = 0,518 ms): 72,6% de rejeições com α = 0,05 (IC 95% 71,7% a 73,5%); 47,3% com α = 0,01. 7260 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="37.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,5 (δ = 0,648 ms): 86,9% de rejeições com α = 0,05 (IC 95% 86,2% a 87,6%); 68,0% com α = 0,01. 8691 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="23.9" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,6 (δ = 0,778 ms): 94,4% de rejeições com α = 0,05 (IC 95% 93,9% a 94,8%); 81,8% com α = 0,01. 9439 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="14.5" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,8 (δ = 1,037 ms): 99,7% de rejeições com α = 0,05 (IC 95% 99,6% a 99,8%); 97,9% com α = 0,01. 9971 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="14.1" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 1,0 (δ = 1,296 ms): 100,0% de rejeições com α = 0,05 (IC 95% 99,9% a 100,0%); 99,6% com α = 0,01. 9995 de 10000 amostras.</title></circle>
+</svg>
+</figure>
+<figure class="g4-painel"><figcaption><strong>Amostra pequena (10 pares)</strong> · Q3<br><span>N = 10: o t depende mais da normalidade; o Wilcoxon fica mais discreto</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g4-amostra_pequena-t g4-amostra_pequena-d">
+<title id="g4-amostra_pequena-t">Poder — Amostra pequena (10 pares)</title><desc id="g4-amostra_pequena-d">Proporção de rejeições por tamanho de efeito no cenário Amostra pequena (10 pares), 10 pares. t pareado: 3,8% em d_z = 0 e 79,4% em d_z = 1,0. Wilcoxon pareado: 4,6% em d_z = 0 e 80,1% em d_z = 1,0.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">25%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">50%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">75%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">100%</text>
+<path d="M54 181.2 H308" class="g4-ref"/><text x="308" y="177.2" text-anchor="end" class="g4-ref-rotulo">5%</text>
+<path d="M54 49.2 H308" class="g4-ref"/><text x="308" y="45.2" text-anchor="end" class="g4-ref-rotulo">80%</text>
+<text x="54.0" y="206" text-anchor="middle">0,0</text>
+<text x="104.8" y="206" text-anchor="middle">0,2</text>
+<text x="155.6" y="206" text-anchor="middle">0,4</text>
+<text x="206.4" y="206" text-anchor="middle">0,6</text>
+<text x="257.2" y="206" text-anchor="middle">0,8</text>
+<text x="308.0" y="206" text-anchor="middle">1,0</text>
+<path d="M54 190.0 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Rejeições de H0 (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Tamanho do efeito d<tspan baseline-shift="sub" font-size="9">z</tspan> (adimensional)</text>
+<polyline points="54.0,188.8 79.4,188.5 104.8,186.6 130.2,182.4 155.6,174.7 181.0,162.9 206.4,147.7 257.2,112.8 308.0,84.6" class="g4-linha-01" stroke="#2a78d6"/>
+<polyline points="54.0,183.3 79.4,180.9 104.8,173.2 130.2,160.8 155.6,142.6 181.0,122.2 206.4,101.2 257.2,70.5 308.0,50.3" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="183.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,0 (δ = 0,000 ms): 3,8% de rejeições com α = 0,05 (IC 95% 3,4% a 4,2%); 0,7% com α = 0,01. 380 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="180.9" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,1 (δ = 0,130 ms): 5,2% de rejeições com α = 0,05 (IC 95% 4,7% a 5,6%); 0,9% com α = 0,01. 517 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="173.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,2 (δ = 0,259 ms): 9,5% de rejeições com α = 0,05 (IC 95% 9,0% a 10,1%); 1,9% com α = 0,01. 952 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="160.8" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,3 (δ = 0,389 ms): 16,6% de rejeições com α = 0,05 (IC 95% 15,8% a 17,3%); 4,3% com α = 0,01. 1657 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="142.6" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,4 (δ = 0,518 ms): 26,9% de rejeições com α = 0,05 (IC 95% 26,0% a 27,8%); 8,7% com α = 0,01. 2691 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="122.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,5 (δ = 0,648 ms): 38,5% de rejeições com α = 0,05 (IC 95% 37,6% a 39,5%); 15,4% com α = 0,01. 3851 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="101.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,6 (δ = 0,778 ms): 50,5% de rejeições com α = 0,05 (IC 95% 49,5% a 51,4%); 24,0% com α = 0,01. 5046 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="70.5" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,8 (δ = 1,037 ms): 67,9% de rejeições com α = 0,05 (IC 95% 67,0% a 68,8%); 43,9% com α = 0,01. 6792 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="50.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 1,0 (δ = 1,296 ms): 79,4% de rejeições com α = 0,05 (IC 95% 78,6% a 80,2%); 59,9% com α = 0,01. 7937 de 10000 amostras.</title></circle>
+<polyline points="54.0,188.5 79.4,187.7 104.8,185.7 130.2,181.0 155.6,171.7 181.0,158.2 206.4,144.2 257.2,100.4 308.0,81.0" class="g4-linha-01" stroke="#eb6834"/>
+<polyline points="54.0,182.0 79.4,177.8 104.8,171.3 130.2,159.0 155.6,141.9 181.0,125.0 206.4,106.4 257.2,64.8 308.0,49.1" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="182.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,0 (δ = 0,000 ms): 4,6% de rejeições com α = 0,05 (IC 95% 4,2% a 5,0%); 0,9% com α = 0,01. 456 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="177.8" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,1 (δ = 0,130 ms): 7,0% de rejeições com α = 0,05 (IC 95% 6,5% a 7,5%); 1,3% com α = 0,01. 695 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="171.3" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,2 (δ = 0,259 ms): 10,6% de rejeições com α = 0,05 (IC 95% 10,0% a 11,3%); 2,5% com α = 0,01. 1064 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="159.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,3 (δ = 0,389 ms): 17,6% de rejeições com α = 0,05 (IC 95% 16,9% a 18,4%); 5,1% com α = 0,01. 1764 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="141.9" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,4 (δ = 0,518 ms): 27,4% de rejeições com α = 0,05 (IC 95% 26,5% a 28,2%); 10,4% com α = 0,01. 2735 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="125.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,5 (δ = 0,648 ms): 36,9% de rejeições com α = 0,05 (IC 95% 36,0% a 37,9%); 18,1% com α = 0,01. 3691 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="106.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,6 (δ = 0,778 ms): 47,5% de rejeições com α = 0,05 (IC 95% 46,5% a 48,5%); 26,0% com α = 0,01. 4752 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="64.8" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,8 (δ = 1,037 ms): 71,1% de rejeições com α = 0,05 (IC 95% 70,2% a 72,0%); 50,9% com α = 0,01. 7113 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="49.1" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 1,0 (δ = 1,296 ms): 80,1% de rejeições com α = 0,05 (IC 95% 79,3% a 80,9%); 61,9% com α = 0,01. 8008 de 10000 amostras.</title></circle>
+</svg>
+</figure>
+<figure class="g4-painel"><figcaption><strong>Outliers (10% × 5)</strong> · Q3<br><span>Cauda pesada: 10% das diferenças com magnitude 5 vezes maior</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g4-outliers-t g4-outliers-d">
+<title id="g4-outliers-t">Poder — Outliers (10% × 5)</title><desc id="g4-outliers-d">Proporção de rejeições por tamanho de efeito no cenário Outliers (10% × 5), 30 pares. t pareado: 3,6% em d_z = 0 e 97,0% em d_z = 1,0. Wilcoxon pareado: 4,8% em d_z = 0 e 100,0% em d_z = 1,0.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">25%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">50%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">75%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">100%</text>
+<path d="M54 181.2 H308" class="g4-ref"/><text x="308" y="177.2" text-anchor="end" class="g4-ref-rotulo">5%</text>
+<path d="M54 49.2 H308" class="g4-ref"/><text x="308" y="45.2" text-anchor="end" class="g4-ref-rotulo">80%</text>
+<text x="54.0" y="206" text-anchor="middle">0,0</text>
+<text x="104.8" y="206" text-anchor="middle">0,2</text>
+<text x="155.6" y="206" text-anchor="middle">0,4</text>
+<text x="206.4" y="206" text-anchor="middle">0,6</text>
+<text x="257.2" y="206" text-anchor="middle">0,8</text>
+<text x="308.0" y="206" text-anchor="middle">1,0</text>
+<path d="M54 190.0 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Rejeições de H0 (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Tamanho do efeito d<tspan baseline-shift="sub" font-size="9">z</tspan> (adimensional)</text>
+<polyline points="54.0,189.2 79.4,185.2 104.8,167.8 130.2,135.0 155.6,97.6 181.0,68.5 206.4,49.9 257.2,31.8 308.0,24.1" class="g4-linha-01" stroke="#2a78d6"/>
+<polyline points="54.0,183.7 79.4,170.7 104.8,138.8 130.2,96.0 155.6,63.3 181.0,44.0 206.4,34.2 257.2,24.3 308.0,19.2" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="183.7" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,0 (δ = 0,000 ms): 3,6% de rejeições com α = 0,05 (IC 95% 3,2% a 3,9%); 0,5% com α = 0,01. 356 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="170.7" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,1 (δ = 0,239 ms): 11,0% de rejeições com α = 0,05 (IC 95% 10,4% a 11,6%); 2,8% com α = 0,01. 1096 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="138.8" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,2 (δ = 0,478 ms): 29,1% de rejeições com α = 0,05 (IC 95% 28,2% a 30,0%); 12,6% com α = 0,01. 2910 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="96.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,3 (δ = 0,717 ms): 53,4% de rejeições com α = 0,05 (IC 95% 52,4% a 54,4%); 31,2% com α = 0,01. 5339 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="63.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,4 (δ = 0,956 ms): 72,0% de rejeições com α = 0,05 (IC 95% 71,1% a 72,9%); 52,5% com α = 0,01. 7198 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="44.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,5 (δ = 1,195 ms): 82,9% de rejeições com α = 0,05 (IC 95% 82,2% a 83,7%); 69,0% com α = 0,01. 8294 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="34.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,6 (δ = 1,434 ms): 88,5% de rejeições com α = 0,05 (IC 95% 87,9% a 89,1%); 79,6% com α = 0,01. 8852 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="24.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,8 (δ = 1,912 ms): 94,1% de rejeições com α = 0,05 (IC 95% 93,6% a 94,6%); 89,9% com α = 0,01. 9412 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="19.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 1,0 (δ = 2,390 ms): 97,0% de rejeições com α = 0,05 (IC 95% 96,7% a 97,4%); 94,3% com α = 0,01. 9703 de 10000 amostras.</title></circle>
+<polyline points="54.0,188.4 79.4,177.5 104.8,136.3 130.2,89.5 155.6,42.2 181.0,28.0 206.4,21.3 257.2,15.2 308.0,14.1" class="g4-linha-01" stroke="#eb6834"/>
+<polyline points="54.0,181.5 79.4,154.7 104.8,93.7 130.2,49.7 155.6,22.6 181.0,17.3 206.4,15.4 257.2,14.1 308.0,14.0" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="181.5" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,0 (δ = 0,000 ms): 4,8% de rejeições com α = 0,05 (IC 95% 4,4% a 5,3%); 0,9% com α = 0,01. 484 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="154.7" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,1 (δ = 0,239 ms): 20,1% de rejeições com α = 0,05 (IC 95% 19,3% a 20,8%); 7,1% com α = 0,01. 2005 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="93.7" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,2 (δ = 0,478 ms): 54,7% de rejeições com α = 0,05 (IC 95% 53,7% a 55,7%); 30,5% com α = 0,01. 5473 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="49.7" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,3 (δ = 0,717 ms): 79,7% de rejeições com α = 0,05 (IC 95% 78,9% a 80,5%); 57,1% com α = 0,01. 7971 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="22.6" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,4 (δ = 0,956 ms): 95,1% de rejeições com α = 0,05 (IC 95% 94,6% a 95,5%); 84,0% com α = 0,01. 9509 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="17.3" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,5 (δ = 1,195 ms): 98,1% de rejeições com α = 0,05 (IC 95% 97,8% a 98,4%); 92,0% com α = 0,01. 9810 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="15.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,6 (δ = 1,434 ms): 99,2% de rejeições com α = 0,05 (IC 95% 99,0% a 99,4%); 95,9% com α = 0,01. 9922 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="14.1" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,8 (δ = 1,912 ms): 99,9% de rejeições com α = 0,05 (IC 95% 99,8% a 100,0%); 99,3% com α = 0,01. 9992 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="14.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 1,0 (δ = 2,390 ms): 100,0% de rejeições com α = 0,05 (IC 95% 99,9% a 100,0%); 99,9% com α = 0,01. 9998 de 10000 amostras.</title></circle>
+</svg>
+</figure>
+<figure class="g4-painel"><figcaption><strong>Assimetria real (média zero)</strong> · Q3<br><span>Diferenças assimétricas: H0 do t vale, a simetria do Wilcoxon não</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g4-assimetria-t g4-assimetria-d">
+<title id="g4-assimetria-t">Poder — Assimetria real (média zero)</title><desc id="g4-assimetria-d">Proporção de rejeições por tamanho de efeito no cenário Assimetria real (média zero), 30 pares. t pareado: 8,0% em d_z = 0 e 100,0% em d_z = 1,0. Wilcoxon pareado: 21,8% em d_z = 0 e 100,0% em d_z = 1,0.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">25%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">50%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">75%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">100%</text>
+<path d="M54 181.2 H308" class="g4-ref"/><text x="308" y="177.2" text-anchor="end" class="g4-ref-rotulo">5%</text>
+<path d="M54 49.2 H308" class="g4-ref"/><text x="308" y="45.2" text-anchor="end" class="g4-ref-rotulo">80%</text>
+<text x="54.0" y="206" text-anchor="middle">0,0</text>
+<text x="104.8" y="206" text-anchor="middle">0,2</text>
+<text x="155.6" y="206" text-anchor="middle">0,4</text>
+<text x="206.4" y="206" text-anchor="middle">0,6</text>
+<text x="257.2" y="206" text-anchor="middle">0,8</text>
+<text x="308.0" y="206" text-anchor="middle">1,0</text>
+<path d="M54 190.0 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Rejeições de H0 (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Tamanho do efeito d<tspan baseline-shift="sub" font-size="9">z</tspan> (adimensional)</text>
+<polyline points="54.0,183.6 79.4,187.4 104.8,187.6 130.2,179.6 155.6,154.1 181.0,102.1 206.4,44.6 257.2,14.3 308.0,14.0" class="g4-linha-01" stroke="#2a78d6"/>
+<polyline points="54.0,176.0 79.4,180.2 104.8,171.2 130.2,140.2 155.6,88.0 181.0,38.8 206.4,17.4 257.2,14.0 308.0,14.0" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="176.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,0 (δ = 0,000 ms): 8,0% de rejeições com α = 0,05 (IC 95% 7,4% a 8,5%); 3,6% com α = 0,01. 796 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="180.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,1 (δ = 0,130 ms): 5,6% de rejeições com α = 0,05 (IC 95% 5,1% a 6,0%); 1,5% com α = 0,01. 558 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="171.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,2 (δ = 0,259 ms): 10,7% de rejeições com α = 0,05 (IC 95% 10,1% a 11,3%); 1,4% com α = 0,01. 1066 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="140.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,3 (δ = 0,389 ms): 28,3% de rejeições com α = 0,05 (IC 95% 27,4% a 29,2%); 5,9% com α = 0,01. 2829 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="88.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,4 (δ = 0,518 ms): 57,9% de rejeições com α = 0,05 (IC 95% 57,0% a 58,9%); 20,4% com α = 0,01. 5793 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="38.8" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,5 (δ = 0,648 ms): 85,9% de rejeições com α = 0,05 (IC 95% 85,2% a 86,6%); 50,0% com α = 0,01. 8589 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="17.4" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,6 (δ = 0,778 ms): 98,0% de rejeições com α = 0,05 (IC 95% 97,7% a 98,3%); 82,6% com α = 0,01. 9804 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="14.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 0,8 (δ = 1,037 ms): 100,0% de rejeições com α = 0,05 (IC 95% 100,0% a 100,0%); 99,9% com α = 0,01. 10000 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="14.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, d_z = 1,0 (δ = 1,296 ms): 100,0% de rejeições com α = 0,05 (IC 95% 100,0% a 100,0%); 100,0% com α = 0,01. 10000 de 10000 amostras.</title></circle>
+<polyline points="54.0,175.0 79.4,185.7 104.8,188.2 130.2,184.7 155.6,162.0 181.0,112.6 206.4,56.0 257.2,14.0 308.0,14.0" class="g4-linha-01" stroke="#eb6834"/>
+<polyline points="54.0,151.6 79.4,175.1 104.8,180.8 130.2,168.4 155.6,124.5 181.0,65.7 206.4,28.0 257.2,14.0 308.0,14.0" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="151.6" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,0 (δ = 0,000 ms): 21,8% de rejeições com α = 0,05 (IC 95% 21,0% a 22,6%); 8,5% com α = 0,01. 2182 de 10000 amostras.</title></circle>
+<circle cx="79.4" cy="175.1" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,1 (δ = 0,130 ms): 8,5% de rejeições com α = 0,05 (IC 95% 7,9% a 9,0%); 2,5% com α = 0,01. 847 de 10000 amostras.</title></circle>
+<circle cx="104.8" cy="180.8" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,2 (δ = 0,259 ms): 5,2% de rejeições com α = 0,05 (IC 95% 4,8% a 5,7%); 1,0% com α = 0,01. 520 de 10000 amostras.</title></circle>
+<circle cx="130.2" cy="168.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,3 (δ = 0,389 ms): 12,3% de rejeições com α = 0,05 (IC 95% 11,6% a 12,9%); 3,0% com α = 0,01. 1226 de 10000 amostras.</title></circle>
+<circle cx="155.6" cy="124.5" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,4 (δ = 0,518 ms): 37,2% de rejeições com α = 0,05 (IC 95% 36,3% a 38,2%); 15,9% com α = 0,01. 3720 de 10000 amostras.</title></circle>
+<circle cx="181.0" cy="65.7" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,5 (δ = 0,648 ms): 70,6% de rejeições com α = 0,05 (IC 95% 69,7% a 71,5%); 44,0% com α = 0,01. 7063 de 10000 amostras.</title></circle>
+<circle cx="206.4" cy="28.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,6 (δ = 0,778 ms): 92,0% de rejeições com α = 0,05 (IC 95% 91,5% a 92,6%); 76,1% com α = 0,01. 9205 de 10000 amostras.</title></circle>
+<circle cx="257.2" cy="14.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 0,8 (δ = 1,037 ms): 100,0% de rejeições com α = 0,05 (IC 95% 100,0% a 100,0%); 100,0% com α = 0,01. 10000 de 10000 amostras.</title></circle>
+<circle cx="308.0" cy="14.0" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, d_z = 1,0 (δ = 1,296 ms): 100,0% de rejeições com α = 0,05 (IC 95% 100,0% a 100,0%); 100,0% com α = 0,01. 10000 de 10000 amostras.</title></circle>
+</svg>
+</figure>
+</div>
+<p class="notation">Eixo vertical: proporção de amostras com p &lt; α (%). Passe o mouse sobre um ponto para ver o valor, o IC 95% e o δ em ms. d<sub>z</sub> = δ / σ<sub>d</sub>, o deslocamento somado às diferenças em desvios padrão.</p>
+<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Resumo do poder por cenário"><table class="tabela-resultados">
+<caption>G4 — Resumo por cenário (α = 0,05)</caption>
+<thead><tr><th scope="col">Cenário</th><th scope="col">Erro tipo I (t / Wilcoxon)</th><th scope="col">d<sub>z</sub> para 80% de poder (t / Wilcoxon)</th><th scope="col">Quem detecta melhor</th></tr></thead><tbody>
+<tr><th scope="row">Base (30 pares)</th><td data-label="Erro tipo I (t / Wilcoxon)">4,5% (conservador) / 4,9% (perto do nominal)</td><td data-label="d_z para 80% de poder">0,53 / 0,45</td><td data-label="Quem detecta melhor">Wilcoxon pareado (até 14,5 p.p.)</td></tr>
+<tr><th scope="row">Amostra pequena (10 pares)</th><td data-label="Erro tipo I (t / Wilcoxon)">3,8% (conservador) / 4,6% (conservador)</td><td data-label="d_z para 80% de poder">&gt; 1 / 1,00</td><td data-label="Quem detecta melhor">Wilcoxon pareado (até 3,2 p.p.)</td></tr>
+<tr><th scope="row">Outliers (10% × 5)</th><td data-label="Erro tipo I (t / Wilcoxon)">3,6% (conservador) / 4,8% (perto do nominal)</td><td data-label="d_z para 80% de poder">0,47 / 0,30</td><td data-label="Quem detecta melhor">Wilcoxon pareado (até 26,3 p.p.)</td></tr>
+<tr><th scope="row">Assimetria real (média zero)</th><td data-label="Erro tipo I (t / Wilcoxon)">8,0% (liberal) / 21,8% (liberal)</td><td data-label="d_z para 80% de poder">0,48 / 0,54</td><td data-label="Quem detecta melhor">t pareado (até 20,7 p.p.)</td></tr>
+</tbody></table></div>
+<details class="g4-explicacao"><summary>Como os cenários foram construídos?</summary>
+<p>Todos reamostram os 30 pares reais. Na base, cada diferença é centrada na média real e recebe um sinal sorteado: a variação observada é mantida e H0 vale para os dois testes. Outliers: 10% das diferenças com magnitude 5 vezes maior. Amostra pequena: 10 pares. Assimetria: diferenças centradas sem sortear o sinal, com a assimetria real (≈ 1,9).</p>
+<p>A base não usa a troca de rótulos da Q1 (G3), que gera diferenças bimodais de ±6 ms; nessa forma um deslocamento mínimo reordena todos os postos e a curva do Wilcoxon ganha degraus artificiais. Por isso o ponto d<sub>z</sub> = 0 do G4 é próximo do G3, mas não igual.</p>
+<p>Com α = 0,01 (linhas tracejadas) as curvas descem: há menos falsos positivos, mas é preciso um efeito maior para chegar ao mesmo poder.</p></details>
+<p class="notation">Fonte: simulações Q2/Q3 da #113, semente 113, 10.000 amostras por ponto. Resultados estáticos da execução salva; o gráfico não refaz as simulações.</p>
+<!-- G4:FIM -->
+    </section>
     <section id="resultados-reais" aria-labelledby="titulo-resultados-reais">
       <div class="section-heading"><span aria-hidden="true">6</span><h2 id="titulo-resultados-reais">Resultados reais</h2></div>
       <!-- REAIS:INICIO -->
@@ -282,7 +484,7 @@
     </section>
     <section id="proximas" aria-labelledby="titulo-proximas">
       <div class="section-heading"><h2 id="titulo-proximas">Próximas entregas</h2></div>
-      <p>Poder (G4) e conclusão serão apresentados nas próximas entregas.</p>
+      <p>A conclusão será apresentada na entrega final.</p>
     </section>
   </main>
   <footer>Laboratório de Experimentação de Software · Dashboard do LAB04 <a href="#cenario">Voltar ao início ↑</a></footer>
