@@ -1,5 +1,20 @@
 # Frontend do experimento de cache
 
+## Conclusão e recomendação (#115)
+
+A seção `#conclusao` (7) fecha o dashboard, na ordem pedida pelo enunciado:
+
+- **Antes de simular × o que encontramos**: dois cartões lado a lado. A expectativa fica na constante `EXPECTATIVA` de `rq115_conclusao.py` (o grupo pode editar o texto); os achados vêm da Q1 (#110) e da Q2/Q3 (#113). Um veredito diz se a simulação confirmou a expectativa e o que explica a diferença.
+- **Comparação das hipóteses**: tabela com a H0 de cada teste (média μ<sub>d</sub> = 0 × simetria em 0), estatística, p-valor, decisão e tamanho do efeito nos dados reais (rotinas da #105, via #112).
+- **Recomendação**: qual teste usar no cenário e quando a escolha mudaria. A regra é explícita e roda sobre os números salvos: escolhe o cenário simulado mais parecido com os dados reais (|assimetria| ≥ 1 → assimetria) e recomenda o teste mais poderoso nele, desde que o erro tipo I não passe de 10% (2 × α). Hoje: t pareado (cenário assimetria, erro tipo I 8,0% contra 21,8% do Wilcoxon).
+- **Tamanho da amostra e importância prática** (expansível) e **principal limitação**.
+
+```powershell
+python codigo-fonte/frontend/rq115_conclusao.py
+```
+
+Lê os resultados salvos (não refaz simulações), substitui somente o bloco entre `CONCLUSAO:INICIO` e `CONCLUSAO:FIM` e participa do `rq109_dashboard.py`.
+
 ## G4 — Poder (#114)
 
 A seção `#poder` mostra as curvas de poder da #113: quatro painéis SVG estáticos (base, amostra pequena, outliers e assimetria), cada um com o t pareado (`#2a78d6`) e o Wilcoxon pareado (`#eb6834`) — as mesmas cores do G2 e do G3. Linha cheia: α = 0,05; linha fina tracejada: α = 0,01 (pergunta 12 da apresentação). Referências tracejadas em 5% (erro tipo I) e 80% (poder usual). Eixo x: tamanho do efeito d<sub>z</sub>; eixo y: rejeições de H0 (%). Cada ponto tem um `<title>` com o valor, o IC 95% e o δ em ms, mostrado ao passar o mouse, sem JavaScript.

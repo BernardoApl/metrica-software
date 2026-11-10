@@ -28,6 +28,7 @@
       <a href="#erro-tipo-i">Erro Tipo I</a>
       <a href="#poder">Poder</a>
       <a href="#resultados-reais">Resultados reais</a>
+      <a href="#conclusao">Conclusão</a>
     </nav>
   </header>
 
@@ -482,9 +483,36 @@
 <p class="notation">Origem: coleta 20261103T213612Z_ebe7be6978. Validação da #103 e testes da #105. Resultados estáticos; atualização pelo comando do dashboard.</p>
 <!-- REAIS:FIM -->
     </section>
-    <section id="proximas" aria-labelledby="titulo-proximas">
-      <div class="section-heading"><h2 id="titulo-proximas">Próximas entregas</h2></div>
-      <p>A conclusão será apresentada na entrega final.</p>
+    <section id="conclusao" aria-labelledby="titulo-conclusao">
+      <div class="section-heading"><span aria-hidden="true">7</span><h2 id="titulo-conclusao">Conclusão e recomendação</h2></div>
+      <!-- CONCLUSAO:INICIO -->
+<div class="conclusao-comparacao">
+<article class="conclusao-cartao"><p class="conclusao-rotulo">Antes de simular</p><h3>Esperávamos que o Wilcoxon pareado se saísse melhor</h3><p>Os dados reais (#103) mostraram diferenças assimétricas à direita (coeficiente ≈ 1,9), Shapiro-Wilk rejeitando a normalidade e três valores extremos no início da coleta. Como o t pareado supõe diferenças aproximadamente normais e é sensível a extremos, esperávamos que o Wilcoxon, baseado em postos, mantivesse o erro tipo I perto de 5% e tivesse mais poder.</p></article>
+<article class="conclusao-cartao encontrado"><p class="conclusao-rotulo">O que encontramos</p><h3>Depende da forma das diferenças</h3><ul><li><strong>Erro tipo I (G3):</strong> com H0 verdadeira, o t rejeitou 5,44% e o Wilcoxon 5,26% das amostras, os dois perto de 5%.</li><li><strong>Poder (G4):</strong> com diferenças simétricas o Wilcoxon detectou melhor o efeito (até 26,3 p.p. com outliers).</li><li><strong>Assimetria (G4):</strong> com a assimetria real e média zero, o Wilcoxon rejeitou 21,8% das amostras sem efeito na média, e o t teve mais poder (até 20,7 p.p.).</li></ul></article>
+</div>
+<p>A simulação <strong>confirmou a expectativa só em parte</strong>: o Wilcoxon ganha quando as diferenças são simétricas com extremos, mas não no cenário que mais se parece com os dados reais (“Assimetria real (média zero)”, assimetria 1,94). A diferença se explica porque o Wilcoxon não testa a média: com diferenças assimétricas, ele detecta a mediana deslocada mesmo quando a média não mudou e fica liberal.</p>
+<h3 class="conclusao-subtitulo">Comparação das hipóteses nos dados reais</h3>
+<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Comparação das hipóteses"><table class="tabela-resultados">
+<caption>30 pares reais · bilateral · α = 0,05</caption>
+<thead><tr><th scope="col">Teste</th><th scope="col">H0 testada</th><th scope="col">Resultado</th><th scope="col">H0</th><th scope="col">Efeito</th></tr></thead><tbody>
+<tr><th scope="row">t pareado</th><td data-label="H0 testada">média das diferenças μ<sub>d</sub> = 0</td><td data-label="Resultado">t(29) = 24,93; p = 3,89e-21</td><td data-label="H0">rejeitada</td><td data-label="Efeito">d<sub>z</sub> = 4,55 (grande)</td></tr>
+<tr><th scope="row">Wilcoxon pareado</th><td data-label="H0 testada">diferenças simétricas em torno de 0</td><td data-label="Resultado">W+ = 465; p = 1,86e-09</td><td data-label="H0">rejeitada</td><td data-label="Efeito">r = 1,00 (grande)</td></tr>
+</tbody></table></div>
+<p>Os dois testes chegam à mesma conclusão: o tempo médio caiu de 6,000 ms para 0,491 µs por operação (diferença média 6,00 ms, IC 95% 5,51 a 6,49 ms). O efeito é tão grande que a escolha do teste não muda a decisão aqui; ela importa para efeitos pequenos e para o que se afirma (média ou mediana).</p>
+<aside class="conclusao-recomendacao" aria-labelledby="titulo-recomendacao">
+<p class="conclusao-rotulo">Recomendação</p><h3 id="titulo-recomendacao">Usar o t pareado neste cenário</h3>
+<p>As diferenças reais são assimétricas (1,94), e o cenário simulado mais parecido com elas é “Assimetria real (média zero)”. Ali o t pareado teve erro tipo I de 8,0% e mais poder, enquanto o Wilcoxon pareado rejeitou 21,8% das amostras sem efeito na média. Como H0 fala do <strong>tempo médio</strong>, recomendamos relatar o t pareado com o IC 95% da média e usar o Wilcoxon pareado e o estimador de Hodges–Lehmann como verificação de robustez.</p>
+<p><strong>Quando a escolha mudaria:</strong></p><ul>
+<li>se as diferenças fossem aproximadamente simétricas, mas com extremos (cenários base e outliers): Wilcoxon, que precisou de d<sub>z</sub> ≈ 0,30 contra ≈ 0,47 do t para 80% de poder com outliers;</li>
+<li>se a pergunta fosse sobre o tempo <em>típico</em> (mediana), e não o médio: Wilcoxon, cuja hipótese é essa;</li>
+<li>com amostras muito pequenas (10 pares), os dois perdem poder e ficam parecidos: o problema passa a ser coletar mais pares, não escolher o teste.</li></ul></aside>
+<details class="conclusao-detalhes"><summary>Tamanho da amostra e importância prática</summary>
+<p>O efeito observado (d<sub>z</sub> = 4,55) está muito além da grade do G4 (d<sub>z</sub> ≤ 1), onde, com 30 pares, os dois testes já chegam a 99,9% de poder: o poder para detectá-lo é praticamente 100%. Para um efeito moderado, 80% de poder com 30 pares exigiria d<sub>z</sub> ≈ 0,53 (t) ou ≈ 0,45 (Wilcoxon) na base.</p>
+<p>Com p-valores dessa ordem, o que importa é o tamanho do efeito: o cache reduziu o tempo em cerca de 12.000 vezes, mas são milissegundos por operação numa máquina local. Significância estatística não é, sozinha, relevância prática.</p></details>
+<aside class="aviso" aria-label="Limitações do estudo"><h3>Principal limitação</h3>
+<p>Os 30 pares vêm de uma única execução na mesma máquina, com tendência temporal (#103): a independência entre pares é uma suposição, e o resultado não se generaliza para cache frio, API, banco de dados ou outras máquinas. As simulações reamostram esses pares; não são novas medições.</p></aside>
+<p class="notation">Gerado por <code>codigo-fonte/frontend/rq115_conclusao.py</code> a partir dos resultados salvos da #105, #110 e #113. A recomendação segue uma regra explícita: o teste mais poderoso no cenário que mais se parece com os dados reais, desde que seu erro tipo I não passe de 10% (2 × α).</p>
+<!-- CONCLUSAO:FIM -->
     </section>
   </main>
   <footer>Laboratório de Experimentação de Software · Dashboard do LAB04 <a href="#cenario">Voltar ao início ↑</a></footer>
