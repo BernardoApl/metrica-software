@@ -1,5 +1,31 @@
 # Frontend do experimento de cache
 
+## Resultados reais (#112)
+
+A seção `#resultados-reais` apresenta os 30 pares reais da #102: tempos médios,
+estatísticas t(29) e W+, p-valores sem arredondamento para zero, Cohen d_z,
+correlação rank-biserial, IC 95% da diferença média e estimador de Hodges–Lehmann.
+Inclui decisões bilaterais a alfa 0,05 e ressalvas sobre normalidade, simetria,
+independência e tendência temporal. Não usa dados simulados como evidência real.
+
+```powershell
+python codigo-fonte/frontend/rq112_resultados_reais.py
+```
+
+O gerador valida os arquivos da coleta pela #103 e aplica as funções existentes
+da #105. Atualiza somente os marcadores `REAIS:INICIO` e `REAIS:FIM`; também
+participa da reconstrução por `rq109_dashboard.py`. Funciona sem JavaScript.
+Em telas pequenas, as tabelas do G3 e dos resultados reais passam a apresentar
+cada teste em um bloco com rótulos, sem esconder p-valores ou efeitos fora da tela.
+No desktop, a comparação continua em colunas. As explicações expansíveis são
+operáveis por teclado. Selos distinguem simulação sob H0 de coleta real, e a
+decisão resumida dos testes é gerada a partir dos resultados, não de texto fixo.
+
+O G3 também cruza as rejeições com os p-valores do CSV da #110, em vez de
+confiar apenas no resumo. Os três tempos médios usam seis casas decimais em ms
+para não apresentar o tempo sem cache e a diferença média como valores iguais
+por arredondamento. Essa formatação não representa precisão física adicional.
+
 ## G3 — Erro Tipo I (#111)
 
 A seção `#erro-tipo-i` apresenta as taxas dos testes t e Wilcoxon da #110,

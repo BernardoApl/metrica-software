@@ -113,6 +113,24 @@ code { font-size: .85em; overflow-wrap: anywhere; }
 .g3-figura figcaption { color: var(--muted); text-align: center; font-size: .9rem; }
 #erro-tipo-i caption { text-align: left; font-weight: 600; padding-bottom: 12px; }
 .g3-explicacao { margin-top: 24px; }
+.study-facts.resultados-resumo { padding: 24px; background: white; border: 1px solid var(--line); border-radius: 10px; }
+.resultados-resumo strong { font-size: 1.3rem; color: var(--accent); }
+#resultados-reais caption { text-align: left; padding-bottom: 12px; color: var(--muted); }
+.resultados-intervalo { margin: 24px 0; padding: 20px; background: var(--pale); border-radius: 10px; }
+.resultados-detalhes { margin-bottom: 24px; }
+.origem-selo { display: inline-block; font-size: .8rem; font-weight: 700; letter-spacing: .03em; color: var(--accent); background: var(--pale); padding: .4rem .7rem; border-radius: 6px; }
+.leitura-resultado { border-left: 3px solid var(--accent); padding: .75rem 1rem; background: white; }
+.tabela-resultados caption { white-space: normal; }
+@media (max-width: 760px) {
+  .tabela-resultados, .tabela-resultados tbody { display: block; width: 100%; }
+  .tabela-resultados caption { display: block; width: 100%; }
+  .tabela-resultados thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .tabela-resultados tr { display: block; border: 1px solid var(--line); border-radius: 8px; background: white; margin-bottom: 14px; padding: 12px; }
+  .tabela-resultados tbody th { display: block; text-align: left; padding: 8px 0; font-size: 1rem; }
+  .tabela-resultados td { display: block; text-align: left; white-space: normal; overflow-wrap: anywhere; padding: 10px 0; }
+  .tabela-resultados td::before { content: attr(data-label); display: block; font-size: .75rem; color: var(--muted); font-weight: 600; margin-bottom: 3px; }
+  .tabela-resultados td:last-child { border: 0; }
+}
 .g2-tabela { display: block; overflow-x: auto; max-width: 100%; }
 @media (max-width: 760px) { .g3-figura { padding: 8px; } }
 :root { --cor-t: #2a78d6; --cor-w: #eb6834; --regiao: #e6e9ed; --grade: #e8edf1; }

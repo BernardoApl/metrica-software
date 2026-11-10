@@ -1,5 +1,6 @@
 """RQ111: gráfico G3 estático e acessível, alimentado pelos resultados da RQ110."""
 import argparse
+import csv
 import hashlib
 import json
 import math
@@ -31,7 +32,25 @@ def carregar(entrada):
     for nome in ('repeticoes.csv', 'parametros_origem.json', 'RELATORIO.md'):
         if hashlib.sha256((entrada.parent / nome).read_bytes()).hexdigest() != m['artefatos_sha256'][nome]:
             raise ValueError(f'Artefato alterado: {nome}')
+    with (entrada.parent / 'repeticoes.csv').open(encoding='utf-8', newline='') as arquivo:
+        linhas = list(csv.DictReader(arquivo))
+    validar_repeticoes(m, linhas)
     return m
+
+
+def validar_repeticoes(m, linhas):
+    """O resumo exibido precisa corresponder aos p-valores brutos da Q1."""
+    if len(linhas) != m['repeticoes']:
+        raise ValueError('Contagem de repetições divergente do resumo.')
+    for i, linha in enumerate(linhas, 1):
+        if int(linha['repeticao']) != i:
+            raise ValueError('Repetição duplicada ou fora de ordem.')
+    for nome, _, _ in TESTES:
+        ps = [float(linha[f'{nome}_p']) for linha in linhas]
+        if any(linha[f'{nome}_status'] != 'ok' for linha in linhas) or any(not math.isfinite(p) or not 0 <= p <= 1 for p in ps):
+            raise ValueError('P-valor inválido ou teste com falha.')
+        if sum(p < m['alfa'] for p in ps) != m['resultados'][nome]['rejeicoes_h0']:
+            raise ValueError('Rejeições do resumo divergem dos p-valores brutos.')
 
 
 def pct(v, casas=2):
@@ -55,21 +74,23 @@ def fragmento(m):
                 f'<path d="M{x} {y(lo):.3f} V{y(hi):.3f} M{x-10} {y(lo):.3f} H{x+10} M{x-10} {y(hi):.3f} H{x+10}" stroke="#192b3c" stroke-width="2"/>',
                 f'<text x="{x}" y="{y(hi)-12:.3f}" text-anchor="middle" font-weight="700">{pct(taxa)}</text>',
                 f'<text x="{x}" y="277" text-anchor="middle">{rotulo}</text>']
-    svg += [f'<path d="M55 {y(.05):.3f} H400" stroke="#192b3c" stroke-width="2" stroke-dasharray="6 4"/>', '</svg>']
-    linhas = [f'<p>Quando H0 é verdadeira, quantas vezes os testes apontam uma diferença? Cada barra resume {m["repeticoes"]:,} experimentos simulados de {m["n_pares"]} pares, com semente {m["semente"]}.</p>'.replace('10,000', '10.000'),
+    svg += [f'<path d="M55 {y(.05):.3f} H400" stroke="#192b3c" stroke-width="2" stroke-dasharray="6 4"/>',
+            '<text x="55" y="30" font-size="14">Taxa de falsos positivos (%)</text>', '</svg>']
+    linhas = ['<p class="origem-selo">SIMULAÇÃO · H0 verdadeira por construção</p>',
+        f'<p>Quando H0 é verdadeira, quantas vezes os testes apontam uma diferença? Cada barra resume {format(m["repeticoes"], ",").replace(",", ".")} experimentos simulados de {m["n_pares"]} pares, com semente {m["semente"]}.</p>',
         '<figure class="g3-figura">', *svg,
         '<figcaption>Linha tracejada: referência de 5%. Hastes: intervalo de confiança de 95% da taxa estimada.</figcaption></figure>',
-        '<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Resultados do erro Tipo I"><table>',
+        '<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Resultados do erro Tipo I"><table class="tabela-resultados">',
         '<caption>G3 — Comparação dos testes sob H0</caption>',
         '<thead><tr><th scope="col">Teste</th><th scope="col">Rejeições / repetições</th><th scope="col">Erro Tipo I</th><th scope="col">IC 95%</th><th scope="col">Diferença de 5%</th></tr></thead><tbody>']
     for nome, rotulo, _ in TESTES:
         r = m['resultados'][nome]
         lo, hi = r['ic95_clopper_pearson']
         desvio = f"{100*(r['erro_tipo_i']-.05):+.2f}".replace('.', ',')
-        linhas.append(f'<tr><th scope="row">{rotulo}</th><td>{r["rejeicoes_h0"]} / {m["repeticoes"]}</td><td>{pct(r["erro_tipo_i"])}</td><td>{pct(lo, 4)} a {pct(hi, 4)}</td><td>{desvio} p.p.</td></tr>')
-    linhas += ['</tbody></table></div>', '<details class="g3-explicacao"><summary>Como interpretar este gráfico?</summary>',
+        linhas.append(f'<tr><th scope="row">{rotulo}</th><td data-label="Rejeições / repetições">{r["rejeicoes_h0"]} / {m["repeticoes"]}</td><td data-label="Erro Tipo I">{pct(r["erro_tipo_i"])}</td><td data-label="IC 95%">{pct(lo, 4)} a {pct(hi, 4)}</td><td data-label="Diferença de 5%">{desvio} p.p.</td></tr>')
+    linhas += ['</tbody></table></div>', '<p class="notation">p.p. = pontos percentuais. O gráfico estima falsos positivos sob H0; os <a href="#resultados-reais">resultados reais</a> respondem a outra pergunta: o que foi observado na coleta?</p>', '<details class="g3-explicacao"><summary>Como interpretar este gráfico?</summary>',
         '<p>Erro Tipo I é rejeitar H0 quando ela é verdadeira. A referência de 5% é o nível nominal de cada teste; a taxa simulada pode variar. Estar mais perto da linha nesta execução não demonstra que um teste seja sempre melhor.</p>',
-        '<p>Os intervalos binomiais exatos quantificam a incerteza Monte Carlo. Não representam a dispersão dos tempos nem o poder estatístico dos testes. As 10.000 simulações não são novas medições reais.</p>',
+        '<p>Os intervalos binomiais exatos quantificam a incerteza Monte Carlo. Não representam a dispersão dos tempos nem o poder estatístico dos testes. As simulações não são novas medições reais.</p>',
         f'<p>{interpretacao} A tabela mantém quatro casas decimais para não esconder diferenças pelo arredondamento.</p>',
         '</details>', '<p class="notation">Fonte: simulação Q1 da #110, com H0 construída por trocas aleatórias dos rótulos. Resultados estáticos da execução salva; o gráfico não executa novas simulações.</p>']
     return '\n'.join(linhas)

@@ -14,6 +14,7 @@ from analise import rq105_testes_pareados as rq105  # noqa: E402
 from analise import rq106_dados_g2 as rq106  # noqa: E402
 from frontend import rq108_g1 as rq108  # noqa: E402
 from frontend import rq111_g3 as rq111  # noqa: E402
+from frontend import rq112_resultados_reais as rq112  # noqa: E402
 
 PAGINA = Path(__file__).resolve().parent / 'index.html'
 INICIO_G1, FIM_G1 = '<!-- G1:INICIO (gerado por rq109_dashboard.py) -->', '<!-- G1:FIM -->'
@@ -45,6 +46,7 @@ def main():
         rq106.executar()  # dados do G2
         origem = construir()
         rq111.executar()  # G3 reutiliza a execução salva; não repete 10.000 simulações
+        rq112.executar()  # resultados reais validados e testes pareados da #105
     except (ValueError, OSError, KeyError) as exc:
         sys.exit(f'Dashboard não construído: {exc}')
     print(f'Dashboard reconstruído em {PAGINA} (simulados: {origem})')

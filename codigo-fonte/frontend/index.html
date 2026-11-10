@@ -26,6 +26,7 @@
       <a href="#dados">Os dados</a>
       <a href="#testes">Os testes</a>
       <a href="#erro-tipo-i">Erro Tipo I</a>
+      <a href="#resultados-reais">Resultados reais</a>
     </nav>
   </header>
 
@@ -210,6 +211,7 @@
     <section id="erro-tipo-i" aria-labelledby="titulo-erro-tipo-i">
       <div class="section-heading"><span aria-hidden="true">4</span><h2 id="titulo-erro-tipo-i">G3 — Erro Tipo I</h2></div>
       <!-- G3:INICIO -->
+<p class="origem-selo">SIMULAÇÃO · H0 verdadeira por construção</p>
 <p>Quando H0 é verdadeira, quantas vezes os testes apontam uma diferença? Cada barra resume 10.000 experimentos simulados de 30 pares, com semente 110.</p>
 <figure class="g3-figura">
 <svg class="g3-svg" viewBox="0 0 420 310" role="img" aria-labelledby="g3-svg-titulo g3-svg-desc">
@@ -229,25 +231,58 @@
 <text x="310" y="102.251" text-anchor="middle" font-weight="700">5,26%</text>
 <text x="310" y="277" text-anchor="middle">Wilcoxon pareado</text>
 <path d="M55 131.250 H400" stroke="#192b3c" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="55" y="30" font-size="14">Taxa de falsos positivos (%)</text>
 </svg>
 <figcaption>Linha tracejada: referência de 5%. Hastes: intervalo de confiança de 95% da taxa estimada.</figcaption></figure>
-<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Resultados do erro Tipo I"><table>
+<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Resultados do erro Tipo I"><table class="tabela-resultados">
 <caption>G3 — Comparação dos testes sob H0</caption>
 <thead><tr><th scope="col">Teste</th><th scope="col">Rejeições / repetições</th><th scope="col">Erro Tipo I</th><th scope="col">IC 95%</th><th scope="col">Diferença de 5%</th></tr></thead><tbody>
-<tr><th scope="row">t pareado</th><td>544 / 10000</td><td>5,44%</td><td>5,0035% a 5,9027%</td><td>+0,44 p.p.</td></tr>
-<tr><th scope="row">Wilcoxon pareado</th><td>526 / 10000</td><td>5,26%</td><td>4,8306% a 5,7157%</td><td>+0,26 p.p.</td></tr>
+<tr><th scope="row">t pareado</th><td data-label="Rejeições / repetições">544 / 10000</td><td data-label="Erro Tipo I">5,44%</td><td data-label="IC 95%">5,0035% a 5,9027%</td><td data-label="Diferença de 5%">+0,44 p.p.</td></tr>
+<tr><th scope="row">Wilcoxon pareado</th><td data-label="Rejeições / repetições">526 / 10000</td><td data-label="Erro Tipo I">5,26%</td><td data-label="IC 95%">4,8306% a 5,7157%</td><td data-label="Diferença de 5%">+0,26 p.p.</td></tr>
 </tbody></table></div>
+<p class="notation">p.p. = pontos percentuais. O gráfico estima falsos positivos sob H0; os <a href="#resultados-reais">resultados reais</a> respondem a outra pergunta: o que foi observado na coleta?</p>
 <details class="g3-explicacao"><summary>Como interpretar este gráfico?</summary>
 <p>Erro Tipo I é rejeitar H0 quando ela é verdadeira. A referência de 5% é o nível nominal de cada teste; a taxa simulada pode variar. Estar mais perto da linha nesta execução não demonstra que um teste seja sempre melhor.</p>
-<p>Os intervalos binomiais exatos quantificam a incerteza Monte Carlo. Não representam a dispersão dos tempos nem o poder estatístico dos testes. As 10.000 simulações não são novas medições reais.</p>
+<p>Os intervalos binomiais exatos quantificam a incerteza Monte Carlo. Não representam a dispersão dos tempos nem o poder estatístico dos testes. As simulações não são novas medições reais.</p>
 <p>t pareado: o IC 95% não contém a referência de 5%. Wilcoxon pareado: o IC 95% contém a referência de 5%. A tabela mantém quatro casas decimais para não esconder diferenças pelo arredondamento.</p>
 </details>
 <p class="notation">Fonte: simulação Q1 da #110, com H0 construída por trocas aleatórias dos rótulos. Resultados estáticos da execução salva; o gráfico não executa novas simulações.</p>
 <!-- G3:FIM -->
     </section>
+    <section id="resultados-reais" aria-labelledby="titulo-resultados-reais">
+      <div class="section-heading"><span aria-hidden="true">6</span><h2 id="titulo-resultados-reais">Resultados reais</h2></div>
+      <!-- REAIS:INICIO -->
+<p class="origem-selo">COLETA REAL · Mesma operação e entrada</p>
+<p>Resultados dos <strong>30 pares medidos</strong> na coleta local. Aqui são usados os dados reais, não as amostras simuladas do G3. Diferença: tempo sem cache − tempo com cache.</p>
+<dl class="study-facts resultados-resumo">
+<div><dt>Tempo médio sem cache</dt><dd><strong>6,000103 ms</strong></dd></div>
+<div><dt>Tempo médio com cache</dt><dd><strong>0,000491 ms</strong></dd></div>
+<div><dt>Diferença média</dt><dd><strong>5,999611 ms</strong></dd></div></dl>
+<p class="leitura-resultado"><strong>Ambos os testes rejeitam H0</strong> a α = 0,05. O tempo médio observado com cache foi menor. Essa leitura depende dos pressupostos descritos abaixo e não demonstra ganho universal.</p>
+<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Estatísticas dos testes nos dados reais"><table class="tabela-resultados">
+<caption>Testes bilaterais · α = 0,05 · tempos por operação no lote</caption>
+<thead><tr><th scope="col">Teste</th><th scope="col">Estatística</th><th scope="col">p-valor</th><th scope="col">Tamanho de efeito</th><th scope="col">Decisão</th></tr></thead><tbody>
+<tr><th scope="row">t pareado</th><td data-label="Estatística">t(29) = 24,927</td><td data-label="p-valor">3,89e-21</td><td data-label="Tamanho de efeito">Cohen d<sub>z</sub> = 4,551</td><td data-label="Decisão">Rejeita H0</td></tr>
+<tr><th scope="row">Wilcoxon pareado</th><td data-label="Estatística">W+ = 465,0</td><td data-label="p-valor">1,86e-09</td><td data-label="Tamanho de efeito">r rank-biserial = 1,000</td><td data-label="Decisão">Rejeita H0</td></tr>
+</tbody></table></div>
+<p class="notation">Notação: e−21 significa × 10⁻²¹. O p-valor não é a probabilidade de H0 ser verdadeira. Os dois tamanhos de efeito usam escalas diferentes e não devem ser comparados numericamente entre si.</p>
+<div class="resultados-intervalo"><h3>Magnitude e incerteza</h3>
+<p>IC 95% da diferença média: <strong>5,507 a 6,492 ms</strong>. Mediana das diferenças: 5,623 ms. Estimador de Hodges–Lehmann: 5,735 ms.</p>
+<p>Diferenças positivas indicam menor tempo com cache. O intervalo da média depende dos pressupostos do teste t; não é um intervalo do tamanho de efeito nem do estimador de Hodges–Lehmann.</p></div>
+<details class="resultados-detalhes"><summary>Como ler os testes e os tamanhos de efeito?</summary>
+<p>O teste t avalia a média das diferenças. Cohen d<sub>z</sub> divide essa média pelo desvio padrão das diferenças. O Wilcoxon avalia os postos das diferenças sob a hipótese de simetria em zero; W+ soma os postos positivos. Seu efeito rank-biserial varia de −1 a 1.</p>
+<p>Wilcoxon: método exato (permutação dos sinais); 30 diferenças não nulas e 0 zeros descartados. W+ não deve ser confundido com min(W+, W−), usado por algumas bibliotecas.</p>
+<p>Rejeitar H0 indica evidência segundo o modelo do teste, não ganho universal. Não rejeitar H0 não demonstra equivalência.</p></details>
+<aside class="aviso" aria-label="Limitações dos resultados"><h3>Limites desta conclusão</h3>
+<p>Shapiro–Wilk das diferenças: p = 9,45e-05; normalidade rejeitada. Esse diagnóstico não garante os demais pressupostos.</p>
+<p>Os pares compartilham entrada e ambiente; a análise da #103 identificou tendência temporal. Independência e simetria não estão garantidas. Os resultados inferenciais devem ser lidos com essa ressalva.</p>
+<p>O cache aquecido retorna um resultado em memória, enquanto a outra condição relê e agrega o CSV. O preenchimento do cache fica fora da medição principal. Os 300 repositórios são registros da entrada, não 300 amostras independentes.</p></aside>
+<p class="notation">Origem: coleta 20261103T213612Z_ebe7be6978. Validação da #103 e testes da #105. Resultados estáticos; atualização pelo comando do dashboard.</p>
+<!-- REAIS:FIM -->
+    </section>
     <section id="proximas" aria-labelledby="titulo-proximas">
-      <div class="section-heading"><span aria-hidden="true">5–7</span><h2 id="titulo-proximas">Próximas seções</h2></div>
-      <p>Poder (G4), testes nos dados reais e conclusão serão apresentados nas próximas entregas.</p>
+      <div class="section-heading"><h2 id="titulo-proximas">Próximas entregas</h2></div>
+      <p>Poder (G4) e conclusão serão apresentados nas próximas entregas.</p>
     </section>
   </main>
   <footer>Laboratório de Experimentação de Software · Dashboard do LAB04 <a href="#cenario">Voltar ao início ↑</a></footer>
