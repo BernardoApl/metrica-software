@@ -1,5 +1,28 @@
 # Frontend do experimento de cache
 
+## G3 — Erro Tipo I (#111)
+
+A seção `#erro-tipo-i` apresenta as taxas dos testes t e Wilcoxon da #110,
+com barras partindo de zero, linha de referência de 5%, IC binomial de 95%
+e tabela acessível. Mantém as cores dos testes no G2. Funciona também sem
+JavaScript e por abertura direta do HTML.
+
+Para atualizar somente o G3 após uma execução da #110:
+
+```powershell
+python codigo-fonte/frontend/rq111_g3.py
+```
+
+O comando valida a conclusão sob H0, alfa 5%, taxas, intervalos e hashes dos
+artefatos. Substitui somente o bloco entre `G3:INICIO` e `G3:FIM`, preservando
+as demais seções. A reconstrução por `rq109_dashboard.py` também atualiza o G3,
+sem refazer as simulações. Se a entrada estiver ausente ou inválida, falha
+explicitamente antes de substituir o gráfico.
+
+As hastes representam incerteza Monte Carlo, não dispersão dos tempos ou
+poder dos testes. A tabela usa quatro casas nos intervalos para distinguir
+o limite inferior de 5,0035% do t pareado da referência de 5%.
+
 ## Issue #101
 
 Seção independente de cenário experimental, pergunta de pesquisa e hipóteses H0/H1. HTML e CSS locais, sem dependências, JavaScript, token ou API. Não implementa as issues #102–#109.

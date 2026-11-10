@@ -108,6 +108,13 @@ code { font-size: .85em; overflow-wrap: anywhere; }
 }
 
 /* G2 (RQ106): cores fixas por teste, iguais em todos os gráficos do dashboard */
+.g3-figura { margin: 24px 0; padding: 20px; border: 1px solid var(--line); border-radius: 10px; background: white; }
+.g3-svg { display: block; width: 100%; max-width: 620px; height: auto; margin: auto; font: 15px system-ui, sans-serif; fill: var(--ink); }
+.g3-figura figcaption { color: var(--muted); text-align: center; font-size: .9rem; }
+#erro-tipo-i caption { text-align: left; font-weight: 600; padding-bottom: 12px; }
+.g3-explicacao { margin-top: 24px; }
+.g2-tabela { display: block; overflow-x: auto; max-width: 100%; }
+@media (max-width: 760px) { .g3-figura { padding: 8px; } }
 :root { --cor-t: #2a78d6; --cor-w: #eb6834; --regiao: #e6e9ed; --grade: #e8edf1; }
 .serie-t { --cor: var(--cor-t); }
 .serie-w { --cor: var(--cor-w); }
