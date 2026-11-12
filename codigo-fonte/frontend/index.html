@@ -46,6 +46,11 @@
         </aside>
       </div>
 
+      <!-- QUADRO:cenario:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">Usar cache muda o tempo médio da operação?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">30 pares</p><p class="quadro-legenda">a mesma operação medida com e sem cache, na mesma máquina</p></div><div class="quadro-numero"><p class="quadro-valor">H<sub>0</sub></p><p class="quadro-legenda">o tempo médio é o mesmo com e sem cache (μ<sub>d</sub> = 0)</p></div><div class="quadro-numero"><p class="quadro-valor">H<sub>1</sub></p><p class="quadro-legenda">o tempo médio muda, para mais ou para menos: teste bilateral</p></div></div></div>
+<!-- QUADRO:cenario:FIM -->
+
       <div class="section-heading"><span aria-hidden="true">1.1</span><h2>Cenário experimental</h2></div>
       <p>O cache permite reutilizar um resultado previamente armazenado. A comparação investiga se essa reutilização altera o tempo da operação, mantendo equivalentes a entrada, a tarefa e o ambiente de execução.</p>
       <div class="treatments">
@@ -146,6 +151,10 @@
     </section>
     <section id="dados" aria-labelledby="titulo-dados">
       <div class="section-heading"><span aria-hidden="true">2</span><h2 id="titulo-dados">Os dados</h2></div>
+      <!-- QUADRO:dados:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">Como são os tempos reais?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">5,62 ms</p><p class="quadro-legenda">tempo típico sem cache (mediana)</p></div><div class="quadro-numero"><p class="quadro-valor">0,49 µs</p><p class="quadro-legenda">tempo típico com cache, cerca de 11.000 vezes menor</p></div><div class="quadro-numero"><p class="quadro-valor">1,94</p><p class="quadro-legenda">assimetria das diferenças: cauda longa à direita, nada normal</p></div></div></div>
+<!-- QUADRO:dados:FIM -->
       <!-- G1:INICIO (gerado por rq109_dashboard.py) -->
 <p>Sem cache, os tempos reais são assimétricos à direita (coeficiente de assimetria 1,94), com mediana de 5,62 ms e máximo de 10,56 ms; os valores extremos são os pares 1, 2, 3, os primeiros da coleta. Com cache, os tempos ficam perto de 0,49 µs, cerca de 11.000 vezes menores, e quase simétricos (0,08). Como os dados não parecem normais, a simulação não impõe uma distribuição: sorteia pares observados completos, com reposição, mantendo 15 pares por ordem de execução e semente 104; por isso a mediana simulada fica próxima (5,65 ms), mas os valores só repetem os observados. A diferença d, que os testes analisam, tem quase a mesma forma do tempo sem cache, porque o tempo com cache é desprezível perto dele.</p>
 <figure class="grafico">
@@ -173,6 +182,10 @@
 
     <section id="testes" aria-labelledby="titulo-testes">
       <div class="section-heading"><span aria-hidden="true">3</span><h2 id="titulo-testes">Como os testes funcionam</h2></div>
+      <!-- QUADRO:testes:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">O que cada teste compara?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">Médias</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-t)" aria-hidden="true"></span>a média das diferenças, contra uma t de Student</p></div><div class="quadro-numero"><p class="quadro-valor">Postos</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-w)" aria-hidden="true"></span>a ordem das diferenças, sem supor normalidade</p></div><div class="quadro-numero"><p class="quadro-valor">5%</p><p class="quadro-legenda">α: rejeita H<sub>0</sub> nas duas caudas da distribuição</p></div></div></div>
+<!-- QUADRO:testes:FIM -->
       <div id="g2" class="g2">
         <h3 class="g2-titulo">G2 — Distribuição da estatística de cada teste quando H0 é verdadeira</h3>
         <div class="g2-opcoes" role="group" aria-label="Amostra de exemplo">
@@ -212,6 +225,10 @@
 
     <section id="erro-tipo-i" aria-labelledby="titulo-erro-tipo-i">
       <div class="section-heading"><span aria-hidden="true">4</span><h2 id="titulo-erro-tipo-i">G3 — Erro Tipo I</h2></div>
+      <!-- QUADRO:erro-tipo-i:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">Sem efeito nenhum, quantas vezes cada teste acusa diferença?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">8,3%</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-t)" aria-hidden="true"></span>t pareado, com diferenças assimétricas (30 pares)</p></div><div class="quadro-numero"><p class="quadro-valor">21,6%</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-w)" aria-hidden="true"></span>Wilcoxon, com diferenças assimétricas (30 pares)</p></div><div class="quadro-numero"><p class="quadro-valor">5,4% e 5,3%</p><p class="quadro-legenda">os dois, com dados bem comportados: o esperado é 5%</p></div></div></div>
+<!-- QUADRO:erro-tipo-i:FIM -->
       <!-- G3:INICIO -->
 <p class="origem-selo">SIMULAÇÃO · H0 verdadeira por construção</p>
 <p>Quando H0 é verdadeira, quantas vezes os testes apontam uma diferença? Cada barra resume 10.000 experimentos simulados de 30 pares, com semente 110.</p>
@@ -414,6 +431,10 @@
     </section>
     <section id="poder" aria-labelledby="titulo-poder">
       <div class="section-heading"><span aria-hidden="true">5</span><h2 id="titulo-poder">G4 — Poder</h2></div>
+      <!-- QUADRO:poder:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">Qual teste percebe melhor um efeito real?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">d<sub>z</sub> 0,30</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-w)" aria-hidden="true"></span>Wilcoxon chega a 80% de poder com outliers; o t precisa de 0,47</p></div><div class="quadro-numero"><p class="quadro-valor">+20,7 p.p.</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-t)" aria-hidden="true"></span>de poder para o t pareado quando as diferenças são assimétricas</p></div></div></div>
+<!-- QUADRO:poder:FIM -->
       <!-- G4:INICIO -->
 <p class="origem-selo">SIMULAÇÃO · efeito conhecido somado às diferenças</p>
 <p>Cada ponto é a proporção de 10.000 amostras simuladas em que o teste rejeitou H0; no efeito zero, essa proporção é o erro tipo I, e a partir dele é o poder. Com as diferenças reais simetrizadas (base, 30 pares), o Wilcoxon pareado detecta melhor: 80% de poder exige d<sub>z</sub> ≈ 0,53 no t e ≈ 0,45 no Wilcoxon, porque os extremos reais inflam o desvio padrão usado pelo t. A vantagem do Wilcoxon cresce com outliers (até 26,3 p.p.) e muda de lado na assimetria: ali o t tem mais poder (até 20,7 p.p.), e o Wilcoxon rejeita 21,8% das amostras sem efeito na média, porque testa a simetria (mediana), não a média; com 10 pares, os dois perdem poder (79,4% e 80,1% em d<sub>z</sub> = 1).</p>
@@ -615,6 +636,10 @@
     </section>
     <section id="resultados-reais" aria-labelledby="titulo-resultados-reais">
       <div class="section-heading"><span aria-hidden="true">6</span><h2 id="titulo-resultados-reais">Resultados reais</h2></div>
+      <!-- QUADRO:resultados-reais:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">E nos 30 pares reais?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">p = 3,9 × 10⁻²¹</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-t)" aria-hidden="true"></span>t pareado: rejeita H<sub>0</sub></p></div><div class="quadro-numero"><p class="quadro-valor">p = 1,9 × 10⁻⁹</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-w)" aria-hidden="true"></span>Wilcoxon: rejeita H<sub>0</sub></p></div><div class="quadro-numero"><p class="quadro-valor">6,00 ms</p><p class="quadro-legenda">diferença média por operação (IC 95% de 5,51 a 6,49 ms)</p></div></div></div>
+<!-- QUADRO:resultados-reais:FIM -->
       <!-- REAIS:INICIO -->
 <p class="origem-selo">COLETA REAL · Mesma operação e entrada</p>
 <p>Resultados dos <strong>30 pares medidos</strong> na coleta local. Aqui são usados os dados reais, não as amostras simuladas do G3. Diferença: tempo sem cache − tempo com cache.</p>
@@ -646,6 +671,10 @@
     </section>
     <section id="conclusao" aria-labelledby="titulo-conclusao">
       <div class="section-heading"><span aria-hidden="true">7</span><h2 id="titulo-conclusao">Conclusão e recomendação</h2></div>
+      <!-- QUADRO:conclusao:INICIO (gerado por rq117_quadro.py) -->
+<div class="quadro-destaque"><p class="quadro-pergunta">Qual teste usar neste cenário?</p>
+<div class="quadro-numeros"><div class="quadro-numero"><p class="quadro-valor">t pareado</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-t)" aria-hidden="true"></span>recomendado: a pergunta é sobre o tempo médio e os dados são assimétricos</p></div><div class="quadro-numero"><p class="quadro-valor">Wilcoxon pareado</p><p class="quadro-legenda"><span class="quadro-chave" style="background:var(--cor-w)" aria-hidden="true"></span>como verificação de robustez, ou se a pergunta fosse sobre o tempo típico</p></div></div></div>
+<!-- QUADRO:conclusao:FIM -->
       <!-- CONCLUSAO:INICIO -->
 <div class="conclusao-comparacao">
 <article class="conclusao-cartao"><p class="conclusao-rotulo">Antes de simular</p><h3>Esperávamos que o Wilcoxon pareado se saísse melhor</h3><p>Os dados reais (#103) mostraram diferenças assimétricas à direita (coeficiente ≈ 1,9), Shapiro-Wilk rejeitando a normalidade e três valores extremos no início da coleta. Como o t pareado supõe diferenças aproximadamente normais e é sensível a extremos, esperávamos que o Wilcoxon, baseado em postos, mantivesse o erro tipo I perto de 5% e tivesse mais poder.</p></article>
@@ -679,5 +708,6 @@
   <footer>Laboratório de Experimentação de Software · Dashboard do LAB04 <a href="#cenario">Voltar ao início ↑</a></footer>
   <script src="dados/g2.js"></script>
   <script src="g2.js"></script>
+  <script src="quadro.js"></script>
 </body>
 </html>

@@ -10,6 +10,12 @@ python codigo-fonte/frontend/rq109_dashboard.py
 
 `rq117_g3_q3.py` completa o G3 com o erro tipo I de cada situação simulada: a Q1 (#110) ao lado das situações da Q3 (#116), com a linha de 5%, e três painéis com o erro tipo I por número de pares (10 a 50). O bloco fica entre os marcadores `G3Q3:INICIO` e `G3Q3:FIM`, abaixo do bloco da #111. Cores dos testes iguais às do G2, G3 e G4: t pareado `#2a78d6`, Wilcoxon `#eb6834`. No celular, os painéis viram uma coluna e o gráfico de barras rola na horizontal.
 
+### Modo quadro, para apresentar no projetor
+
+Aperte **P** (ou o botão "Modo quadro", ou abra `index.html#quadro`). Cada seção vira uma tela com a pergunta que ela responde, 2 ou 3 números grandes e o gráfico; parágrafos longos e tabelas de apoio somem. Teclas: → / espaço avançam, ← volta, 1 a 7 vão direto para a seção, **?** abre as 15 perguntas da apresentação e leva à seção que responde cada uma, Esc sai.
+
+`rq117_quadro.py` gera os destaques a partir dos resultados salvos (entre os marcadores `QUADRO:<seção>:INICIO` e `FIM`); `quadro.js` faz a navegação. A versão completa da página não muda.
+
 ## Conclusão e recomendação (#115)
 
 A seção `#conclusao` (7) fecha o dashboard, na ordem pedida pelo enunciado:
