@@ -41,7 +41,7 @@
         </div>
         <aside class="scope" aria-label="Estado do experimento">
           <span class="status"><span aria-hidden="true"></span> Protocolo implementado na #102</span>
-          <p>Coleta local concluída em 03/11/2026. A análise estatística ainda não foi realizada.</p>
+          <p>Coleta local de 03/11/2026, com 30 pares. Simulações, testes nos dados reais e recomendação estão nas seções 3 a 7.</p>
           <a href="#protocolo">Entender como a coleta funciona →</a>
         </aside>
       </div>
@@ -250,6 +250,167 @@
 </details>
 <p class="notation">Fonte: simulação Q1 da #110, com H0 construída por trocas aleatórias dos rótulos. Resultados estáticos da execução salva; o gráfico não executa novas simulações.</p>
 <!-- G3:FIM -->
+      <!-- G3Q3:INICIO (gerado por rq117_g3_q3.py) -->
+<h3 class="g3q3-titulo">G3 — Erro tipo I em cada situação simulada (Q1 e Q3)</h3>
+<p class="origem-selo">SIMULAÇÃO · efeito zero na média, 10.000 amostras por barra</p>
+<p>Cada barra é a proporção de 10.000 amostras sem efeito em que o teste rejeitou H0; o esperado é ficar perto da linha de 5%. Com outliers, o t pareado fica conservador (3,6% com 30 pares), porque os extremos inflam o desvio padrão, enquanto o Wilcoxon se mantém em 5,0%. Na assimetria com média zero, os dois se desviam: o t é liberal com poucos pares (12,3% com 10) e se aproxima de 5% com mais pares (6,9% com 50), e o Wilcoxon se afasta cada vez mais (10,7% → 32,4%), porque testa a simetria, não a média. Com amostra pequena e sem violação, os dois ficam um pouco abaixo de 5% (3,5% e 4,2%).</p>
+<ul class="g4-legenda" aria-label="Legenda do G3 por situação"><li><span class="g4-chave" style="background:#2a78d6" aria-hidden="true"></span>t pareado</li><li><span class="g4-chave" style="background:#eb6834" aria-hidden="true"></span>Wilcoxon pareado</li><li><span class="g4-chave referencia" aria-hidden="true"></span>Referência de 5% (α)</li><li><span class="g3q3-chave-ic" aria-hidden="true"></span>Haste: IC 95% Monte Carlo</li></ul>
+<figure class="g3q3-figura">
+<svg class="g3q3-svg" viewBox="0 0 640 300" role="img" aria-labelledby="g3q3-a-t g3q3-a-d">
+<title id="g3q3-a-t">Erro tipo I dos dois testes em cada situação simulada</title>
+<desc id="g3q3-a-d">Barras agrupadas por situação, com intervalo de confiança de 95% e linha de referência em 5%. Valores exatos na tabela abaixo do gráfico.</desc>
+<path d="M56 236.0 H628" class="g4-grade"/><text x="50" y="240.0" text-anchor="end">0%</text>
+<path d="M56 192.8 H628" class="g4-grade"/><text x="50" y="196.8" text-anchor="end">5%</text>
+<path d="M56 149.6 H628" class="g4-grade"/><text x="50" y="153.6" text-anchor="end">10%</text>
+<path d="M56 106.4 H628" class="g4-grade"/><text x="50" y="110.4" text-anchor="end">15%</text>
+<path d="M56 63.2 H628" class="g4-grade"/><text x="50" y="67.2" text-anchor="end">20%</text>
+<path d="M56 20.0 H628" class="g4-grade"/><text x="50" y="24.0" text-anchor="end">25%</text>
+<path d="M56 192.8 H628" class="g3q3-ref"/>
+<text x="628" y="187.8" text-anchor="end" class="g3q3-ref-rotulo">5% (α)</text>
+<g class="g3q3-barra"><title>t pareado, Q1 · troca de rótulos · 30 pares: 5,44% das amostras sem efeito rejeitaram H0 (IC 95% 5,00% a 5,90%; liberal). Fonte: #110.</title><rect x="99.5" y="189.0" width="26" height="47.0" rx="3" fill="#2a78d6"/><path d="M112.5 192.8 V185.0" class="g3q3-ic"/></g>
+<text x="112.5" y="180.0" text-anchor="middle" class="g3q3-valor">5,4%</text>
+<g class="g3q3-barra"><title>Wilcoxon pareado, Q1 · troca de rótulos · 30 pares: 5,26% das amostras sem efeito rejeitaram H0 (IC 95% 4,83% a 5,72%; perto do nominal). Fonte: #110.</title><rect x="129.5" y="190.6" width="26" height="45.4" rx="3" fill="#eb6834"/><path d="M142.5 194.3 V186.6" class="g3q3-ic"/></g>
+<text x="142.5" y="181.6" text-anchor="middle" class="g3q3-valor">5,3%</text>
+<text x="127.5" y="254" text-anchor="middle" class="g3q3-grupo">Q1 · troca de rótulos<tspan x="127.5" dy="14">30 pares</tspan></text>
+<g class="g3q3-barra"><title>t pareado, Q3 · amostra pequena · 10 pares: 3,50% das amostras sem efeito rejeitaram H0 (IC 95% 3,15% a 3,88%; conservador). Fonte: #116.</title><rect x="242.5" y="205.8" width="26" height="30.2" rx="3" fill="#2a78d6"/><path d="M255.5 208.8 V202.5" class="g3q3-ic"/></g>
+<text x="255.5" y="197.5" text-anchor="middle" class="g3q3-valor">3,5%</text>
+<g class="g3q3-barra"><title>Wilcoxon pareado, Q3 · amostra pequena · 10 pares: 4,22% das amostras sem efeito rejeitaram H0 (IC 95% 3,83% a 4,63%; conservador). Fonte: #116.</title><rect x="272.5" y="199.5" width="26" height="36.5" rx="3" fill="#eb6834"/><path d="M285.5 202.9 V196.0" class="g3q3-ic"/></g>
+<text x="285.5" y="191.0" text-anchor="middle" class="g3q3-valor">4,2%</text>
+<text x="270.5" y="254" text-anchor="middle" class="g3q3-grupo">Q3 · amostra pequena<tspan x="270.5" dy="14">10 pares</tspan></text>
+<g class="g3q3-barra"><title>t pareado, Q3 · outliers 10% × 5 · 30 pares: 3,64% das amostras sem efeito rejeitaram H0 (IC 95% 3,28% a 4,03%; conservador). Fonte: #116.</title><rect x="385.5" y="204.6" width="26" height="31.4" rx="3" fill="#2a78d6"/><path d="M398.5 207.6 V201.2" class="g3q3-ic"/></g>
+<text x="398.5" y="196.2" text-anchor="middle" class="g3q3-valor">3,6%</text>
+<g class="g3q3-barra"><title>Wilcoxon pareado, Q3 · outliers 10% × 5 · 30 pares: 5,03% das amostras sem efeito rejeitaram H0 (IC 95% 4,61% a 5,48%; perto do nominal). Fonte: #116.</title><rect x="415.5" y="192.5" width="26" height="43.5" rx="3" fill="#eb6834"/><path d="M428.5 196.2 V188.7" class="g3q3-ic"/></g>
+<text x="428.5" y="183.7" text-anchor="middle" class="g3q3-valor">5,0%</text>
+<text x="413.5" y="254" text-anchor="middle" class="g3q3-grupo">Q3 · outliers 10% × 5<tspan x="413.5" dy="14">30 pares</tspan></text>
+<g class="g3q3-barra"><title>t pareado, Q3 · assimetria · 30 pares: 8,35% das amostras sem efeito rejeitaram H0 (IC 95% 7,81% a 8,91%; liberal). Fonte: #116.</title><rect x="528.5" y="163.9" width="26" height="72.1" rx="3" fill="#2a78d6"/><path d="M541.5 168.5 V159.0" class="g3q3-ic"/></g>
+<text x="541.5" y="154.0" text-anchor="middle" class="g3q3-valor">8,3%</text>
+<g class="g3q3-barra"><title>Wilcoxon pareado, Q3 · assimetria · 30 pares: 21,63% das amostras sem efeito rejeitaram H0 (IC 95% 20,83% a 22,45%; liberal). Fonte: #116.</title><rect x="558.5" y="49.1" width="26" height="186.9" rx="3" fill="#eb6834"/><path d="M571.5 56.1 V42.0" class="g3q3-ic"/></g>
+<text x="571.5" y="37.0" text-anchor="middle" class="g3q3-valor">21,6%</text>
+<text x="556.5" y="254" text-anchor="middle" class="g3q3-grupo">Q3 · assimetria<tspan x="556.5" dy="14">30 pares</tspan></text>
+<path d="M56 236 H628" class="g4-base"/>
+<text x="14" y="128.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 14 128.0)">Erro tipo I (% de amostras com p &lt; 0,05)</text>
+<text x="342.0" y="296" text-anchor="middle" class="g4-rotulo">Situação simulada (sem efeito na média)</text>
+</svg>
+</figure>
+<h4 class="g3q3-subtitulo">A violação pesa diferente conforme o tamanho da amostra</h4>
+<div class="g3q3-paineis">
+<figure class="g4-painel"><figcaption><strong>Sem violação</strong><br><span>diferenças simétricas em torno de zero</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g3q3-base-t g3q3-base-d">
+<title id="g3q3-base-t">Erro tipo I por tamanho da amostra: Sem violação</title>
+<desc id="g3q3-base-d">t pareado: 3,5% com 10 pares e 4,9% com 50 pares. Wilcoxon pareado: 4,2% com 10 pares e 5,2% com 50 pares.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">10%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">20%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">30%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">40%</text>
+<path d="M54 168.0 H308" class="g4-ref"/>
+<text x="58" y="164.0" class="g4-ref-rotulo">5%</text>
+<text x="54.0" y="206" text-anchor="middle">10</text>
+<text x="117.5" y="206" text-anchor="middle">20</text>
+<text x="181.0" y="206" text-anchor="middle">30</text>
+<text x="308.0" y="206" text-anchor="middle">50</text>
+<path d="M54 190 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Erro tipo I (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Pares por amostra (n)</text>
+<polyline points="54.0,174.6 117.5,171.1 181.0,170.4 308.0,168.5" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="174.6" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Sem violação, 10 pares: 3,50% (IC 95% 3,15% a 3,88%; conservador).</title></circle>
+<circle cx="117.5" cy="171.1" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Sem violação, 20 pares: 4,29% (IC 95% 3,90% a 4,71%; conservador).</title></circle>
+<circle cx="181.0" cy="170.4" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Sem violação, 30 pares: 4,45% (IC 95% 4,05% a 4,87%; conservador).</title></circle>
+<circle cx="308.0" cy="168.5" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Sem violação, 50 pares: 4,89% (IC 95% 4,48% a 5,33%; perto do nominal).</title></circle>
+<polyline points="54.0,171.4 117.5,168.6 181.0,169.2 308.0,167.2" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="171.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Sem violação, 10 pares: 4,22% (IC 95% 3,83% a 4,63%; conservador).</title></circle>
+<circle cx="117.5" cy="168.6" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Sem violação, 20 pares: 4,87% (IC 95% 4,46% a 5,31%; perto do nominal).</title></circle>
+<circle cx="181.0" cy="169.2" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Sem violação, 30 pares: 4,72% (IC 95% 4,31% a 5,15%; perto do nominal).</title></circle>
+<circle cx="308.0" cy="167.2" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Sem violação, 50 pares: 5,18% (IC 95% 4,75% a 5,63%; perto do nominal).</title></circle>
+</svg>
+</figure>
+<figure class="g4-painel"><figcaption><strong>Outliers (10% × 5)</strong><br><span>cauda pesada, ainda simétrica</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g3q3-outliers-t g3q3-outliers-d">
+<title id="g3q3-outliers-t">Erro tipo I por tamanho da amostra: Outliers (10% × 5)</title>
+<desc id="g3q3-outliers-d">t pareado: 2,9% com 10 pares e 3,9% com 50 pares. Wilcoxon pareado: 4,4% com 10 pares e 4,9% com 50 pares.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">10%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">20%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">30%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">40%</text>
+<path d="M54 168.0 H308" class="g4-ref"/>
+<text x="58" y="164.0" class="g4-ref-rotulo">5%</text>
+<text x="54.0" y="206" text-anchor="middle">10</text>
+<text x="117.5" y="206" text-anchor="middle">20</text>
+<text x="181.0" y="206" text-anchor="middle">30</text>
+<text x="308.0" y="206" text-anchor="middle">50</text>
+<path d="M54 190 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Erro tipo I (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Pares por amostra (n)</text>
+<polyline points="54.0,177.5 117.5,173.4 181.0,174.0 308.0,172.7" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="177.5" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Outliers (10% × 5), 10 pares: 2,85% (IC 95% 2,53% a 3,20%; conservador).</title></circle>
+<circle cx="117.5" cy="173.4" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Outliers (10% × 5), 20 pares: 3,78% (IC 95% 3,41% a 4,17%; conservador).</title></circle>
+<circle cx="181.0" cy="174.0" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Outliers (10% × 5), 30 pares: 3,64% (IC 95% 3,28% a 4,03%; conservador).</title></circle>
+<circle cx="308.0" cy="172.7" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Outliers (10% × 5), 50 pares: 3,94% (IC 95% 3,57% a 4,34%; conservador).</title></circle>
+<polyline points="54.0,170.6 117.5,167.8 181.0,167.9 308.0,168.3" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="170.6" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Outliers (10% × 5), 10 pares: 4,40% (IC 95% 4,01% a 4,82%; conservador).</title></circle>
+<circle cx="117.5" cy="167.8" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Outliers (10% × 5), 20 pares: 5,05% (IC 95% 4,63% a 5,50%; perto do nominal).</title></circle>
+<circle cx="181.0" cy="167.9" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Outliers (10% × 5), 30 pares: 5,03% (IC 95% 4,61% a 5,48%; perto do nominal).</title></circle>
+<circle cx="308.0" cy="168.3" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Outliers (10% × 5), 50 pares: 4,94% (IC 95% 4,52% a 5,38%; perto do nominal).</title></circle>
+</svg>
+</figure>
+<figure class="g4-painel"><figcaption><strong>Assimetria real</strong><br><span>média zero, sem simetria</span></figcaption>
+<svg class="g4-svg" viewBox="0 0 320 230" role="img" aria-labelledby="g3q3-assimetria-t g3q3-assimetria-d">
+<title id="g3q3-assimetria-t">Erro tipo I por tamanho da amostra: Assimetria real</title>
+<desc id="g3q3-assimetria-d">t pareado: 12,3% com 10 pares e 6,9% com 50 pares. Wilcoxon pareado: 10,7% com 10 pares e 32,4% com 50 pares.</desc>
+<path d="M54 190.0 H308" class="g4-grade"/><text x="48" y="194.0" text-anchor="end">0%</text>
+<path d="M54 146.0 H308" class="g4-grade"/><text x="48" y="150.0" text-anchor="end">10%</text>
+<path d="M54 102.0 H308" class="g4-grade"/><text x="48" y="106.0" text-anchor="end">20%</text>
+<path d="M54 58.0 H308" class="g4-grade"/><text x="48" y="62.0" text-anchor="end">30%</text>
+<path d="M54 14.0 H308" class="g4-grade"/><text x="48" y="18.0" text-anchor="end">40%</text>
+<path d="M54 168.0 H308" class="g4-ref"/>
+<text x="58" y="164.0" class="g4-ref-rotulo">5%</text>
+<text x="54.0" y="206" text-anchor="middle">10</text>
+<text x="117.5" y="206" text-anchor="middle">20</text>
+<text x="181.0" y="206" text-anchor="middle">30</text>
+<text x="308.0" y="206" text-anchor="middle">50</text>
+<path d="M54 190 H308" class="g4-base"/>
+<text x="12" y="102.0" text-anchor="middle" class="g4-rotulo" transform="rotate(-90 12 102.0)">Erro tipo I (%)</text>
+<text x="181.0" y="224" text-anchor="middle" class="g4-rotulo">Pares por amostra (n)</text>
+<polyline points="54.0,136.1 117.5,147.2 181.0,153.3 308.0,159.5" class="g4-linha" stroke="#2a78d6"/>
+<circle cx="54.0" cy="136.1" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Assimetria real, 10 pares: 12,26% (IC 95% 11,62% a 12,92%; liberal).</title></circle>
+<circle cx="117.5" cy="147.2" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Assimetria real, 20 pares: 9,72% (IC 95% 9,15% a 10,32%; liberal).</title></circle>
+<circle cx="181.0" cy="153.3" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Assimetria real, 30 pares: 8,35% (IC 95% 7,81% a 8,91%; liberal).</title></circle>
+<circle cx="308.0" cy="159.5" r="4" fill="#2a78d6" class="g4-ponto"><title>t pareado, Assimetria real, 50 pares: 6,93% (IC 95% 6,44% a 7,45%; liberal).</title></circle>
+<polyline points="54.0,143.1 117.5,117.4 181.0,94.8 308.0,47.4" class="g4-linha" stroke="#eb6834"/>
+<circle cx="54.0" cy="143.1" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Assimetria real, 10 pares: 10,65% (IC 95% 10,05% a 11,27%; liberal).</title></circle>
+<circle cx="117.5" cy="117.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Assimetria real, 20 pares: 16,49% (IC 95% 15,77% a 17,23%; liberal).</title></circle>
+<circle cx="181.0" cy="94.8" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Assimetria real, 30 pares: 21,63% (IC 95% 20,83% a 22,45%; liberal).</title></circle>
+<circle cx="308.0" cy="47.4" r="4" fill="#eb6834" class="g4-ponto"><title>Wilcoxon pareado, Assimetria real, 50 pares: 32,40% (IC 95% 31,48% a 33,33%; liberal).</title></circle>
+</svg>
+</figure>
+</div>
+<details>
+<summary>Ver os valores em tabela</summary>
+<div class="tabela-rolavel" tabindex="0" role="region" aria-label="Erro tipo I por situação e tamanho">
+<table class="tabela-resultados">
+<caption>Erro tipo I por situação (α = 0,05)</caption>
+<thead><tr><th scope="col">Situação</th><th scope="col">Pares</th><th scope="col">t pareado</th><th scope="col">Wilcoxon pareado</th></tr></thead>
+<tbody>
+<tr><th scope="row">Q1 · troca de rótulos (#110)</th><td data-label="Pares">30</td><td data-label="t pareado">5,44%</td><td data-label="Wilcoxon pareado">5,26%</td></tr>
+<tr><th scope="row">Q3 · Sem violação</th><td data-label="Pares">10</td><td data-label="t pareado">3,50% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">4,22% <small>(conservador)</small></td></tr>
+<tr><th scope="row">Q3 · Sem violação</th><td data-label="Pares">20</td><td data-label="t pareado">4,29% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">4,87% <small>(perto do nominal)</small></td></tr>
+<tr><th scope="row">Q3 · Sem violação</th><td data-label="Pares">30</td><td data-label="t pareado">4,45% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">4,72% <small>(perto do nominal)</small></td></tr>
+<tr><th scope="row">Q3 · Sem violação</th><td data-label="Pares">50</td><td data-label="t pareado">4,89% <small>(perto do nominal)</small></td><td data-label="Wilcoxon pareado">5,18% <small>(perto do nominal)</small></td></tr>
+<tr><th scope="row">Q3 · Outliers 10% × 5</th><td data-label="Pares">10</td><td data-label="t pareado">2,85% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">4,40% <small>(conservador)</small></td></tr>
+<tr><th scope="row">Q3 · Outliers 10% × 5</th><td data-label="Pares">20</td><td data-label="t pareado">3,78% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">5,05% <small>(perto do nominal)</small></td></tr>
+<tr><th scope="row">Q3 · Outliers 10% × 5</th><td data-label="Pares">30</td><td data-label="t pareado">3,64% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">5,03% <small>(perto do nominal)</small></td></tr>
+<tr><th scope="row">Q3 · Outliers 10% × 5</th><td data-label="Pares">50</td><td data-label="t pareado">3,94% <small>(conservador)</small></td><td data-label="Wilcoxon pareado">4,94% <small>(perto do nominal)</small></td></tr>
+<tr><th scope="row">Q3 · Assimetria</th><td data-label="Pares">10</td><td data-label="t pareado">12,26% <small>(liberal)</small></td><td data-label="Wilcoxon pareado">10,65% <small>(liberal)</small></td></tr>
+<tr><th scope="row">Q3 · Assimetria</th><td data-label="Pares">20</td><td data-label="t pareado">9,72% <small>(liberal)</small></td><td data-label="Wilcoxon pareado">16,49% <small>(liberal)</small></td></tr>
+<tr><th scope="row">Q3 · Assimetria</th><td data-label="Pares">30</td><td data-label="t pareado">8,35% <small>(liberal)</small></td><td data-label="Wilcoxon pareado">21,63% <small>(liberal)</small></td></tr>
+<tr><th scope="row">Q3 · Assimetria</th><td data-label="Pares">50</td><td data-label="t pareado">6,93% <small>(liberal)</small></td><td data-label="Wilcoxon pareado">32,40% <small>(liberal)</small></td></tr>
+</tbody>
+</table>
+</div>
+</details>
+<p class="notation">Fontes: Q1 da #110 (troca de rótulos) e Q3 da #116, que usa os mesmos geradores do G4 (#113). Conservador: o IC 95% fica abaixo de 5%; liberal: acima. Na assimetria, a H0 do Wilcoxon (simetria) é falsa por construção; as rejeições dele contam como falso positivo porque a pergunta do cenário é sobre o tempo médio.</p>
+<!-- G3Q3:FIM -->
     </section>
     <section id="poder" aria-labelledby="titulo-poder">
       <div class="section-heading"><span aria-hidden="true">5</span><h2 id="titulo-poder">G4 — Poder</h2></div>

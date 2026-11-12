@@ -1,5 +1,15 @@
 # Frontend do experimento de cache
 
+## Dashboard final (#117)
+
+As sete seções pedidas no enunciado, nesta ordem: 1. Cenário (`#cenario` a `#hipoteses`), 2. Os dados (G1), 3. Como os testes funcionam (G2), 4. Erro tipo I (G3), 5. Poder (G4), 6. Resultados reais (tabela) e 7. Conclusão. Um único comando reconstrói tudo a partir dos resultados salvos e abre a página:
+
+```powershell
+python codigo-fonte/frontend/rq109_dashboard.py
+```
+
+`rq117_g3_q3.py` completa o G3 com o erro tipo I de cada situação simulada: a Q1 (#110) ao lado das situações da Q3 (#116), com a linha de 5%, e três painéis com o erro tipo I por número de pares (10 a 50). O bloco fica entre os marcadores `G3Q3:INICIO` e `G3Q3:FIM`, abaixo do bloco da #111. Cores dos testes iguais às do G2, G3 e G4: t pareado `#2a78d6`, Wilcoxon `#eb6834`. No celular, os painéis viram uma coluna e o gráfico de barras rola na horizontal.
+
 ## Conclusão e recomendação (#115)
 
 A seção `#conclusao` (7) fecha o dashboard, na ordem pedida pelo enunciado:

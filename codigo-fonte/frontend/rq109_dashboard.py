@@ -17,6 +17,7 @@ from frontend import rq111_g3 as rq111  # noqa: E402
 from frontend import rq112_resultados_reais as rq112  # noqa: E402
 from frontend import rq114_g4 as rq114  # noqa: E402
 from frontend import rq115_conclusao as rq115  # noqa: E402
+from frontend import rq117_g3_q3 as rq117  # noqa: E402
 
 PAGINA = Path(__file__).resolve().parent / 'index.html'
 INICIO_G1, FIM_G1 = '<!-- G1:INICIO (gerado por rq109_dashboard.py) -->', '<!-- G1:FIM -->'
@@ -48,6 +49,7 @@ def main():
         rq106.executar()  # dados do G2
         origem = construir()
         rq111.executar()  # G3 reutiliza a execução salva; não repete 10.000 simulações
+        rq117.executar()  # G3 por situação: Q1 (#110) ao lado da Q3 (#116), também já salvas
         rq112.executar()  # resultados reais validados e testes pareados da #105
         rq114.executar()  # G4 reutiliza a execução salva da #113 (≈ 2 min para refazer)
         rq115.executar()  # conclusão e recomendação a partir dos resultados salvos
