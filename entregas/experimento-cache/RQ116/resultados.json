@@ -1,0 +1,659 @@
+{
+  "schema_version": 1,
+  "questao": "Q3",
+  "medida": "erro_tipo_i",
+  "repeticoes": 10000,
+  "semente": 116,
+  "alfas": [
+    0.05,
+    0.01
+  ],
+  "n_pares": [
+    10,
+    20,
+    30,
+    50
+  ],
+  "n_padrao": 30,
+  "alternativa": "bilateral",
+  "criterio": "p < alfa",
+  "outliers": {
+    "fator": 5.0,
+    "probabilidade": 0.1
+  },
+  "geradores": "rq113_poder.amostras_h0",
+  "parametros_sha256": "95128527c81b62450e656a0aacb450ec648bd89892b231a775c7c9272ab02f6c",
+  "origem_execucao_id": "20261103T213612Z_ebe7be6978",
+  "versoes": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "situacoes_info": {
+    "base": {
+      "rotulo": "Sem violação",
+      "violacao": "diferenças simétricas em torno de zero",
+      "h0_valida": {
+        "t_pareado": true,
+        "wilcoxon_pareado": true
+      }
+    },
+    "outliers": {
+      "rotulo": "Outliers (10% × 5)",
+      "violacao": "cauda pesada: 10% das diferenças 5 vezes maiores",
+      "h0_valida": {
+        "t_pareado": true,
+        "wilcoxon_pareado": true
+      }
+    },
+    "assimetria": {
+      "rotulo": "Assimetria real",
+      "violacao": "diferenças assimétricas com média zero",
+      "h0_valida": {
+        "t_pareado": true,
+        "wilcoxon_pareado": false
+      }
+    }
+  },
+  "situacoes": {
+    "base": [
+      {
+        "situacao": "base",
+        "n_pares": 10,
+        "repeticoes": 10000,
+        "media_d_h0": 0.002568234550000001,
+        "assimetria_d_h0": 0.04698927076815867,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 350,
+              "proporcao": 0.035,
+              "ic95": [
+                0.03148396267043435,
+                0.03879008766391086
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 66,
+              "proporcao": 0.0066,
+              "ic95": [
+                0.005108009046329748,
+                0.00838926697154722
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 422,
+              "proporcao": 0.0422,
+              "ic95": [
+                0.038343450230002976,
+                0.04632594415555425
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 82,
+              "proporcao": 0.0082,
+              "ic95": [
+                0.006526863564332025,
+                0.010168280506263824
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "base",
+        "n_pares": 20,
+        "repeticoes": 10000,
+        "media_d_h0": 0.005458065474999997,
+        "assimetria_d_h0": 0.008045160885052211,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 429,
+              "proporcao": 0.0429,
+              "ic95": [
+                0.03901215057347911,
+                0.04705679753262249
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 48,
+              "proporcao": 0.0048,
+              "ic95": [
+                0.003541198659588656,
+                0.006359123427571206
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 487,
+              "proporcao": 0.0487,
+              "ic95": [
+                0.04456333478184326,
+                0.05310194875217944
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 90,
+              "proporcao": 0.009,
+              "ic95": [
+                0.0072430975443367185,
+                0.011051102514118174
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "base",
+        "n_pares": 30,
+        "repeticoes": 10000,
+        "media_d_h0": 0.0010444470799999977,
+        "assimetria_d_h0": -0.00014370214487003922,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 445,
+              "proporcao": 0.0445,
+              "ic95": [
+                0.04054168203386784,
+                0.048726249494547715
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 61,
+              "proporcao": 0.0061,
+              "ic95": [
+                0.00466913515551716,
+                0.007828898895693744
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 472,
+              "proporcao": 0.0472,
+              "ic95": [
+                0.04312597611664475,
+                0.05154024997556453
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 89,
+              "proporcao": 0.0089,
+              "ic95": [
+                0.007153353472803384,
+                0.010940961099562998
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "base",
+        "n_pares": 50,
+        "repeticoes": 10000,
+        "media_d_h0": -0.0012419150779999946,
+        "assimetria_d_h0": 0.010760575163986884,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 489,
+              "proporcao": 0.0489,
+              "ic95": [
+                0.0447550672458314,
+                0.05331009085918441
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 73,
+              "proporcao": 0.0073,
+              "ic95": [
+                0.0057262732519916685,
+                0.00917002244397836
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 518,
+              "proporcao": 0.0518,
+              "ic95": [
+                0.047537329102738016,
+                0.05632601628041812
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 100,
+              "proporcao": 0.01,
+              "ic95": [
+                0.00814359656761097,
+                0.012149504886070391
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      }
+    ],
+    "outliers": [
+      {
+        "situacao": "outliers",
+        "n_pares": 10,
+        "repeticoes": 10000,
+        "media_d_h0": -0.004543448779999998,
+        "assimetria_d_h0": 0.03545882031260281,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 285,
+              "proporcao": 0.0285,
+              "ic95": [
+                0.025326600513237263,
+                0.03195179666229911
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 27,
+              "proporcao": 0.0027,
+              "ic95": [
+                0.0017800478546433818,
+                0.003925944975436125
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 440,
+              "proporcao": 0.044,
+              "ic95": [
+                0.04006354616324816,
+                0.04820470254168683
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 87,
+              "proporcao": 0.0087,
+              "ic95": [
+                0.006974044210227675,
+                0.010720502239303323
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "outliers",
+        "n_pares": 20,
+        "repeticoes": 10000,
+        "media_d_h0": 0.000580372370000002,
+        "assimetria_d_h0": -0.08495923605981318,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 378,
+              "proporcao": 0.0378,
+              "ic95": [
+                0.034147263338750775,
+                0.04172496056039497
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 35,
+              "proporcao": 0.0035,
+              "ic95": [
+                0.0024390524530913376,
+                0.004864322851571343
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 505,
+              "proporcao": 0.0505,
+              "ic95": [
+                0.04628962129584787,
+                0.0549745353387543
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 93,
+              "proporcao": 0.0093,
+              "ic95": [
+                0.007512675855810346,
+                0.011381186049715646
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "outliers",
+        "n_pares": 30,
+        "repeticoes": 10000,
+        "media_d_h0": -0.003604386799999987,
+        "assimetria_d_h0": -0.05751317458642937,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 364,
+              "proporcao": 0.0364,
+              "ic95": [
+                0.0328148813174577,
+                0.0402582529603381
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 43,
+              "proporcao": 0.0043,
+              "ic95": [
+                0.003113626824846425,
+                0.005787748393062185
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 503,
+              "proporcao": 0.0503,
+              "ic95": [
+                0.046097735560002066,
+                0.054766546072457005
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 93,
+              "proporcao": 0.0093,
+              "ic95": [
+                0.007512675855810346,
+                0.011381186049715646
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "outliers",
+        "n_pares": 50,
+        "repeticoes": 10000,
+        "media_d_h0": 0.000841705418000003,
+        "assimetria_d_h0": 0.0806972123526071,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 394,
+              "proporcao": 0.0394,
+              "ic95": [
+                0.035671678309257306,
+                0.04339951146476388
+              ],
+              "calibracao": "conservador"
+            },
+            "0.01": {
+              "rejeicoes": 43,
+              "proporcao": 0.0043,
+              "ic95": [
+                0.003113626824846425,
+                0.005787748393062185
+              ],
+              "calibracao": "conservador"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 494,
+              "proporcao": 0.0494,
+              "ic95": [
+                0.04523448367843154,
+                0.05383036109643927
+              ],
+              "calibracao": "perto do nominal"
+            },
+            "0.01": {
+              "rejeicoes": 92,
+              "proporcao": 0.0092,
+              "ic95": [
+                0.007422759673908388,
+                0.011271214074448435
+              ],
+              "calibracao": "perto do nominal"
+            }
+          }
+        }
+      }
+    ],
+    "assimetria": [
+      {
+        "situacao": "assimetria",
+        "n_pares": 10,
+        "repeticoes": 10000,
+        "media_d_h0": 0.0020569542000014817,
+        "assimetria_d_h0": 1.8386238536031738,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 1226,
+              "proporcao": 0.1226,
+              "ic95": [
+                0.11623233734032717,
+                0.12918833867168686
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 542,
+              "proporcao": 0.0542,
+              "ic95": [
+                0.049842769717268594,
+                0.0588190832576082
+              ],
+              "calibracao": "liberal"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 1065,
+              "proporcao": 0.1065,
+              "ic95": [
+                0.10051919829054054,
+                0.11271103908585987
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 397,
+              "proporcao": 0.0397,
+              "ic95": [
+                0.03595769894524387,
+                0.04371329762774318
+              ],
+              "calibracao": "liberal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "assimetria",
+        "n_pares": 20,
+        "repeticoes": 10000,
+        "media_d_h0": -0.0015170995499985177,
+        "assimetria_d_h0": 1.8424326449489878,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 972,
+              "proporcao": 0.0972,
+              "ic95": [
+                0.09146191287251439,
+                0.10317387070132146
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 478,
+              "proporcao": 0.0478,
+              "ic95": [
+                0.04370078368784689,
+                0.052165064984417905
+              ],
+              "calibracao": "liberal"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 1649,
+              "proporcao": 0.1649,
+              "ic95": [
+                0.15767512991505267,
+                0.1723205814826012
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 563,
+              "proporcao": 0.0563,
+              "ic95": [
+                0.05186203181004186,
+                0.06099852045272666
+              ],
+              "calibracao": "liberal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "assimetria",
+        "n_pares": 30,
+        "repeticoes": 10000,
+        "media_d_h0": 0.00116389565000148,
+        "assimetria_d_h0": 1.842255147670795,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 835,
+              "proporcao": 0.0835,
+              "ic95": [
+                0.07814989568024346,
+                0.0890941004771021
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 372,
+              "proporcao": 0.0372,
+              "ic95": [
+                0.03357606842732768,
+                0.04109654497237417
+              ],
+              "calibracao": "liberal"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 2163,
+              "proporcao": 0.2163,
+              "ic95": [
+                0.2082639286586955,
+                0.22450161640270547
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 872,
+              "proporcao": 0.0872,
+              "ic95": [
+                0.08174119626589102,
+                0.09290057602337413
+              ],
+              "calibracao": "liberal"
+            }
+          }
+        }
+      },
+      {
+        "situacao": "assimetria",
+        "n_pares": 50,
+        "repeticoes": 10000,
+        "media_d_h0": -0.0012205390099985184,
+        "assimetria_d_h0": 1.84142259668932,
+        "testes": {
+          "t_pareado": {
+            "0.05": {
+              "rejeicoes": 693,
+              "proporcao": 0.0693,
+              "ic95": [
+                0.06439838509134298,
+                0.07445419911045328
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 257,
+              "proporcao": 0.0257,
+              "ic95": [
+                0.02268732610019633,
+                0.02899300682898814
+              ],
+              "calibracao": "liberal"
+            }
+          },
+          "wilcoxon_pareado": {
+            "0.05": {
+              "rejeicoes": 3240,
+              "proporcao": 0.324,
+              "ic95": [
+                0.3148297088420437,
+                0.33327289087991874
+              ],
+              "calibracao": "liberal"
+            },
+            "0.01": {
+              "rejeicoes": 1427,
+              "proporcao": 0.1427,
+              "ic95": [
+                0.13589947516437353,
+                0.14970931599144838
+              ],
+              "calibracao": "liberal"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "leituras": {
+    "base": "Com 30 pares: t pareado 4,5% (conservador); Wilcoxon 4,7% (perto do nominal). Ao variar a amostra, t pareado vai de 3,5% (10 pares) a 4,9% (50 pares); Wilcoxon vai de 4,2% (10 pares) a 5,2% (50 pares).",
+    "outliers": "Com 30 pares: t pareado 3,6% (conservador); Wilcoxon 5,0% (perto do nominal). Ao variar a amostra, t pareado vai de 2,9% (10 pares) a 3,9% (50 pares); Wilcoxon vai de 4,4% (10 pares) a 4,9% (50 pares).",
+    "assimetria": "Com 30 pares: t pareado 8,3% (liberal); Wilcoxon 21,6% (liberal). Ao variar a amostra, t pareado vai de 12,3% (10 pares) a 6,9% (50 pares); Wilcoxon vai de 10,7% (10 pares) a 32,4% (50 pares). A média é zero, mas a distribuição não é simétrica: para a pergunta sobre o tempo médio, as rejeições do Wilcoxon são falsos positivos, e crescem com a amostra porque ele detecta a assimetria."
+  }
+}

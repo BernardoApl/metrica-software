@@ -91,6 +91,18 @@ Relatorio Sprint 3 - https://docs.google.com/document/d/12HiJGK0eD4MD7Lw4Nu5eoH-
 - #105 — t pareado e Wilcoxon pareado com interpretação: [README](codigo-fonte/analise/README_rq105_testes_pareados.md), saídas em `entregas/experimento-cache/RQ105/`.
 - #106 — G2 interativo na seção `#testes` do dashboard: [README](codigo-fonte/frontend/README.md).
 
+## Experimento de cache — Q3: erro tipo I com violações #116
+
+Repete a Q1 com outliers, assimetria e amostras de 10 a 50 pares (10.000 amostras
+por ponto, semente 116), com os mesmos geradores da #113:
+
+```powershell
+python codigo-fonte/analise/rq116_q3_violacoes.py
+```
+
+[Método, resultados e limitações](codigo-fonte/analise/README_rq116_q3_violacoes.md).
+Saídas em `entregas/experimento-cache/RQ116/`.
+
 ## LAB03 — Mineração de métricas DORA
 
 ![testes](https://github.com/BernardoApl/metrica-software/actions/workflows/testes.yml/badge.svg)

@@ -1,0 +1,49 @@
+situacao,n_pares,teste,alfa,rejeicoes,repeticoes,erro_tipo_i,ic95_inferior,ic95_superior,calibracao
+base,10,t_pareado,0.05,350,10000,0.035,0.031484,0.038790,conservador
+base,10,t_pareado,0.01,66,10000,0.0066,0.005108,0.008389,conservador
+base,10,wilcoxon_pareado,0.05,422,10000,0.0422,0.038343,0.046326,conservador
+base,10,wilcoxon_pareado,0.01,82,10000,0.0082,0.006527,0.010168,perto do nominal
+base,20,t_pareado,0.05,429,10000,0.0429,0.039012,0.047057,conservador
+base,20,t_pareado,0.01,48,10000,0.0048,0.003541,0.006359,conservador
+base,20,wilcoxon_pareado,0.05,487,10000,0.0487,0.044563,0.053102,perto do nominal
+base,20,wilcoxon_pareado,0.01,90,10000,0.009,0.007243,0.011051,perto do nominal
+base,30,t_pareado,0.05,445,10000,0.0445,0.040542,0.048726,conservador
+base,30,t_pareado,0.01,61,10000,0.0061,0.004669,0.007829,conservador
+base,30,wilcoxon_pareado,0.05,472,10000,0.0472,0.043126,0.051540,perto do nominal
+base,30,wilcoxon_pareado,0.01,89,10000,0.0089,0.007153,0.010941,perto do nominal
+base,50,t_pareado,0.05,489,10000,0.0489,0.044755,0.053310,perto do nominal
+base,50,t_pareado,0.01,73,10000,0.0073,0.005726,0.009170,conservador
+base,50,wilcoxon_pareado,0.05,518,10000,0.0518,0.047537,0.056326,perto do nominal
+base,50,wilcoxon_pareado,0.01,100,10000,0.01,0.008144,0.012150,perto do nominal
+outliers,10,t_pareado,0.05,285,10000,0.0285,0.025327,0.031952,conservador
+outliers,10,t_pareado,0.01,27,10000,0.0027,0.001780,0.003926,conservador
+outliers,10,wilcoxon_pareado,0.05,440,10000,0.044,0.040064,0.048205,conservador
+outliers,10,wilcoxon_pareado,0.01,87,10000,0.0087,0.006974,0.010721,perto do nominal
+outliers,20,t_pareado,0.05,378,10000,0.0378,0.034147,0.041725,conservador
+outliers,20,t_pareado,0.01,35,10000,0.0035,0.002439,0.004864,conservador
+outliers,20,wilcoxon_pareado,0.05,505,10000,0.0505,0.046290,0.054975,perto do nominal
+outliers,20,wilcoxon_pareado,0.01,93,10000,0.0093,0.007513,0.011381,perto do nominal
+outliers,30,t_pareado,0.05,364,10000,0.0364,0.032815,0.040258,conservador
+outliers,30,t_pareado,0.01,43,10000,0.0043,0.003114,0.005788,conservador
+outliers,30,wilcoxon_pareado,0.05,503,10000,0.0503,0.046098,0.054767,perto do nominal
+outliers,30,wilcoxon_pareado,0.01,93,10000,0.0093,0.007513,0.011381,perto do nominal
+outliers,50,t_pareado,0.05,394,10000,0.0394,0.035672,0.043400,conservador
+outliers,50,t_pareado,0.01,43,10000,0.0043,0.003114,0.005788,conservador
+outliers,50,wilcoxon_pareado,0.05,494,10000,0.0494,0.045234,0.053830,perto do nominal
+outliers,50,wilcoxon_pareado,0.01,92,10000,0.0092,0.007423,0.011271,perto do nominal
+assimetria,10,t_pareado,0.05,1226,10000,0.1226,0.116232,0.129188,liberal
+assimetria,10,t_pareado,0.01,542,10000,0.0542,0.049843,0.058819,liberal
+assimetria,10,wilcoxon_pareado,0.05,1065,10000,0.1065,0.100519,0.112711,liberal
+assimetria,10,wilcoxon_pareado,0.01,397,10000,0.0397,0.035958,0.043713,liberal
+assimetria,20,t_pareado,0.05,972,10000,0.0972,0.091462,0.103174,liberal
+assimetria,20,t_pareado,0.01,478,10000,0.0478,0.043701,0.052165,liberal
+assimetria,20,wilcoxon_pareado,0.05,1649,10000,0.1649,0.157675,0.172321,liberal
+assimetria,20,wilcoxon_pareado,0.01,563,10000,0.0563,0.051862,0.060999,liberal
+assimetria,30,t_pareado,0.05,835,10000,0.0835,0.078150,0.089094,liberal
+assimetria,30,t_pareado,0.01,372,10000,0.0372,0.033576,0.041097,liberal
+assimetria,30,wilcoxon_pareado,0.05,2163,10000,0.2163,0.208264,0.224502,liberal
+assimetria,30,wilcoxon_pareado,0.01,872,10000,0.0872,0.081741,0.092901,liberal
+assimetria,50,t_pareado,0.05,693,10000,0.0693,0.064398,0.074454,liberal
+assimetria,50,t_pareado,0.01,257,10000,0.0257,0.022687,0.028993,liberal
+assimetria,50,wilcoxon_pareado,0.05,3240,10000,0.324,0.314830,0.333273,liberal
+assimetria,50,wilcoxon_pareado,0.01,1427,10000,0.1427,0.135899,0.149709,liberal
