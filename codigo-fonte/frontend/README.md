@@ -14,6 +14,8 @@ python codigo-fonte/frontend/rq109_dashboard.py
 
 Aperte **P** (ou o botão "Modo quadro", ou abra `index.html#quadro`). Cada seção vira uma tela com a pergunta que ela responde, 2 ou 3 números grandes e o gráfico; parágrafos longos e tabelas de apoio somem. Teclas: → / espaço avançam, ← volta, 1 a 7 vão direto para a seção, **?** abre as 15 perguntas da apresentação e leva à seção que responde cada uma, Esc sai.
 
+**Divisão da apresentação:** João apresenta 1. Cenário e 2. Os dados (perguntas 1 a 4); Arthur, 3. Os testes e 4. Erro tipo I (perguntas 5 a 9 e 11); Bernardo, 5. Poder, 6. Resultados reais e 7. Conclusão (perguntas 10 e 12 a 15). Cada seção mostra quem apresenta, na página e no modo quadro; a divisão fica no `index.html` (etiquetas `.apresentador`) e em `SECOES` de `quadro.js`.
+
 `rq117_quadro.py` gera os destaques a partir dos resultados salvos (entre os marcadores `QUADRO:<seção>:INICIO` e `FIM`); `quadro.js` faz a navegação. A versão completa da página não muda.
 
 ## Conclusão e recomendação (#115)

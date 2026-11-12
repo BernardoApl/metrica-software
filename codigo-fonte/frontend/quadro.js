@@ -2,8 +2,9 @@
 // Liga com a tecla P, com o botão "Modo quadro" ou abrindo index.html#quadro.
 (() => {
   const SECOES = [
-    ['cenario', 'Cenário'], ['dados', 'Os dados'], ['testes', 'Os testes'], ['erro-tipo-i', 'Erro tipo I'],
-    ['poder', 'Poder'], ['resultados-reais', 'Dados reais'], ['conclusao', 'Conclusão'],
+    ['cenario', 'Cenário', 'João'], ['dados', 'Os dados', 'João'],
+    ['testes', 'Os testes', 'Arthur'], ['erro-tipo-i', 'Erro tipo I', 'Arthur'],
+    ['poder', 'Poder', 'Bernardo'], ['resultados-reais', 'Dados reais', 'Bernardo'], ['conclusao', 'Conclusão', 'Bernardo'],
   ];
   // As 15 perguntas da apresentação oral e a seção que responde a cada uma.
   const PERGUNTAS = [
@@ -32,7 +33,7 @@
   };
 
   const botao = el('button', { type: 'button', className: 'quadro-botao', textContent: 'Modo quadro (P)' });
-  const itens = SECOES.map(([id, nome], i) => el('a', { href: `#${id}`, textContent: `${i + 1} ${nome}` }));
+  const itens = SECOES.map(([id, nome, quem], i) => el('a', { href: `#${id}`, textContent: `${i + 1} ${nome}`, title: `Apresenta: ${quem}` }));
   const btnPerguntas = el('button', { type: 'button', textContent: 'Perguntas (?)' });
   const btnSair = el('button', { type: 'button', textContent: 'Sair (Esc)' });
   const nav = el('nav', { className: 'quadro-nav', hidden: true }, [
@@ -45,7 +46,7 @@
     const n = SECOES.findIndex(([s]) => s === id);
     const b = el('button', { type: 'button' }, [
       el('span', { className: 'quadro-p-texto', textContent: texto }),
-      el('span', { className: 'quadro-p-secao', textContent: `${n + 1} ${SECOES[n][1]}` }),
+      el('span', { className: 'quadro-p-secao', textContent: `${n + 1} ${SECOES[n][1]} · ${SECOES[n][2]}` }),
     ]);
     b.addEventListener('click', () => { dialogo.close(); ir(n); });
     return el('li', {}, [b]);

@@ -276,7 +276,7 @@ html.quadro .links-topo, html.quadro .site-header, html.quadro footer, html.quad
 html.quadro main { width: min(1680px, calc(100% - 6vw)); }
 html.quadro main > section { min-height: 100vh; margin: 0; padding: 4.4rem 0 2.5rem; border-top: 0; }
 html.quadro #protocolo, html.quadro #pergunta, html.quadro #hipoteses { display: none; }
-html.quadro main > section > :not(.section-heading, .quadro-destaque, .grafico, #g2, .g3q3-figura, .g3q3-subtitulo, .g3q3-paineis, .g4-legenda, .g4-paineis, .tabela-rolavel, .conclusao-recomendacao) { display: none; }
+html.quadro main > section > :not(.apresentador, .section-heading, .quadro-destaque, .grafico, #g2, .g3q3-figura, .g3q3-subtitulo, .g3q3-paineis, .g4-legenda, .g4-paineis, .tabela-rolavel, .conclusao-recomendacao) { display: none; }
 html.quadro #erro-tipo-i > .tabela-rolavel, html.quadro #poder > .tabela-rolavel, html.quadro #conclusao > .tabela-rolavel { display: none; }
 html.quadro #g2 > .g2-titulo, html.quadro #g2 > .g2-texto, html.quadro #g2 > .notation { display: none; }
 html.quadro .section-heading { margin-bottom: .6rem; }
@@ -329,3 +329,16 @@ html.quadro body { background: #ffffff; }
 html.quadro .g4-linha { stroke-width: 3; }
 html.quadro .g2-curva { stroke-width: 3; }
 html.quadro .g3q3-figura, html.quadro .g4-painel, html.quadro .g2-painel { border-color: #c9d3db; }
+
+/* Divisão da apresentação entre os integrantes */
+main > section { position: relative; }
+.apresentador { position: absolute; right: 0; margin: 0; padding: .15rem .7rem; border: 1px solid #bed9d0; border-radius: 999px; background: var(--pale); color: var(--accent); font-size: .8rem; line-height: 1.6; }
+section + section > .apresentador { top: 40px; }
+#cenario > .apresentador { position: static; width: fit-content; margin: 1.5rem 0 -2rem auto; }
+.apresentador strong { color: var(--ink); }
+.divisao { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+.divisao-titulo { margin: 0 0 .3rem; font-weight: 600; color: var(--ink); }
+.divisao ul { margin: 0; padding-left: 1.1rem; }
+.divisao li { margin: .2rem 0; }
+html.quadro .apresentador { top: 3.4rem; font-size: .9rem; }
+@media (max-width: 760px) { .apresentador { position: static; display: inline-block; margin-bottom: .8rem; } }

@@ -34,6 +34,7 @@
 
   <main id="conteudo">
     <section id="cenario" aria-labelledby="titulo-cenario">
+      <p class="apresentador">Apresenta: <strong>João</strong></p>
       <div class="introduction">
         <div>
           <h1 id="titulo-cenario">O que muda no tempo de execução quando usamos cache?</h1>
@@ -43,6 +44,14 @@
           <span class="status"><span aria-hidden="true"></span> Protocolo implementado na #102</span>
           <p>Coleta local de 03/11/2026, com 30 pares. Simulações, testes nos dados reais e recomendação estão nas seções 3 a 7.</p>
           <a href="#protocolo">Entender como a coleta funciona →</a>
+          <div class="divisao">
+            <p class="divisao-titulo">Divisão da apresentação</p>
+            <ul>
+              <li><strong>João</strong>: 1. Cenário e 2. Os dados</li>
+              <li><strong>Arthur</strong>: 3. Os testes e 4. Erro tipo I</li>
+              <li><strong>Bernardo</strong>: 5. Poder, 6. Resultados reais e 7. Conclusão</li>
+            </ul>
+          </div>
         </aside>
       </div>
 
@@ -73,6 +82,7 @@
     </section>
 
     <section id="protocolo" aria-labelledby="titulo-protocolo">
+      <p class="apresentador">Apresenta: <strong>João</strong></p>
       <div class="section-heading"><span aria-hidden="true">1.2</span><h2 id="titulo-protocolo">Como a comparação é feita</h2></div>
       <p>O cenário inicial utiliza o CSV de metadados dos 300 repositórios. O coletor salva uma cópia da entrada e verifica se os dois tratamentos retornam o mesmo resultado.</p>
       <dl class="study-facts protocol-facts">
@@ -101,6 +111,7 @@
     </section>
 
     <section id="pergunta" aria-labelledby="titulo-pergunta">
+      <p class="apresentador">Apresenta: <strong>João</strong></p>
       <div class="section-heading"><span aria-hidden="true">1.3</span><h2 id="titulo-pergunta">Pergunta de pesquisa</h2></div>
       <blockquote>Reutilizar em memória a agregação do CSV por linguagem altera o tempo médio por operação, em comparação com recalcular essa agregação a cada execução?</blockquote>
       <div class="comparison">
@@ -115,6 +126,7 @@
     </section>
 
     <section id="hipoteses" aria-labelledby="titulo-hipoteses">
+      <p class="apresentador">Apresenta: <strong>João</strong></p>
       <div class="section-heading"><span aria-hidden="true">1.4</span><h2 id="titulo-hipoteses">Hipóteses H0 e H1</h2></div>
       <p>Formulação proposta na #101, antes da coleta: <strong>bilateral</strong>, considerando tanto redução quanto aumento do tempo. A execução da #102 não confirma nem rejeita essas hipóteses.</p>
       <div class="hypotheses">
@@ -150,6 +162,7 @@
       </details>
     </section>
     <section id="dados" aria-labelledby="titulo-dados">
+      <p class="apresentador">Apresenta: <strong>João</strong></p>
       <div class="section-heading"><span aria-hidden="true">2</span><h2 id="titulo-dados">Os dados</h2></div>
       <!-- QUADRO:dados:INICIO (gerado por rq117_quadro.py) -->
 <div class="quadro-destaque"><p class="quadro-pergunta">Como são os tempos reais?</p>
@@ -181,6 +194,7 @@
     </section>
 
     <section id="testes" aria-labelledby="titulo-testes">
+      <p class="apresentador">Apresenta: <strong>Arthur</strong></p>
       <div class="section-heading"><span aria-hidden="true">3</span><h2 id="titulo-testes">Como os testes funcionam</h2></div>
       <!-- QUADRO:testes:INICIO (gerado por rq117_quadro.py) -->
 <div class="quadro-destaque"><p class="quadro-pergunta">O que cada teste compara?</p>
@@ -224,6 +238,7 @@
     </section>
 
     <section id="erro-tipo-i" aria-labelledby="titulo-erro-tipo-i">
+      <p class="apresentador">Apresenta: <strong>Arthur</strong></p>
       <div class="section-heading"><span aria-hidden="true">4</span><h2 id="titulo-erro-tipo-i">G3 — Erro Tipo I</h2></div>
       <!-- QUADRO:erro-tipo-i:INICIO (gerado por rq117_quadro.py) -->
 <div class="quadro-destaque"><p class="quadro-pergunta">Sem efeito nenhum, quantas vezes cada teste acusa diferença?</p>
@@ -433,6 +448,7 @@
 <!-- G3Q3:FIM -->
     </section>
     <section id="poder" aria-labelledby="titulo-poder">
+      <p class="apresentador">Apresenta: <strong>Bernardo</strong></p>
       <div class="section-heading"><span aria-hidden="true">5</span><h2 id="titulo-poder">G4 — Poder</h2></div>
       <!-- QUADRO:poder:INICIO (gerado por rq117_quadro.py) -->
 <div class="quadro-destaque"><p class="quadro-pergunta">Qual teste percebe melhor um efeito real?</p>
@@ -638,6 +654,7 @@
 <!-- G4:FIM -->
     </section>
     <section id="resultados-reais" aria-labelledby="titulo-resultados-reais">
+      <p class="apresentador">Apresenta: <strong>Bernardo</strong></p>
       <div class="section-heading"><span aria-hidden="true">6</span><h2 id="titulo-resultados-reais">Resultados reais</h2></div>
       <!-- QUADRO:resultados-reais:INICIO (gerado por rq117_quadro.py) -->
 <div class="quadro-destaque"><p class="quadro-pergunta">E nos 30 pares reais?</p>
@@ -673,6 +690,7 @@
 <!-- REAIS:FIM -->
     </section>
     <section id="conclusao" aria-labelledby="titulo-conclusao">
+      <p class="apresentador">Apresenta: <strong>Bernardo</strong></p>
       <div class="section-heading"><span aria-hidden="true">7</span><h2 id="titulo-conclusao">Conclusão e recomendação</h2></div>
       <!-- QUADRO:conclusao:INICIO (gerado por rq117_quadro.py) -->
 <div class="quadro-destaque"><p class="quadro-pergunta">Qual teste usar neste cenário?</p>
