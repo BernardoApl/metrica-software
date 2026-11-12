@@ -17,7 +17,7 @@ DADOS = RAIZ / 'entregas/experimento-cache/RQ107/dados_visualizacao.json'
 SAIDA = Path(__file__).resolve().parent / 'graficos/g1.svg'
 
 # Cores de real/simulado, distintas das que os gráficos G2-G4 reservam aos testes.
-COR_REAL, COR_SIMULADO = '#6250d6', '#1baf7a'
+COR_REAL, COR_SIMULADO = '#7a5195', '#009e73'
 TINTA, TINTA_SUAVE, GRADE, FUNDO = '#192b3c', '#4d6171', '#e4e9ed', '#ffffff'
 TITULOS_LINHA = {
     'sem_cache': 'Sem cache: tempo por operação',

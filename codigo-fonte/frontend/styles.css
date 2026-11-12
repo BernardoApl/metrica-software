@@ -297,3 +297,35 @@ html.quadro .conclusao-recomendacao { font-size: 1.05rem; }
 .quadro-valor sub { font-size: .5em; line-height: 0; }
 html.quadro #cenario { display: flex; flex-direction: column; justify-content: center; }
 html.quadro #cenario > .section-heading { display: none; }
+
+/* Direção A (RQ117): paleta Okabe-Ito, segura para daltonismo e mais escura para o projetor.
+   Os gráficos de outros módulos trazem as cores antigas como atributo; aqui elas são trocadas
+   pelas novas, sem alterar o código que os gera. */
+:root { --cor-t: #0072B2; --cor-w: #D55E00; --faixa-robusta: #dcefe6; }
+[fill="#2a78d6"] { fill: var(--cor-t); }
+[stroke="#2a78d6"] { stroke: var(--cor-t); }
+[fill="#eb6834"] { fill: var(--cor-w); }
+[stroke="#eb6834"] { stroke: var(--cor-w); }
+[style*="#2a78d6"] { background: var(--cor-t) !important; }
+[style*="#eb6834"] { background: var(--cor-w) !important; }
+
+.g3q3-faixa { fill: var(--faixa-robusta); }
+.g3q3-faixa-rotulo { font-size: 11px; fill: #1f6b4f; font-weight: 600; }
+.g3q3-trilho { stroke: var(--grade); stroke-width: 1; }
+.g3q3-ic { stroke-width: 2.5; stroke-linecap: round; }
+.g3q3-ponto circle, .g3q3-ponto polygon { stroke: white; stroke-width: 2; }
+.g3q3-ponto:hover circle, .g3q3-ponto:hover polygon { stroke: var(--ink); }
+.g3q3-grupo-n { font-size: 11px; fill: var(--muted); }
+.g3q3-linha { fill: none; stroke-width: 2.5; stroke-linejoin: round; }
+.g3q3-chave { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--cor); }
+.g3q3-chave-w { border-radius: 1px; transform: rotate(45deg) scale(.85); }
+.g3q3-chave-faixa { display: inline-block; width: 18px; height: 12px; background: var(--faixa-robusta); border: 1px solid #9cc9b4; }
+.g3q3-chave-ic { width: 18px; height: 3px; border-radius: 2px; }
+.quadro-chave-w { border-radius: 1px; transform: rotate(45deg) scale(.85); }
+
+/* Modo quadro em alto contraste: fundo branco, tinta mais escura, linhas mais grossas */
+html.quadro { --paper: #ffffff; --ink: #111c27; --muted: #34434f; --line: #c9d3db; --grade: #dfe5ea; }
+html.quadro body { background: #ffffff; }
+html.quadro .g4-linha { stroke-width: 3; }
+html.quadro .g2-curva { stroke-width: 3; }
+html.quadro .g3q3-figura, html.quadro .g4-painel, html.quadro .g2-painel { border-color: #c9d3db; }

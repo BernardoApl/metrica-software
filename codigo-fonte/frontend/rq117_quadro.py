@@ -43,7 +43,8 @@ def potencia_dez(p):
 
 
 def numero(valor, legenda, teste=None):
-    chave = (f'<span class="quadro-chave" style="background:{COR[teste]}" aria-hidden="true"></span>'
+    forma = ' quadro-chave-w' if teste == 'wilcoxon_pareado' else ''
+    chave = (f'<span class="quadro-chave{forma}" style="background:{COR[teste]}" aria-hidden="true"></span>'
              if teste else '')
     return (f'<div class="quadro-numero"><p class="quadro-valor">{valor}</p>'
             f'<p class="quadro-legenda">{chave}{legenda}</p></div>')

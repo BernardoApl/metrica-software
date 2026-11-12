@@ -20,9 +20,11 @@ RAIZ = Path(__file__).resolve().parents[2]
 ENTRADA_Q3 = RAIZ / 'entregas/experimento-cache/RQ116/resultados.json'
 PAGINA = Path(__file__).with_name('index.html')
 INICIO, FIM = '<!-- G3Q3:INICIO (gerado por rq117_g3_q3.py) -->', '<!-- G3Q3:FIM -->'
-# Mesmas cores dos testes no G2, G3 e G4.
-TESTES = [('t_pareado', 't pareado', '#2a78d6'), ('wilcoxon_pareado', 'Wilcoxon pareado', '#eb6834')]
+# Paleta Okabe-Ito (segura para daltonismo); a mesma do G2 e do G4 via styles.css.
+TESTES = [('t_pareado', 't pareado', '#0072B2'), ('wilcoxon_pareado', 'Wilcoxon pareado', '#D55E00')]
 ALFA = '0.05'
+# Critério liberal de Bradley (1978): robusto se o erro tipo I fica entre 0,5α e 1,5α.
+BRADLEY = (0.025, 0.075)
 
 
 def carregar_q3(entrada=ENTRADA_Q3):
@@ -73,45 +75,63 @@ def teto_de(valores, passo=.05):
     return max(.1, passo * -(-max(valores) // passo))
 
 
+def marca(teste, x, y, raio, cor, classe=''):
+    """Círculo para o t, losango para o Wilcoxon: dá para distinguir mesmo sem cor."""
+    if teste == 't_pareado':
+        return f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{raio}" fill="{cor}" class="{classe}"/>'
+    r = raio * 1.25
+    return (f'<polygon points="{x:.1f},{y - r:.1f} {x + r:.1f},{y:.1f} {x:.1f},{y + r:.1f} {x - r:.1f},{y:.1f}" '
+            f'fill="{cor}" class="{classe}"/>')
+
+
+def robusto(proporcao):
+    return BRADLEY[0] <= proporcao <= BRADLEY[1]
+
+
 def grafico_situacoes(grupos):
-    largura, altura, esq, dir, topo, base = 640, 300, 56, 12, 20, 236
+    """Gráfico de pontos: cada linha é uma situação; a faixa verde é a zona robusta de Bradley."""
+    largura, esq, dir, topo, passo = 680, 200, 28, 46, 62
+    base = topo + passo * len(grupos)
+    altura = base + 52
     teto = teto_de([g['testes'][t]['ic95'][1] for g in grupos for t, _, _ in TESTES])
-    y = lambda v: base - v / teto * (base - topo)
-    passo_x = (largura - esq - dir) / len(grupos)
+    x = lambda v: esq + v / teto * (largura - esq - dir)
     svg = [f'<svg class="g3q3-svg" viewBox="0 0 {largura} {altura}" role="img" aria-labelledby="g3q3-a-t g3q3-a-d">',
            '<title id="g3q3-a-t">Erro tipo I dos dois testes em cada situação simulada</title>',
-           '<desc id="g3q3-a-d">Barras agrupadas por situação, com intervalo de confiança de 95% e linha de referência '
-           'em 5%. Valores exatos na tabela abaixo do gráfico.</desc>']
-    passo_y = .05 if teto > .15 else .02
+           '<desc id="g3q3-a-d">Gráfico de pontos: uma linha por situação, um ponto por teste com intervalo de '
+           'confiança de 95%, linha tracejada em 5% e faixa robusta de Bradley entre 2,5% e 7,5%. Valores exatos na '
+           'tabela abaixo do gráfico.</desc>',
+           f'<rect x="{x(BRADLEY[0]):.1f}" y="{topo - 8}" width="{x(BRADLEY[1]) - x(BRADLEY[0]):.1f}" '
+           f'height="{base - topo + 8}" class="g3q3-faixa"/>',
+           f'<text x="{x(BRADLEY[0]) + 4:.1f}" y="{topo - 16}" class="g3q3-faixa-rotulo">faixa robusta (Bradley): '
+           '2,5% a 7,5%</text>']
     v = 0.0
     while v <= teto + 1e-9:
-        svg.append(f'<path d="M{esq} {y(v):.1f} H{largura - dir}" class="g4-grade"/>'
-                   f'<text x="{esq - 6}" y="{y(v) + 4:.1f}" text-anchor="end">{pct(v, 0)}</text>')
-        v += passo_y
-    # Referência antes das barras: os rótulos de valor ficam por cima da linha tracejada.
-    svg += [f'<path d="M{esq} {y(.05):.1f} H{largura - dir}" class="g3q3-ref"/>',
-            f'<text x="{largura - dir}" y="{y(.05) - 5:.1f}" text-anchor="end" class="g3q3-ref-rotulo">5% (α)</text>']
+        svg.append(f'<path d="M{x(v):.1f} {topo - 8} V{base}" class="g4-grade"/>'
+                   f'<text x="{x(v):.1f}" y="{base + 20}" text-anchor="middle">{pct(v, 0)}</text>')
+        v += .05
+    svg += [f'<path d="M{x(.05):.1f} {topo - 8} V{base}" class="g3q3-ref"/>',
+            f'<path d="M{esq} {base} H{largura - dir}" class="g4-base"/>']
     for i, g in enumerate(grupos):
-        centro = esq + passo_x * (i + .5)
+        meio = topo + passo * (i + .5)
+        svg += [f'<path d="M{esq} {meio:.1f} H{largura - dir}" class="g3q3-trilho"/>',
+                f'<text x="{esq - 14}" y="{meio - 3:.1f}" text-anchor="end" class="g3q3-grupo">{g["rotulo"][0]}</text>',
+                f'<text x="{esq - 14}" y="{meio + 14:.1f}" text-anchor="end" class="g3q3-grupo-n">{g["rotulo"][1]}</text>']
         for j, (teste, rotulo, cor) in enumerate(TESTES):
             r = g['testes'][teste]
-            x = centro + (j - 1) * 30 + 2
+            yy = meio + (-9 if j == 0 else 9)
             lo, hi = r['ic95']
+            situacao = 'dentro da faixa robusta' if robusto(r['proporcao']) else 'fora da faixa robusta'
             dica = (f"{rotulo}, {' · '.join(g['rotulo'])}: {pct(r['proporcao'], 2)} das amostras sem efeito "
-                    f"rejeitaram H0 (IC 95% {pct(lo, 2)} a {pct(hi, 2)}; {r['calibracao']}). Fonte: {g['fonte']}.")
-            svg += [f'<g class="g3q3-barra"><title>{dica}</title>'
-                    f'<rect x="{x:.1f}" y="{y(r["proporcao"]):.1f}" width="26" height="{base - y(r["proporcao"]):.1f}" '
-                    f'rx="3" fill="{cor}"/>'
-                    f'<path d="M{x + 13:.1f} {y(lo):.1f} V{y(hi):.1f}" class="g3q3-ic"/></g>',
-                    f'<text x="{x + 13:.1f}" y="{y(hi) - 5:.1f}" text-anchor="middle" class="g3q3-valor">'
-                    f'{pct(r["proporcao"])}</text>']
-        svg.append(f'<text x="{centro:.1f}" y="{base + 18}" text-anchor="middle" class="g3q3-grupo">{g["rotulo"][0]}'
-                   f'<tspan x="{centro:.1f}" dy="14">{g["rotulo"][1]}</tspan></text>')
-    svg += [f'<path d="M{esq} {base} H{largura - dir}" class="g4-base"/>',
-            f'<text x="14" y="{(topo + base) / 2:.1f}" text-anchor="middle" class="g4-rotulo" '
-            f'transform="rotate(-90 14 {(topo + base) / 2:.1f})">Erro tipo I (% de amostras com p &lt; 0,05)</text>',
-            f'<text x="{(esq + largura - dir) / 2:.1f}" y="{altura - 4}" text-anchor="middle" class="g4-rotulo">'
-            'Situação simulada (sem efeito na média)</text>', '</svg>']
+                    f"rejeitaram H0 (IC 95% {pct(lo, 2)} a {pct(hi, 2)}; {r['calibracao']}; {situacao}). "
+                    f"Fonte: {g['fonte']}.")
+            svg.append(f'<g class="g3q3-ponto"><title>{dica}</title>'
+                       f'<path d="M{x(lo):.1f} {yy:.1f} H{x(hi):.1f}" stroke="{cor}" class="g3q3-ic"/>'
+                       f'{marca(teste, x(r["proporcao"]), yy, 7, cor)}</g>')
+            if not robusto(r['proporcao']):
+                svg.append(f'<text x="{x(hi) + 10:.1f}" y="{yy + 5:.1f}" class="g3q3-valor">{pct(r["proporcao"])}</text>')
+    svg += [f'<text x="{x(.05) + 4:.1f}" y="{base - 6}" class="g3q3-ref-rotulo">5% (α)</text>',
+            f'<text x="{(esq + largura - dir) / 2:.1f}" y="{altura - 6}" text-anchor="middle" class="g4-rotulo">'
+            'Erro tipo I: % de amostras sem efeito com p &lt; 0,05</text>', '</svg>']
     return '\n'.join(svg)
 
 
@@ -126,14 +146,15 @@ def grafico_tamanho(m, situacao, rotulo_painel, teto):
            f'<desc id="{ident}-d">' + ' '.join(
                f"{rotulo}: {pct(taxa(m, situacao, tamanhos[0], t)['proporcao'])} com {tamanhos[0]} pares e "
                f"{pct(taxa(m, situacao, tamanhos[-1], t)['proporcao'])} com {tamanhos[-1]} pares."
-               for t, rotulo, _ in TESTES) + '</desc>']
+               for t, rotulo, _ in TESTES) + '</desc>',
+           f'<rect x="{esq}" y="{y(BRADLEY[1]):.1f}" width="{largura - esq - dir}" '
+           f'height="{y(BRADLEY[0]) - y(BRADLEY[1]):.1f}" class="g3q3-faixa"/>']
     v = 0.0
     while v <= teto + 1e-9:
         svg.append(f'<path d="M{esq} {y(v):.1f} H{largura - dir}" class="g4-grade"/>'
                    f'<text x="{esq - 6}" y="{y(v) + 4:.1f}" text-anchor="end">{pct(v, 0)}</text>')
         v += .1
-    svg += [f'<path d="M{esq} {y(.05):.1f} H{largura - dir}" class="g4-ref"/>',
-            f'<text x="{esq + 4}" y="{y(.05) - 4:.1f}" class="g4-ref-rotulo">5%</text>']
+    svg += [f'<path d="M{esq} {y(.05):.1f} H{largura - dir}" class="g3q3-ref"/>']
     svg += [f'<text x="{x(n):.1f}" y="{base + 16}" text-anchor="middle">{n}</text>' for n in tamanhos]
     svg += [f'<path d="M{esq} {base} H{largura - dir}" class="g4-base"/>',
             f'<text x="12" y="{(topo + base) / 2:.1f}" text-anchor="middle" class="g4-rotulo" '
@@ -143,12 +164,12 @@ def grafico_tamanho(m, situacao, rotulo_painel, teto):
     for teste, rotulo, cor in TESTES:
         pontos = [(n, taxa(m, situacao, n, teste)) for n in tamanhos]
         svg.append('<polyline points="' + ' '.join(f'{x(n):.1f},{y(r["proporcao"]):.1f}' for n, r in pontos) +
-                   f'" class="g4-linha" stroke="{cor}"/>')
+                   f'" class="g3q3-linha" stroke="{cor}"/>')
         for n, r in pontos:
             lo, hi = r['ic95']
-            svg.append(f'<circle cx="{x(n):.1f}" cy="{y(r["proporcao"]):.1f}" r="4" fill="{cor}" class="g4-ponto">'
-                       f'<title>{rotulo}, {rotulo_painel}, {n} pares: {pct(r["proporcao"], 2)} '
-                       f'(IC 95% {pct(lo, 2)} a {pct(hi, 2)}; {r["calibracao"]}).</title></circle>')
+            svg.append(f'<g class="g3q3-ponto"><title>{rotulo}, {rotulo_painel}, {n} pares: {pct(r["proporcao"], 2)} '
+                       f'(IC 95% {pct(lo, 2)} a {pct(hi, 2)}; {r["calibracao"]}).</title>'
+                       f'{marca(teste, x(n), y(r["proporcao"]), 5, cor, "g3q3-marca")}</g>')
     svg.append('</svg>')
     return '\n'.join(svg)
 
@@ -157,8 +178,8 @@ def texto(m):
     n = m['n_padrao']
     t, w = 't_pareado', 'wilcoxon_pareado'
     v = lambda s, k, teste: pct(taxa(m, s, k, teste)['proporcao'])
-    return (f"Cada barra é a proporção de 10.000 amostras sem efeito em que o teste rejeitou H0; o esperado é ficar "
-            f"perto da linha de 5%. Com outliers, o t pareado fica conservador ({v('outliers', n, t)} com {n} pares), "
+    return (f"Cada ponto é a proporção de 10.000 amostras sem efeito em que o teste rejeitou H0; dentro da faixa "
+            f"verde (2,5% a 7,5%, critério de Bradley) o teste é considerado robusto. Com outliers, o t pareado fica conservador ({v('outliers', n, t)} com {n} pares), "
             f"porque os extremos inflam o desvio padrão, enquanto o Wilcoxon se mantém em {v('outliers', n, w)}. "
             f"Na assimetria com média zero, os dois se desviam: o t é liberal com poucos pares ({v('assimetria', 10, t)} "
             f"com 10) e se aproxima de 5% com mais pares ({v('assimetria', 50, t)} com 50), e o Wilcoxon se afasta "
@@ -192,12 +213,12 @@ def fragmento(q1, m):
         for nome, rotulo, info in (('base', 'Sem violação', 'diferenças simétricas em torno de zero'),
                                    ('outliers', 'Outliers (10% × 5)', 'cauda pesada, ainda simétrica'),
                                    ('assimetria', 'Assimetria real', 'média zero, sem simetria')))
-    legenda = ''.join(f'<li><span class="g4-chave" style="background:{cor}" aria-hidden="true"></span>{rotulo}</li>'
-                      for _, rotulo, cor in TESTES)
+    legenda = ''.join(f'<li><span class="g3q3-chave {"g3q3-chave-w" if teste != "t_pareado" else ""}" '
+                      f'style="--cor:{cor}" aria-hidden="true"></span>{rotulo}</li>' for teste, rotulo, cor in TESTES)
     return f"""<h3 class="g3q3-titulo">G3 — Erro tipo I em cada situação simulada (Q1 e Q3)</h3>
-<p class="origem-selo">SIMULAÇÃO · efeito zero na média, 10.000 amostras por barra</p>
+<p class="origem-selo">SIMULAÇÃO · efeito zero na média, 10.000 amostras por ponto</p>
 <p>{texto(m)}</p>
-<ul class="g4-legenda" aria-label="Legenda do G3 por situação">{legenda}<li><span class="g4-chave referencia" aria-hidden="true"></span>Referência de 5% (α)</li><li><span class="g3q3-chave-ic" aria-hidden="true"></span>Haste: IC 95% Monte Carlo</li></ul>
+<ul class="g4-legenda" aria-label="Legenda do G3 por situação">{legenda}<li><span class="g4-chave referencia" aria-hidden="true"></span>Referência de 5% (α)</li><li><span class="g3q3-chave-faixa" aria-hidden="true"></span>Faixa robusta de Bradley (2,5% a 7,5%)</li><li><span class="g3q3-chave-ic" aria-hidden="true"></span>Traço: IC 95% Monte Carlo</li></ul>
 <figure class="g3q3-figura">
 {grafico_situacoes(grupos)}
 </figure>
@@ -216,7 +237,7 @@ def fragmento(q1, m):
 </table>
 </div>
 </details>
-<p class="notation">Fontes: Q1 da #110 (troca de rótulos) e Q3 da #116, que usa os mesmos geradores do G4 (#113). Conservador: o IC 95% fica abaixo de 5%; liberal: acima. Na assimetria, a H0 do Wilcoxon (simetria) é falsa por construção; as rejeições dele contam como falso positivo porque a pergunta do cenário é sobre o tempo médio.</p>"""
+<p class="notation">Fontes: Q1 da #110 (troca de rótulos) e Q3 da #116, que usa os mesmos geradores do G4 (#113). Conservador: o IC 95% fica abaixo de 5%; liberal: acima. Faixa robusta: critério liberal de Bradley (1978), erro tipo I entre 0,5α e 1,5α. Na assimetria, a H0 do Wilcoxon (simetria) é falsa por construção; as rejeições dele contam como falso positivo porque a pergunta do cenário é sobre o tempo médio.</p>"""
 
 
 def inserir(html, bloco):

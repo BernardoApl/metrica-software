@@ -8,7 +8,7 @@ As sete seções pedidas no enunciado, nesta ordem: 1. Cenário (`#cenario` a `#
 python codigo-fonte/frontend/rq109_dashboard.py
 ```
 
-`rq117_g3_q3.py` completa o G3 com o erro tipo I de cada situação simulada: a Q1 (#110) ao lado das situações da Q3 (#116), com a linha de 5%, e três painéis com o erro tipo I por número de pares (10 a 50). O bloco fica entre os marcadores `G3Q3:INICIO` e `G3Q3:FIM`, abaixo do bloco da #111. Cores dos testes iguais às do G2, G3 e G4: t pareado `#2a78d6`, Wilcoxon `#eb6834`. No celular, os painéis viram uma coluna e o gráfico de barras rola na horizontal.
+`rq117_g3_q3.py` completa o G3 com o erro tipo I de cada situação simulada: a Q1 (#110) ao lado das situações da Q3 (#116), com a linha de 5%, e três painéis com o erro tipo I por número de pares (10 a 50). O bloco fica entre os marcadores `G3Q3:INICIO` e `G3Q3:FIM`, abaixo do bloco da #111. O G3 por situação é um gráfico de pontos com a faixa robusta do critério liberal de Bradley (1978), erro tipo I entre 2,5% e 7,5%. Cores dos testes (paleta Okabe-Ito, segura para daltonismo): t pareado `#0072B2` em círculo, Wilcoxon `#D55E00` em losango. `styles.css` troca as cores antigas (`#2a78d6`, `#eb6834`) que os geradores do G2, G3 da Q1 e G4 ainda escrevem, para que o dashboard inteiro use a mesma paleta. No celular, os painéis viram uma coluna e o gráfico de barras rola na horizontal.
 
 ### Modo quadro, para apresentar no projetor
 

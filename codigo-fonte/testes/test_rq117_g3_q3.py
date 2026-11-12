@@ -22,20 +22,23 @@ def test_grafico_tem_q1_e_as_tres_situacoes_da_q3(dados):
     assert grupos[1]['testes']['wilcoxon_pareado'] == rq.taxa(q3, 'base', 10, 'wilcoxon_pareado')
 
 
-def test_svg_tem_titulo_eixos_referencia_e_cores_dos_testes(dados):
+def test_svg_tem_titulo_eixo_referencia_faixa_e_cores_dos_testes(dados):
     svg = rq.grafico_situacoes(rq.situacoes(*dados))
-    for trecho in ('Erro tipo I dos dois testes em cada situação simulada', 'Erro tipo I (% de amostras com p &lt; 0,05)',
-                   'Situação simulada', '5% (α)', 'fill="#2a78d6"', 'fill="#eb6834"'):
+    for trecho in ('Erro tipo I dos dois testes em cada situação simulada', 'Erro tipo I: % de amostras sem efeito',
+                   'faixa robusta (Bradley): 2,5% a 7,5%', '5% (α)', 'fill="#0072B2"', 'fill="#D55E00"'):
         assert trecho in svg
-    assert svg.count('<rect') == 8  # 4 situações × 2 testes
+    assert svg.count('<circle') == 4 and svg.count('<polygon') == 4  # 4 situações: círculo = t, losango = Wilcoxon
 
 
-def test_altura_da_barra_corresponde_a_taxa(dados):
+def test_so_os_pontos_fora_da_faixa_robusta_ganham_rotulo(dados):
     svg = rq.grafico_situacoes(rq.situacoes(*dados))
-    alturas = [float(h) for h in re.findall(r'<rect [^>]*height="([\d.]+)"', svg)]
-    maior = max(rq.situacoes(*dados), key=lambda g: g['testes']['wilcoxon_pareado']['proporcao'])
-    assert maior['rotulo'][0] == 'Q3 · assimetria'
-    assert max(alturas) == alturas[-1]  # a última barra (Wilcoxon na assimetria) é a mais alta
+    rotulos = re.findall(r'class="g3q3-valor">([^<]+)<', svg)
+    assert rotulos == ['8,3%', '21,6%']
+
+
+@pytest.mark.parametrize('taxa_,esperado', [(0.025, True), (0.05, True), (0.075, True), (0.0249, False), (0.216, False)])
+def test_criterio_de_bradley(taxa_, esperado):
+    assert rq.robusto(taxa_) is esperado
 
 
 def test_texto_cita_os_numeros_da_q3(dados):
